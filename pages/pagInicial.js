@@ -1,15 +1,15 @@
 import React from "react";
 import { Text, View } from "react-native";
 
-function pagInicial() {
+function PagInicial() {
 
 
     return(
         <View>
-            
+
         </View>
     );
 
 }
 
-export default pagInicial
+export default PagInicial
