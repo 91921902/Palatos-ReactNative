@@ -2,11 +2,11 @@ import React from "react";
 import { Text, View } from "react-native";
 import { styles } from "./styles"
 
-function PagInicial() {
+function Financeiro() {
 
 
     return(
-        <View style={styles.containerPagInicial}>
+        <View style={styles.containerFinanceiro}>
             <View>
                 {/* aqui vai ser o topo */}
             </View>
@@ -21,4 +21,4 @@ function PagInicial() {
 
 }
 
-export default PagInicial
+export default Financeiro

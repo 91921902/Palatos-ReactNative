@@ -2,11 +2,11 @@ import React from "react";
 import { Text, View } from "react-native";
 import { styles } from "./styles"
 
-function PagInicial() {
+function LoginRestaurante() {
 
 
     return(
-        <View style={styles.containerPagInicial}>
+        <View style={styles.containerLoginRestaurante}>
             <View>
                 {/* aqui vai ser o topo */}
             </View>
@@ -21,4 +21,4 @@ function PagInicial() {
 
 }
 
-export default PagInicial
+export default LoginRestaurante
