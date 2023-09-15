@@ -50,10 +50,14 @@ export const styles = StyleSheet.create({
         height: 50,
         backgroundColor: "#D1C0AB",
         borderRadius: 1,
-        
+        fontSize: 12,
+        paddingLeft: 10,
+        fontFamily: "lemonada"
        
     },
-   
+    boxReserva: {
+        alignItems: "center"
+    }
 
 
 })

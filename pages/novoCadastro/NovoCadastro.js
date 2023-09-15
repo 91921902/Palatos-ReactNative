@@ -39,24 +39,66 @@ function NovoCadastro() {
                    <Text style={{color: "white", fontFamily: "lemonada", fontSize: 10}}>Insira sua logo aqui</Text>
                 </View>
             </View>
-            <ScrollView>
+            <ScrollView style={{height: "60%"}}>
                 <View style={styles.formularioCadastroRest}>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Nome:</Text>
-                        <TextInput  style={styles.inptFormRest}/>
+                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"}/>
                     </View>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Endereço:</Text>
-                        <TextInput  style={styles.inptFormRest}/>
+                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"}/>
                     </View>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Telefone:</Text>
-                        <TextInput  style={styles.inptFormRest}/>
+                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"}/>
                     </View>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Celular:</Text>
-                        <TextInput  style={styles.inptFormRest}/>
+                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"}/>
                     </View>
+                    <View style={styles.boxInpt}>
+                        <Text style={styles.formText}>Descrição:</Text>
+                        <TextInput  
+                            style={[styles.inptFormRest, {
+                                padding: 10, 
+                                height: 200, 
+                                textAlignVertical: "top",
+                                fontSize: 12
+                            }]}
+                            multiline={true}
+                            numberOfLines={5}
+                            maxLength={186}
+                            cursorColor={"#445A14"}
+                        />
+                        <Text style={{paddingLeft: 10, fontFamily: "lemonada", color: "#445A14", fontSize: 11}}>Max 186</Text>
+                    </View>
+                    <View style={styles.boxInpt}>
+                        <Text style={styles.formText}>Categoria:</Text>
+                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"}/>
+                    </View>
+                    <View style={styles.boxReserva}>
+                        <Text style={{fontFamily: "lemonada", fontSize: 18, color: "#445A14"}}>Terá reserva?</Text>
+
+                        <View>
+                            <Text>Aqui vai ter um botao</Text>
+                        </View>
+
+                        <View style={{
+                            alignItems: "center",
+                            gap: 20
+                        }}>
+                            <Text style={{fontFamily: "lemonada", fontSize: 12, color: "#445A14"}}>Escolha seu tempo de tolerância:</Text>
+                            <TextInput 
+                                keyboardType="numeric"
+                                style={{width: 150, backgroundColor: "#D1C0AB", height: 40}}
+                                cursorColor={"#445A14"}
+                            />
+                        </View>
+                    </View>
+                </View>
+                <View style={{alignItems: "flex-end", marginTop: 30, padding: 15}}>
+                    <Text style={{fontFamily: "lemonada", fontSize: 18, color: "#445A14"}}>Próximo </Text>
                 </View>
             </ScrollView>
         </View>
