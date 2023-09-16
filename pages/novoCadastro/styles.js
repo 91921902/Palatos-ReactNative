@@ -66,7 +66,8 @@ export const styles = StyleSheet.create({
         borderRadius: 10,
         position: "relative",
         flexDirection:"row",
-        alignItems: "center"
+        alignItems: "center",
+        marginBottom: 20
     },
     textBtnYes: {
         width: "50%",

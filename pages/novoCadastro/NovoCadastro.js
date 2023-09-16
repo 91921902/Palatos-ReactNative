@@ -1,6 +1,6 @@
 import React from "react"
 import { useState, useEffect } from "react"
-import { Image, View, Text, ScrollView, TextInput } from "react-native"
+import { Image, View, Text, ScrollView, TextInput, Animated, Easing, TouchableOpacity } from "react-native"
 import { styles } from "./styles"
 import BotaoVoltar from "../../components/BotaoVoltar.js"
 
@@ -15,6 +15,19 @@ function NovoCadastro() {
 
     const [fontLoaded, setFontLoaded] = useState(false);
     const [btnReservation, setBtnReservation] = useState(true)
+
+    const animatedValue = new Animated.Value(btnReservation ? 0 : 1);
+
+    const toggleReservation = () => {
+        Animated.timing(animatedValue, {
+        toValue: btnReservation ? 1 : 0,
+        duration: 1000, // Duração da animação em milissegundos
+        easing: Easing.linear, // Easing para uma transição suave
+        useNativeDriver: false, // Deixe como 'false' para animações de estilo
+        }).start();
+
+        setBtnReservation(!btnReservation);
+    };
 
     useEffect(() => {
         async function loadFonts() {
@@ -86,24 +99,43 @@ function NovoCadastro() {
                         <Text style={{fontFamily: "lemonada", fontSize: 18, color: "#445A14"}}>Terá reserva?</Text>
 
                         <View>
-                            <View style={styles.btnYesOrNot}>
-                                <Text style={[styles.textBtnYes, {color: btnReservation ? "white" : "#92A14D"}]}>Sim</Text>
-                                <Text style={[styles.textBtnNot, {color: btnReservation ? "#92A14D": "white"}]}>Não</Text>
-                                <View style={[styles.controllerBtnYesOrNot, {left: btnReservation ? 3 : "", right: btnReservation ? "" : 3}]}/>
-                            </View>
+                            
+                            <TouchableOpacity style={styles.btnYesOrNot} onPress={toggleReservation} activeOpacity={1}>
+                                <Animated.View
+                                    style={[
+                                        styles.controllerBtnYesOrNot,
+                                        {
+                                        left: animatedValue.interpolate({
+                                            inputRange: [0, 1],
+                                            outputRange: ['2%', '50%'],
+                                        }),
+                                        },
+                                    ]}
+                                />
+                                <Text style={[styles.textBtnYes, { color: btnReservation ? "white" : "#92A14D" }]}>Sim</Text>
+                                <Text style={[styles.textBtnNot, { color: btnReservation ? "#92A14D" : "white" }]}>Não</Text>
+                            </TouchableOpacity>
                         </View>
 
-                        <View style={{
-                            alignItems: "center",
-                            gap: 20
-                        }}>
-                            <Text style={{fontFamily: "lemonada", fontSize: 12, color: "#445A14"}}>Escolha seu tempo de tolerância:</Text>
-                            <TextInput 
-                                keyboardType="numeric"
-                                style={{width: 150, backgroundColor: "#D1C0AB", height: 40}}
-                                cursorColor={"#445A14"}
-                            />
-                        </View>
+                        {
+                            btnReservation ? (
+                                <View style={{
+                                    alignItems: "center",
+                                    gap: 20
+                                }}>
+                                    <Text style={{fontFamily: "lemonada", fontSize: 12, color: "#445A14"}}>Escolha seu tempo de tolerância:</Text>
+                                    <TextInput 
+                                        keyboardType="numeric"
+                                        style={{width: 150, backgroundColor: "#D1C0AB", height: 40}}
+                                        cursorColor={"#445A14"}
+                                    />
+                                </View>
+                            ) : (
+                                <View />
+                            )
+                        }
+
+                        
                     </View>
                 </View>
                 <View style={{alignItems: "flex-end", marginTop: 30, padding: 15}}>
