@@ -76,7 +76,7 @@ function NovoCadastro() {
                         <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"}/>
                     </View>
                     <View style={styles.boxInpt}>
-                        <Text style={styles.formText}>Telefone:</Text>
+                        <Text style={styles.formText}>Telefone (Opicional):</Text>
                         <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"}/>
                     </View>
                     <View style={styles.boxInpt}>
@@ -84,7 +84,7 @@ function NovoCadastro() {
                         <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"}/>
                     </View>
                     <View style={styles.boxInpt}>
-                        <Text style={styles.formText}>Descrição:</Text>
+                        <Text style={styles.formText}>Descrição do Restaurante:</Text>
                         <TextInput  
                             style={[styles.inptFormRest, {
                                 padding: 10, 
