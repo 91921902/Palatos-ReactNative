@@ -4,10 +4,14 @@ import { Image, View, Text, ScrollView, TextInput, Animated, Easing, TouchableOp
 import { styles } from "./styles"
 import BotaoVoltar from "../../components/BotaoVoltar.js"
 
+
+
 /* - COPIAR ISSO PARA USAR A FONT PERSONALIZADA - */
 
 import * as Font from 'expo-font';
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
+import CheckBoxCategory from "../../components/CheckBoxCategory"
+import { Icon } from "react-native-elements"
 
 
 
@@ -15,6 +19,10 @@ function NovoCadastro() {
 
     const [fontLoaded, setFontLoaded] = useState(false);
     const [btnReservation, setBtnReservation] = useState(true)
+    const [categoriasVisiveis, setCategoriasVisiveis] = useState(false)
+    const [filtroCategoria, setFiltroCategoria] = useState("")
+
+    
 
     const animatedValue = new Animated.Value(btnReservation ? 0 : 1);
 
@@ -93,7 +101,12 @@ function NovoCadastro() {
                     </View>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Categoria:</Text>
-                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"}/>
+                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} onPressIn={() => setCategoriasVisiveis(true)} onChangeText={setFiltroCategoria} value={filtroCategoria}/>
+                       
+                        {
+                            categoriasVisiveis ? (<CheckBoxCategory filter={filtroCategoria}/>) : (<View />)
+                        }  
+                       
                     </View>
                     <View style={styles.boxReserva}>
                         <Text style={{fontFamily: "lemonada", fontSize: 18, color: "#445A14"}}>Terá reserva?</Text>
