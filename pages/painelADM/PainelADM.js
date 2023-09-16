@@ -5,6 +5,7 @@ import * as Font from 'expo-font';
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import MiniLogo from "../../components/MiniLogo";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 function PainelADM() {
 
@@ -48,7 +49,11 @@ function PainelADM() {
                         <TouchableOpacity style={styles.btnAdm}>
                             <Text style={styles.textBtnAdm}>Editar Perfil</Text>
                             <View style={styles.boxIconCadeado}>
-                                <Image source={require("../../assets/icons/cadeado.png")} style={styles.iconCadeado}/>
+                                    <Icon 
+                                        name="lock"
+                                        size={30}
+                                        color={"#445A14"}
+                                    />
                             </View>
                         </TouchableOpacity>
 
