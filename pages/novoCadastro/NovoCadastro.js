@@ -9,9 +9,12 @@ import BotaoVoltar from "../../components/BotaoVoltar.js"
 import * as Font from 'expo-font';
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 
+
+
 function NovoCadastro() {
 
     const [fontLoaded, setFontLoaded] = useState(false);
+    const [btnReservation, setBtnReservation] = useState(true)
 
     useEffect(() => {
         async function loadFonts() {
@@ -29,6 +32,8 @@ function NovoCadastro() {
     }
 
 /* ----------------------------------------------- */
+
+    
 
     return(
         <View style={styles.containerNovoCadastro}>
@@ -81,7 +86,11 @@ function NovoCadastro() {
                         <Text style={{fontFamily: "lemonada", fontSize: 18, color: "#445A14"}}>Terá reserva?</Text>
 
                         <View>
-                            <Text>Aqui vai ter um botao</Text>
+                            <View style={styles.btnYesOrNot}>
+                                <Text style={[styles.textBtnYes, {color: btnReservation ? "white" : "#92A14D"}]}>Sim</Text>
+                                <Text style={[styles.textBtnNot, {color: btnReservation ? "#92A14D": "white"}]}>Não</Text>
+                                <View style={[styles.controllerBtnYesOrNot, {left: btnReservation ? 3 : "", right: btnReservation ? "" : 3}]}/>
+                            </View>
                         </View>
 
                         <View style={{

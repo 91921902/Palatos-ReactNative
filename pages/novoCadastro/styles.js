@@ -57,7 +57,39 @@ export const styles = StyleSheet.create({
     },
     boxReserva: {
         alignItems: "center"
+    },
+    btnYesOrNot: {
+        width: 200,
+        height: 50,
+        borderWidth: 2,
+        borderColor: "#92A14D",
+        borderRadius: 10,
+        position: "relative",
+        flexDirection:"row",
+        alignItems: "center"
+    },
+    textBtnYes: {
+        width: "50%",
+        textAlign: "center",
+        verticalAlign: "middle",
+        fontFamily: "lemonada",
+        fontSize: 15,
+        zIndex: 2
+    },
+    textBtnNot: {
+        width: "50%",
+        textAlign: "center",
+        verticalAlign: "middle",
+        fontFamily: "lemonada",
+        fontSize: 15,
+        zIndex: 2
+    },
+    controllerBtnYesOrNot: {
+        position:"absolute",
+        width: "48%",
+        height: "90%",
+        backgroundColor: "#92A14D",
+        borderRadius: 10,
+        
     }
-
-
 })
