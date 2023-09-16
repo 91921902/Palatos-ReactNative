@@ -11,7 +11,7 @@ import BotaoVoltar from "../../components/BotaoVoltar.js"
 import * as Font from 'expo-font';
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import CheckBoxCategory from "../../components/CheckBoxCategory"
-import { Icon } from "react-native-elements"
+
 
 
 
