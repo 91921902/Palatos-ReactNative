@@ -111,8 +111,7 @@ function NovoCadastro() {
                     <View style={styles.boxReserva}>
                         <Text style={{fontFamily: "lemonada", fontSize: 18, color: "#445A14"}}>Terá reserva?</Text>
 
-                        <View>
-                            
+                        <View>    
                             <TouchableOpacity style={styles.btnYesOrNot} onPress={toggleReservation} activeOpacity={1}>
                                 <Animated.View
                                     style={[
@@ -129,7 +128,7 @@ function NovoCadastro() {
                                 <Text style={[styles.textBtnNot, { color: btnReservation ? "#92A14D" : "white" }]}>Não</Text>
                             </TouchableOpacity>
                         </View>
-
+                                     
                         {
                             btnReservation ? (
                                 <View style={{
@@ -139,7 +138,17 @@ function NovoCadastro() {
                                     <Text style={{fontFamily: "lemonada", fontSize: 12, color: "#445A14"}}>Escolha seu tempo de tolerância:</Text>
                                     <TextInput 
                                         keyboardType="numeric"
-                                        style={{width: 150, backgroundColor: "#D1C0AB", height: 40}}
+                                        style={{width: 150, backgroundColor: "transparent", height: 50,borderWidth: 2,
+                                        borderColor: "#445A14",
+                                        borderRadius: 15,
+                                        textAlign: "center",
+                                        fontSize: 20,
+                                        color: "#92A14D",
+                                        fontFamily: "lemonada",
+                                       
+                                    }}
+                                        placeholder="Min"
+                                        placeholderTextColor={"#92A14D"}
                                         cursorColor={"#445A14"}
                                     />
                                 </View>

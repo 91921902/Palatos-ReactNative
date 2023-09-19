@@ -48,8 +48,10 @@ export const styles = StyleSheet.create({
     inptFormRest: {
         width: "100%",
         height: 50,
-        backgroundColor: "#D1C0AB",
-        borderRadius: 1,
+        backgroundColor: "transparent",
+        borderWidth: 2,
+        borderColor: "#445A14",
+        borderRadius: 15,
         fontSize: 12,
         paddingLeft: 10,
         fontFamily: "lemonada"
