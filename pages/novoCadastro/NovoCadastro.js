@@ -69,19 +69,19 @@ function NovoCadastro() {
                 <View style={styles.formularioCadastroRest}>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Nome:</Text>
-                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"}/>
+                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Nome:"/>
                     </View>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Endereço:</Text>
-                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"}/>
+                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Endereço:"/>
                     </View>
                     <View style={styles.boxInpt}>
-                        <Text style={styles.formText}>Telefone (Opicional):</Text>
-                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"}/>
+                        <Text style={styles.formText}>Telefone (opcional):</Text>
+                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Telefone (opcional):"/>
                     </View>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Celular:</Text>
-                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"}/>
+                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Celular:"/>
                     </View>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Descrição do Restaurante:</Text>
@@ -96,12 +96,14 @@ function NovoCadastro() {
                             numberOfLines={5}
                             maxLength={186}
                             cursorColor={"#445A14"}
+                            accessibilityRole="text"
+                            accessibilityLabel="Descrição do restaurante:"
                         />
                         <Text style={{paddingLeft: 10, fontFamily: "lemonada", color: "#445A14", fontSize: 11}}>Max 186</Text>
                     </View>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Categoria:</Text>
-                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} onPressIn={() => setCategoriasVisiveis(true)} onChangeText={setFiltroCategoria} value={filtroCategoria}/>
+                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} onPressIn={() => setCategoriasVisiveis(true)} onChangeText={setFiltroCategoria} value={filtroCategoria} accessibilityLabel="Categoria:"/>
                        
                         {
                             categoriasVisiveis ? (<CheckBoxCategory filter={filtroCategoria}/>) : (<View />)
@@ -112,7 +114,7 @@ function NovoCadastro() {
                         <Text style={{fontFamily: "lemonada", fontSize: 18, color: "#445A14"}}>Terá reserva?</Text>
 
                         <View>    
-                            <Pressable style={styles.btnYesOrNot} onPress={toggleReservation} activeOpacity={1}>
+                            <Pressable style={styles.btnYesOrNot} onPress={toggleReservation} accessibilityRole="button">
                                 <Animated.View
                                     style={[
                                         styles.controllerBtnYesOrNot,
@@ -150,6 +152,7 @@ function NovoCadastro() {
                                         placeholder="Min"
                                         placeholderTextColor={"#92A14D"}
                                         cursorColor={"#445A14"}
+                                        accessibilityLabel="Escolha o tempo de tolerância:"
                                     />
                                 </View>
                             ) : (
@@ -161,7 +164,7 @@ function NovoCadastro() {
                     </View>
                 </View>
                 <View style={{alignItems: "flex-end", marginTop: 30, padding: 15}}>
-                    <Text style={{fontFamily: "lemonada", fontSize: 18, color: "#445A14"}}>Próximo </Text>
+                    <Text style={{fontFamily: "lemonada", fontSize: 18, color: "#445A14"}} accessibilityRole="button">Próximo </Text>
                 </View>
             </ScrollView>
         </View>

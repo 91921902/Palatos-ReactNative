@@ -35,11 +35,12 @@ function NovoMenu() {
             <BotaoVoltar />
             <MiniLogo />
             <View style={styles.boxQuantMesas}>
-                <Text style={styles.textQuantMesas}>Quantidade de mesas do seu Restaurante:</Text>
+                <Text style={styles.textQuantMesas} accessibility={false} aria-hidden>Quantidade de mesas do seu Restaurante:</Text>
                 <TextInput 
                     keyboardType="numeric"
                     style={styles.inputQuantMesas}
                     cursorColor={"#92A14D"}
+                    accessibilityLabel="Quantidade de mesas do seu restaurante"
                 />
             </View>
             <View style={styles.titleMenu}>
@@ -50,7 +51,7 @@ function NovoMenu() {
 
                     <View style={styles.item}>
                         <View style={styles.boxPhoto}>
-                            <Pressable activeOpacity={1} style={styles.btnAddPhoto}>
+                            <Pressable activeOpacity={1} style={styles.btnAddPhoto} accessibilityRole='button' accessibilityLabel="Adicionar foto">
                                 <View style={{position: "absolute", top: 2, right: 2}}>
                                     <Icon 
                                         name="plus"
@@ -73,7 +74,7 @@ function NovoMenu() {
 
 
                             
-                            <Pressable style={styles.btnAddItem}>
+                            <Pressable style={styles.btnAddItem} accessibilityRole='button' accessibilityLabel="Adicionar item ao menu">
                                 <Image source={require("../../assets/icons/adicionar.png")} style={styles.imgAddItem}/>
                             </Pressable>
                         </View>    
@@ -82,7 +83,7 @@ function NovoMenu() {
                 </View>
             </ScrollView>
             <View style={styles.boxFinalizarMenu}>
-                <Pressable style={styles.btnFinalizarMenu}>
+                <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button">
                     <Text style={styles.textFinalizarMenu}>Finalizar Menu</Text>
                 </Pressable>
             </View>

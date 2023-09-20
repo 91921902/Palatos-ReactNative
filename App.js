@@ -7,7 +7,9 @@ import PainelADM from './pages/painelADM/PainelADM.js';
 export default function App() {
   return (
     <View style={styles.container}>
-      <PainelADM />
+      {/* <PainelADM /> */}
+      {/* <NovoMenu /> */}
+      <NovoCadastro />
     </View>
   );
 }
