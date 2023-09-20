@@ -46,7 +46,7 @@ function PainelADM() {
                 <Text style={styles.textTitleAdm}>Painel administrativo</Text>
                 <ScrollView style={{width: "100%",height: "100%"}}>
                     <View style={styles.boxBtnAdm}>
-                        <Pressable style={styles.btnAdm}>
+                        <Pressable style={styles.btnAdm} accessibilityRole='button'>
                             <Text style={styles.textBtnAdm}>Editar Perfil</Text>
                             <View style={styles.boxIconCadeado}>
                                     <Icon 
@@ -57,29 +57,29 @@ function PainelADM() {
                             </View>
                         </Pressable>
 
-                        <Pressable style={styles.btnAdm}>
+                        <Pressable style={styles.btnAdm} accessibilityRole='button'>
                             <Text style={styles.textBtnAdm}>Editar Menu</Text>
                             <View style={styles.boxIconCadeado}>
                                 <Image source={require("../../assets/icons/cadeado.png")} style={styles.iconCadeado}/>
                             </View>
                         </Pressable>
 
-                        <Pressable style={styles.btnAdm}>
+                        <Pressable style={styles.btnAdm} accessibilityRole='button'>
                             <Text style={styles.textBtnAdm}>Financeiro</Text>
                             <View style={styles.boxIconCadeado}>
                                 <Image source={require("../../assets/icons/cadeado.png")} style={styles.iconCadeado}/>
                             </View>
                         </Pressable>
 
-                        <Pressable style={styles.btnAdm}>
+                        <Pressable style={styles.btnAdm} accessibilityRole='button'>
                             <Text style={styles.textBtnAdm}>Reservas</Text>
                         </Pressable>
 
-                        <Pressable style={styles.btnAdm}>
+                        <Pressable style={styles.btnAdm} accessibilityRole='button'>
                             <Text style={styles.textBtnAdm}>Comandas</Text>
                         </Pressable>
 
-                        <Pressable style={styles.btnAdm}>
+                        <Pressable style={styles.btnAdm} accessibilityRole='button'>
                             <Text style={styles.textBtnAdm}>Mesas</Text>
                         </Pressable>
                     </View>
