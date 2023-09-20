@@ -18,9 +18,13 @@ export const styles = StyleSheet.create({
     inputQuantMesas: {
         width: 100,
         height: 40,
-        paddingLeft: 5,
-        backgroundColor: "#DAC8B3",
-        borderRadius: 2
+        backgroundColor: "transparent",
+        borderWidth: 2,
+        borderColor: "#445A14",
+        borderRadius: 15,
+        fontSize: 12,
+        fontFamily: "lemonada",
+        textAlign: "center",
     },
     textQuantMesas: {
         fontSize: 15,

@@ -1,6 +1,6 @@
 import React from "react"
 import { useState, useEffect } from "react"
-import { Image, View, Text, ScrollView, TextInput, Animated, Easing, TouchableOpacity } from "react-native"
+import { Image, View, Text, ScrollView, TextInput, Animated, Easing, Pressable } from "react-native"
 import { styles } from "./styles"
 import BotaoVoltar from "../../components/BotaoVoltar.js"
 
@@ -112,7 +112,7 @@ function NovoCadastro() {
                         <Text style={{fontFamily: "lemonada", fontSize: 18, color: "#445A14"}}>Terá reserva?</Text>
 
                         <View>    
-                            <TouchableOpacity style={styles.btnYesOrNot} onPress={toggleReservation} activeOpacity={1}>
+                            <Pressable style={styles.btnYesOrNot} onPress={toggleReservation} activeOpacity={1}>
                                 <Animated.View
                                     style={[
                                         styles.controllerBtnYesOrNot,
@@ -126,7 +126,7 @@ function NovoCadastro() {
                                 />
                                 <Text style={[styles.textBtnYes, { color: btnReservation ? "white" : "#92A14D" }]}>Sim</Text>
                                 <Text style={[styles.textBtnNot, { color: btnReservation ? "#92A14D" : "white" }]}>Não</Text>
-                            </TouchableOpacity>
+                            </Pressable>
                         </View>
                                      
                         {

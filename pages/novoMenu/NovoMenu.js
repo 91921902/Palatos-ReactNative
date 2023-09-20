@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from "react";
-import { Text, TextInput, View, ScrollView, TouchableOpacity, Image } from "react-native";
+import { Text, TextInput, View, ScrollView, Pressable, Image } from "react-native";
 import { styles } from "./styles"
 import BotaoVoltar from "../../components/BotaoVoltar";
 import MiniLogo from "../../components/MiniLogo";
 import * as Font from 'expo-font';
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
+import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 
@@ -17,6 +18,7 @@ function NovoMenu() {
         async function loadFonts() {
         await Font.loadAsync({
             'kavoon': fontKavoon,
+            'lemonada': fontLemonada,
         });
         setFontLoaded(true);
         }
@@ -37,6 +39,7 @@ function NovoMenu() {
                 <TextInput 
                     keyboardType="numeric"
                     style={styles.inputQuantMesas}
+                    cursorColor={"#92A14D"}
                 />
             </View>
             <View style={styles.titleMenu}>
@@ -47,7 +50,7 @@ function NovoMenu() {
 
                     <View style={styles.item}>
                         <View style={styles.boxPhoto}>
-                            <TouchableOpacity activeOpacity={1} style={styles.btnAddPhoto}>
+                            <Pressable activeOpacity={1} style={styles.btnAddPhoto}>
                                 <View style={{position: "absolute", top: 2, right: 2}}>
                                     <Icon 
                                         name="plus"
@@ -63,25 +66,25 @@ function NovoMenu() {
                                         color={"#445A14"}
                                     />
                                  </View>
-                            </TouchableOpacity>
+                            </Pressable>
                         </View>
                         <View style={styles.boxDescItem}>
 
 
 
                             
-                            <TouchableOpacity style={styles.btnAddItem}>
+                            <Pressable style={styles.btnAddItem}>
                                 <Image source={require("../../assets/icons/adicionar.png")} style={styles.imgAddItem}/>
-                            </TouchableOpacity>
+                            </Pressable>
                         </View>    
                     </View>
 
                 </View>
             </ScrollView>
             <View style={styles.boxFinalizarMenu}>
-                <TouchableOpacity style={styles.btnFinalizarMenu}>
+                <Pressable style={styles.btnFinalizarMenu}>
                     <Text style={styles.textFinalizarMenu}>Finalizar Menu</Text>
-                </TouchableOpacity>
+                </Pressable>
             </View>
         </View>
     );

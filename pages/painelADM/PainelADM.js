@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Image, ScrollView, Text, Pressable, View } from "react-native";
 import { styles } from "./styles"
 import * as Font from 'expo-font';
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
@@ -46,7 +46,7 @@ function PainelADM() {
                 <Text style={styles.textTitleAdm}>Painel administrativo</Text>
                 <ScrollView style={{width: "100%",height: "100%"}}>
                     <View style={styles.boxBtnAdm}>
-                        <TouchableOpacity style={styles.btnAdm}>
+                        <Pressable style={styles.btnAdm}>
                             <Text style={styles.textBtnAdm}>Editar Perfil</Text>
                             <View style={styles.boxIconCadeado}>
                                     <Icon 
@@ -55,33 +55,33 @@ function PainelADM() {
                                         color={"#445A14"}
                                     />
                             </View>
-                        </TouchableOpacity>
+                        </Pressable>
 
-                        <TouchableOpacity style={styles.btnAdm}>
+                        <Pressable style={styles.btnAdm}>
                             <Text style={styles.textBtnAdm}>Editar Menu</Text>
                             <View style={styles.boxIconCadeado}>
                                 <Image source={require("../../assets/icons/cadeado.png")} style={styles.iconCadeado}/>
                             </View>
-                        </TouchableOpacity>
+                        </Pressable>
 
-                        <TouchableOpacity style={styles.btnAdm}>
+                        <Pressable style={styles.btnAdm}>
                             <Text style={styles.textBtnAdm}>Financeiro</Text>
                             <View style={styles.boxIconCadeado}>
                                 <Image source={require("../../assets/icons/cadeado.png")} style={styles.iconCadeado}/>
                             </View>
-                        </TouchableOpacity>
+                        </Pressable>
 
-                        <TouchableOpacity style={styles.btnAdm}>
+                        <Pressable style={styles.btnAdm}>
                             <Text style={styles.textBtnAdm}>Reservas</Text>
-                        </TouchableOpacity>
+                        </Pressable>
 
-                        <TouchableOpacity style={styles.btnAdm}>
+                        <Pressable style={styles.btnAdm}>
                             <Text style={styles.textBtnAdm}>Comandas</Text>
-                        </TouchableOpacity>
+                        </Pressable>
 
-                        <TouchableOpacity style={styles.btnAdm}>
+                        <Pressable style={styles.btnAdm}>
                             <Text style={styles.textBtnAdm}>Mesas</Text>
-                        </TouchableOpacity>
+                        </Pressable>
                     </View>
                 </ScrollView>
             </View>
