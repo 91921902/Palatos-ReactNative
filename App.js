@@ -1,11 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import PagInicial from './pages/pagInicial';
+
+import CadastroCliente from './pages/cadastroCliente/CadastroCliente';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <PagInicial />
+      <CadastroCliente />
     </View>
   );
 }

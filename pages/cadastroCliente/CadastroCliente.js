@@ -1,6 +1,10 @@
 import React from "react";
-import { Text, View } from "react-native";
 import { styles } from "./styles"
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+
+
+
 
 function CadastroCliente() {
 
