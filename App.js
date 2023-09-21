@@ -4,11 +4,12 @@ import NovoCadastro from "./pages/novoCadastro/NovoCadastro.js"
 import NovoMenu from "./pages/novoMenu/NovoMenu.js"
 import PainelADM from './pages/painelADM/PainelADM.js';
 import Financeiro from './pages/financeiro/Financeiro.js';
+import Filtros from './pages/filtros/Filtros.js';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Financeiro />
+      <Filtros />
     </View>
   );
 }
