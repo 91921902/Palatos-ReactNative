@@ -4,22 +4,17 @@ export const styles = StyleSheet.create({
     containerFiltros: {
         width: "100%",
         height: "100%",
-        alignItems: "center"
+        alignItems: "center",
+        paddingBottom: 10
     },
     boxFilter: {
         width: "100%",
         height: "40%",
-        flexDirection: "row"
-    },
-    metadeFiltro: {
-        width: "50%",
-        height: "100%",
         alignItems: "center",
-        justifyContent: "center",
-        position: "relative"
+        paddingTop: 100,
     },
     boxBtnFilter: {
-        width: "80%",
+        width: 170,
         height: 150,
         backgroundColor: "#D1C0AB",
         marginTop: 5,
@@ -45,15 +40,19 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "flex-end"
     },
-    textInput: {
-        width: 200,
+    dateInput: {
+        width: 150,
         height: 50,
         borderWidth: 2,
         borderColor: "#445A14",
         borderRadius: 15,
-        fontSize: 11,
-        textAlign: "center",
-        fontFamily: "lemonada"
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    textDate: {
+        fontSize: 18,
+        fontFamily: "lemonada",
+        color: "#445A14"
     },
 
     boxList: {
@@ -61,7 +60,15 @@ export const styles = StyleSheet.create({
         minHeight: "48%",
         marginTop: "2%",
         borderWidth: 2,
-        borderColor: "#B7A187"
+        borderColor: "#B7A187",
+    },
+    boxTextHeader: {
+        width: "100%",
+        height: 60,
+        alignItems: "center",
+        justifyContent: "center",
+        borderBottomWidth: 1, 
+        borderColor: "#445A14"
     },
     headerList: {
         flexDirection: "row",
@@ -81,4 +88,35 @@ export const styles = StyleSheet.create({
         fontFamily: "kavoon",
         color: "#445A14"
     },
+    boxTextProductsNotFound: {
+        width: "100%",
+        height: "100%",
+        alignItems: "center",
+        paddingTop: 30,
+    },
+    textFiltros: {
+        color: "#445A14",
+        fontSize: 26,
+        fontFamily: "kavoon"
+    },
+    boxSearch: {
+        alignItens: "center", 
+        justifyContent: "center",
+        backgroundColor: "#D1C0AB",
+        width: 170,
+        padding: 5,
+        marginTop: 5
+    },
+    textSearch: {
+        color: "#445A14",
+        fontSize: 14,
+        fontFamily: "lemonada",
+        textAlign: "center"
+    },
+    boxFilterSearch: {
+        flexDirection: "row",
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "space-evenly"
+    }
 })
