@@ -9,7 +9,7 @@ import Filtros from './pages/filtros/Filtros.js';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Filtros />
+      <NovoCadastro />
     </View>
   );
 }

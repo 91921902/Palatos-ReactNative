@@ -72,7 +72,7 @@ export const styles = StyleSheet.create({
         marginBottom: 20
     },
     textBtnYes: {
-        width: "50%",
+        
         textAlign: "center",
         verticalAlign: "middle",
         fontFamily: "lemonada",
@@ -80,7 +80,7 @@ export const styles = StyleSheet.create({
         zIndex: 2
     },
     textBtnNot: {
-        width: "50%",
+        
         textAlign: "center",
         verticalAlign: "middle",
         fontFamily: "lemonada",

@@ -114,7 +114,7 @@ function NovoCadastro() {
                         <Text style={{fontFamily: "lemonada", fontSize: 18, color: "#445A14"}}>Terá reserva?</Text>
 
                         <View>    
-                            <Pressable style={styles.btnYesOrNot} onPress={toggleReservation} accessibilityRole="button">
+                            <View style={styles.btnYesOrNot} accessibilityRole="button">
                                 <Animated.View
                                     style={[
                                         styles.controllerBtnYesOrNot,
@@ -126,9 +126,13 @@ function NovoCadastro() {
                                         },
                                     ]}
                                 />
-                                <Text style={[styles.textBtnYes, { color: btnReservation ? "white" : "#92A14D" }]}>Sim</Text>
-                                <Text style={[styles.textBtnNot, { color: btnReservation ? "#92A14D" : "white" }]}>Não</Text>
-                            </Pressable>
+                                <Pressable  onPress={toggleReservation}  style={{width: "50%"}}>
+                                    <Text style={[styles.textBtnYes, { color: btnReservation ? "white" : "#92A14D" }]}>Sim</Text>
+                                </Pressable>
+                                <Pressable  onPress={toggleReservation} style={{width: "50%"}}>
+                                    <Text style={[styles.textBtnNot, { color: btnReservation ? "#92A14D" : "white" }]}>Não</Text>
+                                </Pressable>
+                            </View>
                         </View>
                                      
                         {
