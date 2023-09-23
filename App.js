@@ -5,12 +5,15 @@ import NovoMenu from "./pages/novoMenu/NovoMenu.js"
 import PainelADM from './pages/painelADM/PainelADM.js';
 import Financeiro from './pages/financeiro/Financeiro.js';
 import Filtros from './pages/filtros/Filtros.js';
+import { MenuProvider } from './providers/MenuContext.js';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <NovoCadastro />
-    </View>
+    <MenuProvider>
+        <View style={styles.container}>
+          <NovoMenu />
+        </View>
+    </MenuProvider>
   );
 }
 

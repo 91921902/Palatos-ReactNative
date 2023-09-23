@@ -6,13 +6,14 @@ import MiniLogo from "../../components/MiniLogo";
 import * as Font from 'expo-font';
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
-import Icon from 'react-native-vector-icons/FontAwesome';
-
+import ItemMenu from "../../components/ItemMenu";
+import { useMenu } from "../../providers/MenuContext";
 
 
 function NovoMenu() {
 
     const [fontLoaded, setFontLoaded] = useState(false);
+    const { menu } = useMenu()
 
     useEffect(() => {
         async function loadFonts() {
@@ -28,6 +29,10 @@ function NovoMenu() {
 
     if (!fontLoaded) {
         return null; 
+    }
+
+    function showMenu() {
+        console.log(menu)
     }
 
     return(
@@ -49,41 +54,18 @@ function NovoMenu() {
             <ScrollView style={{width: "100%",height: "50%"}}>
                 <View style={styles.menuItens}>
 
-                    <View style={styles.item}>
-                        <View style={styles.boxPhoto}>
-                            <Pressable activeOpacity={1} style={styles.btnAddPhoto} accessibilityRole='button' accessibilityLabel="Adicionar foto">
-                                <View style={{position: "absolute", top: 2, right: 2}}>
-                                    <Icon 
-                                        name="plus"
-                                        size={25}
-                                        color={"#445A14"}
-                                        style={{alignItems: "flex-end"}}
-                                    />
-                                </View>
-                                <View style={{width: "100%", height: "100%", alignItems: "center", justifyContent: "center"}}>
-                                    <Icon 
-                                        name="cutlery"
-                                        size={30}
-                                        color={"#445A14"}
-                                    />
-                                 </View>
-                            </Pressable>
-                        </View>
-                        <View style={styles.boxDescItem}>
-
-
-
-                            
-                            <Pressable style={styles.btnAddItem} accessibilityRole='button' accessibilityLabel="Adicionar item ao menu">
-                                <Image source={require("../../assets/icons/adicionar.png")} style={styles.imgAddItem}/>
-                            </Pressable>
-                        </View>    
-                    </View>
+                    {
+                        menu.map((item, index) => {
+                            return(
+                               <ItemMenu key={index} item={item} index={index}/> 
+                            );
+                        })
+                    }
 
                 </View>
             </ScrollView>
             <View style={styles.boxFinalizarMenu}>
-                <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button">
+                <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={showMenu}>
                     <Text style={styles.textFinalizarMenu}>Finalizar Menu</Text>
                 </Pressable>
             </View>

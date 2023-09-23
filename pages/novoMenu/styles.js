@@ -73,43 +73,5 @@ export const styles = StyleSheet.create({
         textAlign: "center",
         color: "#445A14"
     },
-    item: {
-        width: "90%",
-        height: 150,
-        flexDirection: "row",
-        alignItems: "center",
-    },
-    boxPhoto: {
-        height: 150,
-        width: 140,
-        backgroundColor: "#B7A187",
-        alignItems: "center",
-        justifyContent: "center"
-    },
-    btnAddPhoto: {
-        height: 130,
-        width: 120,
-        backgroundColor: "white",
-        borderRadius: 2,
-        position: "relative",
-    },
-    boxDescItem: {
-        flex: 1,
-        height: 150,
-        backgroundColor: "#D1C0AB",
-        position: "relative",
-        
-    },
-    btnAddItem: {
-        width: 30,
-        height: 30,
-        resizeMode: "contain",
-        position: "absolute",
-        bottom: -10,
-        right: -10,
-    },
-    imgAddItem: {
-        width: 30,
-        height: 30,
-    }
+    
 })
