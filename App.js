@@ -1,11 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import PagInicial from './pages/pagInicial';
+import { Mesas} from "./pages/mesas/Mesas"
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <PagInicial />
+      {/* <PagInicial /> */}
+      <Mesas />
     </View>
   );
 }
