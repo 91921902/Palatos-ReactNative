@@ -4,17 +4,17 @@ import fontKavoon from "../assets/fonts/kavoon.ttf"
 import fontLemonada from "../assets/fonts/lemonada.ttf"
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, TextInput, StyleSheet, Pressable, Image } from "react-native";
-import { useMenu } from "../providers/MenuContext";
+import { useFormTools } from "../providers/FormRestContext";
 
 
-function ItemMenu({item, index}) {
+function ItemMenu({index}) {
 
     const [fontLoaded, setFontLoaded] = useState(false);
     const [nome, setNome] = useState("")
     const [desc, setDesc] = useState("")
     const [price, setPrice] = useState("")
     const [foto, setFoto] = useState("")
-    const {menu, setItem, createItem} = useMenu()
+    const { menu, menuTools } = useFormTools()
 
     useEffect(() => {
 
@@ -28,7 +28,7 @@ function ItemMenu({item, index}) {
         }
 
         function setMenu() {
-            setItem({
+            menuTools.setItem({
                 nome: nome,
                 descricao: desc,
                 preco: price,
@@ -141,7 +141,7 @@ function ItemMenu({item, index}) {
 
                 {
                    (menu.length - 1) === index ? (
-                    <Pressable style={styles.btnAddItem} accessibilityRole='button' accessibilityLabel="Adicionar item ao menu" onPress={createItem}>
+                    <Pressable style={styles.btnAddItem} accessibilityRole='button' accessibilityLabel="Adicionar item ao menu" onPress={menuTools.createItem}>
                         <Image source={require("../assets/icons/adicionar.png")} style={styles.imgAddItem}/>
                     </Pressable>
                    ) : (

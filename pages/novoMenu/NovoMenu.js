@@ -7,13 +7,13 @@ import * as Font from 'expo-font';
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import ItemMenu from "../../components/ItemMenu";
-import { useMenu } from "../../providers/MenuContext";
+import { useFormTools } from "../../providers/FormRestContext";
 
 
 function NovoMenu() {
 
     const [fontLoaded, setFontLoaded] = useState(false);
-    const { menu } = useMenu()
+    const { menu } = useFormTools()
 
     useEffect(() => {
         async function loadFonts() {
@@ -73,5 +73,29 @@ function NovoMenu() {
     );
 
 }
+
+// function criar() {
+//     const obj = {
+//         idUser,
+//         nome,
+//         descricao,
+//         foto,
+//         plano,
+//         endereco,
+//         cep,
+//         rua,
+//         configRestaurante,
+//         contato,
+//         contato: {
+//             telefone,
+//             celular,
+//         },
+//         configRestaurante: {
+//             reservasAtivas,
+//             tempoTolerancia,
+//             avaliacaoComida
+//         }
+//     }
+// }
 
 export default NovoMenu

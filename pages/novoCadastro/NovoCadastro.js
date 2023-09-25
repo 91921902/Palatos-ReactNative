@@ -18,9 +18,20 @@ import CheckBoxCategory from "../../components/CheckBoxCategory"
 function NovoCadastro() {
 
     const [fontLoaded, setFontLoaded] = useState(false);
-    const [btnReservation, setBtnReservation] = useState(true)
     const [categoriasVisiveis, setCategoriasVisiveis] = useState(false)
     const [filtroCategoria, setFiltroCategoria] = useState("")
+
+    // FORM
+
+    const [btnReservation, setBtnReservation] = useState(true)
+    const [nome, setNome] = useState("")
+    const [endereco, setEndereco] = useState("")
+    const [telefone, setTelefone] = useState("")
+    const [celular, setcelular] = useState("")
+    const [descricao, setDescricao] = useState("")
+    const [categoria, setCategoria] = useState("")
+
+    //----------------------------------------------------------------
 
     
 
