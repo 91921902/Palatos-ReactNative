@@ -11,7 +11,7 @@ export default function App() {
   return (
     <MenuProvider>
         <View style={styles.container}>
-          <NovoMenu />
+          <NovoCadastro />
         </View>
     </MenuProvider>
   );

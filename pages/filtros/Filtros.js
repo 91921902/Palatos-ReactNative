@@ -8,6 +8,8 @@ import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import ProdutoQuantidadeLista from "../../components/ProdutoQuantidadeLista";
 import DateTimePicker from '@react-native-community/datetimepicker';
 
+
+
 function Filtros() {
   
     const [fontLoaded, setFontLoaded] = useState(false);
@@ -15,8 +17,9 @@ function Filtros() {
     const [filterOrNot, setFilterOrNot] = useState(false);
     const [date, setDate] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
+    const [typeFilterText, setTypeFilterText] = useState("Produtos Vendidos:");
 
-    const [filterDate, setFilterDate] = useState(false);
+    const [typeFilter, setTypeFilter] = useState("default");
 
     const [animationMargin, setAnimationMargin] = useState(new Animated.Value(-10))
     const [animationOpacity, setAnimationOpacity] = useState(new Animated.Value(0))
@@ -25,6 +28,20 @@ function Filtros() {
         id, nome, quandidade
     }
     */
+
+    function toggleTextFilter(type) {
+        switch(type) {
+            case "data":
+                setTypeFilterText("Produtos vendidos nessa data:");
+                break
+            case "maisVendidos":
+                setTypeFilterText("Produtos mais vendidos:");
+                break
+            case "normal":
+                setTypeFilterText("Produtos vendidos:");
+                break
+        }
+    }
 
     const showDatepicker = () => {
         setShowDatePicker(true);
@@ -104,10 +121,29 @@ function Filtros() {
                     {
                         filterOrNot ? (
                             <Animated.View style={[styles.boxBtnFilter, {marginTop: animationMargin, opacity: animationOpacity}]}>
-                                <Pressable style={styles.btnFilter}>
+                                <Pressable style={styles.btnFilter} onPress={() => {
+                                    
+                                    if (typeFilter == "maisVendidos") {
+                                        setTypeFilter("default")
+                                        toggleTextFilter("normal")
+                                    } else {
+                                        setTypeFilter("maisVendidos")
+                                        toggleTextFilter("maisVendidos")
+                                    }
+                                   
+                                }}>
                                     <Text style={styles.textBtnFilter}>Mais Vendidos</Text>
                                 </Pressable>
-                                <Pressable style={styles.btnFilter} onPress={() => setFilterDate(!filterDate)}>
+                                <Pressable style={styles.btnFilter} onPress={() => {
+                                    if (typeFilter == "data") {
+                                        setTypeFilter("default")
+                                        toggleTextFilter("normal")
+                                    } else {
+                                        setTypeFilter("data")
+                                        toggleTextFilter("data")
+                                    }
+                          
+                                }}>
                                     <Text style={styles.textBtnFilter}>Data</Text>
                                 </Pressable>
                             </Animated.View>
@@ -119,7 +155,7 @@ function Filtros() {
                 </View>
            </View>
            {
-            filterDate ? (
+            typeFilter == "data" ? (
                 <View style={styles.boxInptData}>
                
                     <Pressable onPress={showDatepicker} style={styles.dateInput}>
@@ -143,7 +179,7 @@ function Filtros() {
            <ScrollView style={styles.boxList}>
                 <View style={styles.boxTextHeader}>
                     <Text style={{fontSize: 16, fontFamily: "kavoon", color: "#445A14"}}>
-                    Lista produtos mais vendidos:
+                        {typeFilterText}
                     </Text>
                 </View>
                 

@@ -60,14 +60,22 @@ function PainelADM() {
                         <Pressable style={styles.btnAdm} accessibilityRole='button'>
                             <Text style={styles.textBtnAdm}>Editar Menu</Text>
                             <View style={styles.boxIconCadeado}>
-                                <Image source={require("../../assets/icons/cadeado.png")} style={styles.iconCadeado}/>
+                                <Icon 
+                                    name="lock"
+                                    size={30}
+                                    color={"#445A14"}
+                                />
                             </View>
                         </Pressable>
 
                         <Pressable style={styles.btnAdm} accessibilityRole='button'>
                             <Text style={styles.textBtnAdm}>Financeiro</Text>
                             <View style={styles.boxIconCadeado}>
-                                <Image source={require("../../assets/icons/cadeado.png")} style={styles.iconCadeado}/>
+                                <Icon 
+                                    name="lock"
+                                    size={30}
+                                    color={"#445A14"}
+                                />
                             </View>
                         </Pressable>
 
