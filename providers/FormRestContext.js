@@ -20,6 +20,12 @@ export const FormProvider = ({ children }) => {
             newMenu[index] = item;
             setMenu(newMenu);
         },
+        deleteItem: (index) => {
+            console.log(menu[index])
+            const newMenu = [...menu];
+            newMenu.splice(index, 1);
+            setMenu(newMenu);
+        }, //ELE NÃO ESTA DELETANDO CORRETAMENTE(O STATE SE MANTEM DE ALUGM JEITO)
         createItem: () => {
             setMenu([...menu, {
                 nome: "",

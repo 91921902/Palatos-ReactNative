@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, memo} from "react";
 import * as Font from 'expo-font';
 import fontKavoon from "../assets/fonts/kavoon.ttf"
 import fontLemonada from "../assets/fonts/lemonada.ttf"
@@ -145,11 +145,12 @@ function ItemMenu({index}) {
                         <Image source={require("../assets/icons/adicionar.png")} style={styles.imgAddItem}/>
                     </Pressable>
                    ) : (
-                        <View />
+                    <Pressable style={styles.btnRemoveItem} accessibilityRole='button' accessibilityLabel="Adicionar item ao menu" onPress={() => menuTools.deleteItem(index)}>
+                        <Image source={require("../assets/icons/BotaoRemover.png")} style={styles.imgRemoveItem}/>
+                    </Pressable>
                    )
                 }
 
-                
             </View>    
         </View>
     );
@@ -188,12 +189,25 @@ const styles = StyleSheet.create({
         height: 30,
         resizeMode: "contain",
         position: "absolute",
-        bottom: -10,
+        bottom: -7,
         right: -10,
+    },
+    btnRemoveItem: {
+        width: 31,
+        height: 31,
+        resizeMode: "contain",
+        position: "absolute",
+        bottom: -8,
+        right: -11,
     },
     imgAddItem: {
         width: 30,
         height: 30,
+    },
+    imgRemoveItem: {
+        width:30,
+        height: 30,
+        resizeMode: "cover"
     },
     titleProduct: {
         width: "100%",
@@ -264,4 +278,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default ItemMenu
+export default memo(ItemMenu) 
