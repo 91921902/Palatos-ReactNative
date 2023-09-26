@@ -1,47 +1,73 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
-    container: {
+    containerCadastroCliente: {
         flex: 1,
         backgroundColor: '#fff',
-        alignItems: 'center',
+        width: "100%",
+        height: "100%"
       
       },
     
-      titulo:{
-       flex:1,
-       backgroundColor:'green',
+      titulo:{ 
+       flex: 0.2,
        width:'100%',
        alignItems:'center',
        justifyContent:'center',
+       backgroundColor: 'green',
       },
-      formulario:{
-        flex:4,
-        backgroundColor:'#fff',
-        width:'100%',
-        alignItems:'center',
-        justifyContent:'center',
+      textoTitulo:{
+        // fontFamily: "Kavoon",
+        color: "#445A14",
+        fontSize: 15,
+        paddingLeft: 5,
       },
-    
-      confirmar:{
-       flex:1,
-       backgroundColor:'red',
-       width:'100%',
-       },
+      formularioCadastroCliente:{
+        flex: 0.8, 
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "flex-start",
+        paddingTop:20,
+      },
        inputs:{
-        width:229,
-        height:44,
-        flexShrink:0,
-        backgroundColor:'#D1C0AB',
-        filter:'dropShadow(0 4 4 rgba(0, 0, 0, 0.25))',
+        width: "100%",
+        height: 50,
+        backgroundColor: "transparent",
+        borderWidth: 2,
+        borderColor: "#445A14",
+        borderRadius: 15,
+        fontSize: 12,
+        paddingLeft: 10,
+        fontFamily: "lemonada"
        },
        textoInput:{
-          color:'#445A14',
-          textAlign:'justify',
-          fontFamily:'Lemonada',
-          fontSize:16,
-          fontStyle:'normal', 
+        fontFamily: "lemonada",
+        color: "#445A14",
+        fontSize: 15,
+        paddingLeft: 5
        
+        },
+        confirmar:{
+        width: "100%",
+        alignItems: "center",
+        
+       },
+        botaoConfirmar:{
+          width:229,
+          height:44,
+          backgroundColor:'#445A14',
+          borderRadius:22,
+          alignSelf: 'center', 
+          textAlignVertical: 'top',
+          alignSelf:'center', 
+         textAlignVertical: 'top',
+        },
+        textoBotaoConfirmar:{
+          color:'#fff',
+          textAlign:'justify',
+          fontSize:16,
+          fontStyle:'normal',
+         
         },
     
 })

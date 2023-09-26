@@ -1,23 +1,23 @@
 import React from "react";
 import { styles } from "./styles"
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import {  View, Text, TextInput, TouchableOpacity } from "react-native"
 
 
 
-
+  
 function CadastroCliente() {
+
 
 
     return(
    
-        <View style={styles.container}>
+        <View style={styles.containerCadastroCliente}>
 
         <View style={styles.titulo} >
           <Text style={styles.textoTitulo}>Faça seu cadastro:</Text>
         </View>
   
-        <View style={styles.formulario}>
+        <View style={styles.formularioCadastroliente}>
   
           <Text style={styles.textoInput}>Email</Text>
           <TextInput style={styles.inputs}
@@ -30,16 +30,16 @@ function CadastroCliente() {
           />
   
           <Text style={styles.textoInput}>Confirmar Senha</Text>
-          <TextInput style={styles.inputs}
+          <TextInput style={styles.inputs} cursorColor = {"#445A14"}
   
           />
         </View>
   
         
         <View style={styles.confirmar}>
-          <TouchableOpacity style={styles.botao}>
+          <TouchableOpacity style={styles.botaoConfirmar}>
   
-           <Text style={styles.textoBotao}>Confirmar</Text>
+           <Text style={styles.textoBotaoConfirmar}>Confirmar</Text>
   
           </TouchableOpacity>
           
