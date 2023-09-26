@@ -1,9 +1,10 @@
 import React from "react"
+import api from "../../api/axios"
 import { useEffect } from "react"
 import { Image, View, Text, ScrollView, TextInput, Animated, Easing, Pressable } from "react-native"
 import { useState } from "react"
 import { styles } from "./styles"
-//import BotaoVoltar from "../../components/BotaoVoltar.js"
+import BotaoVoltar from "../../components/BotaoVoltar.js"
 
 
 
@@ -15,9 +16,9 @@ import fontLemonada from "../../assets/fonts/lemonada.ttf"
 
 function Mesas() {
 
+
     const [mesas, setMesas] = useState([])
     const [fontLoaded, setFontLoaded] = useState(false);
-
 
 
     useEffect(() => {
@@ -60,24 +61,48 @@ function Mesas() {
 
     return (
         <View>
-            //<BotaoVoltar />
+            <BotaoVoltar />
             <ScrollView style={{ height: "60%" }}>
                 {mesas.length > 0 ? (
-                        mesas.map((obj, key) => (
-                            <View key={key}>
-                                <Text>{obj.identificacao_mesa}</Text>
-                                {obj.ocupada ? (
-                                    <View>
+                    mesas.map((obj, key) => (
+                        <View key={key}>
+                            <Text>{obj.identificacao_mesa}</Text>
+                            {obj.ocupada ? (
+                                <View>
+                                    <Pressable accessibilityRole="button" onPress={async () => {
+                                        try {
+                                            const response = await api.patch(`/restaurantes/mesas/mudarStatus`, {
+                                                id: obj.id,
+                                                ocupada: false
+                                            })
+                                        } catch (err) {
+                                            console.log(`Erro ao atualizar mesa: ${err}`)
+                                        }
+                                    }}>
                                         <Text>Liberar mesa</Text>
-                                    </View>
-                                ) : (
-                                    <View>
+                                    </Pressable>
+                                </View>
+                            ) : (
+                                <View>
+                                    <Pressable accessibilityRole="button" onPress={async () => {
+                                        try {
+                                            const response = await api.patch(`/restaurantes/mesas/mudarStatus`, {
+                                                id: obj.id,
+                                                ocupada: true
+                                            })
+                                        } catch (err) {
+                                            console.log(`Erro ao atualizar mesa: ${err}`)
+                                        }
+                                    }}>
                                         <Text>Ocupar mesa</Text>
+                                    </Pressable>
+                                    <Pressable accessibilityRole="button">
                                         <Text>Ocupar mesa com código de reserva</Text>
-                                    </View>
-                                )}
-                            </View>
-                        ))
+                                    </Pressable>
+                                </View>
+                            )}
+                        </View>
+                    ))
                 ) : (
                     <View></View>
                 )

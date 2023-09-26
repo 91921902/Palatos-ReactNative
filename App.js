@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import { Mesas} from "./pages/mesas/Mesas"
+import Mesas from "./pages/mesas/Mesas.js"
 
 export default function App() {
   return (
