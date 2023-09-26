@@ -18,6 +18,7 @@ function Mesas() {
 
 
     const [mesas, setMesas] = useState([])
+    const [codigoMesa, setCodigoMesa] = useState("")
     const [fontLoaded, setFontLoaded] = useState(false);
 
 
@@ -99,6 +100,7 @@ function Mesas() {
                                     <Pressable accessibilityRole="button">
                                         <Text>Ocupar mesa com código de reserva</Text>
                                     </Pressable>
+                                    <TextInput placeholder="Digite o código da reserva" value={codigoMesa} onChangeText={setCodigoMesa} accessibilityLabel="Digite o código da mesa" />
                                 </View>
                             )}
                         </View>
