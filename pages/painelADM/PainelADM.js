@@ -7,20 +7,33 @@ import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import MiniLogo from "../../components/MiniLogo";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import api from "../../providers/api"
+
 function PainelADM() {
 
     const [fontLoaded, setFontLoaded] = useState(false);
+    const [fotoRest, setFotoRest] = useState("") //novo
 
     useEffect(() => {
         async function loadFonts() {
-        await Font.loadAsync({
-            'kavoon': fontKavoon,
-            'lemonada': fontLemonada,
-        });
-        setFontLoaded(true);
+            await Font.loadAsync({
+                'kavoon': fontKavoon,
+                'lemonada': fontLemonada,
+            });
+            setFontLoaded(true);
         }
 
         loadFonts();
+
+        async function getData() {
+            api.get("/").then(response => {
+                const restaurante = response.data //novo
+
+
+            })
+        }
+
+
     }, []);
 
     if (!fontLoaded) {

@@ -79,7 +79,7 @@ function NovoCadastro() {
             <ScrollView style={{height: "60%"}}>
                 <View style={styles.formularioCadastroRest}>
                     <View style={styles.boxInpt}>
-                        <Text style={styles.formText}>Nome:</Text>
+                        <Text style={styles.formText}>Nome do Restaurente:</Text>
                         <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Nome:"/>
                     </View>
                     <View style={styles.boxInpt}>

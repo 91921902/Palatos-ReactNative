@@ -3,8 +3,9 @@ import React, { createContext, useContext, useState } from 'react';
 const FormRestContext = createContext();
 
 export const FormProvider = ({ children }) => {
-
+    const [lastId, setLastId] = useState(0)
     const [menu, setMenu] = useState([{
+        id: lastId,
         nome: "",
         descricao: "",
         preco: "",
@@ -21,13 +22,14 @@ export const FormProvider = ({ children }) => {
             setMenu(newMenu);
         },
         deleteItem: (index) => {
-            console.log(menu[index])
             const newMenu = [...menu];
             newMenu.splice(index, 1);
             setMenu(newMenu);
         }, //ELE NÃO ESTA DELETANDO CORRETAMENTE(O STATE SE MANTEM DE ALUGM JEITO)
         createItem: () => {
+            setLastId(lastId++)
             setMenu([...menu, {
+                id: lastId,
                 nome: "",
                 descricao: "",
                 preco: "",

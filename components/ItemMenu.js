@@ -16,7 +16,7 @@ function ItemMenu({index}) {
     const [foto, setFoto] = useState("")
     const { menu, menuTools } = useFormTools()
 
-    useEffect(() => {
+    useEffect(() => { 
 
         const itemMenu = menu[index]
 
