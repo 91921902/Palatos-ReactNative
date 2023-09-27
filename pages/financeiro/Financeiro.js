@@ -64,12 +64,12 @@ function Financeiro() {
             />
             <View style={{position: "absolute", left: 10, top: "82%"}}>
                 <View style={styles.boxGuia}>
-                    <View style={[styles.quadradinhoCor, {backgroundColor: "#75AEED"}]}/> 
-                    <Text style={styles.textGuia}>Bebidas</Text>
+                    <View style={[styles.quadradinhoCor, {backgroundColor: "#75AEED"}]} accessibilityLabel="Bebidas (50%)" importantForAccessibility="no-hide-descendants"/> 
+                    <Text style={styles.textGuia} aria-hidden>Bebidas</Text>
                 </View>
                 <View style={styles.boxGuia}>
-                    <View style={[styles.quadradinhoCor, {backgroundColor: "#45444A"}]}/>
-                    <Text style={styles.textGuia}>Sobremesas</Text>
+                    <View style={[styles.quadradinhoCor, {backgroundColor: "#45444A"}]} accessibilityLabel={`Sobremesas (50%)`} />
+                    <Text style={styles.textGuia} aria-hidden>Sobremesas</Text>
                 </View>
                 <View style={styles.boxGuia}>
                     <View style={[styles.quadradinhoCor, {backgroundColor: "#82FC8E"}]}/>
