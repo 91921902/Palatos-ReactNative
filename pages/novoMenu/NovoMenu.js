@@ -36,17 +36,17 @@ function NovoMenu() {
         console.log(menu)
     }
     
-    function createRestaurant() {
+    function createRestaurant() { 
         const token = "colocar o token aqui"
 
         const data = {
             data: "dados do restaurante"
         }
 
-        api.post("/restaurante/add", data,
+        const novoRestaurante = api.post("/restaurante/add", data, //podemos criar no access token o id do restautante do usuario, para facilitar a busca dos dados
             {
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'multipart/form-data',
                     'Authorization': token
                 }
             }
