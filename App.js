@@ -11,7 +11,7 @@ export default function App() {
   return (
     <FormProvider>
         <View style={styles.container}>
-          <PainelADM />
+          <NovoMenu />
         </View>
     </FormProvider>
   );
