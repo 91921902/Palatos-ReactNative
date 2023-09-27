@@ -5,6 +5,7 @@ import { Image, View, Text, ScrollView, TextInput, Animated, Easing, Pressable }
 import { useState } from "react"
 import { styles } from "./styles"
 import BotaoVoltar from "../../components/BotaoVoltar.js"
+import ItemMesa from "../../components/itemMesa"
 
 
 
@@ -12,6 +13,7 @@ import BotaoVoltar from "../../components/BotaoVoltar.js"
 
 import * as Font from 'expo-font';
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
+import ItemMesa from "../../components/itemMesa"
 
 
 function Mesas() {
@@ -66,44 +68,7 @@ function Mesas() {
             <ScrollView style={{ height: "60%" }}>
                 {mesas.length > 0 ? (
                     mesas.map((obj, key) => (
-                        <View key={key}>
-                            <Text>{obj.identificacao_mesa}</Text>
-                            {obj.ocupada ? (
-                                <View>
-                                    <Pressable accessibilityRole="button" onPress={async () => {
-                                        try {
-                                            const response = await api.patch(`/restaurantes/mesas/mudarStatus`, {
-                                                id: obj.id,
-                                                ocupada: false
-                                            })
-                                        } catch (err) {
-                                            console.log(`Erro ao atualizar mesa: ${err}`)
-                                        }
-                                    }}>
-                                        <Text>Liberar mesa</Text>
-                                    </Pressable>
-                                </View>
-                            ) : (
-                                <View>
-                                    <Pressable accessibilityRole="button" onPress={async () => {
-                                        try {
-                                            const response = await api.patch(`/restaurantes/mesas/mudarStatus`, {
-                                                id: obj.id,
-                                                ocupada: true
-                                            })
-                                        } catch (err) {
-                                            console.log(`Erro ao atualizar mesa: ${err}`)
-                                        }
-                                    }}>
-                                        <Text>Ocupar mesa</Text>
-                                    </Pressable>
-                                    <Pressable accessibilityRole="button">
-                                        <Text>Ocupar mesa com código de reserva</Text>
-                                    </Pressable>
-                                    <TextInput placeholder="Digite o código da reserva" value={codigoMesa} onChangeText={setCodigoMesa} accessibilityLabel="Digite o código da mesa" />
-                                </View>
-                            )}
-                        </View>
+                        <ItemMesa key={key} idMesa={obj.id} ocupada={obj.ocupada} />
                     ))
                 ) : (
                     <View></View>
