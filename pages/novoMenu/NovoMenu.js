@@ -8,6 +8,7 @@ import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import ItemMenu from "../../components/ItemMenu";
 import { useFormTools } from "../../providers/FormRestContext";
+import api from "../../providers/api";
 
 
 function NovoMenu() {
@@ -33,6 +34,23 @@ function NovoMenu() {
 
     function showMenu() {
         console.log(menu)
+    }
+    
+    function createRestaurant() {
+        const token = "colocar o token aqui"
+
+        const data = {
+            data: "dados do restaurante"
+        }
+
+        api.post("/restaurante/add", data,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token
+                }
+            }
+        )
     }
 
     return(
