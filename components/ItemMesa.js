@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { View, Text, Pressable, TextInput } from "react-native";
 import api from "../api/axios"
 
-function ItemMesa({ index, idMesa, identificacaoMesa, ocupada }) {
+function ItemMesa({ index, tipoMenu, idMesa, identificacaoMesa, ocupada }) {
     const [codigoMesa, setCodigoMesa] = useState("")
     const [campoCodigoVisivel, setCampoCodigoVisivel] = useState(false)
     return (
         <View key={index}>
             <Text>{identificacaoMesa}</Text>
-            {ocupada ? (
+            {tipoMenu == 1? (
+            ocupada ? (
                 <View>
                     <Pressable role="button" onPress={async () => {
                         try {
@@ -37,7 +38,7 @@ function ItemMesa({ index, idMesa, identificacaoMesa, ocupada }) {
                     }}>
                         <Text>Ocupar mesa</Text>
                     </Pressable>
-                    <Pressable role="button" onPress={async() => {
+                    <Pressable role="button" accessibilityHint="Mostra ou oculta campo para digitar o código de reserva da mesa" onPress={async() => {
                         setCampoCodigoVisivel(!campoCodigoVisivel)
                     }}>
                         <Text>Ocupar mesa com código de reserva</Text>
@@ -56,6 +57,13 @@ function ItemMesa({ index, idMesa, identificacaoMesa, ocupada }) {
                     }}/>
                     ):(null)}
                 </View>
+            )
+            ) : (
+                <Pressable role="button" onAccessibilityAction={async() => {
+                    const resultado = api.delete(`/restaurantes/mesas/delete/${idMesa}`)
+                }}>
+                    <Text>Excluir mesa do restaurante</Text>
+                </Pressable>
             )}
         </View>
     )
