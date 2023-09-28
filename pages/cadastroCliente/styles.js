@@ -5,32 +5,39 @@ export const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         width: "100%",
-        height: "100%"
+        height: "100%",
+        
       
       },
     
       titulo:{ 
-       flex: 0.2,
+       height:'20%',
        width:'100%',
        alignItems:'center',
-       justifyContent:'center',
-       backgroundColor: 'green',
+       justifyContent:'flex-end',
+       
+    
       },
       textoTitulo:{
-        // fontFamily: "Kavoon",
+       fontFamily: "kavoon",
         color: "#445A14",
-        fontSize: 15,
+        fontSize: 26,
         paddingLeft: 5,
       },
       formularioCadastroCliente:{
-        flex: 0.8, 
         width: "100%",
         alignItems: "center",
-        justifyContent: "flex-start",
-        paddingTop:20,
+       height:'60%',
+       justifyContent: 'center',
+       gap:20,
+        
+      },
+      inputsPar:{
+         width: "100%",
+         alignItems: "center",        
       },
        inputs:{
-        width: "100%",
+        width: "80%",
         height: 50,
         backgroundColor: "transparent",
         borderWidth: 2,
@@ -44,30 +51,33 @@ export const styles = StyleSheet.create({
         fontFamily: "lemonada",
         color: "#445A14",
         fontSize: 15,
-        paddingLeft: 5
+        paddingLeft: 5,
+        width:'80%',
        
         },
         confirmar:{
         width: "100%",
         alignItems: "center",
-        
-       },
+        height:'20%',
+  
+        },
         botaoConfirmar:{
           width:229,
           height:44,
-          backgroundColor:'#445A14',
+          backgroundColor:'transparente',
+          borderColor: "#445A14",
           borderRadius:22,
           alignSelf: 'center', 
           textAlignVertical: 'top',
           alignSelf:'center', 
          textAlignVertical: 'top',
+         borderWidth:2,
         },
         textoBotaoConfirmar:{
-          color:'#fff',
-          textAlign:'justify',
+          color: "#445A14",
+          textAlign:'center',
           fontSize:16,
           fontStyle:'normal',
-         
         },
     
 })
