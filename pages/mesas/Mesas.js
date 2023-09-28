@@ -13,7 +13,6 @@ import ItemMesa from "../../components/itemMesa"
 
 import * as Font from 'expo-font';
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
-import ItemMesa from "../../components/itemMesa"
 
 
 function Mesas() {
