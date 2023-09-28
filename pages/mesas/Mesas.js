@@ -5,7 +5,7 @@ import { Image, View, Text, ScrollView, TextInput, Animated, Easing, Pressable }
 import { useState } from "react"
 import { styles } from "./styles"
 import BotaoVoltar from "../../components/BotaoVoltar.js"
-import ItemMesa from "../../components/itemMesa"
+import ItemMesa from "../../components/ItemMesa.js"
 
 
 
@@ -63,7 +63,7 @@ function Mesas() {
 
     return (
         <View>
-            <BotaoVoltar />
+            {/* <BotaoVoltar /> */}
             <ScrollView style={{ height: "60%" }}>
                 {mesas.length > 0 ? (
                     mesas.map((obj, key) => (

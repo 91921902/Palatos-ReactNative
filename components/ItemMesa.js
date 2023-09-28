@@ -10,7 +10,7 @@ function ItemMesa({ index, idMesa, identificacaoMesa, ocupada }) {
             <Text>{identificacaoMesa}</Text>
             {ocupada ? (
                 <View>
-                    <Pressable accessibilityRole="button" onPress={async () => {
+                    <Pressable role="button" onPress={async () => {
                         try {
                             const response = await api.patch(`/restaurantes/mesas/mudarStatus`, {
                                 id: idMesa,
@@ -25,7 +25,7 @@ function ItemMesa({ index, idMesa, identificacaoMesa, ocupada }) {
                 </View>
             ) : (
                 <View>
-                    <Pressable accessibilityRole="button" onPress={async () => {
+                    <Pressable role="button" onPress={async () => {
                         try {
                             const response = await api.patch(`/restaurantes/mesas/mudarStatus`, {
                                 id: idMesa,
@@ -37,8 +37,8 @@ function ItemMesa({ index, idMesa, identificacaoMesa, ocupada }) {
                     }}>
                         <Text>Ocupar mesa</Text>
                     </Pressable>
-                    <Pressable accessibilityRole="button" onPress={async() => {
-                        setCampoCodigoVisivel(true)
+                    <Pressable role="button" onPress={async() => {
+                        setCampoCodigoVisivel(!campoCodigoVisivel)
                     }}>
                         <Text>Ocupar mesa com código de reserva</Text>
                     </Pressable>
