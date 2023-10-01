@@ -67,7 +67,7 @@ function Mesas() {
             <ScrollView style={{ height: "60%" }}>
                 {mesas.length > 0 ? (
                     mesas.map((obj, key) => (
-                        <ItemMesa key={key} tipoMenu={1} cidMesa={obj.id} ocupada={obj.ocupada} />
+                        <ItemMesa key={key} tipoMenu={1} obj={obj} />
                     ))
                 ) : (
                     <View></View>
