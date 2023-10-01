@@ -7,7 +7,7 @@ function ItemMesa({ index, tipoMenu, obj }) {
     const [campoCodigoVisivel, setCampoCodigoVisivel] = useState(false);
     return (
         <View>
-            <Text>{obj.identificacaoMesa}</Text>
+            <Text>{obj.identificacao_mesa}</Text>
             {tipoMenu == 1 ? (
                 obj.ocupada ? (
                     <View>

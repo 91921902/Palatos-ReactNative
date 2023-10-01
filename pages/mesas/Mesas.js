@@ -64,6 +64,7 @@ function Mesas() {
     return (
         <View>
             {/* <BotaoVoltar /> */}
+            <Text>Lista de mesas:</Text>
             <ScrollView style={{ height: "60%" }}>
                 {mesas.length > 0 ? (
                     mesas.map((obj, key) => (

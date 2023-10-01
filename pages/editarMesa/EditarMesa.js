@@ -18,6 +18,7 @@ import fontLemonada from "../../assets/fonts/lemonada.ttf"
 function EditarMesa() {
 
 
+    const [campoAddMesaVisivel, setCampoAddMesaVisivel] = useState(false)
     const [mesas, setMesas] = useState([])
     const [fontLoaded, setFontLoaded] = useState(false);
 
@@ -66,6 +67,7 @@ function EditarMesa() {
     return (
         <View>
             {/* <BotaoVoltar /> */}
+            <Text>Mesas do restaurante:</Text>
             <ScrollView style={{ height: "60%" }}>
                 {mesas.length > 0 ? (
                     mesas.map((obj, key) => (
@@ -76,6 +78,18 @@ function EditarMesa() {
                 )
                 }
             </ScrollView>
+            <Pressable role="button"
+                onPress={async () => {
+                    api.post("/restaurantes/mesas/addMesa", {})
+                        .then(response => {
+                            const resultado = response.data
+                        })
+                        .catch(error => {
+                            console.log(`Erro ao criar nova mesa: ${error.message}`)
+                        })
+                }}>
+                <Text>Adicionar mesa</Text>
+            </Pressable>
         </View>
     );
 
