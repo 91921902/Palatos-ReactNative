@@ -65,31 +65,37 @@ function EditarMesa() {
 
 
     return (
-        <View>
-            {/* <BotaoVoltar /> */}
-            <Text>Mesas do restaurante:</Text>
-            <ScrollView style={{ height: "60%" }}>
-                {mesas.length > 0 ? (
-                    mesas.map((obj, key) => (
-                        <ItemMesa key={key} tipoMenu={2} obj={obj} />
-                    ))
-                ) : (
-                    <View></View>
-                )
-                }
+        <View style={styles.containerEditarMesa}>
+            <BotaoVoltar />
+            <Text style={styles.titleMesas}>Mesas:</Text>
+            <ScrollView style={styles.boxMesas}>
+                <View style={{alignItems: "center", gap: 30}}>
+                    {mesas.length > 0 ? (
+                        mesas.map((obj, key) => (
+                            <ItemMesa key={key} tipoMenu={2} obj={obj} />
+                        ))
+                    ) : (
+                        <View></View>
+                    )
+                    }
+                    <View style={{alignItems: "flex-end", width: "100%", height: 100, justifyContent: "center", paddingRight: 40}}>
+
+                        <Pressable role="button" style={styles.btnAddMesa}
+                            onPress={async () => {
+                                api.post("/restaurantes/mesas/addMesa", {})
+                                .then(response => {
+                                    const resultado = response.data
+                                })
+                                .catch(error => {
+                                    console.log(`Erro ao criar nova mesa: ${error.message}`)
+                                })
+                            }}>
+                            <Image source={require("../../assets/icons/adicionar.png")}/>
+                        </Pressable>
+                    </View>
+                </View>
             </ScrollView>
-            <Pressable role="button"
-                onPress={async () => {
-                    api.post("/restaurantes/mesas/addMesa", {})
-                        .then(response => {
-                            const resultado = response.data
-                        })
-                        .catch(error => {
-                            console.log(`Erro ao criar nova mesa: ${error.message}`)
-                        })
-                }}>
-                <Text>Adicionar mesa</Text>
-            </Pressable>
+            
         </View>
     );
 

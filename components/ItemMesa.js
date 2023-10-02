@@ -4,6 +4,7 @@ import api from "../api/axios";
 import * as Font from 'expo-font';
 import fontLemonada from "../assets/fonts/lemonada.ttf"
 import fontKavoon from "../assets/fonts/kavoon.ttf"
+import { Icon } from "react-native-elements";
 
 function ItemMesa({ index, tipoMenu, obj }) {
     const [codigoMesa, setCodigoMesa] = useState("");
@@ -127,11 +128,11 @@ function ItemMesa({ index, tipoMenu, obj }) {
             </>
             ) : (
                 <View>
-                    <Pressable role="button" onPress={deletarMesa} accessibilityLabel="Excluir mesa do restaurante">
-                        <Text aria-hidden>Excluir mesa do restaurante</Text>
+                    <Pressable style={styles.btnDelete} role="button" onPress={deletarMesa} accessibilityLabel="Excluir mesa do restaurante">
+                        <Icon name="delete" color={"white"}/>
                     </Pressable>
                     <Image source={{ uri: obj.qr_code }}
-                        style={{ width: 100, height: 100, borderRadius: 10 }}
+                        style={{ width: 100, height: 100, borderRadius: 10, marginLeft: 15 }}
                         resizeMode="cover"
                         accessibilityLabel="Qr code da mesa"
                     />
@@ -220,6 +221,17 @@ const styles = StyleSheet.create({
     imgBtnTable: {
         width: 45,
         height: 45
+    },
+    btnDelete: {
+        width: 40,
+        height: 40,
+        backgroundColor: "red",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "absolute",
+        right: 15,
+        top: -35,
+        borderRadius: 500
     }
 })
 
