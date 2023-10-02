@@ -13,6 +13,8 @@ import ItemMesa from "../../components/ItemMesa.js"
 
 import * as Font from 'expo-font';
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
+import fontKavoon from "../../assets/fonts/kavoon.ttf"
+import BotaoQRCode from "../../components/BotaoQRCode"
 
 
 function Mesas() {
@@ -42,12 +44,18 @@ function Mesas() {
                     ocupada: false,
                     identificacao_mesa: "Mesa 3"
                 },
+                {
+                    id: 4,
+                    ocupada: false,
+                    identificacao_mesa: "Mesa 4"
+                },
             ]
             setMesas(listaMesas)
         }
         async function loadFonts() {
             await Font.loadAsync({
                 'lemonada': fontLemonada,
+                'kavoon': fontKavoon
             });
             setFontLoaded(true);
         }
@@ -62,18 +70,21 @@ function Mesas() {
 
 
     return (
-        <View>
-            {/* <BotaoVoltar /> */}
-            <Text>Lista de mesas:</Text>
-            <ScrollView style={{ height: "60%" }}>
-                {mesas.length > 0 ? (
-                    mesas.map((obj, key) => (
-                        <ItemMesa key={key} tipoMenu={1} obj={obj} />
-                    ))
-                ) : (
-                    <View></View>
-                )
-                }
+        <View style={styles.containerMesas}>
+            <BotaoVoltar />
+            <BotaoQRCode />
+            <Text style={styles.titleMesa}>Mesas:</Text>
+            <ScrollView style={{ height: "60%", width: "100%" }}>
+                <View style={{width: "100%", alignItems: "center", gap: 25}}>
+                    {mesas.length > 0 ? (
+                        mesas.map((obj, key) => (
+                            <ItemMesa key={key} tipoMenu={1} obj={obj} />
+                        ))
+                    ) : (
+                        <View></View>
+                    )
+                    }
+                </View>
             </ScrollView>
         </View>
     );
