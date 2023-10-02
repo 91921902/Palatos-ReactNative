@@ -11,6 +11,7 @@ function ItemMesa({ index, tipoMenu, obj }) {
     const [fontLoaded, setFontLoaded] = useState(false);
     const [heightItem, setHeightItem] = useState(180)
 
+
     useEffect(() => {
         async function loadFonts() {
             await Font.loadAsync({
@@ -30,7 +31,7 @@ function ItemMesa({ index, tipoMenu, obj }) {
     async function liberarMesa() {
         try {
             const response = await api.patch(`/restaurantes/mesas/mudarStatus`, {
-                id: obj.idMesa,
+                id: obj.id,
                 ocupada: false
             });
         } catch (err) {
@@ -38,14 +39,30 @@ function ItemMesa({ index, tipoMenu, obj }) {
         }
     }
 
+    async function deletarMesa() {
+        const resultado = await api.delete(`/restaurantes/mesas/delete/${obj.idMesa}`);
+    }
+
     async function ocuparMesa() {
         try {
             const response = await api.patch(`/restaurantes/mesas/mudarStatus`, {
-                id: obj.idMesa,
+                id: obj.id,
                 ocupada: true
             });
         } catch (err) {
             console.log(`Erro ao atualizar mesa: ${err}`);
+        }
+    }
+
+    async function mudarStatusComCodigo(){
+        try {
+            const resultado = await api.patch("/restaurantes/mesa/mudarStatus", {
+                id: obj.id,
+                codigoMesa: codigoMesa
+            });
+            const json = await resultado.json();
+        } catch (err) {
+            console.log(`Erro ao liberar mesa com código da reserva: ${err}`);
         }
     }
 
@@ -59,21 +76,21 @@ function ItemMesa({ index, tipoMenu, obj }) {
                 <>
                 <View style={styles.boxBtns}>
                     <View style={styles.boxButton}> 
-                        <Pressable role="button" onPress={liberarMesa} style={[styles.tableButton, {backgroundColor: "#7AEB71"}]}>
+                        <Pressable role="button" onPress={liberarMesa} style={[styles.tableButton, {backgroundColor: "#7AEB71"}]} accessibilityLabel="Liberar mesa">
                             <Image source={require("../assets/icons/liberar.png")} style={styles.imgBtnTable}/>
                         </Pressable>
-                        <Text style={{fontFamily: "lemonada", fontSize: 12, color: "#445A14"}}>Liberar mesa</Text>
+                        <Text style={{fontFamily: "lemonada", fontSize: 12, color: "#445A14"}} aria-hidden>Liberar mesa</Text>
                     </View>
 
                     <View style={styles.boxButton}>
-                        <Pressable role="button" onPress={ocuparMesa} style={[styles.tableButton, {backgroundColor: "#EB3333"}]}>
+                        <Pressable role="button" onPress={ocuparMesa} style={[styles.tableButton, {backgroundColor: "#EB3333"}]} accessibilityLabel="Ocupar mesa">
                         <Image source={require("../assets/icons/ocupar.png")} style={styles.imgBtnTable}/>
                         </Pressable>
-                        <Text style={{fontFamily: "lemonada", fontSize: 12, color: "#445A14"}}>Ocupar mesa</Text>
+                        <Text style={{fontFamily: "lemonada", fontSize: 12, color: "#445A14"}} aria-hidden>Ocupar mesa</Text>
                     </View>
 
                     <View style={styles.boxButton}>
-                        <Pressable role="button"  style={[styles.tableButton, {backgroundColor
+                        <Pressable role="button" accessibilityLabel="Reserva" style={[styles.tableButton, {backgroundColor
                         : "#276BEF"}]} accessibilityHint="Mostra ou oculta campo para digitar o código de reserva da mesa" onPress={() => {
                                 setCampoCodigoVisivel(!campoCodigoVisivel);
                                 !campoCodigoVisivel ? (setHeightItem(280)) : (setHeightItem(180))
@@ -81,7 +98,7 @@ function ItemMesa({ index, tipoMenu, obj }) {
                         }}>
                             <Image source={require("../assets/icons/reserva.png")} style={styles.imgBtnTable}/>
                         </Pressable>
-                        <Text style={{fontFamily: "lemonada", fontSize: 12, color: "#445A14"}}>Reserva</Text>
+                        <Text style={{fontFamily: "lemonada", fontSize: 12, color: "#445A14"}} aria-hidden>Reserva</Text>
                     </View>
                 </View>
                 <View style={styles.boxCompoReserva}>
@@ -97,19 +114,9 @@ function ItemMesa({ index, tipoMenu, obj }) {
                                         cursorColor={"#7AEB71"}
                                         accessibilityLabel="Digite o código da reserva"
                                         returnKeyType="send"
-                                        onSubmitEditing={async () => {
-                                            try {
-                                                const resultado = await api.patch("/restaurantes/mesa/mudarStatus", {
-                                                    id: obj.idMesa,
-                                                    codigoMesa: obj.codigoMesa
-                                                });
-                                                const json = await resultado.json();
-                                            } catch (err) {
-                                                console.log(`Erro ao liberar mesa com código da reserva: ${err}`);
-                                            }
-                                        }}
+                                        onSubmitEditing={mudarStatusComCodigo}
                                     />
-                                    <Pressable style={styles.btnConfirm}>
+                                    <Pressable style={styles.btnConfirm} role="button">
                                         <Text style={{fontFamily: "kavoon", color: "#445A14"}}>OK</Text>
                                     </Pressable>
                                 </View>
@@ -120,10 +127,8 @@ function ItemMesa({ index, tipoMenu, obj }) {
             </>
             ) : (
                 <View>
-                    <Pressable role="button" onPress={async () => {
-                        const resultado = await api.delete(`/restaurantes/mesas/delete/${obj.idMesa}`);
-                    }}>
-                        <Text>Excluir mesa do restaurante</Text>
+                    <Pressable role="button" onPress={deletarMesa} accessibilityLabel="Excluir mesa do restaurante">
+                        <Text aria-hidden>Excluir mesa do restaurante</Text>
                     </Pressable>
                     <Image source={{ uri: obj.qr_code }}
                         style={{ width: 100, height: 100, borderRadius: 10 }}
