@@ -181,11 +181,13 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     boxInpt: {
-        marginBottom: 60,
-        gap: 10
+        marginBottom: 80,
+        gap: 10,
+        height: "100%",
+        width: "100%"
     },
     textConfirmCod: {
-        fontSize: 20,
+        fontSize: 18,
         fontFamily: "kavoon",
         color: "#445A14"
     },
