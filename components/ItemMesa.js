@@ -5,6 +5,7 @@ import * as Font from 'expo-font';
 import fontLemonada from "../assets/fonts/lemonada.ttf"
 import fontKavoon from "../assets/fonts/kavoon.ttf"
 import { Icon } from "react-native-elements";
+import A11y from "../providers/A11y.js"
 
 function ItemMesa({ index, tipoMenu, obj }) {
     const [codigoMesa, setCodigoMesa] = useState("");
@@ -77,21 +78,21 @@ function ItemMesa({ index, tipoMenu, obj }) {
                 <>
                 <View style={styles.boxBtns}>
                     <View style={styles.boxButton}> 
-                        <Pressable role="button" onPress={liberarMesa} style={[styles.tableButton, {backgroundColor: "#7AEB71"}]} accessibilityLabel="Liberar mesa">
+                        <Pressable role="button" onPress={liberarMesa} style={[styles.tableButton, {backgroundColor: "#7AEB71"}]} {...A11y.label("Liberar mesa")}>
                             <Image source={require("../assets/icons/liberar.png")} style={styles.imgBtnTable}/>
                         </Pressable>
                         <Text style={{fontFamily: "lemonada", fontSize: 12, color: "#445A14"}} aria-hidden>Liberar mesa</Text>
                     </View>
 
                     <View style={styles.boxButton}>
-                        <Pressable role="button" onPress={ocuparMesa} style={[styles.tableButton, {backgroundColor: "#EB3333"}]} accessibilityLabel="Ocupar mesa">
+                        <Pressable role="button" onPress={ocuparMesa} style={[styles.tableButton, {backgroundColor: "#EB3333"}]} {...A11y.label("Ocupar mesa")}>
                         <Image source={require("../assets/icons/ocupar.png")} style={styles.imgBtnTable}/>
                         </Pressable>
                         <Text style={{fontFamily: "lemonada", fontSize: 12, color: "#445A14"}} aria-hidden>Ocupar mesa</Text>
                     </View>
 
                     <View style={styles.boxButton}>
-                        <Pressable role="button" accessibilityLabel="Reserva" style={[styles.tableButton, {backgroundColor
+                        <Pressable role="button" {...A11y.label("Reserva")} style={[styles.tableButton, {backgroundColor
                         : "#276BEF"}]} accessibilityHint="Mostra ou oculta campo para digitar o código de reserva da mesa" onPress={() => {
                                 setCampoCodigoVisivel(!campoCodigoVisivel);
                                 !campoCodigoVisivel ? (setHeightItem(280)) : (setHeightItem(180))
@@ -113,7 +114,7 @@ function ItemMesa({ index, tipoMenu, obj }) {
                                         value={codigoMesa}
                                         onChangeText={setCodigoMesa}
                                         cursorColor={"#7AEB71"}
-                                        accessibilityLabel="Digite o código da reserva"
+                                        {...A11y.label("Digite o código da reserva")}
                                         returnKeyType="send"
                                         onSubmitEditing={mudarStatusComCodigo}
                                     />
@@ -128,13 +129,13 @@ function ItemMesa({ index, tipoMenu, obj }) {
             </>
             ) : (
                 <View>
-                    <Pressable style={styles.btnDelete} role="button" onPress={deletarMesa} accessibilityLabel="Excluir mesa do restaurante">
+                    <Pressable style={styles.btnDelete} role="button" onPress={deletarMesa} {...A11y.label("Excluir mesa do restaurante")}>
                         <Icon name="delete" color={"white"}/>
                     </Pressable>
                     <Image source={{ uri: obj.qr_code }}
                         style={{ width: 100, height: 100, borderRadius: 10, marginLeft: 15 }}
                         resizeMode="cover"
-                        accessibilityLabel="Qr code da mesa"
+                        {...A11y.label("Qr code da mesa")}
                     />
                 </View>
             )}

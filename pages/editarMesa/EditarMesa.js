@@ -6,6 +6,7 @@ import { useState } from "react"
 import { styles } from "./styles"
 import BotaoVoltar from "../../components/BotaoVoltar.js"
 import ItemMesa from "../../components/ItemMesa.js"
+import A11y from "../../providers/A11y.js"
 
 
 
@@ -18,7 +19,6 @@ import fontLemonada from "../../assets/fonts/lemonada.ttf"
 function EditarMesa() {
 
 
-    const [campoAddMesaVisivel, setCampoAddMesaVisivel] = useState(false)
     const [mesas, setMesas] = useState([])
     const [fontLoaded, setFontLoaded] = useState(false);
 
@@ -48,6 +48,7 @@ function EditarMesa() {
             ]
             setMesas(listaMesas)
         }
+
         async function loadFonts() {
             await Font.loadAsync({
                 'lemonada': fontLemonada,
@@ -63,13 +64,23 @@ function EditarMesa() {
         return null;
     }
 
+    async function adicionarMesa() {
+        await api.post("/restaurantes/mesas/addMesa", {})
+            .then(response => {
+                const resultado = response.data
+            })
+            .catch(error => {
+                console.log(`Erro ao criar nova mesa: ${error.message}`)
+            })
+    }
+
 
     return (
         <View style={styles.containerEditarMesa}>
             <BotaoVoltar />
             <Text style={styles.titleMesas}>Mesas:</Text>
             <ScrollView style={styles.boxMesas}>
-                <View style={{alignItems: "center", gap: 30}}>
+                <View style={{ alignItems: "center", gap: 30 }}>
                     {mesas.length > 0 ? (
                         mesas.map((obj, key) => (
                             <ItemMesa key={key} tipoMenu={2} obj={obj} />
@@ -78,25 +89,18 @@ function EditarMesa() {
                         <View></View>
                     )
                     }
-                    <View style={{alignItems: "flex-end", width: "100%", height: 100, justifyContent: "center", paddingRight: 40}}>
+                    <View style={{ alignItems: "flex-end", width: "100%", height: 100, justifyContent: "center", paddingRight: 40 }}>
 
                         <Pressable role="button" style={styles.btnAddMesa}
-                            onPress={async () => {
-                                api.post("/restaurantes/mesas/addMesa", {})
-                                .then(response => {
-                                    const resultado = response.data
-                                })
-                                .catch(error => {
-                                    console.log(`Erro ao criar nova mesa: ${error.message}`)
-                                })
-                            }}>
-                            <Image source={require("../../assets/icons/adicionar.png")}/>
+                            onPress={adicionarMesa}
+                            {...A11y.label("Adicionar mesa ao restaurante")}>
+                            <Image source={require("../../assets/icons/adicionar.png")} />
                         </Pressable>
                     </View>
                 </View>
-            </ScrollView>
-            
-        </View>
+            </ScrollView >
+
+        </View >
     );
 
 }
