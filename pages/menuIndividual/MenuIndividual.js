@@ -29,6 +29,8 @@ export default function MenuIndividual(){
 
 
 return(
+<ScrollView style={styles.scroll}>
+    
 <View style={styles.container}>
   <MiniLogo/>
   <BotaoVoltar/>
@@ -43,12 +45,53 @@ return(
 
     </View>
 
-    <View>
+    <View >
         <Text style={styles.tituloDoPrato}>Testando nome prato</Text>
     </View>
 
+    <View style={styles.descricaoView}>
+        <Text style={styles.descricao}>prato bem bom e gostoso,  bla bla bla blab bla bla</Text>
+    </View>
+
+
+    <View>
+        <Text style={styles.observacoes}>Observações:</Text>
+    </View>
+
+    <View>
+        <TextInput style={styles.inpObs}
+            placeholder='Ex: Tirar cebola, tirar salada...'
+            placeholderTextColor={'#92A14D'}
+    
+        />
+
+        <Text style={styles.excluirAlgo}></Text>
+    </View>
+
+    <View style={styles.icones}>
+        <Image
+          source={require('../../assets/mais 1.png')}
+          style={{width: 31, height: 34,}}  
+        />
+        <Image
+         source={require('../../assets/menos 1.png')}
+         style={{width: 31, height: 34,}} 
+        />
+
+    </View>
+
+    <View style={styles.valorView}>
+        <Text style={styles.valor}>R$...</Text>
+    </View>
+
+   <View style={styles.carrinhoView}>
+            <Pressable style={styles.btnCarrinho}>
+                <Text style={styles.textoCarrinho}>Enviar para o carrinho</Text>
+            </Pressable>
+        </View>
 
 
 </View>
+</ScrollView>
   );
 }

@@ -1,12 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import MenuIndividual from './pages/menuIndividual/MenuIndividual'
+import CadastroFavoritos from './pages/cadastroFavoritos/CadastroFavorito.js';
 
 
 export default function App() {
   return (
     <View style={styles.container}>
-    <MenuIndividual/>
+    <CadastroFavoritos/>
     </View>
   );
 }
