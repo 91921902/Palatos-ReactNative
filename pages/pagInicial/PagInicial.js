@@ -1,10 +1,10 @@
 import React,{useState,useEffect} from "react";
 import { styles } from "./styles"
-import {  View, Text, TextInput, TouchableOpacity } from "react-native"
+import {  View, Text, TextInput, TouchableOpacity, Image } from "react-native"
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import * as Font from 'expo-font';
-import LogoTexto from "../../components/LogoTexto";
+
 
 
 function PagInicial() {
@@ -29,30 +29,31 @@ function PagInicial() {
 
         <View style={styles.containerPagInicial}>
 
-             <View style={styles.loginRestaurante}>  
+            <View style={styles.loginRestaurante}>  
 
-              <TouchableOpacity style={styles.botaoLogin}>
-                <Text style={styles.textoBotaoLogin}>Login restaurante</Text>
-              </TouchableOpacity>
-               
-                <view style={styles.logo}>
-                  <LogoTexto/>
-                </view>
+                <TouchableOpacity style={styles.botaoLogin}>
+                    <Text style={styles.textoBotaoLogin}>Login restaurante</Text>
+                </TouchableOpacity>
+            </View> 
 
-               <View style={styles.formularioPagInicial}>
-          
-                    <View style={styles.inputsFormulario}>
-                        <Text style={styles.textoInput}>Email</Text>
-                        <TextInput style={styles.input}/>
-                    </View>
+            <View style={styles.logo}>
+                <Image source={require("../../assets/logo-texto.png")} style={styles.logoTexto}/>
+            </View>
 
-                    <View style={styles.inputsFormulario}>
-                        <Text style={styles.textoInput}>Senha</Text>
-                        <TextInput style={styles.input}/>
-                    </View>
+            <View style={styles.formularioPagInicial}>
+        
+                <View style={styles.inputsFormulario}>
+                    <Text style={styles.textoInput}>Email</Text>
+                    <TextInput style={styles.input}/>
+                </View>
 
-                </View>  
+                <View style={styles.inputsFormulario}>
+                    <Text style={styles.textoInput}>Senha</Text>
+                    <TextInput style={styles.input}/>
+                </View>
+
             </View>  
+             
 
             <View style={styles.entrar}>
                 <TouchableOpacity style={styles.botaoEntrar}>

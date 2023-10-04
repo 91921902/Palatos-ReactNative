@@ -15,11 +15,11 @@ export const styles = StyleSheet.create({
         justifyContent: "flex-start", // Alinhar ao topo
         paddingTop: 20, // Espaço superior
         paddingRight: 20, // Espaço direito
-        backgroundColor: "green",
+        // backgroundColor: "green",
     },
     botaoLogin:{
-        width: 130,//largura
-        height: 30,//altura
+        width: 140,//largura
+        height: 50,//altura
         backgroundColor: 'transparent', // Cor de fundo transparente
         borderColor: "#445A14",
         borderRadius: 20,
@@ -28,8 +28,14 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
     logo:{ //View logo
-        height:'20%',
+        height:'30%',
         width:'100%',
+        alignItems:"center"
+    },
+    logoTexto:{
+        width:300,
+        height:300,
+        resizeMode: "contain"
     },
       textoBotaoLogin:{
         fontFamily: "lemonada",
@@ -45,11 +51,11 @@ export const styles = StyleSheet.create({
     },
     formularioPagInicial:{ //segunda View
        alignItems: "center",
-       height:'40%',
+       height:'30%',
        width:'100%',
        justifyContent: 'center',
        gap:20,
-       backgroundColor:"pink"
+    //    backgroundColor:"pink"
            
     },
     inputsFormulario:{
@@ -73,55 +79,67 @@ export const styles = StyleSheet.create({
         borderRadius: 15,
         fontSize: 12,
         paddingLeft: 10,
-        fontFamily: "lemonada"
+        fontFamily: "lemonada",
 
     },
     entrar:{//terceira View
        height:'20%',
        width:'100%',
-       backgroundColor:'red',
+    //    backgroundColor:'red',
+       alignItems: "center",
+       justifyContent: 'center',
+       gap:20,
+       justifyContent: 'flex-start', 
+       paddingTop: 20, 
         
 
     },
     botaoEntrar:{
-        width:229,
-          height:44,
-          backgroundColor:'transparente',
-          borderColor: "#445A14",
-          borderRadius:22,
-          alignSelf: 'center', 
-          textAlignVertical: 'top',
-          alignSelf:'center', 
-         textAlignVertical: 'top',
-         borderWidth:2,
-         justifyContent:'center',
-         alignItems: 'center',
-
+        width: "80%",
+        height: 50,
+        backgroundColor: "transparent",
+        borderWidth: 2,
+        borderColor: "#445A14",
+        borderRadius: 15,
+        fontSize: 12,
+        paddingLeft: 10,
+        fontFamily: "lemonada",
+        alignItems:"center",
     },
-    textoBotaoEntrar:{
-        
+        textoBotaoEntrar:{
+        color:"#445A14",
+        textAlign: "justify",
+        fontFamily: "Lemonada",
+        fontSize: 16,
+        fontStyle: "normal",
+        fontWeight: 380,
+        lineHeight: "normal",
+                
 
     },
     cadastro:{//ultima View
        height:'10%',
        width:'100%',
-       backgroundColor:'black',
+    //    backgroundColor:'black',
+    //    justifyContent: 'flex-end',
+       paddingBottom: 20,
 
     },
     botaoCadastro:{
-        width: "202",
-        height: 27,
+        width:250,
+        height:27,
         flexShrink: 0,
+        paddingLeft: 20,
 
     },
     textoCadastro:{
        color: "#445A14",
-       textAlign: justify,
+       textAlign: "justify",
        fontFamily: "Lemonada",
        fontSize: 16,
-       fontStyle: normal,
+       fontStyle: "normal",
        fontWeight: 380,
-       lineHeight: normal,
+       lineHeight: "normal",
 
     },
   
