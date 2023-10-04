@@ -1,15 +1,21 @@
 Tela reserva (restaurante):
 Nome, código da reserva horário e pratos solicitados
-Comandas:
-Tela onde será mostradas as informações das mesas (nome do prato, observações e número da mesa)
-OBS: Adicionar um timer para mostrar quanto tempo o pedido da mesa foi solicitado
 
-Filtro por mesa
-mesa:
-* mostrar todas as mesas do restaurante
-MesaUnica:
-Ao entrar na mesa, você terá três botões:
-Mesa ocupada, liberar mesa e reserva
-Ao entrar na reserva, terá um campo onde será solicitado o código de reserva
+
+
+Comandas:
+Botão voltar
+Título Comandas
+componente Comanda:
+tipo de comanda (Mesa da reserva ou mesa do restaurante)
+Se for reserva, ter o texto ainda não chegou caso ela não esteja ainda no restaurante.
+Nome do prato,
+observações,
+número da mesa
+P. S: Adicionar um timer para mostrar quanto tempo o pedido está ativo.
+
+
+
+
 
 pacotes
