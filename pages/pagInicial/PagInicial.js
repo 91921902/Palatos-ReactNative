@@ -1,21 +1,71 @@
-import React from "react";
-import { Text, View } from "react-native";
+import React,{useState,useEffect} from "react";
 import { styles } from "./styles"
+import {  View, Text, TextInput, TouchableOpacity } from "react-native"
+import fontKavoon from "../../assets/fonts/kavoon.ttf"
+import fontLemonada from "../../assets/fonts/lemonada.ttf"
+import * as Font from 'expo-font';
+import LogoTexto from "../../components/LogoTexto";
+
 
 function PagInicial() {
 
+    const [fontLoaded, setFontLoaded] = useState(false);
+ 
+
+    useEffect(() => {
+        async function loadFonts() {
+        await Font.loadAsync({
+            'kavoon': fontKavoon,
+            'lemonada': fontLemonada,
+        });
+        setFontLoaded(true);
+        }
+  
+        loadFonts();
+    }, []);
+  
 
     return(
-        <View style={styles.containerPagInicial}>
-            <View>
-                {/* aqui vai ser o topo */}
-            </View>
-            <View style={styles.body}>
-                {/* aqui vai ser o body */}
-            </View>
-            <View>
 
+        <View style={styles.containerPagInicial}>
+
+             <View style={styles.loginRestaurante}>  
+
+              <TouchableOpacity style={styles.botaoLogin}>
+                <Text style={styles.textoBotaoLogin}>Login restaurante</Text>
+              </TouchableOpacity>
+               
+                <view style={styles.logo}>
+                  <LogoTexto/>
+                </view>
+
+               <View style={styles.formularioPagInicial}>
+          
+                    <View style={styles.inputsFormulario}>
+                        <Text style={styles.textoInput}>Email</Text>
+                        <TextInput style={styles.input}/>
+                    </View>
+
+                    <View style={styles.inputsFormulario}>
+                        <Text style={styles.textoInput}>Senha</Text>
+                        <TextInput style={styles.input}/>
+                    </View>
+
+                </View>  
+            </View>  
+
+            <View style={styles.entrar}>
+                <TouchableOpacity style={styles.botaoEntrar}>
+                  <Text style={styles.textoBotaoEntrar}>Entrar</Text>
+                </TouchableOpacity>
             </View>
+
+                <View style={styles.cadastro}>
+                    <TouchableOpacity style={styles.botaoCadastro}>
+                    <Text style={styles.textoCadastro}>Não tenho cadastro...</Text>
+                    </TouchableOpacity>
+                </View>
+          
         </View>
     );
 

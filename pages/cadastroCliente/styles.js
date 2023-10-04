@@ -72,12 +72,15 @@ export const styles = StyleSheet.create({
           alignSelf:'center', 
          textAlignVertical: 'top',
          borderWidth:2,
+         justifyContent:'center',
+         alignItems: 'center',
         },
         textoBotaoConfirmar:{
           color: "#445A14",
           textAlign:'center',
           fontSize:16,
           fontStyle:'normal',
+          textAlignVertical: 'center',
         },
     
 })
