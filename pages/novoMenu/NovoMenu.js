@@ -75,7 +75,7 @@ function NovoMenu() {
                     {
                         menu.map((item, index) => {
                             return(
-                               <ItemMenu key={index} item={item} index={index}/> 
+                               <ItemMenu key={item.id} item={item} index={index}/> 
                             );
                         })
                     }

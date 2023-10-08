@@ -2,9 +2,12 @@ import React, { createContext, useContext, useState } from 'react';
 
 const FormRestContext = createContext();
 
+let lastId = 0
+
 export const FormProvider = ({ children }) => {
   
     const [menu, setMenu] = useState([{
+        id: lastId,
         nome: "",
         descricao: "",
         preco: "",
@@ -27,11 +30,13 @@ export const FormProvider = ({ children }) => {
         },
         createItem: () => {
             setMenu([...menu, {
+                id: lastId + 1,
                 nome: "",
                 descricao: "",
                 preco: "",
                 foto: ""
             }])
+            lastId++
         }
     }
 

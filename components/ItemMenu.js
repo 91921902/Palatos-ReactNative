@@ -19,8 +19,9 @@ function ItemMenu({index}) {
     useEffect(() => { 
 
         const itemMenu = menu[index]
-
+       
         const itemNow = {
+            id: itemMenu.id,
             nome: nome,
             descricao: desc,
             preco: price,
@@ -29,6 +30,7 @@ function ItemMenu({index}) {
 
         function setMenu() {
             menuTools.setItem({
+                id: itemMenu.id,
                 nome: nome,
                 descricao: desc,
                 preco: price,
@@ -57,7 +59,7 @@ function ItemMenu({index}) {
             setMenu()
           }
         
-    }, [nome, desc, price, foto])
+    }, [nome, desc, price, foto, menu])
 
     useEffect(() => {
         async function loadFonts() {
