@@ -5,6 +5,7 @@ import { Image, View, Text, ScrollView, Pressable } from "react-native"
 import { useState } from "react"
 import { styles } from "./styles"
 import BotaoVoltar from "../../components/BotaoVoltar.js"
+import Comanda from "../../components/Comanda.js"
 import A11y from "../../providers/A11y.js"
 
 
@@ -29,33 +30,53 @@ function TelaComanda() {
                 {
                     id: 1,
                     isReserva: false,
+                    chegou: false,
+                    tempoAtiva: 60,
                     nomePrato: "Bife a cavalo",
                     observacoes: "Bem paçado!"
                 },
                 {
-                id: 2,
-                nomePrato: "Frango à Parmegiana",
-                isReserva: false,
+                    id: 2,
+                    nomePrato: "Frango à Parmegiana",
+                    isReserva: false,
+                    chegou: false,
+                    tempoAtiva: 60,
                     observacoes: "Sem espaguete"
                 },
                 {
+                    id: 3,
                     nomePrato: "Frango à Parmegiana",
+                    isReserva: true,
+                    chegou: false,
+                    tempoAtiva: 3800,
                     observacoes: null
                 },
                 {
+                    id: 4,
                     nomePrato: "Frango à Parmegiana",
+                    isReserva: false,
+                    chegou: true,
+                    tempoAtiva: 3600,
                     observacoes: null
                 },
                 {
+                    id: 5,
                     nomePrato: "Frango à Parmegiana",
+                    isReserva: false,
+                    chegou: true,
+                    tempoAtiva: 77,
                     observacoes: null
                 },
                 {
+                    id: 6,
                     nomePrato: "Frango à Parmegiana",
+                    isReserva: true,
+                    chegou: false,
+                    tempoAtiva: 60,
                     observacoes: null
                 },
             ]
-            setMesas(listaMesas)
+            setComandas(listaComandas)
         }
 
         async function loadFonts() {
@@ -66,46 +87,25 @@ function TelaComanda() {
         }
 
         loadFonts();
-        carregaMesas()
+        carregaComandas()
     }, []);
 
     if (!fontLoaded) {
         return null;
     }
 
-    async function adicionarMesa() {
-        await api.post("/restaurantes/mesas/addMesa", {})
-            .then(response => {
-                const resultado = response.data
-            })
-            .catch(error => {
-                console.log(`Erro ao criar nova mesa: ${error.message}`)
-            })
-    }
-
 
     return (
-        <View style={styles.containerEditarMesa}>
+        <View>
             <BotaoVoltar />
-            <Text style={styles.titleMesas}>Mesas:</Text>
-            <ScrollView style={styles.boxMesas}>
+            <Text>Comandas:</Text>
+            <ScrollView>
                 <View style={{ alignItems: "center", gap: 30 }}>
-                    {mesas.length > 0 ? (
-                        mesas.map((obj, key) => (
-                            <ItemMesa key={key} tipoMenu={2} obj={obj} />
+                    {comandas.length > 0 && (
+                        comandas.map((obj, key) => (
+                            <Comanda key={key} obj={obj} />
                         ))
-                    ) : (
-                        <View></View>
-                    )
-                    }
-                    <View style={{ alignItems: "flex-end", width: "100%", height: 100, justifyContent: "center", paddingRight: 40 }}>
-
-                        <Pressable role="button" style={styles.btnAddMesa}
-                            onPress={adicionarMesa}
-                            {...A11y.label("Adicionar mesa ao restaurante")}>
-                            <Image source={require("../../assets/icons/adicionar.png")} />
-                        </Pressable>
-                    </View>
+                    )}
                 </View>
             </ScrollView >
 
@@ -114,4 +114,4 @@ function TelaComanda() {
 
 }
 
-export default EditarMesa
+export default TelaComanda
