@@ -105,7 +105,6 @@ function NovoCadastro({ navigation }) {
     
         if (!result.canceled) {
             setFoto(result.assets[0].uri);
-
             const fileName = result.assets[0].uri.substring(result.assets[0].uri.lastIndexOf("/") + 1, result.assets[0].uri.length)
             const fileType = fileName.split(".")[1]
 
@@ -133,8 +132,14 @@ function NovoCadastro({ navigation }) {
             <BotaoVoltar onPress={returnPage}/>                     
             <View style={styles.boxUploadPhoto}>
                 <Pressable style={styles.buttonUpload} onPress={pickImage}>
-                   <Image source={require("../../assets/icons/btnMaisV2.png")} style={styles.btnMais}/>
-                   <Text style={{color: "white", fontFamily: "lemonada", fontSize: 10}}>Insira sua logo aqui</Text>
+                    {!foto ? (
+                        <>
+                            <Image source={require("../../assets/icons/btnMaisV2.png")} style={styles.btnMais}/>
+                            <Text style={{color: "white", fontFamily: "lemonada", fontSize: 10}}>Insira sua logo aqui</Text>
+                        </>
+                    ) : (
+                        <Image source={{uri: foto}} style={{height: '100%', width: '100%', resizeMode: "cover"}} />
+                    )} 
                 </Pressable>
             </View>
             <ScrollView style={{height: "60%"}}>

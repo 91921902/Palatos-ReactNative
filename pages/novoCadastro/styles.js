@@ -21,7 +21,8 @@ export const styles = StyleSheet.create({
         backgroundColor: "#92A14D",
         position: "relative",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        overflow: "hidden"
     },
     btnMais: {
         position: "absolute",
