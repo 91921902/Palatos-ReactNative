@@ -3,7 +3,8 @@ import * as Font from 'expo-font';
 import fontKavoon from "../assets/fonts/kavoon.ttf"
 import fontLemonada from "../assets/fonts/lemonada.ttf"
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { View, Text, TextInput, StyleSheet, Pressable, Image } from "react-native";
+import { View, Text, TextInput, StyleSheet, Pressable, Image, ToastAndroid, Platform } from "react-native";
+import * as ImagePicker from 'expo-image-picker';
 import { useFormTools } from "../providers/FormRestContext";
 
 
@@ -14,6 +15,9 @@ function ItemMenu({index}) {
     const [desc, setDesc] = useState("")
     const [price, setPrice] = useState("")
     const [foto, setFoto] = useState("")
+    const [file, setFile] = useState("")
+    const [nomeImagem, setNomeImagem] = useState("")
+
     const { menu, menuTools } = useFormTools()
 
     useEffect(() => { 
@@ -25,7 +29,9 @@ function ItemMenu({index}) {
             nome: nome,
             descricao: desc,
             preco: price,
-            foto: foto
+            foto: foto,
+            nomeImagem: nomeImagem,
+            file: file
         }
 
         function setMenu() {
@@ -34,7 +40,9 @@ function ItemMenu({index}) {
                 nome: nome,
                 descricao: desc,
                 preco: price,
-                foto: foto
+                foto: foto,
+                nomeImagem: nomeImagem,
+                file: file
             }, index)
         }
 
@@ -77,10 +85,41 @@ function ItemMenu({index}) {
         return null; 
     }
 
+    const pickImage = async () => {
+        
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1,
+        });
+    
+        if (!result.canceled) {
+            setFoto(result.assets[0].uri);
+
+            const fileName = result.assets[0].uri.substring(result.assets[0].uri.lastIndexOf("/") + 1, result.assets[0].uri.length)
+            const fileType = fileName.split(".")[1]
+
+            const formData = new formData()
+            formData.append('file', JSON.parse(JSON.stringify({
+                name: fileName,
+                uri: result.assets[0].uri,
+                type: 'image/' + fileType
+            })))
+
+            setFile(formData)
+            setNomeImagem(fileName)
+
+        } else {
+            ToastAndroid.show("Operação Cancelada", 1000)
+        }
+    };
+
+
     return(
         <View style={styles.item}>
             <View style={styles.boxPhoto}>
-                <Pressable activeOpacity={1} style={styles.btnAddPhoto} accessibilityRole='button' accessibilityLabel="Adicionar foto">
+                <Pressable activeOpacity={1} style={styles.btnAddPhoto} accessibilityRole='button' accessibilityLabel="Adicionar foto" onPress={pickImage}>
                     <View style={{position: "absolute", top: 2, right: 2}}>
                         <Icon 
                             name="plus"

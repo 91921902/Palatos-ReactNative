@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { ScrollView, View } from "react-native";
 import { CheckBox } from "react-native-elements"
+import { useFormTools } from "../providers/FormRestContext";
 
 
 
@@ -11,12 +12,30 @@ export default function CheckBoxCategory({filter}) {
     const [categoriasSelected, setCategoriasSelected] = useState(
         categorias.map(() => false)
     );
+    
+    
+    const { setNewCategorias } = useFormTools()
+
+    useEffect(() => {
+
+        const categoriasEscolhidas = []
+
+        for (let i = 0 ; i > categorias.length ; i++) {
+
+            if (categoriasSelected[i]) {
+
+                categoriasEscolhidas.push(categorias[i])
+
+            }
+
+        }
+
+        setNewCategorias(categoriasEscolhidas)
+
+    }, [categoriasSelected])
 
     useEffect(() => {
         async function setCategorys() {
-
-            //buscar as categorias no banco
-            let categorias = ["massas", "doces", "pizzas", "teste", "teste", "teste", "teste", "teste", "teste"]
 
             if (filter.length > 0) {
                 
@@ -26,13 +45,19 @@ export default function CheckBoxCategory({filter}) {
                 
                 setCategorias(filtro)
 
-            } else {
-                setCategorias(categorias)
-            }
+            } 
 
         }
         setCategorys()
     }, [filter])
+
+    useEffect(() => {
+
+        //buscar as categorias do banco
+        let categorias = ["massas", "doces", "pizzas", "teste", "teste", "teste", "teste", "teste", "teste"]
+        setCategorias(categorias)
+
+    }, [])
 
     function setCategory(indexCategory) {
         const newCategoriasSelected = [...categoriasSelected];

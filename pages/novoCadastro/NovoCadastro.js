@@ -1,8 +1,10 @@
 import React from "react"
 import { useState, useEffect } from "react"
-import { Image, View, Text, ScrollView, TextInput, Animated, Easing, Pressable } from "react-native"
+import { Image, View, Text, ScrollView, TextInput, Animated, Easing, Pressable, ToastAndroid, Platform } from "react-native"
 import { styles } from "./styles"
 import BotaoVoltar from "../../components/BotaoVoltar.js"
+import { useFormTools } from "../../providers/FormRestContext"
+import * as ImagePicker from 'expo-image-picker';
 
 
 
@@ -11,7 +13,6 @@ import BotaoVoltar from "../../components/BotaoVoltar.js"
 import * as Font from 'expo-font';
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import CheckBoxCategory from "../../components/CheckBoxCategory"
-
 
 
 
@@ -24,12 +25,15 @@ function NovoCadastro() {
     // FORM
 
     const [btnReservation, setBtnReservation] = useState(true)
+    const [formData, setFormData] = useState(new FormData())
     const [nome, setNome] = useState("")
     const [endereco, setEndereco] = useState("")
     const [telefone, setTelefone] = useState("")
     const [celular, setcelular] = useState("")
     const [descricao, setDescricao] = useState("")
-    const [categoria, setCategoria] = useState("")
+    const [foto, setFoto] = useState("") //falta carregar a foto quando selecionada
+    const [tempoTolerancia, setTempoTolerancia] = useState("")
+    const { categorias } = useFormTools()
 
     //----------------------------------------------------------------
 
@@ -57,6 +61,7 @@ function NovoCadastro() {
         }
 
         loadFonts();
+
     }, []);
 
     if (!fontLoaded) {
@@ -64,17 +69,62 @@ function NovoCadastro() {
     }
 
 /* ----------------------------------------------- */
+    
 
+    function nextFormPage() {
+
+        
+        formData.append('nome', nome)
+        formData.append('endereco', endereco)
+        formData.append('telefone', telefone)
+        formData.append('celular',celular)
+        formData.append('descricao', descricao)
+        formData.append('categorias', categorias)
+        formData.append('reservasAtivas', btnReservation)
+        formData.append('tempoTolerancia', tempoTolerancia)
+        //avaliacao comida pendente
+        setFormData(formData)
+
+        //ir para a proxima pagina passando esse formData como parametro!
+    }
+
+    const pickImage = async () => {
+        
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1,
+        });
+    
+        if (!result.canceled) {
+            setFoto(result.assets[0].uri);
+
+            const fileName = result.assets[0].uri.substring(result.assets[0].uri.lastIndexOf("/") + 1, result.assets[0].uri.length)
+            const fileType = fileName.split(".")[1]
+
+            formData.append('file', JSON.parse(JSON.stringify({
+                name: fileName,
+                uri: result.assets[0].uri,
+                type: 'image/' + fileType
+            })))
+
+            setFormData(formData)
+
+        } else {
+            ToastAndroid.show("Operação Cancelada", 600)
+        }
+    };
     
 
     return(
         <View style={styles.containerNovoCadastro}>
             <BotaoVoltar />                     
             <View style={styles.boxUploadPhoto}>
-                <View style={styles.buttonUpload}>
+                <Pressable style={styles.buttonUpload} onPress={pickImage}>
                    <Image source={require("../../assets/icons/btnMaisV2.png")} style={styles.btnMais}/>
                    <Text style={{color: "white", fontFamily: "lemonada", fontSize: 10}}>Insira sua logo aqui</Text>
-                </View>
+                </Pressable>
             </View>
             <ScrollView style={{height: "60%"}}>
                 <View style={styles.formularioCadastroRest}>
@@ -155,6 +205,8 @@ function NovoCadastro() {
                                     <Text style={{fontFamily: "lemonada", fontSize: 12, color: "#445A14"}}>Escolha seu tempo de tolerância:</Text>
                                     <TextInput 
                                         keyboardType="numeric"
+                                        onChangeText={setTempoTolerancia}
+                                        value={tempoTolerancia}
                                         style={{width: 150, backgroundColor: "transparent", height: 50,borderWidth: 2,
                                         borderColor: "#445A14",
                                         borderRadius: 15,
@@ -162,7 +214,6 @@ function NovoCadastro() {
                                         fontSize: 20,
                                         color: "#92A14D",
                                         fontFamily: "lemonada",
-                                       
                                     }}
                                         placeholder="Min"
                                         placeholderTextColor={"#92A14D"}
@@ -179,7 +230,7 @@ function NovoCadastro() {
                     </View>
                 </View>
                 <View style={{alignItems: "flex-end", marginTop: 30, padding: 15}}>
-                    <Text style={{fontFamily: "lemonada", fontSize: 18, color: "#445A14"}} accessibilityRole="button">Próximo </Text>
+                    <Text style={{fontFamily: "lemonada", fontSize: 18, color: "#445A14"}} accessibilityRole="button" onPress={nextFormPage}>Próximo </Text>
                 </View>
             </ScrollView>
         </View>

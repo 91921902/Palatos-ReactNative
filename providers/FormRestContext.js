@@ -11,8 +11,11 @@ export const FormProvider = ({ children }) => {
         nome: "",
         descricao: "",
         preco: "",
-        foto: ""
+        foto: "",
+        nomeImagem: "",
+        file: ""
     }]);
+    const [categorias, setCategorias] = useState([])
 
     const menuTools = {
         setNewMenu: (menu) => {
@@ -34,14 +37,22 @@ export const FormProvider = ({ children }) => {
                 nome: "",
                 descricao: "",
                 preco: "",
-                foto: ""
+                foto: "",
+                nomeImagem: "",
+                file: ""
             }])
             lastId++
         }
+    };
+
+    const setNewCategorias = (categorias) => {
+
+        setCategorias(categorias)
+
     }
 
     return (
-        <FormRestContext.Provider value={{ menu, menuTools}}>
+        <FormRestContext.Provider value={{ menu, menuTools, categorias ,setNewCategorias}}>
         {children}
         </FormRestContext.Provider>
     );

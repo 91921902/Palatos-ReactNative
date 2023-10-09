@@ -11,7 +11,55 @@ import { useFormTools } from "../../providers/FormRestContext";
 import api from "../../providers/api";
 
 
-function NovoMenu() {
+async function createRestaurant(formData) {   
+
+
+    const novoRestaurante = await api.post("/restaurante/add", formData, 
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+    )
+
+    const token = novoRestaurante.data.token
+
+    //ATENÇÃO: TEM QUE SALVAR ESSE TOKEN NO ASYNCSTORAGE AQUI!!!
+    //salvar no asyncStorage o restaurente criado.
+
+    createMenu({token})
+}
+
+async function createMenu({token}) {
+
+    const data = []
+    
+    for (let i = 0; i < menu.length; i++) {
+
+        const menuItem = menu[i]
+        const formDataMenu = menuItem.file
+
+        formDataMenu.append('nome', menuItem.nome)
+        formDataMenu.append('descricao', menuItem.descricao)
+        formDataMenu.append('preco', menuItem.preco)
+        formDataMenu.append('nomeImagem', menuItem.nomeImagem)
+
+        data.push(formDataMenu)
+    }
+
+
+    await api.post("/restaurante/cardapio/add", data, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': token
+        }
+    })
+
+    //agora tem que redirecinar para a prox tela aqui
+
+}
+
+function NovoMenu(formData) {
 
     const [fontLoaded, setFontLoaded] = useState(false);
     const { menu } = useFormTools()
@@ -30,27 +78,6 @@ function NovoMenu() {
 
     if (!fontLoaded) {
         return null; 
-    }
-
-    function showMenu() {
-        console.log(menu)
-    }
-    
-    function createRestaurant() { 
-        const token = "colocar o token aqui"
-
-        const data = {
-            data: "dados do restaurante"
-        }
-
-        const novoRestaurante = api.post("/restaurante/add", data, //podemos criar no access token o id do restautante do usuario, para facilitar a busca dos dados
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'Authorization': token
-                }
-            }
-        )
     }
 
     return(
@@ -83,7 +110,7 @@ function NovoMenu() {
                 </View>
             </ScrollView>
             <View style={styles.boxFinalizarMenu}>
-                <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={showMenu}>
+                <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={() => createRestaurant(formData)}>
                     <Text style={styles.textFinalizarMenu}>Finalizar Menu</Text>
                 </Pressable>
             </View>
