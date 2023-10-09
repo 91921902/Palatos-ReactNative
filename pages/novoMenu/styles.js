@@ -6,7 +6,8 @@ export const styles = StyleSheet.create({
         backgroundColor: "#fff",
         alignItems: "center",
         width: "100%",
-        height: "100%"
+        height: "100%",
+        paddingTop: 90
     },
     boxQuantMesas: {
         width: "100%",
