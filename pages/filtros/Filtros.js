@@ -10,7 +10,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 
 
-function Filtros() {
+function Filtros({navigation}) {
   
     const [fontLoaded, setFontLoaded] = useState(false);
     const [listProducts, setListProducts] = useState([]);
@@ -103,7 +103,7 @@ function Filtros() {
 
     return(
         <View style={styles.containerFiltros}>
-           <BotaoVoltar />
+           <BotaoVoltar onPress={() => navigation.goBack()}/>
            <View style={styles.boxFilter}>
                 <View style={styles.boxFilterSearch}>
                     <View>

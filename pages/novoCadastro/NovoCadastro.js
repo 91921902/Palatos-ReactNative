@@ -15,7 +15,7 @@ import CheckBoxCategory from "../../components/CheckBoxCategory"
 
 
 
-function NovoCadastro() {
+function NovoCadastro({ navigation }) {
 
     const [fontLoaded, setFontLoaded] = useState(false);
     const [categoriasVisiveis, setCategoriasVisiveis] = useState(false)
@@ -87,6 +87,13 @@ function NovoCadastro() {
         //ir para a proxima pagina passando esse formData como parametro!
     }
 
+    function nextFormPageTeste() {
+        const formData = new FormData()
+        navigation.navigate('NovoMenu', {
+            formData: formData
+        })
+    }
+
     const pickImage = async () => {
         
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -115,11 +122,15 @@ function NovoCadastro() {
             alert("operação cancelada")
         }
     };
+
+    function returnPage() {
+        navigation.navigate('')
+    }
     
 
     return(
         <View style={styles.containerNovoCadastro}>
-            <BotaoVoltar />                     
+            <BotaoVoltar onPress={returnPage}/>                     
             <View style={styles.boxUploadPhoto}>
                 <Pressable style={styles.buttonUpload} onPress={pickImage}>
                    <Image source={require("../../assets/icons/btnMaisV2.png")} style={styles.btnMais}/>
@@ -230,7 +241,7 @@ function NovoCadastro() {
                     </View>
                 </View>
                 <View style={{alignItems: "flex-end", marginTop: 30, padding: 15}}>
-                    <Text style={{fontFamily: "lemonada", fontSize: 18, color: "#445A14"}} accessibilityRole="button" onPress={nextFormPage}>Próximo </Text>
+                    <Text style={{fontFamily: "lemonada", fontSize: 18, color: "#445A14"}} accessibilityRole="button" onPress={nextFormPageTeste}>Próximo </Text>
                 </View>
             </ScrollView>
         </View>

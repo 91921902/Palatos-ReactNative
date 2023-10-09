@@ -6,13 +6,29 @@ import PainelADM from './pages/painelADM/PainelADM.js';
 import Financeiro from './pages/financeiro/Financeiro.js';
 import Filtros from './pages/filtros/Filtros.js';
 import { FormProvider } from './providers/FormRestContext.js';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+const Stack = createStackNavigator();
+
+const MyNavigator = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName='NovoCadastro' screenOptions={{headerShown: false}}>
+        <Stack.Screen  name="NovoCadastro" component={NovoCadastro} />
+        <Stack.Screen name="NovoMenu" component={NovoMenu} />
+        <Stack.Screen name="PainelADM" component={PainelADM}/>
+        <Stack.Screen name="Financeiro" component={Financeiro}/>
+        <Stack.Screen name="Filtros" component={Filtros}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
 
 export default function App() {
   return (
     <FormProvider>
-        <View style={styles.container}>
-          <NovoCadastro />
-        </View>
+      <MyNavigator />
     </FormProvider>
   );
 }
@@ -20,7 +36,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },

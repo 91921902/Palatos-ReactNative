@@ -13,6 +13,7 @@ import api from "../../providers/api";
 
 async function createRestaurant(formData) {   
 
+    
 
     const novoRestaurante = await api.post("/restaurante/add", formData, 
         {
@@ -59,9 +60,10 @@ async function createMenu({token}) {
 
 }
 
-function NovoMenu(formData) {
+function NovoMenu({navigation, route}) {
 
     const [fontLoaded, setFontLoaded] = useState(false);
+    const [formRestaurante, setFormRestaurante] = useState("")
     const { menu } = useFormTools()
 
     useEffect(() => {
@@ -74,6 +76,9 @@ function NovoMenu(formData) {
         }
 
         loadFonts();
+
+        const {formData} = route.params;
+        setFormRestaurante(formData)
     }, []);
 
     if (!fontLoaded) {
@@ -82,7 +87,7 @@ function NovoMenu(formData) {
 
     return(
         <View style={styles.containerNovoMenu}>
-            <BotaoVoltar />
+            <BotaoVoltar onPress={() => navigation.goBack()}/>
             <MiniLogo />
             <View style={styles.boxQuantMesas}>
                 <Text style={styles.textQuantMesas} accessibility={false} aria-hidden>Quantidade de mesas do seu Restaurante:</Text>
@@ -110,7 +115,10 @@ function NovoMenu(formData) {
                 </View>
             </ScrollView>
             <View style={styles.boxFinalizarMenu}>
-                <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={() => createRestaurant(formData)}>
+                {/* <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={() => createRestaurant(formRestaurante)}>
+                    <Text style={styles.textFinalizarMenu}>Finalizar Menu</Text>
+                </Pressable> */}
+                <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={() => navigation.navigate('PainelADM')}>
                     <Text style={styles.textFinalizarMenu}>Finalizar Menu</Text>
                 </Pressable>
             </View>

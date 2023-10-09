@@ -1,11 +1,11 @@
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, Pressable } from "react-native";
 
-export default function BotaoVoltar() {
+export default function BotaoVoltar({onPress}) {
 
     return(
-        <View style={styles.botaoVoltar}>
+        <Pressable style={styles.botaoVoltar} onPress={onPress}>
             <Image source={require("../assets/icons/voltar.png")} style={{resizeMode: "contain", width: 50, height: 50}}/>
-        </View>
+        </Pressable>
     );
 }
 
