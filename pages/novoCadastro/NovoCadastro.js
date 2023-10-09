@@ -1,11 +1,10 @@
 import React from "react"
 import { useState, useEffect } from "react"
-import { Image, View, Text, ScrollView, TextInput, Animated, Easing, Pressable, ToastAndroid, Platform } from "react-native"
+import { Image, View, Text, ScrollView, TextInput, Animated, Easing, Pressable, Platform } from "react-native"
 import { styles } from "./styles"
 import BotaoVoltar from "../../components/BotaoVoltar.js"
 import { useFormTools } from "../../providers/FormRestContext"
 import * as ImagePicker from 'expo-image-picker';
-
 
 
 /* - COPIAR ISSO PARA USAR A FONT PERSONALIZADA - */
@@ -31,7 +30,7 @@ function NovoCadastro() {
     const [telefone, setTelefone] = useState("")
     const [celular, setcelular] = useState("")
     const [descricao, setDescricao] = useState("")
-    const [foto, setFoto] = useState("") //falta carregar a foto quando selecionada
+    const [foto, setFoto] = useState("") //falta carregar a foto quando selecion.ada
     const [tempoTolerancia, setTempoTolerancia] = useState("")
     const { categorias } = useFormTools()
 
@@ -112,7 +111,8 @@ function NovoCadastro() {
             setFormData(formData)
 
         } else {
-            ToastAndroid.show("Operação Cancelada", 600)
+            // ToastAndroid.show("Operação Cancelada", 600)
+            alert("operação cancelada")
         }
     };
     
@@ -129,7 +129,7 @@ function NovoCadastro() {
             <ScrollView style={{height: "60%"}}>
                 <View style={styles.formularioCadastroRest}>
                     <View style={styles.boxInpt}>
-                        <Text style={styles.formText}>Nome do Restaurente:</Text>
+                        <Text style={styles.formText}>Nome do Restaurante:</Text>
                         <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Nome:"/>
                     </View>
                     <View style={styles.boxInpt}>

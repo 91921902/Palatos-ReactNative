@@ -3,7 +3,7 @@ import * as Font from 'expo-font';
 import fontKavoon from "../assets/fonts/kavoon.ttf"
 import fontLemonada from "../assets/fonts/lemonada.ttf"
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { View, Text, TextInput, StyleSheet, Pressable, Image, ToastAndroid, Platform } from "react-native";
+import { View, Text, TextInput, StyleSheet, Pressable, Image, Platform } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
 import { useFormTools } from "../providers/FormRestContext";
 
@@ -111,7 +111,8 @@ function ItemMenu({index}) {
             setNomeImagem(fileName)
 
         } else {
-            ToastAndroid.show("Operação Cancelada", 1000)
+            //ToastAndroid.show("Operação Cancelada", 1000)
+            alert("operação cancelada")
         }
     };
 
