@@ -121,21 +121,30 @@ function ItemMenu({index}) {
         <View style={styles.item}>
             <View style={styles.boxPhoto}>
                 <Pressable activeOpacity={1} style={styles.btnAddPhoto} accessibilityRole='button' accessibilityLabel="Adicionar foto" onPress={pickImage}>
-                    <View style={{position: "absolute", top: 2, right: 2}}>
-                        <Icon 
-                            name="plus"
-                            size={25}
-                            color={"#445A14"}
-                            style={{alignItems: "flex-end"}}
-                        />
-                    </View>
-                    <View style={{width: "100%", height: "100%", alignItems: "center", justifyContent: "center"}}>
-                        <Icon 
-                            name="cutlery"
-                            size={30}
-                            color={"#445A14"}
-                        />
-                        </View>
+                    {
+                        !foto ? (
+                        <>
+                            <View style={{position: "absolute", top: 2, right: 2}}>
+                                <Icon 
+                                    name="plus"
+                                    size={25}
+                                    color={"#445A14"}
+                                    style={{alignItems: "flex-end"}}
+                                />
+                            </View>
+                            <View style={{width: "100%", height: "100%", alignItems: "center", justifyContent: "center"}}>
+                                <Icon 
+                                    name="cutlery"
+                                    size={30}
+                                    color={"#445A14"}
+                                />
+                            </View>
+                        </>
+                        ) : (
+                            <Image source={{uri: foto}} style={{height: '100%', width: '100%', resizeMode: "cover"}} />
+                        )
+                    }
+                    
                 </Pressable>
             </View>
             <View style={styles.boxDescItem}>
