@@ -28,10 +28,10 @@ async function createRestaurant(formData) {
     //ATENÇÃO: TEM QUE SALVAR ESSE TOKEN NO ASYNCSTORAGE AQUI!!!
     //salvar no asyncStorage o restaurente criado.
 
-    createMenu({token})
+    createMenu(token)
 }
 
-async function createMenu({token}) {
+async function createMenu(token) {
 
     const data = []
     

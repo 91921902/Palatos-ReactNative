@@ -30,7 +30,7 @@ function NovoCadastro({ navigation }) {
     const [telefone, setTelefone] = useState("")
     const [celular, setcelular] = useState("")
     const [descricao, setDescricao] = useState("")
-    const [foto, setFoto] = useState("") //falta carregar a foto quando selecion.ada
+    const [foto, setFoto] = useState("")
     const [tempoTolerancia, setTempoTolerancia] = useState("")
     const { categorias } = useFormTools()
 
@@ -81,10 +81,12 @@ function NovoCadastro({ navigation }) {
         formData.append('categorias', categorias)
         formData.append('reservasAtivas', btnReservation)
         formData.append('tempoTolerancia', tempoTolerancia)
-        //avaliacao comida pendente
+        
         setFormData(formData)
 
-        //ir para a proxima pagina passando esse formData como parametro!
+        navigation.navigate('NovoMenu', {
+            formData: formData
+        })
     }
 
     function nextFormPageTeste() {
@@ -146,23 +148,25 @@ function NovoCadastro({ navigation }) {
                 <View style={styles.formularioCadastroRest}>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Nome do Restaurante:</Text>
-                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Nome:"/>
+                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Nome:" value={nome} onChangeText={setNome}/>
                     </View>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Endereço:</Text>
-                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Endereço:"/>
+                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Endereço:" value={endereco} onChangeText={setEndereco}/>
                     </View>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Telefone (opcional):</Text>
-                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Telefone (opcional):"/>
+                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Telefone (opcional):" value={telefone} onChangeText={setTelefone}/>
                     </View>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Celular:</Text>
-                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Celular:"/>
+                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Celular:" value={celular} onChangeText={setcelular}/>
                     </View>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Descrição do Restaurante:</Text>
                         <TextInput  
+                            value={descricao}
+                            onChangeText={setDescricao}
                             style={[styles.inptFormRest, {
                                 padding: 10, 
                                 height: 200, 
