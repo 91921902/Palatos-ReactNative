@@ -53,23 +53,23 @@ function TelaComanda() {
                 },
                 {
                     id: 4,
-                    nomePrato: "Frango à Parmegiana",
-                    isReserva: false,
+                    nomePrato: "Feijoada",
+                    isReserva: true,
                     chegou: true,
                     tempoAtiva: 3600,
-                    observacoes: null
+                    observacoes: "Sem couve e laranja"
                 },
                 {
                     id: 5,
-                    nomePrato: "Frango à Parmegiana",
+                    nomePrato: "Tutu à Mineira",
                     isReserva: false,
                     chegou: true,
                     tempoAtiva: 77,
-                    observacoes: null
+                    observacoes: "Sem couve, por favor"
                 },
                 {
                     id: 6,
-                    nomePrato: "Frango à Parmegiana",
+                    nomePrato: "Pavê",
                     isReserva: true,
                     chegou: false,
                     tempoAtiva: 60,
