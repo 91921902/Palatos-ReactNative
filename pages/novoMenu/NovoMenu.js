@@ -109,7 +109,7 @@ function NovoMenu({navigation, route}) {
                     {
                         menu.map((item, index) => {
                             return(
-                               <ItemMenu key={item.id} item={item} index={index}/> 
+                               <ItemMenu key={item.id} item={item} id={item.id} index={index}/> 
                             );
                         })
                     }

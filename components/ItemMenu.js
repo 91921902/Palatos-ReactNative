@@ -8,7 +8,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { useFormTools } from "../providers/FormRestContext";
 
 
-function ItemMenu({index}) {
+function ItemMenu({id, index}) {
 
     const [fontLoaded, setFontLoaded] = useState(false);
     const [nome, setNome] = useState("")
@@ -17,12 +17,22 @@ function ItemMenu({index}) {
     const [foto, setFoto] = useState("")
     const [file, setFile] = useState("")
     const [nomeImagem, setNomeImagem] = useState("")
+    
 
     const { menu, menuTools } = useFormTools()
 
     useEffect(() => { 
 
-        const itemMenu = menu[index]
+        let itemMenu
+
+        for (let i = 0 ; i < menu.length ; i++) {
+
+            if (menu[i].id == id) {
+                itemMenu = menu[i]
+                break
+            }
+
+        }
        
         const itemNow = {
             id: itemMenu.id,
@@ -43,7 +53,7 @@ function ItemMenu({index}) {
                 foto: foto,
                 nomeImagem: nomeImagem,
                 file: file
-            }, index)
+            })
         }
 
         function compareItens(item1, item2) {
@@ -80,13 +90,24 @@ function ItemMenu({index}) {
 
         loadFonts();
 
-        
+        // if (alguma coisa) {
+    
+        //     const item = menu.filter(item => item.id == id)
+    
+        //     setNome(item.nome)
+        //     setDesc(item.descricao)
+        //     setPrice(item.preco)
+        //     setFoto(item.foto)
+        //     setFile(item.file)
+        //     setNomeImagem(item.nomeImagem)
+        // }
+
     }, []);
 
     if (!fontLoaded) {
         return null; 
     }
-
+    
     const pickImage = async () => {
         
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -193,12 +214,12 @@ function ItemMenu({index}) {
                 </View>
 
                 {
-                   (menu.length - 1) === index ? (
+                    (menu.length - 1) == index ? (
                     <Pressable style={styles.btnAddItem} accessibilityRole='button' accessibilityLabel="Adicionar item ao menu" onPress={menuTools.createItem}>
                         <Image source={require("../assets/icons/adicionar.png")} style={styles.imgAddItem}/>
                     </Pressable>
                    ) : (
-                    <Pressable style={styles.btnRemoveItem} accessibilityRole='button' accessibilityLabel="Adicionar item ao menu" onPress={() => menuTools.deleteItem(index)}>
+                    <Pressable style={styles.btnRemoveItem} accessibilityRole='button' accessibilityLabel="Adicionar item ao menu" onPress={() => {menuTools.deleteItem(id); console.log(menu)}}>
                         <Image source={require("../assets/icons/BotaoRemover.png")} style={styles.imgRemoveItem}/>
                     </Pressable>
                    )

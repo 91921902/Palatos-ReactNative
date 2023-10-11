@@ -23,14 +23,24 @@ export const FormProvider = ({ children }) => {
         setNewMenu: (menu) => {
             setMenu(menu)
         },
-        setItem: (item, index) => {
+        setItem: (item) => {
             const newMenu = [...menu];
-            newMenu[index] = item;
+
+            for (let i = 0 ; i < menu.length ; i++) {
+
+                if (menu[i].id == item.id) {
+                    menu[i] = item
+                    break
+                }
+            }
+
             setMenu(newMenu);
         },
-        deleteItem: (index) => {
-            const newMenu = [...menu];
-            newMenu.splice(index, 1);
+        deleteItem: (id) => {
+            const oldMenu = [...menu];
+
+            const newMenu = oldMenu.filter(item => item.id !== id);
+
             setMenu(newMenu);
         },
         createItem: () => {
