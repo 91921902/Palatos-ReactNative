@@ -7,9 +7,6 @@ import * as Font from 'expo-font';
 
 
 
-
-
-
 function BuscaRestaurante() {
 
     const [fontLoaded, setFontLoaded] = useState(false);
