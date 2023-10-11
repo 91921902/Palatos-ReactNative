@@ -26,13 +26,15 @@ function TelaComanda() {
     useEffect(() => {
         async function carregaComandas() {
             //Puxar do backend
+            let tempoAtual = new Date().getTime()/1000
             let listaComandas = [
                 {
                     id: 1,
                     isReserva: false,
                     chegou: false,
-                    tempoAtiva: 60,
+                    tempoAtiva: (tempoAtual-60),
                     nomePrato: "Bife a cavalo",
+                    numeroMesa: 1,
                     observacoes: "Bem paçado!"
                 },
                 {
@@ -40,7 +42,8 @@ function TelaComanda() {
                     nomePrato: "Frango à Parmegiana",
                     isReserva: false,
                     chegou: false,
-                    tempoAtiva: 60,
+                    tempoAtiva: (tempoAtual-60),
+                    numeroMesa: 2,
                     observacoes: "Sem espaguete"
                 },
                 {
@@ -48,7 +51,8 @@ function TelaComanda() {
                     nomePrato: "Frango à Parmegiana",
                     isReserva: true,
                     chegou: false,
-                    tempoAtiva: 3800,
+                    tempoAtiva: (tempoAtual-3800),
+                    numeroMesa: 4,
                     observacoes: null
                 },
                 {
@@ -56,7 +60,8 @@ function TelaComanda() {
                     nomePrato: "Feijoada",
                     isReserva: true,
                     chegou: true,
-                    tempoAtiva: 3600,
+                    tempoAtiva: (tempoAtual-3600),
+                    numeroMesa: 5,
                     observacoes: "Sem couve e laranja"
                 },
                 {
@@ -64,7 +69,8 @@ function TelaComanda() {
                     nomePrato: "Tutu à Mineira",
                     isReserva: false,
                     chegou: true,
-                    tempoAtiva: 77,
+                    tempoAtiva: (tempoAtual-77),
+                    numeroMesa: 3,
                     observacoes: "Sem couve, por favor"
                 },
                 {
@@ -72,7 +78,8 @@ function TelaComanda() {
                     nomePrato: "Pavê",
                     isReserva: true,
                     chegou: false,
-                    tempoAtiva: 60,
+                    tempoAtiva: (tempoAtual-60),
+                    numeroMesa: 6,
                     observacoes: null
                 },
             ]
