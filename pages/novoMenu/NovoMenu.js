@@ -120,7 +120,7 @@ function NovoMenu({navigation, route}) {
                 {/* <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={() => createRestaurant(formRestaurante)}>
                     <Text style={styles.textFinalizarMenu}>Finalizar Menu</Text>
                 </Pressable> */}
-                <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={() => navigation.navigate('PainelADM')}>
+                <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={() => console.log(menu)}>
                     <Text style={styles.textFinalizarMenu}>Finalizar Menu</Text>
                 </Pressable>
             </View>

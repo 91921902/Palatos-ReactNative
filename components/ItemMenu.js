@@ -45,6 +45,7 @@ function ItemMenu({id, index}) {
         }
 
         function setMenu() {
+            
             menuTools.setItem({
                 id: itemMenu.id,
                 nome: nome,
@@ -57,10 +58,12 @@ function ItemMenu({id, index}) {
         }
 
         function compareItens(item1, item2) {
+           
             const keys1 = Object.keys(item1);
             const keys2 = Object.keys(item2);
           
             if (keys1.length !== keys2.length) {
+                
               return false;
             }
           
@@ -76,7 +79,8 @@ function ItemMenu({id, index}) {
           if (!compareItens(itemMenu, itemNow)) {
             setMenu()
           }
-        
+          
+          
     }, [nome, desc, price, foto, menu])
 
     useEffect(() => {
@@ -90,24 +94,24 @@ function ItemMenu({id, index}) {
 
         loadFonts();
 
-        // if (alguma coisa) {
+        if (menu.length > 1) {
     
-        //     const item = menu.filter(item => item.id == id)
+            const item = menu.filter(item => item.id == id)
     
-        //     setNome(item.nome)
-        //     setDesc(item.descricao)
-        //     setPrice(item.preco)
-        //     setFoto(item.foto)
-        //     setFile(item.file)
-        //     setNomeImagem(item.nomeImagem)
-        // }
-
+            setNome(item.nome)
+            setDesc(item.descricao)
+            setPrice(item.preco)
+            setFoto(item.foto)
+            setFile(item.file)
+            setNomeImagem(item.nomeImagem)
+        }
+        
     }, []);
 
     if (!fontLoaded) {
         return null; 
     }
-    
+
     const pickImage = async () => {
         
         let result = await ImagePicker.launchImageLibraryAsync({

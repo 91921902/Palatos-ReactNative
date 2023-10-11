@@ -29,7 +29,7 @@ export const FormProvider = ({ children }) => {
             for (let i = 0 ; i < menu.length ; i++) {
 
                 if (menu[i].id == item.id) {
-                    menu[i] = item
+                    newMenu[i] = item
                     break
                 }
             }
