@@ -37,7 +37,7 @@ function Comanda({ obj }) {
             </Text>
             <Text>Mesa número {obj.numeroMesa}</Text>
             {tempoAtiva != "" && (
-                <Text>Comanda ativa à {tempoAtiva}</Text>
+                <Text>Comanda ativa há {tempoAtiva}</Text>
             )}
         </View>
     )
