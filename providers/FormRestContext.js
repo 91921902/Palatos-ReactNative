@@ -1,4 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, useContext, useState } from 'react';
+import api from "./api"
 
 const FormRestContext = createContext();
 
@@ -51,8 +53,51 @@ export const FormProvider = ({ children }) => {
 
     }
 
+    const userTools = {
+
+        authUser: async () => {
+
+            const token = await AsyncStorage.getItem("token")
+
+            const result = await api.get("users/auth/", { //essa rota ainda tem que ser criada
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
+            })
+
+            const isAuth = result.data.status == "success" ? true : false 
+
+            return isAuth
+        },
+
+        signIn: async (username, password) => {
+
+            const data = {
+                username,
+                password
+            }
+
+            try {
+
+                const result = await api.post("/login", data)
+                return result.data
+
+            } catch (err) {
+
+                return null
+                
+            }
+        },
+
+        signOut: async () => {
+          
+           await AsyncStorage.removeItem("token") //se der tempo fazer um blackList
+
+        }
+    }
+
     return (
-        <FormRestContext.Provider value={{ menu, menuTools, categorias ,setNewCategorias}}>
+        <FormRestContext.Provider value={{ menu, menuTools, categorias ,setNewCategorias, userTools}}>
         {children}
         </FormRestContext.Provider>
     );

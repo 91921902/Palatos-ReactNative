@@ -5,6 +5,7 @@ import { styles } from "./styles"
 import BotaoVoltar from "../../components/BotaoVoltar.js"
 import { useFormTools } from "../../providers/FormRestContext"
 import * as ImagePicker from 'expo-image-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 /* - COPIAR ISSO PARA USAR A FONT PERSONALIZADA - */
@@ -28,11 +29,12 @@ function NovoCadastro({ navigation }) {
     const [nome, setNome] = useState("")
     const [endereco, setEndereco] = useState("")
     const [telefone, setTelefone] = useState("")
-    const [celular, setcelular] = useState("")
+    const [celular, setCelular] = useState("")
     const [descricao, setDescricao] = useState("")
     const [foto, setFoto] = useState("")
     const [tempoTolerancia, setTempoTolerancia] = useState("")
-    const { categorias } = useFormTools()
+    const { categorias, setNewCategorias } = useFormTools()
+    const { userTools } = useFormTools()
 
     //----------------------------------------------------------------
 
@@ -61,6 +63,27 @@ function NovoCadastro({ navigation }) {
 
         loadFonts();
 
+        async function searchData() {
+            const data = await AsyncStorage.getItem("novoCadastro")
+
+            if (data) {
+
+                const dataParsed = JSON.parse(data)
+
+                setNome(dataParsed.nome)
+                setEndereco(dataParsed.endereco)
+                setTelefone(dataParsed.telefone)
+                setCelular(dataParsed.celular)
+                setDescricao(dataParsed.descricao)
+                setNewCategorias(dataParsed.categorias)
+                setBtnReservation(dataParsed.reservasAtivas)
+                setTempoTolerancia(dataParsed.tempoTolerancia)
+                setFoto(dataParsed.foto)
+            }
+        }
+
+        searchData()
+
     }, []);
 
     if (!fontLoaded) {
@@ -72,7 +95,14 @@ function NovoCadastro({ navigation }) {
 
     function nextFormPage() {
 
-        
+        const isAuth = userTools.authUser()
+
+        if (!isAuth) {
+            navigation.navigate('login', {
+                message: "Para utilizar todos os recursos você precisa estar logado"
+            })
+        }
+
         formData.append('nome', nome)
         formData.append('endereco', endereco)
         formData.append('telefone', telefone)
@@ -160,7 +190,7 @@ function NovoCadastro({ navigation }) {
                     </View>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Celular:</Text>
-                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Celular:" value={celular} onChangeText={setcelular}/>
+                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Celular:" value={celular} onChangeText={setCelular}/>
                     </View>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Descrição do Restaurante:</Text>

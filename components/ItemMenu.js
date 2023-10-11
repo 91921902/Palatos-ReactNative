@@ -79,6 +79,8 @@ function ItemMenu({index}) {
         }
 
         loadFonts();
+
+        
     }, []);
 
     if (!fontLoaded) {
