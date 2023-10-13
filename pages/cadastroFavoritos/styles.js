@@ -8,7 +8,8 @@ container:{
     //height:'100%',
     alignItems: 'center',
     justifyContent: 'center',
-    //paddingTop: 60,
+    paddingTop: 40,
+    gap:20,
  },
 
  scroll:{
@@ -27,8 +28,12 @@ container:{
  },
  nome:{
     fontFamily:'Kavoon',
-    fontSize:'24',
+    fontSize:22,
     color:'#445A14',
+ },
+
+ favoritosStar:{
+  width:'90%',
  },
 
  textoReserva:{
@@ -37,13 +42,58 @@ container:{
     color:'#445A14',
  },
 
+emailEtel:{
+   color: '#445A14',
+   fontFamily: 'Kavoon',
+   fontSize: 14,
+   fontWeight: 400,
+ },
+
+ emailTelTexto:{
+   width:'80%',
+   alignItems:'flex-start',
+   gap:10,
+ },
+
+ direcaoEmailTel:{
+   flexDirection:'row',
+   alignItems:'center',
+   gap:5,
+ },
+
+ resposta:{
+   color: '#445A14',
+   fontFamily: 'Lemonada',
+   fontSize: 14,
+   
+ },
+
  visualizarReserva:{
+    position:'relative',
     width: 243,
     height: 142,
     borderColor:'#445A14',
     borderWidth:2,
     borderRadius:10,
  },
+
+ favorito:{
+   fontFamily: 'Kavoon',
+   fontSize: 17,
+   color:'#445A14',
+ },
+
+ iconeReserva:{
+   width:45,
+   height:45,
+
+ },
+ viewReserva:{
+   position:'absolute',
+   bottom:15,
+   right:10,
+   
+ }
 
 
 

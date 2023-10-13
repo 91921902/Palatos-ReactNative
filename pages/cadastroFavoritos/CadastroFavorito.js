@@ -9,7 +9,7 @@ import BotaoVoltar from '../../components/BotaoVoltar';
 import BolaFavoritos from '../../components/BolaFavoritos';
 
 
-export default function MenuIndividual(){
+export default function CadastroFavoritos(){
     const [fontLoaded, setFontLoaded] = useState(false);
 
     useEffect(() => {
@@ -46,9 +46,17 @@ return(
     </View>
 
 
-    <View>
-        <Text style={styles.emailEsenha}>Email:</Text>
-        <Text style={styles.emailEsenha}>Senha:</Text>
+    <View style={styles.emailTelTexto}>
+                 <View style={styles.direcaoEmailTel}>
+                        <Text style={styles.emailEtel}>Email:</Text>
+                        <Text style={styles.resposta}>resposta ex...</Text>
+                    </View> 
+
+                <View style={styles.direcaoEmailTel}>
+                    <Text style={styles.emailEtel}>Tel:</Text>
+                    <Text style={styles.resposta}>resposta ex...</Text>
+            </View>
+
     </View>
 
 
@@ -56,23 +64,25 @@ return(
         <Text style={styles.favorito}>Favoritos</Text>
     </View>
 
-
-    <View>
+<ScrollView horizontal={true} style={styles.favoritosStar}>
         <BolaFavoritos />
-    </View>
+       
+   
+</ScrollView>
 
 <View style={styles.reservaView}> 
     <Text style={styles.textoReserva}>Minhas reservas:</Text>
 </View>
 
 <View style={styles.visualizarReserva}>
-    <Image
-    source={require('../assets/reserva (1) 1.png')}
-    />
+    <View style={styles.viewReserva}>
+     <Image
+         source={require('../../assets/reserva.png')}
+         style={styles.iconeReserva}
+        />
+    </View>
 </View>
  
-
-
 
 </View>
 </ScrollView>

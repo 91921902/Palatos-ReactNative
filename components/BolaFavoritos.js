@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     bolasView: {
         width: 50,
         height :100,
+        marginLeft:20,
     
     },
 
