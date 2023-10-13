@@ -59,12 +59,23 @@ export default function DescricaoReserva() {
             <Text style={styles.dataEhora}>Escolha o horário e data de chegada</Text>
           </View>
 
-        <View style={styles.dataView}>
-            <Text style={styles.dataTitulo}>Data</Text>
-        </View>
+          <View style={styles.dataEhorario}>
+              <View style={styles.dataView}>
+                  <Text style={styles.dataTitulo}>Data</Text>
+                  <TextInput style={styles.inptData}></TextInput>
+              </View>
 
-        <View style={styles.horarioView}>
-          <Text style={styles.horarioTitulo}>Horário:</Text>
+              <View style={styles.horarioView}>
+                  <Text style={styles.horarioTitulo}>Horário</Text>
+                  <TextInput style={styles.inptHora}></TextInput>
+                </View>
+          </View>
+
+
+        <View style={styles.viewBtnConfirmar}>
+          <Pressable style={styles.btnConfirmar}>
+            <Text style={styles.confirmar}>Confirmar</Text>
+          </Pressable>
         </View>
 
       </View>

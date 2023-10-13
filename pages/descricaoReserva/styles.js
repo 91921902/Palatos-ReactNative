@@ -76,5 +76,66 @@ export const styles = StyleSheet.create({
         color: '#445A14', 
         fontFamily: 'Lemonada',
         fontSize: 14,   
+    },
+    inptData:{
+        width: 121,
+        height: 47,
+    
+    },
+
+    dataEhorario:{
+        flexDirection:'row',
+        width:'90%',
+        paddingTop:10,
+
+    },
+    dataView:{
+      width:'50%',
+      height:'100%',
+      alignItems:'center',
+    },
+
+    horarioView:{
+      width:'50%',
+      height:'100%',
+      alignItems:'center',
+    },
+
+    inptData:{
+     width:121,
+     height:47,
+     borderWidth:2,
+     borderRadius:20,
+     borderColor:'#445A14',
+    },
+
+    inptHora:{
+        width:121,
+        height:47,
+        borderWidth:2,
+        borderRadius:20,
+        borderColor:'#445A14',
+    },
+    btnConfirmar:{
+        width:121,
+        height:47,
+        borderWidth:2,
+        borderRadius:10,
+        borderColor:'#445A14',   
+    },
+
+    confirmar:{
+        color: '#445A14',
+        textAlign: 'center',
+        fontFamily:'Kavoon',
+        fontSize: 14, 
+        paddingTop:10,
+    },
+
+    viewBtnConfirmar:{
+        flex:1,
+        width:'100%',
+        alignItems:'center',
+        justifyContent:'center'
     }
 });
