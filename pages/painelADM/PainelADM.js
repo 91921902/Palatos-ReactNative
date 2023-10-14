@@ -6,13 +6,15 @@ import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import MiniLogo from "../../components/MiniLogo";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import jwtDecode from "jwt-decode"
 
 import api from "../../providers/api"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-function PainelADM() {
+function PainelADM({navigation, route}) {
 
     const [fontLoaded, setFontLoaded] = useState(false);
-    const [fotoRest, setFotoRest] = useState("") //novo
+    const [fotoRest, setFotoRest] = useState("")
 
     useEffect(() => {
         async function loadFonts() {
@@ -26,13 +28,50 @@ function PainelADM() {
         loadFonts();
 
         async function getData() {
-            api.get("/").then(response => {
-                const restaurante = response.data //novo
 
+            const token = await AsyncStorage.getItem("token")
+            let idRestaurante
+            try {
+                //AQUI
+                const decoded = jwtDecode(token)
+                if (decoded) {
+                    idRestaurante = decoded.idRestaurante; 
 
+                } else {
+                    navigation.navigate("login", {message: "Erro de Autenticação"})
+                }
+
+            } catch (error) {
+
+                navigation.navigate("login", {message: "Erro de Autenticação"})
+
+            }
+
+            await api.get(`/restaurante/${idRestaurante}`).then(response => {
+                const restaurante = response.data 
+                return restaurante
             })
         }
 
+        const { restaurante } = route.params;
+
+        if (restaurante) {
+
+            AsyncStorage.setItem("restaurante", JSON.stringify(restaurante))
+
+            setFotoRest(restaurante.foto)
+
+        } else {
+            
+            const restauranteData = getData() 
+
+            if (restauranteData) {
+                AsyncStorage.setItem("restaurante", JSON.stringify(restauranteData))
+            }
+            
+            setFotoRest(restauranteData.foto)
+
+        }
 
     }, []);
 
@@ -52,7 +91,8 @@ function PainelADM() {
                     borderRadius: 5000,
                     
                 }}>
-                    <Image source={require("../../assets/imgPadrao.png")} style={styles.imgRest}/>
+                    {fotoRest && <Image source={fotoRest} style={styles.imgRest}/>}
+                    {!fotoRest && <Image source={require("../../assets/imgPadrao.png")} style={styles.imgRest}/>}
                 </View>
             </View>
             <View style={styles.boxAdm}>

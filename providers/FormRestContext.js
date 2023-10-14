@@ -69,7 +69,7 @@ export const FormProvider = ({ children }) => {
 
             const token = await AsyncStorage.getItem("token")
 
-            const result = await api.get("users/auth/", { //essa rota ainda tem que ser criada
+            const result = await api.get("users/auth/", { 
                 headers: {
                     "Authorization": "Bearer " + token
                 }

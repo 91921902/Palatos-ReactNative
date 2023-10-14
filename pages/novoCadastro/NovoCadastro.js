@@ -95,7 +95,8 @@ function NovoCadastro({ navigation }) {
 
     function nextFormPage() {
 
-        const isAuth = userTools.authUser()
+        //const isAuth = userTools.authUser()
+        const isAuth = true
 
         if (!isAuth) {
             navigation.navigate('login', {
@@ -108,7 +109,8 @@ function NovoCadastro({ navigation }) {
         formData.append('telefone', telefone)
         formData.append('celular',celular)
         formData.append('descricao', descricao)
-        formData.append('categorias', categorias)
+        //formData.append('categorias', categorias)
+        formData.append('categorias', "massas")
         formData.append('reservasAtivas', btnReservation)
         formData.append('tempoTolerancia', tempoTolerancia)
         
@@ -280,7 +282,7 @@ function NovoCadastro({ navigation }) {
                     </View>
                 </View>
                 <View style={{alignItems: "flex-end", marginTop: 30, padding: 15}}>
-                    <Text style={{fontFamily: "lemonada", fontSize: 18, color: "#445A14"}} accessibilityRole="button" onPress={nextFormPageTeste}>Próximo </Text>
+                    <Text style={{fontFamily: "lemonada", fontSize: 18, color: "#445A14"}} accessibilityRole="button" onPress={nextFormPage}>Próximo </Text>
                 </View>
             </ScrollView>
         </View>
