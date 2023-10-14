@@ -47,11 +47,18 @@ function PlanosEPacotes() {
     }, [])
 
 async function contratar() {
+    // try {
+    //     const resultado = await api.get(`/planos/contratar/${obj.id}`)
+    //     const json = resultado.data
+    // } catch(err) {
+    //     console.log(`Erro ao realizar contratação de plano: ${err}`)
+    // }
     try {
-        const resultado = await api.get(`/planos/contratar/${obj.id}`)
-        const json = resultado.data
+        const result = api.get("/restaurante")
+        console.log("Obtido resultado.")
+        console.log((await result).data)
     } catch(err) {
-        console.log(`Erro ao realizar contratação de plano: ${err}`)
+        console.log(`Erro ao acessar api: ${err}`)
     }
 }
 
