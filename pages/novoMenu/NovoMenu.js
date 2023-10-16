@@ -42,13 +42,20 @@ async function createRestaurant(formData, navigation, menu) {
 
 async function createMenu(token, navigation, restaurante, menu) {
 
-    const data = []
-    console.log(menu)
+   let formDataMenu
+   const pratosCriados = []
+   let isDeleted = false
+
+   function destroy() {
+
+        api.delete('/restaurante/cardapio/deletePratosCriados', pratosCriados)
+
+   }
+  
     for (let i = 0; i < menu.length; i++) {
 
         const menuItem = menu[i]
-        console.log(menuItem)
-        const formDataMenu = new FormData()
+        formDataMenu = new FormData()
 
         formDataMenu.append('nome', menuItem.nome)
         formDataMenu.append('descricao', menuItem.descricao)
@@ -56,29 +63,24 @@ async function createMenu(token, navigation, restaurante, menu) {
         formDataMenu.append('nomeImagem', menuItem.nomeImagem)
         formDataMenu.append('file', menuItem.foto)
 
-        console.log("aqui")
-        console.log(formDataMenu.has('nome'))
-        console.log(formDataMenu.has('descricao'))
-        console.log(formDataMenu.has('preco'))
-        console.log(formDataMenu.has('nomeImagem'))
-        console.log(formDataMenu.has('file'))
+        const pratoCriado = await api.post("/restaurante/cardapio/add", formDataMenu, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': token
+            }
+        })
 
-        data.push(formDataMenu)
+        if (pratoCriado.data.status != "success") {
+            destroy()
+            alert("ERRO: pratos deletados")
+            return
+        }
+
+        pratosCriados.push(pratoCriado.data.codigo)
+     
     }
 
-
-    console.log(data)
-
-    const newMEnu = await api.post("/restaurante/cardapio/add", data, {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-            'Authorization': token
-        }
-    })
-
-    //navigation.navigate("PainelADM", { restaurante })
-
-    console.log(newMEnu)
+    navigation.navigate("PainelADM", { restaurante, isDeleted })
 
 }
 
