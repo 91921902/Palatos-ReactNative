@@ -13,7 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
-async function createRestaurant(formData, navigation) {   
+async function createRestaurant(formData, navigation, menu) {   
 
     
 
@@ -29,41 +29,56 @@ async function createRestaurant(formData, navigation) {
         }
     )
 
+    console.log(novoRestaurante)
+
     token = novoRestaurante.data.token
 
     await AsyncStorage.setItem("token", token)
 
     const restauranteData = novoRestaurante.data
 
-    createMenu(token, navigation, restauranteData)
+    createMenu(token, navigation, restauranteData, menu)
 }
 
-async function createMenu(token, navigation, restaurante) {
+async function createMenu(token, navigation, restaurante, menu) {
 
     const data = []
-    
+    console.log(menu)
     for (let i = 0; i < menu.length; i++) {
 
         const menuItem = menu[i]
-        const formDataMenu = menuItem.file
+        console.log(menuItem)
+        const formDataMenu = new FormData()
 
         formDataMenu.append('nome', menuItem.nome)
         formDataMenu.append('descricao', menuItem.descricao)
         formDataMenu.append('preco', menuItem.preco)
         formDataMenu.append('nomeImagem', menuItem.nomeImagem)
+        formDataMenu.append('file', menuItem.foto)
+
+        console.log("aqui")
+        console.log(formDataMenu.has('nome'))
+        console.log(formDataMenu.has('descricao'))
+        console.log(formDataMenu.has('preco'))
+        console.log(formDataMenu.has('nomeImagem'))
+        console.log(formDataMenu.has('file'))
 
         data.push(formDataMenu)
     }
 
 
-    await api.post("/restaurante/cardapio/add", data, {
+    console.log(data)
+
+    const newMEnu = await api.post("/restaurante/cardapio/add", data, {
         headers: {
             'Content-Type': 'multipart/form-data',
             'Authorization': token
         }
     })
 
-    navigation.navigate("PainelADM", { restaurante })
+    //navigation.navigate("PainelADM", { restaurante })
+
+    console.log(newMEnu)
 
 }
 
@@ -90,12 +105,6 @@ function NovoMenu({navigation, route}) {
 
     if (!fontLoaded) {
         return null; 
-    }
-
-    async function teste() {
-        alert("teste")
-        const rest = await api.get("/restaurante/")
-        console.log(rest)
     }
 
     return(
@@ -128,40 +137,16 @@ function NovoMenu({navigation, route}) {
                 </View>
             </ScrollView>
             <View style={styles.boxFinalizarMenu}>
-                {/* <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={() => createRestaurant(formRestaurante, navigation)}>
-                    <Text style={styles.textFinalizarMenu}>Finalizar Menu</Text>
-                </Pressable> */}
-                <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={() => teste()}>
+                <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={() => createRestaurant(formRestaurante, navigation, menu)}>
                     <Text style={styles.textFinalizarMenu}>Finalizar Menu</Text>
                 </Pressable>
+                {/* <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={() => teste()}>
+                    <Text style={styles.textFinalizarMenu}>Finalizar Menu</Text>
+                </Pressable> */}
             </View>
         </View>
     );
 
 }
-
-// function criar() {
-//     const obj = {
-//         idUser,
-//         nome,
-//         descricao,
-//         foto,
-//         plano,
-//         endereco,
-//         cep,
-//         rua,
-//         configRestaurante,
-//         contato,
-//         contato: {
-//             telefone,
-//             celular,
-//         },
-//         configRestaurante: {
-//             reservasAtivas,
-//             tempoTolerancia,
-//             avaliacaoComida
-//         }
-//     }
-// }
 
 export default NovoMenu

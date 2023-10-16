@@ -33,6 +33,8 @@ function NovoCadastro({ navigation }) {
     const [descricao, setDescricao] = useState("")
     const [foto, setFoto] = useState("")
     const [tempoTolerancia, setTempoTolerancia] = useState("")
+    const [cep, setCep] = useState("")
+    const [rua, setRua] = useState("")
     const { categorias, setNewCategorias } = useFormTools()
     const { userTools } = useFormTools()
 
@@ -79,6 +81,8 @@ function NovoCadastro({ navigation }) {
                 setBtnReservation(dataParsed.reservasAtivas)
                 setTempoTolerancia(dataParsed.tempoTolerancia)
                 setFoto(dataParsed.foto)
+                setCep(dataParsed.cep)
+                setRua(dataParsed.rua)
             }
         }
 
@@ -113,6 +117,8 @@ function NovoCadastro({ navigation }) {
         formData.append('categorias', "massas")
         formData.append('reservasAtivas', btnReservation)
         formData.append('tempoTolerancia', tempoTolerancia)
+        formData.append('cep', cep)
+        formData.append('rua', rua)
         
         setFormData(formData)
 
@@ -183,6 +189,14 @@ function NovoCadastro({ navigation }) {
                         <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Nome:" value={nome} onChangeText={setNome}/>
                     </View>
                     <View style={styles.boxInpt}>
+                        <Text style={styles.formText}>CEP (opcional):</Text>
+                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="CEP:" value={cep} onChangeText={setCep}/>
+                    </View>
+                    <View style={styles.boxInpt}>
+                        <Text style={styles.formText}>Rua (opcional):</Text>
+                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Rua:" value={rua} onChangeText={setRua}/>
+                    </View>
+                    <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Endereço:</Text>
                         <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Endereço:" value={endereco} onChangeText={setEndereco}/>
                     </View>
@@ -195,7 +209,7 @@ function NovoCadastro({ navigation }) {
                         <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Celular:" value={celular} onChangeText={setCelular}/>
                     </View>
                     <View style={styles.boxInpt}>
-                        <Text style={styles.formText}>Descrição do Restaurante:</Text>
+                        <Text style={styles.formText}>Descrição (opcional):</Text>
                         <TextInput  
                             value={descricao}
                             onChangeText={setDescricao}
@@ -215,7 +229,7 @@ function NovoCadastro({ navigation }) {
                         <Text style={{paddingLeft: 10, fontFamily: "lemonada", color: "#445A14", fontSize: 11}}>Max 186</Text>
                     </View>
                     <View style={styles.boxInpt}>
-                        <Text style={styles.formText}>Categoria:</Text>
+                        <Text style={styles.formText}>Categoria (Min. 1):</Text>
                         <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} onPressIn={() => setCategoriasVisiveis(true)} onChangeText={setFiltroCategoria} value={filtroCategoria} accessibilityLabel="Categoria:"/>
                        
                         {

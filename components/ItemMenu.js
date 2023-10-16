@@ -127,7 +127,7 @@ function ItemMenu({id, index}) {
             const fileName = result.assets[0].uri.substring(result.assets[0].uri.lastIndexOf("/") + 1, result.assets[0].uri.length)
             const fileType = fileName.split(".")[1]
             
-            const formData = new formData()
+            const formData = new FormData()
             formData.append('file', JSON.parse(JSON.stringify({
                 name: fileName,
                 uri: result.assets[0].uri,
