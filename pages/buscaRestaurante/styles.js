@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
         
       },
       restaurante:{ //primeira View
-        width: "70%",
+        width: "80%",
         height:"100%",
         backgroundColor:"transparent",
         borderWidth:2,
@@ -16,13 +16,16 @@ export const styles = StyleSheet.create({
         borderTopLeftRadius:20,
         borderBottomLeftRadius:20,
         borderRightColor:"transparent",
-
+        paddingLeft:10,
+        fontSize:18,
+        fontFamily:'lemonada',
       },
     
       componente:{//segunda View 
         height:'80%',
         width:'100%',
-        backgroundColor:"pink"
+        alignItems: 'center',
+        gap:30,
 
       },
       barraPesquisa:{
@@ -31,7 +34,7 @@ export const styles = StyleSheet.create({
          flexDirection:"row"
       },
       barraPesquisa2:{
-       width:"30%",
+       width:"20%",
        height:"100%",
        borderTopRightRadius:20,
        borderBottomRightRadius:20,
@@ -39,6 +42,9 @@ export const styles = StyleSheet.create({
        borderWidth:2,
        borderLeftColor:"transparent",
        marginLeft:-3,
+       justifyContent:"center",
+       alignItems: "flex-end",
+       paddingRight:20,
 
       },
       inicio:{

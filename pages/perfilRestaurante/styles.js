@@ -26,18 +26,51 @@ export const styles = StyleSheet.create({
         alignItems: "center"
 
     },
+    nomeRestaurante:{
+        color: '#445A14',
+        fontFamily: 'kavoon',
+        fontSize: 24,
+        fontStyle: 'normal',
+        fontWeight: 400,
+        lineHeight: 'normal',
+
+    },
     boxFavoritos:{
         width: "100%",
         height: "10%",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        flexDirection:'row',
+        gap:8,
 
     },
+    favoritos:{
+     width:40,
+     height:40,
+      
+    },
+    scrollView:{
+      width:'80%',
+      height:'80%',
+      backgroundColor:'#D1C0AB',
+      borderRadius:10,
+      padding:10,
+    },
+    textoScrollView:{
+        color: "#445A14",
+        textAlign: "justify",
+        fontFamily: "lemonada",
+        fontSize: 16,
+        fontStyle: "normal",
+        
+    },
+
     boxDescricao:{
         width: "100%",
         height: "40%",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        paddingTop:20,
 
     },
     boxMenu:{
@@ -58,7 +91,7 @@ export const styles = StyleSheet.create({
     textoMenu:{
         color: "#445A14",
         textAlign: "justify",
-        fontFamily: "Kavoon",
+        fontFamily: "kavoon",
         fontSize: 16,
         fontStyle: "normal",
         fontWeight: 400,

@@ -4,12 +4,13 @@ import {  View, Text, TextInput, TouchableOpacity, Image } from "react-native"
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import * as Font from 'expo-font';
-import BotaoVoltar from "../../components/BotaoVoltar";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import BotaoVoltar from "../../components/BotaoVoltar"
+import { ScrollView } from "react-native";
 
-function PerfilRestaurante() {
+function PerfilRestaurante({navigation}) {
 
     const [fontLoaded, setFontLoaded] = useState(false);
+    const[estrela, setEstrela]=useState(['estrela','estrela','estrela','estrelaVazia','estrelaVazia']);
  
 
     useEffect(() => {
@@ -43,15 +44,21 @@ function PerfilRestaurante() {
             </View>
 
             <View style={styles.boxNomeRest}>
-                <Text>Nome Restaurante</Text>
+                <Text style={styles.nomeRestaurante}>Nome Restaurante</Text>
             </View>
 
              <View style={styles.boxFavoritos}>
-                <Text>Estrelinhas</Text>
+                <Image source={require(`../../assets/icons/${estrela[0]}.png`)}style={styles.favoritos}/>
+                <Image source={require(`../../assets/icons/${estrela[1]}.png`)}style={styles.favoritos}/>
+                <Image source={require(`../../assets/icons/${estrela[2]}.png`)}style={styles.favoritos}/>
+                <Image source={require(`../../assets/icons/${estrela[3]}.png`)}style={styles.favoritos}/>
+                <Image source={require(`../../assets/icons/${estrela[4]}.png`)}style={styles.favoritos}/>
             </View>
 
             <View style={styles.boxDescricao}>
-                <Text>Descrição Restaurante</Text>
+                <ScrollView style={styles.scrollView}>
+                 <Text style={styles.textoScrollView}>oiopioioioioioijdxhjahudgjwqhdbj,hxcgjuvdcesvchgvcdhnesvchhgsvcdxsvjxvasxcgvhgvedvcxjcvdsghvxsvxjvsdvdhxcgjuvdcesvchgvcdhnesvchhgsvcdxsvjxvasxcgvhgvedvcxjcvdsghvxsvxjvsdvdhxcgjuvdcesvchgvcdhnesvchhgsvcdxsvjxvasxcgvhgvedvcxjcvdsghvxsvxjvsdvdhxcgjuvdcesvchgvcdhnesvchhgsvcdxsvjxvasxcgvhgvedvcxjcvdsghvxsvxjvsdvd</Text>
+                </ScrollView>
             </View>
 
             <View style={styles.boxMenu}>

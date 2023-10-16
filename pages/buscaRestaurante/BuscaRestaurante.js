@@ -1,9 +1,10 @@
 import React,{useState,useEffect} from "react";
 import { styles } from "./styles"
-import {  View, Text, TextInput, TouchableOpacity, Image } from "react-native"
+import {  View, Text, TextInput, TouchableOpacity, Image, ScrollView } from "react-native"
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import * as Font from 'expo-font';
+import ItemRestaurante from "../../components/ItemRestaurante";
 
 
 
@@ -34,8 +35,10 @@ function BuscaRestaurante() {
                 <TextInput
                     style={styles.restaurante}
                     placeholder="Restaurante"
+                    placeholderTextColor={'#445A14'}
                 /> 
                 <View style={styles.barraPesquisa2}>
+                    <Image source={require('../../assets/lupa.png')} style={{width:20,height:20,}}/>
 
                 </View>
             </View>
@@ -43,11 +46,17 @@ function BuscaRestaurante() {
             
 
             </View>
-
-            <View style={styles.componente}>
-                <Text>Aqui vai o componente</Text>
-            </View>
-
+            <ScrollView>
+                <View style={styles.componente}>
+                    <ItemRestaurante/>  
+                    <ItemRestaurante/> 
+                    <ItemRestaurante/> 
+                    <ItemRestaurante/>  
+                    <ItemRestaurante/> 
+                    <ItemRestaurante/> 
+                    <ItemRestaurante/> 
+                </View>
+            </ScrollView>
         </View> 
 );
   
