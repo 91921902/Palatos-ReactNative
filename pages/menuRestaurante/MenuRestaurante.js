@@ -41,6 +41,12 @@ function MenuRestaurante({navigation}) {
             <ScrollView>
                 <View style={styles.nomePrato}>
                  <NomePrato/>
+                 <NomePrato/>
+                 <NomePrato/>
+                 <NomePrato/>
+                 <NomePrato/>
+                 <NomePrato/>
+                 <NomePrato/>
                 </View>
 
             </ScrollView>

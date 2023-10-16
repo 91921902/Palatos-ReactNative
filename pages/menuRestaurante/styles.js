@@ -13,6 +13,8 @@ export const styles = StyleSheet.create({
         flexDirection:'row',
         alignItems:'flex-end',
         justifyContent: 'space-evenly',
+        marginBottom:10,
+
  
       },
       menu:{
@@ -29,6 +31,7 @@ export const styles = StyleSheet.create({
         height:"100%",
         alignItems:'center',
         gap:30,
+        
 
       }
         
