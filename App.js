@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 // import PagInicial from './pages/pagInicial/PagInicial';
 // import BuscaRestaurante from './pages/buscaRestaurante/BuscaRestaurante';
 // import PerfilRestaurante from './pages/perfilRestaurante/PerfilRestaurante';
-import MenuRestaurante from './pages/MenuRestaurante/MenuRestaurante';
+import MenuRestaurante from './pages/menuRestaurante/MenuRestaurante';
 
 export default function App() {
   return (
