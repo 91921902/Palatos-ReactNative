@@ -26,7 +26,7 @@ function PerfilRestaurante({navigation}) {
     }, []);
   
     if (!fontLoaded) {
-        return
+        return null
     }
 
 

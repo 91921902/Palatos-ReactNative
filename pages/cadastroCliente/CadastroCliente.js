@@ -9,22 +9,24 @@ import * as Font from 'expo-font';
 
   
 function CadastroCliente() {
-
-  const [fontLoaded, setFontLoaded] = useState(false);
  
+  const [fontLoaded, setFontLoaded] = useState(false);
 
-  useEffect(() => {
-      async function loadFonts() {
-      await Font.loadAsync({
-          'kavoon': fontKavoon,
-          'lemonada': fontLemonada,
-      });
-      setFontLoaded(true);
-      }
+    useEffect(() => {
+        async function loadFonts() {
+        await Font.loadAsync({
+            'kavoon': fontKavoon,
+            'lemonada': fontLemonada,
+        });
+        setFontLoaded(true);
+        }
 
-      loadFonts();
-  }, []);
+        loadFonts();
+    }, []);
 
+    if (!fontLoaded) {
+        return null; 
+    }
     return(
    
         <View style={styles.containerCadastroCliente}>
