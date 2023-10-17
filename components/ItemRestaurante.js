@@ -66,8 +66,8 @@ const styles = StyleSheet.create({
       fontFamily:'Inter',
       fontSize: 20,
       fontStyle: 'normal',
-      fontWeight: 400,
-      lineHeight: 'normal',
+     
+
     },
     fotoRestaurante:{
       width:'100%',
@@ -80,8 +80,8 @@ const styles = StyleSheet.create({
         fontFamily:'kavoon',
         fontSize: 20,
         fontStyle: 'normal',
-        fontWeight: 400,
-        lineHeight: 'normal',
+       
+  
 
 
     },
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontStyle:'normal',
         fontWight: 400,
-        lineHeight: 'normal',
+  
 
     },
 })
