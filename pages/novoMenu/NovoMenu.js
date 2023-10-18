@@ -53,13 +53,12 @@ async function createMenu(token, navigation, restaurante, menu) {
     for (let i = 0; i < menu.length; i++) {
 
         const menuItem = menu[i]
-        formDataMenu = new FormData()
-
+        formDataMenu = menuItem.file
+     
         formDataMenu.append('nome', menuItem.nome)
         formDataMenu.append('descricao', menuItem.descricao)
         formDataMenu.append('preco', menuItem.preco)
         formDataMenu.append('nomeImagem', menuItem.nomeImagem)
-        formDataMenu.append('file', menuItem.foto)
 
         const pratoCriado = await api.post("/restaurante/cardapio/add", formDataMenu, {
             headers: {

@@ -81,7 +81,7 @@ function ItemMenu({id, index}) {
           }
           
           
-    }, [nome, desc, price, foto, menu])
+    }, [nome, desc, price, foto, file, menu])
 
     useEffect(() => {
         async function loadFonts() {
