@@ -4,6 +4,7 @@ import Mesas from "./pages/mesas/Mesas.js"
 import EditarMesas from './pages/editarMesa/EditarMesa.js';
 import TelaComanda from "./pages/TelaComanda/TelaComanda.js"
 import PlanosEPacotes from './pages/planosEPacotes/PlanosEPacotes.js';
+import TelaReserva from './pages/telaReserva/TelaReserva.js';
 
 export default function App() {
   return (
@@ -11,7 +12,8 @@ export default function App() {
       {/* <PagInicial /> */}
       {/* <EditarMesas /> */}
       {/* <TelaComanda /> */}
-      <PlanosEPacotes />
+      {/* <PlanosEPacotes /> */}
+      <TelaReserva />
     </View>
   );
 }
