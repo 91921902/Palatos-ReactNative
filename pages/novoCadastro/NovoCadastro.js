@@ -171,7 +171,7 @@ function NovoCadastro({ navigation }) {
         <View style={styles.containerNovoCadastro}>
             <BotaoVoltar onPress={returnPage}/>                     
             <View style={styles.boxUploadPhoto}>
-                <Pressable style={styles.buttonUpload} onPress={pickImage}>
+                <Pressable style={[styles.buttonUpload, {overflow: !foto ? "" : "hidden"}]} onPress={pickImage}>
                     {!foto ? (
                         <>
                             <Image source={require("../../assets/icons/btnMaisV2.png")} style={styles.btnMais}/>

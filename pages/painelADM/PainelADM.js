@@ -38,12 +38,12 @@ function PainelADM({navigation, route}) {
                     idRestaurante = decoded.idRestaurante; 
 
                 } else {
-                    navigation.navigate("login", {message: "Erro de Autenticação"})
+                    navigation.navigate("PainelADM", {message: "Erro de Autenticação"})
                 }
 
             } catch (error) {
 
-                navigation.navigate("login", {message: "Erro de Autenticação"})
+                navigation.navigate("PainelADM", {message: "Erro de Autenticação"})
 
             }
 
@@ -53,16 +53,16 @@ function PainelADM({navigation, route}) {
             })
         }
 
-        const { restaurante } = route.params;
+       
+        if (route.params) {
 
-        if (restaurante) {
-
+            const { restaurante } = route.params;
             AsyncStorage.setItem("restaurante", JSON.stringify(restaurante))
-
             setFotoRest(restaurante.foto)
 
-        } else {
             
+        } else {
+
             const restauranteData = getData() 
 
             if (restauranteData) {
