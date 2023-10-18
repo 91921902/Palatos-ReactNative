@@ -19,7 +19,7 @@ async function createRestaurant(formData, navigation, menu) {
 
     //let token = await AsyncStorage.getItem("token")
     let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoxMCwiaWF0IjoxNjk3MzE5ODA2LCJleHAiOjIzMDIxMTk4MDZ9.qtaulig33bBqC3wGjBvAwKFJjCaRRJXffZynzvN72As"
-    console.log('aqui: ' + JSON.stringify(formData))
+   
     const novoRestaurante = await api.post("/restaurante/add", formData, 
         {
             headers: {
@@ -28,8 +28,6 @@ async function createRestaurant(formData, navigation, menu) {
             }
         }
     )
-
-    console.log(novoRestaurante)
 
     token = novoRestaurante.data.token
 
@@ -69,6 +67,8 @@ async function createMenu(token, navigation, restaurante, menu) {
                 'Authorization': token
             }
         })
+
+        console.log(pratoCriado)
 
         if (pratoCriado.data.status != "success") {
             destroy()
