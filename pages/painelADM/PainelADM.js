@@ -61,8 +61,8 @@ function PainelADM({navigation, route}) {
 
             if (restaurante) {
                 
-                AsyncStorage.setItem("restaurante", JSON.stringify(restaurante))
-                setFotoRest(restaurante.foto)
+                AsyncStorage.setItem("restaurante", JSON.stringify(restaurante.resultRestaurant))
+                setFotoRest(restaurante.resultRestaurant.foto)
 
             } else {
                 
@@ -90,7 +90,6 @@ function PainelADM({navigation, route}) {
                 <View style={{
                     width: 200,
                     height: 200,
-                    borderRadius: 5000,
                 }}>
                     {fotoRest && <Image source={{uri: fotoRest}} style={styles.imgRest}/>}
                     {!fotoRest && <Image source={require("../../assets/imgPadrao.png")} style={styles.imgRest}/>}
