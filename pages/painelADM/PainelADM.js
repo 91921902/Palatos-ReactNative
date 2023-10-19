@@ -48,12 +48,13 @@ function PainelADM({navigation, route}) {
             }
             
             await api.get(`/restaurante/${idRestaurante}`).then(response => {
-                const restaurante = response.data 
-                return restaurante
+                const restauranteData = response.data
+                const restaurante = restauranteData.result
+                AsyncStorage.setItem("restaurante", JSON.stringify(restaurante))
+                setFotoRest(restaurante.foto)
             })
         }
 
-       
         if (route.params) {
             
             const { restaurante } = route.params;
@@ -62,26 +63,16 @@ function PainelADM({navigation, route}) {
                 
                 AsyncStorage.setItem("restaurante", JSON.stringify(restaurante))
                 setFotoRest(restaurante.foto)
+
             } else {
-            
-                const restauranteData = getData() 
                 
-                if (restauranteData) {
-                    AsyncStorage.setItem("restaurante", JSON.stringify(restauranteData))
-                }
+                getData()
                 
-                setFotoRest(restauranteData.foto)
             }
             
         } else {
 
-            const restauranteData = getData() 
-
-            if (restauranteData) {
-                AsyncStorage.setItem("restaurante", JSON.stringify(restauranteData))
-            }
-            
-            setFotoRest(restauranteData.foto)
+            getData()
 
         }
 
@@ -100,9 +91,8 @@ function PainelADM({navigation, route}) {
                     width: 200,
                     height: 200,
                     borderRadius: 5000,
-                    
                 }}>
-                    {fotoRest && <Image source={fotoRest} style={styles.imgRest}/>}
+                    {fotoRest && <Image source={{uri: fotoRest}} style={styles.imgRest}/>}
                     {!fotoRest && <Image source={require("../../assets/imgPadrao.png")} style={styles.imgRest}/>}
                 </View>
             </View>
