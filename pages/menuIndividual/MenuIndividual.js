@@ -24,6 +24,8 @@ export default function MenuIndividual(){
         setNumero(numero - 1);
       };
 
+  
+
 
     let dadosEnviar= {idPrato:'',quantidade:'',observacao:observacoes}
 

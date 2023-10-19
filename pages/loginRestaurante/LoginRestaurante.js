@@ -8,6 +8,9 @@ import fontLemonada from "../../assets/fonts/lemonada.ttf"
 export default function LoginRestaurante() {
 
     const [fontLoaded, setFontLoaded] = useState(false);
+    const [email, setEmail] = useState('');
+    const [senha, setSenha] = useState('');
+    const data=[]
 
     useEffect(() => {
         async function loadFonts() {
@@ -25,6 +28,16 @@ export default function LoginRestaurante() {
         return null; 
     }
 
+
+    function Enviardados(){
+        let dados={
+          email:email ,
+          senha:senha
+        }
+
+        data.push(dados)
+
+    }
   return (
     <View style={styles.container}>
       <Image
@@ -33,28 +46,29 @@ export default function LoginRestaurante() {
       />
       
       <Text style={styles.emailSenha}>Email</Text>
-      <TextInput style={styles.inputs} />
+      <TextInput 
+      style={styles.inputs} 
+      value={email}
+      onChangeText={setEmail}
+      />
 
       <Text style={styles.emailSenha}>Senha</Text>
-      <TextInput style={styles.inputs} />
+      <TextInput 
+      style={styles.inputs}
+      value={senha}
+      onChangeText={setSenha}
+      />
 
-     <Pressable>
-         <Text style={styles.textoLembrar}>Esqueceu sua senha?</Text>
-    </Pressable>
-
-
-      <Pressable style={styles.btnEntrar}>
+      <Pressable
+       style={styles.btnEntrar}
+       onPress={Enviardados}
+       >
 
         <Text style={styles.palavraEntrar}>Entrar</Text>
         
         </Pressable>
 
-        <View style={styles.containerLembrar}>
-            <Pressable style={styles.lembreDeMim}>
-                <View></View>
-            </Pressable>
-            <Text style={styles.textoLembrar}>Lembrar de mim</Text>
-        </View>
+      
     </View>
 
     

@@ -58,22 +58,6 @@ export const styles = StyleSheet.create({
     fontFamily:'lemonada'
   },
 
-  containerLembrar:{
-    flexDirection: 'row', 
-    alignItems: 'center', 
-  },
-
-  lembreDeMim:{
-  flex: 1, 
-  width: 22,
-  height: 26,
-  flexShrink: 0,
-  borderRadius:15,
-  borderColor:'#445A14',
-  borderWidth: 3,
-  padding: 10,
-  
-  },
   textoLembrar:{
     color: '#445A14',
     fontFamily: 'lemonada',
