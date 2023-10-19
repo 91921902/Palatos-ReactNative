@@ -2,10 +2,10 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
 import CadastroCliente from './pages/cadastroCliente/CadastroCliente';
-// import PagInicial from './pages/pagInicial/PagInicial';
-// import BuscaRestaurante from './pages/buscaRestaurante/BuscaRestaurante';
-// import PerfilRestaurante from './pages/perfilRestaurante/PerfilRestaurante';
-// import MenuRestaurante from './pages/menuRestaurante/MenuRestaurante';
+import PagInicial from './pages/pagInicial/PagInicial';
+import BuscaRestaurante from './pages/buscaRestaurante/BuscaRestaurante';
+import PerfilRestaurante from './pages/perfilRestaurante/PerfilRestaurante';
+import MenuRestaurante from './pages/menuRestaurante/MenuRestaurante';
 
 export default function App() {
   return (
@@ -13,7 +13,7 @@ export default function App() {
       <CadastroCliente />
       {/* <PagInicial /> */}
       {/* <BuscaRestaurante /> */}
-      {/* <PerfilRestaurante />  */}
+      <PerfilRestaurante /> 
       {/* <MenuRestaurante /> */}
 
     </View>

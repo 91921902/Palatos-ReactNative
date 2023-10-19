@@ -25,6 +25,9 @@ function PerfilRestaurante({navigation}) {
         loadFonts();
     }, []);
   
+    if (!fontLoaded) {
+        return null
+    }
 
 
     return(
@@ -48,11 +51,11 @@ function PerfilRestaurante({navigation}) {
             </View>
 
              <View style={styles.boxFavoritos}>
-                <Image source={require(`../../assets/icons/${estrela[0]}.png`)}style={styles.favoritos}/>
-                <Image source={require(`../../assets/icons/${estrela[1]}.png`)}style={styles.favoritos}/>
-                <Image source={require(`../../assets/icons/${estrela[2]}.png`)}style={styles.favoritos}/>
-                <Image source={require(`../../assets/icons/${estrela[3]}.png`)}style={styles.favoritos}/>
-                <Image source={require(`../../assets/icons/${estrela[4]}.png`)}style={styles.favoritos}/>
+                <Image source={require(`../../assets/icons/estrela.png`)}style={styles.favoritos}/>
+                <Image source={require(`../../assets/icons/estrela.png`)}style={styles.favoritos}/>
+                <Image source={require(`../../assets/icons/estrela.png`)}style={styles.favoritos}/>
+                <Image source={require(`../../assets/icons/estrela.png`)}style={styles.favoritos}/>
+                <Image source={require(`../../assets/icons/estrela.png`)}style={styles.favoritos}/>
             </View>
 
             <View style={styles.boxDescricao}>

@@ -22,8 +22,7 @@ export const styles = StyleSheet.create({
         fontFamily:'lemonada',  
         fontSize: 18,
         fontstyle:'normal',
-        fontWeight:380,
-        lineHeight:'normal'
+
 
       },
       nomePrato:{//segunda View

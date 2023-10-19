@@ -11,7 +11,6 @@ import ItemRestaurante from "../../components/ItemRestaurante";
 function BuscaRestaurante() {
 
     const [fontLoaded, setFontLoaded] = useState(false);
- 
 
     useEffect(() => {
         async function loadFonts() {
@@ -21,11 +20,14 @@ function BuscaRestaurante() {
         });
         setFontLoaded(true);
         }
-  
+
         loadFonts();
     }, []);
-  
 
+    if (!fontLoaded) {
+        return null; 
+    }
+  
 
     return(
       

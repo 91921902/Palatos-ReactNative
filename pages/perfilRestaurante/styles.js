@@ -31,8 +31,7 @@ export const styles = StyleSheet.create({
         fontFamily: 'kavoon',
         fontSize: 24,
         fontStyle: 'normal',
-        fontWeight: 400,
-        lineHeight: 'normal',
+   
 
     },
     boxFavoritos:{
@@ -94,8 +93,7 @@ export const styles = StyleSheet.create({
         fontFamily: "kavoon",
         fontSize: 16,
         fontStyle: "normal",
-        fontWeight: 400,
-        lineHeight: "normal",
+    
         textAlign: "right",
         paddingRight: 20,
     },

@@ -43,8 +43,6 @@ export const styles = StyleSheet.create({
         fontSize: 10,
         textAlign:"center",
         fontStyle:"normal",
-        fontWeight:380,
-        lineHeight:"normal",
         width: 122,
         height: 24,
         flexShrink: 0,
@@ -112,8 +110,6 @@ export const styles = StyleSheet.create({
         fontFamily: "Lemonada",
         fontSize: 16,
         fontStyle: "normal",
-        fontWeight: 380,
-        lineHeight: "normal",
                 
 
     },
@@ -138,8 +134,7 @@ export const styles = StyleSheet.create({
        fontFamily: "Lemonada",
        fontSize: 16,
        fontStyle: "normal",
-       fontWeight: 380,
-       lineHeight: "normal",
+    
 
     },
   

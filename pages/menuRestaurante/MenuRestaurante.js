@@ -10,7 +10,7 @@ import NomePrato from "../../components/NomePrato";
 
 function MenuRestaurante({navigation}) {
     const [fontLoaded, setFontLoaded] = useState(false);
-    
+
     useEffect(() => {
         async function loadFonts() {
         await Font.loadAsync({
@@ -19,9 +19,13 @@ function MenuRestaurante({navigation}) {
         });
         setFontLoaded(true);
         }
-  
+
         loadFonts();
     }, []);
+
+    if (!fontLoaded) {
+        return null; 
+    }
   
 
 

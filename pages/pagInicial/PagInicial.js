@@ -10,7 +10,6 @@ import * as Font from 'expo-font';
 function PagInicial() {
 
     const [fontLoaded, setFontLoaded] = useState(false);
- 
 
     useEffect(() => {
         async function loadFonts() {
@@ -20,9 +19,13 @@ function PagInicial() {
         });
         setFontLoaded(true);
         }
-  
+
         loadFonts();
     }, []);
+
+    if (!fontLoaded) {
+        return null; 
+    }
   
 
     return(

@@ -55,8 +55,6 @@ const styles = StyleSheet.create({
         fontFamily:'kavoon',
         fontSize: 20,
         fontStyle: 'normal',
-        fontWeight: 400,
-        lineHeight: 'normal',
       
     },
     descricao:{
@@ -68,8 +66,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Inter',
         fontSize: 16,
         fontStyle:'normal',
-        fontWight: 400,
-        lineHeight: 'normal',
+      
     },
 
     
@@ -82,22 +79,16 @@ const styles = StyleSheet.create({
       fontFamily:'Inter',
       fontSize:16,
       fontStyle: 'normal',
-      fontWeight: 400,
-      lineWeight:'normal',
       width:'50%',
-      height:'100%',
-
+      height:'100%'
     },
     textoUnidade:{
         color: '#445A14',
         fontFamily:'Inter',
         fontSize:16,
         fontStyle: 'normal',
-        fontWeight: 400,
-        lineWeight:'normal',
         width:'50%',
         height:'100%',
-
     },
     retangulo:{
         width:'65%',
