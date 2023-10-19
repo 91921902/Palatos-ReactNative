@@ -6,7 +6,7 @@ import BotaoVoltar from "../../components/BotaoVoltar.js"
 import { useFormTools } from "../../providers/FormRestContext"
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import decode from "jwt-decode"
 
 /* - COPIAR ISSO PARA USAR A FONT PERSONALIZADA - */
 
@@ -65,6 +65,28 @@ function NovoCadastro({ navigation }) {
 
         loadFonts();
 
+        async function getIds() {
+
+            const token = await AsyncStorage.getItem("token")
+
+            if (!token) {
+                navigation.navigate("NovoCadastro")
+            } else {
+                
+                const decoded = decode(token)
+
+                const {idRestaurante} = decoded
+
+                if (idRestaurante) {
+                    navigation.navigate("PainelADM" , {idRestaurante})
+                }
+            }
+
+            
+        }
+
+        getIds()
+        
         async function searchData() {
             const data = await AsyncStorage.getItem("novoCadastro")
 

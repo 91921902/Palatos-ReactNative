@@ -40,7 +40,7 @@ async function createRestaurant(formData, navigation, menu) {
 
 async function createMenu(token, navigation, restaurante, menu) {
 
-   let formDataMenu
+   
    const pratosCriados = []
    let isDeleted = false
 
@@ -53,12 +53,18 @@ async function createMenu(token, navigation, restaurante, menu) {
     for (let i = 0; i < menu.length; i++) {
 
         const menuItem = menu[i]
-        formDataMenu = menuItem.file
+        const { name, uri, type } = menuItem.file
+        const formDataMenu = new FormData()
      
         formDataMenu.append('nome', menuItem.nome)
         formDataMenu.append('descricao', menuItem.descricao)
         formDataMenu.append('preco', menuItem.preco)
         formDataMenu.append('nomeImagem', menuItem.nomeImagem)
+        formDataMenu.append('file', JSON.parse(JSON.stringify({
+            name: name,
+            uri: uri,
+            type: type
+        })))
 
         const pratoCriado = await api.post("/restaurante/cardapio/add", formDataMenu, {
             headers: {
@@ -66,8 +72,6 @@ async function createMenu(token, navigation, restaurante, menu) {
                 'Authorization': token
             }
         })
-
-        console.log(pratoCriado)
 
         if (pratoCriado.data.status != "success") {
             destroy()

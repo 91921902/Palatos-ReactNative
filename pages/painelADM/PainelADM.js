@@ -32,7 +32,7 @@ function PainelADM({navigation, route}) {
             const token = await AsyncStorage.getItem("token")
             let idRestaurante
             try {
-                //AQUI
+               
                 const decoded = jwtDecode(token)
                 if (decoded) {
                     idRestaurante = decoded.idRestaurante; 
@@ -46,7 +46,7 @@ function PainelADM({navigation, route}) {
                 navigation.navigate("PainelADM", {message: "Erro de Autenticação"})
 
             }
-
+            
             await api.get(`/restaurante/${idRestaurante}`).then(response => {
                 const restaurante = response.data 
                 return restaurante
@@ -55,11 +55,23 @@ function PainelADM({navigation, route}) {
 
        
         if (route.params) {
-
+            
             const { restaurante } = route.params;
-            AsyncStorage.setItem("restaurante", JSON.stringify(restaurante))
-            setFotoRest(restaurante.foto)
 
+            if (restaurante) {
+                
+                AsyncStorage.setItem("restaurante", JSON.stringify(restaurante))
+                setFotoRest(restaurante.foto)
+            } else {
+            
+                const restauranteData = getData() 
+                
+                if (restauranteData) {
+                    AsyncStorage.setItem("restaurante", JSON.stringify(restauranteData))
+                }
+                
+                setFotoRest(restauranteData.foto)
+            }
             
         } else {
 
@@ -78,7 +90,6 @@ function PainelADM({navigation, route}) {
     if (!fontLoaded) {
         return null; 
     }
-
 
     return(
         
