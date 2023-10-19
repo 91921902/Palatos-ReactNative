@@ -10,6 +10,24 @@ import BotaoVoltar from '../../components/BotaoVoltar';
 
 export default function MenuIndividual(){
     const [fontLoaded, setFontLoaded] = useState(false);
+    const [observacoes, setObservacoes] = useState('');
+    const [quantidade, setQuantidade] = useState('');
+    const [prato, setprato] = useState({id: 1, foto: "",nome: "lagosta",descricao: "muito boa",preco: "55"});
+    const [valoresEnviados, setvaloresEnviados] = useState()
+    const [numero, setNumero] = useState(0);
+
+    const aumentarNumero = () => {
+        setNumero(numero + 1);
+      };
+    
+      const diminuirNumero = () => {
+        setNumero(numero - 1);
+      };
+
+
+    let dadosEnviar= {idPrato:'',quantidade:'',observacao:observacoes}
+
+  
 
     useEffect(() => {
         async function loadFonts() {
@@ -21,6 +39,10 @@ export default function MenuIndividual(){
         }
 
         loadFonts();
+
+        //buscar os dados
+
+       
     }, []);
 
     if (!fontLoaded) {
@@ -35,7 +57,9 @@ return(
   <MiniLogo/>
   <BotaoVoltar/>
 
-
+    {
+       
+    }
 
     <View style={styles.caixaFoto}>
     
@@ -46,11 +70,11 @@ return(
     </View>
 
     <View >
-        <Text style={styles.tituloDoPrato}>Testando nome prato</Text>
+        <Text style={styles.tituloDoPrato}>{prato.nome}</Text>
     </View>
 
     <View style={styles.descricaoView}>
-        <Text style={styles.descricao}>prato bem bom e gostoso,  bla bla bla blab bla bla</Text>
+        <Text style={styles.descricao}>{prato.descricao}</Text>
     </View>
 
 
@@ -62,26 +86,37 @@ return(
         <TextInput style={styles.inpObs}
             placeholder='Ex: Tirar cebola, tirar salada...'
             placeholderTextColor={'#92A14D'}
-    
+            value={observacoes}
+            onChangeText={setObservacoes}
         />
 
         <Text style={styles.excluirAlgo}></Text>
     </View>
 
-    <View style={styles.icones}>
-        <Image
-          source={require('../../assets/mais 1.png')}
-          style={{width: 31, height: 34,}}  
-        />
-        <Image
-         source={require('../../assets/menos 1.png')}
-         style={{width: 31, height: 34,}} 
-        />
+    
 
+    <View style={styles.icones}>
+        <View style={styles.numero}>
+            <Text style={styles.numeros}>Quantidade: {numero}</Text>
+        </View>
+        
+        <Pressable onPress={aumentarNumero}>
+            <Image
+            source={require('../../assets/mais 1.png')}
+            style={{width: 31, height: 34,}}  
+            />
+        </Pressable>
+
+        <Pressable onPress={diminuirNumero} >
+            <Image
+            source={require('../../assets/menos 1.png')}
+            style={{width: 31, height: 34,}} 
+            />
+        </Pressable>
     </View>
 
     <View style={styles.valorView}>
-        <Text style={styles.valor}>R$...</Text>
+        <Text style={styles.valor}>R$ {prato.preco}</Text>
     </View>
 
    <View style={styles.carrinhoView}>

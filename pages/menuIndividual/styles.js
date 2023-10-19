@@ -80,6 +80,17 @@ inpObs:{
 
 
 },
+numero:{
+marginRight:20,
+
+},
+
+numeros:{
+    fontSize: 15,
+    fontFamily:'lemonada',
+    color:'black',
+
+},
 
 icones:{
     flexDirection: 'row',
@@ -98,12 +109,15 @@ valor:{
     fontFamily: 'Kavoon',
     fontSize: 32,
     fontWeight: 400,
+    alignItems: 'center',
 },
 
 valorView:{
     width: 134,
     height: 41, 
     alignItems: 'center',
+   padding:50,
+    
 },
 
 btnCarrinho:{
