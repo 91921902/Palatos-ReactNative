@@ -185,10 +185,9 @@ function NovoCadastro({ navigation }) {
     };
 
     function returnPage() {
-        navigation.navigate('')
+        navigation.goBack()
     }
     
-
     return(
         <View style={styles.containerNovoCadastro}>
             <BotaoVoltar onPress={returnPage}/>                     

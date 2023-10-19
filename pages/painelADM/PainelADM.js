@@ -78,6 +78,24 @@ function PainelADM({navigation, route}) {
 
     }, []);
 
+    function nextPageFinanceiro() {
+
+        navigation.navigate("Financeiro")
+
+    }
+
+    function goToPerfil() {
+
+        navigation.navigate("NovoCadastro")
+
+    }
+
+    function goToMenu() {
+
+        navigation.navigate("NovoMenu")
+
+    }
+
     if (!fontLoaded) {
         return null; 
     }
@@ -99,7 +117,7 @@ function PainelADM({navigation, route}) {
                 <Text style={styles.textTitleAdm}>Painel administrativo</Text>
                 <ScrollView style={{width: "100%",height: "100%"}}>
                     <View style={styles.boxBtnAdm}>
-                        <Pressable style={styles.btnAdm} accessibilityRole='button'>
+                        <Pressable style={styles.btnAdm} accessibilityRole='button' onPress={goToPerfil}>
                             <Text style={styles.textBtnAdm}>Editar Perfil</Text>
                             <View style={styles.boxIconCadeado}>
                                     <Icon 
@@ -110,7 +128,7 @@ function PainelADM({navigation, route}) {
                             </View>
                         </Pressable>
 
-                        <Pressable style={styles.btnAdm} accessibilityRole='button'>
+                        <Pressable style={styles.btnAdm} accessibilityRole='button' onPress={goToMenu}>
                             <Text style={styles.textBtnAdm}>Editar Menu</Text>
                             <View style={styles.boxIconCadeado}>
                                 <Icon 
@@ -121,7 +139,7 @@ function PainelADM({navigation, route}) {
                             </View>
                         </Pressable>
 
-                        <Pressable style={styles.btnAdm} accessibilityRole='button'>
+                        <Pressable style={styles.btnAdm} accessibilityRole='button' onPress={nextPageFinanceiro}>
                             <Text style={styles.textBtnAdm}>Financeiro</Text>
                             <View style={styles.boxIconCadeado}>
                                 <Icon 

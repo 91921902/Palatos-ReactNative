@@ -91,7 +91,7 @@ function NovoMenu({navigation, route}) {
 
     const [fontLoaded, setFontLoaded] = useState(false);
     const [formRestaurante, setFormRestaurante] = useState("")
-    const { menu } = useFormTools()
+    const { menu, menuTools } = useFormTools()
 
     useEffect(() => {
         async function loadFonts() {
@@ -104,8 +104,33 @@ function NovoMenu({navigation, route}) {
 
         loadFonts();
 
-        const {formData} = route.params;
-        setFormRestaurante(formData)
+        
+
+        async function getParmsOrNot() {
+            
+
+            if (route.params) {
+              
+                const {formData} = route.params;
+                setFormRestaurante(formData)
+            } else {
+              
+                const restaurante = await AsyncStorage.getItem("restaurante")
+               
+                if (restaurante) {
+                   
+                    const id = restaurante.id
+
+                    const pratos = await api.get(`/cardapio/${id}`)
+                    //não esta recebendo
+
+                    menuTools.setNewMenu(pratos.data.menu)
+
+                }
+            }
+        }
+
+        getParmsOrNot()
     }, []);
 
     if (!fontLoaded) {

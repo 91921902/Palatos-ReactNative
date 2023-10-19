@@ -7,7 +7,7 @@ import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import BotaoVoltar from "../../components/BotaoVoltar";
 
-function Financeiro() {
+function Financeiro({navigation}) {
 
     const [fontLoaded, setFontLoaded] = useState(false);
 
@@ -26,7 +26,6 @@ function Financeiro() {
     if (!fontLoaded) {
         return null; 
     }
-
 
   const data = [
     {
@@ -51,7 +50,7 @@ function Financeiro() {
 
   return (
     <View style={styles.containerFinanceiro}>
-         <BotaoVoltar/>
+         <BotaoVoltar onPress={() => {navigation.goBack()}}/>
         <View style={styles.subContainers}>
             <Text style={styles.title}>Financeiro</Text>
             <PieChart
