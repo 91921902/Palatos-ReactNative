@@ -38,6 +38,8 @@ function NovoCadastro({ navigation }) {
     const { categorias, setNewCategorias } = useFormTools()
     const { userTools } = useFormTools()
 
+    const [isEdit, setIsEdit] = useState(false)
+
     //----------------------------------------------------------------
 
     
@@ -78,14 +80,27 @@ function NovoCadastro({ navigation }) {
                 const {idRestaurante} = decoded
 
                 if (idRestaurante) {
-                    navigation.navigate("PainelADM" , {idRestaurante})
+
+                    setIsEdit(true)
+
+                    const restauranteData = await api.get("/restaurante/" + idRestaurante)
+                    const restaurante = restauranteData.data.resultRestaurant
+
+                    setNome(restaurante.nome)
+                    setDescricao(restaurante.descricao)
+                    setFoto(restaurante.foto)
+                    setEndereco(restaurante.endereco)
+                    setCep(restaurante.cep)
+                    setRua(restaurante.rua)
+
+                    //navigation.navigate("PainelADM" , {idRestaurante})
                 }
             }
 
             
         }
 
-        getIds()
+       
         
         async function searchData() {
             const data = await AsyncStorage.getItem("novoCadastro")

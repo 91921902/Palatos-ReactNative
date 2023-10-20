@@ -10,12 +10,10 @@ import ItemMenu from "../../components/ItemMenu";
 import { useFormTools } from "../../providers/FormRestContext";
 import api from "../../providers/api";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import decode from "jwt-decode"
 
 
 async function createRestaurant(formData, navigation, menu) {   
-
-    
 
     //let token = await AsyncStorage.getItem("token")
     let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoxMCwiaWF0IjoxNjk3MzE5ODA2LCJleHAiOjIzMDIxMTk4MDZ9.qtaulig33bBqC3wGjBvAwKFJjCaRRJXffZynzvN72As"
@@ -115,18 +113,28 @@ function NovoMenu({navigation, route}) {
                 setFormRestaurante(formData)
             } else {
               
-                const restaurante = await AsyncStorage.getItem("restaurante")
+                //const restaurante = await AsyncStorage.getItem("restaurante")
                
-                if (restaurante) {
-                   
-                    const id = restaurante.id
+                const token = await AsyncStorage.getItem("token")
 
-                    const pratos = await api.get(`/cardapio/${id}`)
-                    //não esta recebendo
-
-                    menuTools.setNewMenu(pratos.data.menu)
-
+                if (!token) {
+                    navigation.navigate("NovoCadastro")
                 }
+
+                const decoded = decode(token)
+
+                const {idRestaurante} = decoded
+
+                const restauranteData = await api.get("/restaurante/"+idRestaurante)
+
+                const restaurante = restauranteData.data.resultRestaurant
+
+                if (!restaurante) return
+
+                const pratos = await api.get(`/cardapio/${idRestaurante}`)
+
+                menuTools.setNewMenu(pratos.data.menu)
+
             }
         }
 
@@ -170,9 +178,6 @@ function NovoMenu({navigation, route}) {
                 <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={() => createRestaurant(formRestaurante, navigation, menu)}>
                     <Text style={styles.textFinalizarMenu}>Finalizar Menu</Text>
                 </Pressable>
-                {/* <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={() => teste()}>
-                    <Text style={styles.textFinalizarMenu}>Finalizar Menu</Text>
-                </Pressable> */}
             </View>
         </View>
     );

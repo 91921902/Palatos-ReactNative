@@ -21,6 +21,10 @@ function Financeiro({navigation}) {
         }
 
         loadFonts();
+
+        
+
+
     }, []);
 
     if (!fontLoaded) {
