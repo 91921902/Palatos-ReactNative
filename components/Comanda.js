@@ -48,7 +48,7 @@ function Comanda({ obj }) {
                 <View style={{width: "100%", height: 2, backgroundColor: "#B7A187", marginBottom: 5, marginTop: 5}}/>
 
                 <View style={{width: "100%"}}>
-                    <Text style={styles.textInfo}>Nome do prato: </Text>
+                    <Text style={styles.textInfo}>Pedido: </Text>
                     <Text style={styles.infos}>{obj.nomePrato}</Text>
                 </View>
 
