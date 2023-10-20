@@ -14,6 +14,7 @@ import A11y from "../../providers/A11y.js"
 
 import * as Font from 'expo-font';
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
+import fontKavoon from "../../assets/fonts/kavoon.ttf"
 
 
 function TelaComanda() {
@@ -62,7 +63,7 @@ function TelaComanda() {
                     chegou: true,
                     tempoAtiva: (tempoAtual-3600),
                     numeroMesa: 5,
-                    observacoes: "Sem couve e laranja"
+                    observacoes: "Sem couve e laranja whndhaiwndyhwnd wyhdnwyndwydn wdnwdn  nwundiAWndi ANW IUdn IUAWNd iunwiniunduwndwin uwn u und"
                 },
                 {
                     id: 5,
@@ -89,6 +90,7 @@ function TelaComanda() {
         async function loadFonts() {
             await Font.loadAsync({
                 'lemonada': fontLemonada,
+                'kavoon':fontKavoon
             });
             setFontLoaded(true);
         }
@@ -101,13 +103,12 @@ function TelaComanda() {
         return null;
     }
 
-
     return (
-        <View>
+        <View style={styles.container}>
             <BotaoVoltar />
-            <Text>Comandas:</Text>
-            <ScrollView>
-                <View style={{ alignItems: "center", gap: 30 }}>
+            <Text style={styles.title}>Comandas:</Text>
+            <ScrollView contentContainerStyle={{width: "100%"}}>
+                <View style={styles.comandas}>
                     {comandas.length > 0 && (
                         comandas.map((obj, key) => (
                             <Comanda key={key} obj={obj} />
@@ -115,7 +116,6 @@ function TelaComanda() {
                     )}
                 </View>
             </ScrollView >
-
         </View >
     );
 
