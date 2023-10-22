@@ -20,8 +20,8 @@ export default function CheckBoxCategory({filter}) {
 
         const categoriasEscolhidas = []
 
-        for (let i = 0 ; i > categorias.length ; i++) {
-
+        for (let i = 0 ; i < categorias.length ; i++) {
+            
             if (categoriasSelected[i]) {
 
                 categoriasEscolhidas.push(categorias[i])

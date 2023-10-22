@@ -58,9 +58,9 @@ export const FormProvider = ({ children }) => {
     };
 
     const setNewCategorias = (categorias) => {
-
+       
         setCategorias(categorias)
-
+        
     }
 
     const userTools = {
