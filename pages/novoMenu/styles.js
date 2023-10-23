@@ -50,7 +50,8 @@ export const styles = StyleSheet.create({
     menuItens: {
         alignItems: "center",
         gap: 20,
-        paddingBottom: 20
+        paddingBottom: 20,
+        paddingBottom: 110
     },
     boxFinalizarMenu: {
         width: "100%",

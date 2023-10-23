@@ -1,5 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 import NovoCadastro from "./pages/novoCadastro/NovoCadastro.js"
 import NovoMenu from "./pages/novoMenu/NovoMenu.js"
 import PainelADM from './pages/painelADM/PainelADM.js';
@@ -14,7 +12,7 @@ const Stack = createStackNavigator();
 const MyNavigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='NovoCadastro' screenOptions={{headerShown: false}}>
+      <Stack.Navigator initialRouteName='NovoMenu' screenOptions={{headerShown: false}}>
         <Stack.Screen  name="NovoCadastro" component={NovoCadastro} />
         <Stack.Screen name="NovoMenu" component={NovoMenu} />
         <Stack.Screen name="PainelADM" component={PainelADM}/>
@@ -32,12 +30,3 @@ export default function App() {
     </FormProvider>
   );
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: 'white',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });

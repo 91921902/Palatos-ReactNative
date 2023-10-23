@@ -17,6 +17,14 @@ function ItemMenu({id, index}) {
     const [foto, setFoto] = useState("")
     const [file, setFile] = useState("")
     const [nomeImagem, setNomeImagem] = useState("")
+    const [tipo, setTipo] = useState("Categoria")
+
+    const [botaoCategorias, setBotaoCategorias] = useState({
+        graus: "180",
+        translate: -9,
+        radius: 10,
+        isActive: 0
+    })
     
 
     const { menu, menuTools } = useFormTools()
@@ -105,12 +113,35 @@ function ItemMenu({id, index}) {
             setFile(item.file)
             setNomeImagem(item.nomeImagem)
         }
-        
+
+
     }, []);
 
     if (!fontLoaded) {
         return null; 
     }
+
+    function showOrHideCategory() {
+
+        if (botaoCategorias.isActive == 0) {
+            setBotaoCategorias({
+                graus: "0",
+                translate: 10,
+                radius: 0,
+                isActive: 1
+            })
+        } else {
+
+            setBotaoCategorias({
+                graus: "180",
+                translate: -9,
+                radius: 10,
+                isActive: 0
+            })
+
+        }
+    }
+
 
     const pickImage = async () => {
         
@@ -127,7 +158,6 @@ function ItemMenu({id, index}) {
             const fileName = result.assets[0].uri.substring(result.assets[0].uri.lastIndexOf("/") + 1, result.assets[0].uri.length)
             const fileType = fileName.split(".")[1]
             
-
             const image = {
                 name: fileName,
                 uri: result.assets[0].uri,
@@ -143,94 +173,154 @@ function ItemMenu({id, index}) {
         }
     };
 
+    function selectCategory(tipo) {
+
+        if (!botaoCategorias.isActive) return
+
+        switch(tipo) {
+
+            case "prato": 
+                setTipo("Prato")
+                break
+            case "bebida": 
+                setTipo("Bebida")
+                break
+            case "sobremesa": 
+                setTipo("Sobremesa")
+                break
+            default:
+                setTipo("Categoria")
+        }
+
+
+        setBotaoCategorias({
+            graus: "180",
+            translate: -9,
+            radius: 10,
+            isActive: 0
+        })
+
+    }
+
 
     return(
-        <View style={styles.item}>
-            <View style={styles.boxPhoto}>
-                <Pressable activeOpacity={1} style={styles.btnAddPhoto} accessibilityRole='button' accessibilityLabel="Adicionar foto" onPress={pickImage}>
-                    {
-                        !foto ? (
-                        <>
-                            <View style={{position: "absolute", top: 2, right: 2}}>
-                                <Icon 
-                                    name="plus"
-                                    size={25}
-                                    color={"#445A14"}
-                                    style={{alignItems: "flex-end"}}
-                                />
-                            </View>
-                            <View style={{width: "100%", height: "100%", alignItems: "center", justifyContent: "center"}}>
-                                <Icon 
-                                    name="cutlery"
-                                    size={30}
-                                    color={"#445A14"}
-                                />
-                            </View>
-                        </>
-                        ) : (
-                            <Image source={{uri: foto}} style={{height: '100%', width: '100%', resizeMode: "cover"}} />
-                        )
-                    }
-                    
-                </Pressable>
-            </View>
-            <View style={styles.boxDescItem}>
-
-                <View style={styles.titleProduct}>
-                    <TextInput 
-                        style={styles.inptTitle}
-                        placeholder="Nome do Prato"
-                        cursorColor={"black"}
-                        value={nome}
-                        onChangeText={setNome}
-                    />
+        <>
+            <View style={styles.item}>
+                <View style={styles.boxPhoto}>
+                    <Pressable activeOpacity={1} style={styles.btnAddPhoto} accessibilityRole='button' accessibilityLabel="Adicionar foto" onPress={pickImage}>
+                        {
+                            !foto ? (
+                            <>
+                                <View style={{position: "absolute", top: 2, right: 2}}>
+                                    <Icon 
+                                        name="plus"
+                                        size={25}
+                                        color={"#445A14"}
+                                        style={{alignItems: "flex-end"}}
+                                    />
+                                </View>
+                                <View style={{width: "100%", height: "100%", alignItems: "center", justifyContent: "center"}}>
+                                    <Icon 
+                                        name="cutlery"
+                                        size={30}
+                                        color={"#445A14"}
+                                    />
+                                </View>
+                            </>
+                            ) : (
+                                <Image source={{uri: foto}} style={{height: '100%', width: '100%', resizeMode: "cover"}} />
+                            )
+                        }
+                        
+                    </Pressable>
                 </View>
+                <View style={styles.boxDescItem}>
 
-                <View style={styles.descProduct}>
-                    <TextInput  
-                        style={styles.inptDesc}
-                        multiline={true}
-                        numberOfLines={5}
-                        maxLength={186}
-                        cursorColor={"#445A14"}
-                        placeholder="Descrição"
-                        accessibilityRole="text"
-                        accessibilityLabel="Descrição do Prato:"
-                        value={desc}
-                        onChangeText={setDesc}
-                    />
-
-                </View>
-
-                <View style={styles.priceProduct}>
-                    <View style={{width: "35%", alignItems: "center", justifyContent: "center"}}><Text style={styles.textUnid}>1 unid.</Text></View>
-                    <View style={{width: "65%", alignItems: "center", justifyContent: "center", flexDirection: "row", gap: 5}}>
-                        <Text style={styles.textR$}>R$</Text>
+                    <View style={styles.titleProduct}>
                         <TextInput 
-                            style={styles.inptPrice}
-                            placeholder="Valor"
-                            keyboardType="numeric"
-                            cursorColor={"#445A14"}
-                            value={price}
-                            onChangeText={setPrice}
+                            style={styles.inptTitle}
+                            placeholder="Nome do Prato"
+                            cursorColor={"black"}
+                            value={nome}
+                            onChangeText={setNome}
                         />
                     </View>
+
+                    <View style={styles.descProduct}>
+                        <TextInput  
+                            style={styles.inptDesc}
+                            multiline={true}
+                            numberOfLines={5}
+                            maxLength={186}
+                            cursorColor={"#445A14"}
+                            placeholder="Descrição"
+                            accessibilityRole="text"
+                            accessibilityLabel="Descrição do Prato:"
+                            value={desc}
+                            onChangeText={setDesc}
+                        />
+
+                    </View>
+
+                    <View style={styles.priceProduct}>
+                        <View style={{width: "35%", alignItems: "center", justifyContent: "center"}}><Text style={styles.textUnid}>1 unid.</Text></View>
+                        <View style={{width: "65%", alignItems: "center", justifyContent: "center", flexDirection: "row", gap: 5}}>
+                            <Text style={styles.textR$}>R$</Text>
+                            <TextInput 
+                                style={styles.inptPrice}
+                                placeholder="Valor"
+                                keyboardType="numeric"
+                                cursorColor={"#445A14"}
+                                value={price}
+                                onChangeText={setPrice}
+                            />
+                        </View>
+                    </View>
+
+                    {
+                        (menu.length - 1) == index ? (
+                        <Pressable style={styles.btnAddItem} accessibilityRole='button' accessibilityLabel="Adicionar item ao menu" onPress={menuTools.createItem}>
+                            <Image source={require("../assets/icons/adicionar.png")} style={styles.imgAddItem}/>
+                        </Pressable>
+                    ) : (
+                        <Pressable style={styles.btnRemoveItem} accessibilityRole='button' accessibilityLabel="Adicionar item ao menu" onPress={() => {menuTools.deleteItem(id); console.log(menu)}}>
+                            <Image source={require("../assets/icons/BotaoRemover.png")} style={styles.imgRemoveItem}/>
+                        </Pressable>
+                    )
+                    }
+
+                </View>    
+            </View>
+            <View style={styles.boxCategoria}>
+                <Pressable 
+                    style={[styles.btnCategoria, {borderBottomLeftRadius: botaoCategorias.radius, borderBottomRightRadius: botaoCategorias.radius,}]}
+                    onPress={showOrHideCategory}
+                >
+                    <Image source={require("../assets/icons/triangulo.png")} 
+                        style={[styles.triangulo, {left: 10, transform: [{ rotate: `${botaoCategorias.graus}deg`}, {translateY: botaoCategorias.translate}]}]}
+                    />
+
+                    <Text style={[styles.textCategoria, {fontSize: tipo == "Sobremesa" ? 12 : 13}]}>
+                        {botaoCategorias.isActive ? "" : tipo}
+                    </Text>
+
+                    <Image source={require("../assets/icons/triangulo.png")} 
+                        style={[styles.triangulo, {right: 10, transform: [{ rotate: `${botaoCategorias.graus}deg`}, {translateY: botaoCategorias.translate}]}]}
+                    />
+                </Pressable>
+                <View style={[styles.categorias, {opacity: botaoCategorias.isActive}]}>
+                    <Pressable style={styles.typeCategory} onPress={() => selectCategory("prato")}>
+                        <Text style={styles.textCategory}>Prato</Text>
+                    </Pressable>
+                    <Pressable style={[styles.typeCategory, {borderColor: "white"}]} onPress={() => selectCategory("bebida")}>
+                        <Text style={styles.textCategory}>Bebida</Text>
+                    </Pressable>
+                    <Pressable style={styles.typeCategory} onPress={() => selectCategory("sobremesa")}>
+                        <Text style={styles.textCategory}>Sobremesa</Text>
+                    </Pressable>
                 </View>
-
-                {
-                    (menu.length - 1) == index ? (
-                    <Pressable style={styles.btnAddItem} accessibilityRole='button' accessibilityLabel="Adicionar item ao menu" onPress={menuTools.createItem}>
-                        <Image source={require("../assets/icons/adicionar.png")} style={styles.imgAddItem}/>
-                    </Pressable>
-                   ) : (
-                    <Pressable style={styles.btnRemoveItem} accessibilityRole='button' accessibilityLabel="Adicionar item ao menu" onPress={() => {menuTools.deleteItem(id); console.log(menu)}}>
-                        <Image source={require("../assets/icons/BotaoRemover.png")} style={styles.imgRemoveItem}/>
-                    </Pressable>
-                   )
-                }
-
-            </View>    
-        </View>
+            </View>
+        </>
     );
 }
 
@@ -240,6 +330,7 @@ const styles = StyleSheet.create({
         height: 150,
         flexDirection: "row",
         alignItems: "center",
+        zIndex: -1,
     },
     boxPhoto: {
         height: 150,
@@ -353,6 +444,57 @@ const styles = StyleSheet.create({
         textAlign: "center",
         color: "#445A14",
         paddingBottom: 2
+    },
+    boxCategoria: {
+        width: "90%",
+        height: 20,
+        marginTop: -20,
+        overflow: "visible",
+        
+    },
+    btnCategoria: {
+        width: 140,
+        height: 30,
+        backgroundColor: "#445A14",
+        position: "relative"
+    },
+    textCategoria: {
+        width: "100%",
+        height: "100%",
+        textAlign: "center",
+        fontFamily: "lemonada",
+        color: "white",
+        fontSize: 13,
+    },
+    triangulo: {
+        position: "absolute",
+        width: 13,
+        height: 13,
+        resizeMode: "contain",
+    },
+    categorias: {
+        width: 140,
+        height: 100,
+        backgroundColor: "#445A14",
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
+        position: "absolute",
+        top: 20,
+        zIndex: 10
+    },
+    typeCategory: {
+        width: 140,
+        height: 33.3,
+        alignItems: "center",
+        justifyContent: "center",
+        borderBottomWidth: 1,
+        borderTopWidth: 1,
+        borderColor: "transparent"
+    },
+    textCategory: {
+        fontFamily: "lemonada",
+        color: "white",
+        fontSize: 12
     }
 })
 

@@ -138,7 +138,7 @@ function NovoMenu({navigation, route}) {
             }
         }
 
-        getParmsOrNot()
+        //getParmsOrNot()
     }, []);
 
     if (!fontLoaded) {
