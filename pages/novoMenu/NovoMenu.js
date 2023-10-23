@@ -58,6 +58,7 @@ async function createMenu(token, navigation, restaurante, menu) {
         formDataMenu.append('descricao', menuItem.descricao)
         formDataMenu.append('preco', menuItem.preco)
         formDataMenu.append('nomeImagem', menuItem.nomeImagem)
+        formDataMenu.append('tipo', menuItem.tipo)
         formDataMenu.append('file', JSON.parse(JSON.stringify({
             name: name,
             uri: uri,

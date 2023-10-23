@@ -15,7 +15,8 @@ export const FormProvider = ({ children }) => {
         preco: "",
         foto: "",
         nomeImagem: "",
-        file: ""
+        file: "",
+        tipo: "Categoria"
     }]);
     const [categorias, setCategorias] = useState([])
 
@@ -51,7 +52,8 @@ export const FormProvider = ({ children }) => {
                 preco: "",
                 foto: "",
                 nomeImagem: "",
-                file: ""
+                file: "",
+                tipo: "Categoria"
             }])
             lastId++
         }

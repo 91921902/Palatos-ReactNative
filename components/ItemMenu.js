@@ -26,7 +26,6 @@ function ItemMenu({id, index}) {
         isActive: 0
     })
     
-
     const { menu, menuTools } = useFormTools()
 
     useEffect(() => { 
@@ -49,7 +48,8 @@ function ItemMenu({id, index}) {
             preco: price,
             foto: foto,
             nomeImagem: nomeImagem,
-            file: file
+            file: file,
+            tipo: tipo
         }
 
         function setMenu() {
@@ -61,7 +61,8 @@ function ItemMenu({id, index}) {
                 preco: price,
                 foto: foto,
                 nomeImagem: nomeImagem,
-                file: file
+                file: file,
+                tipo: tipo
             })
         }
 
@@ -89,7 +90,7 @@ function ItemMenu({id, index}) {
           }
           
           
-    }, [nome, desc, price, foto, file, menu])
+    }, [nome, desc, price, foto, file, menu, tipo])
 
     useEffect(() => {
         async function loadFonts() {
@@ -112,8 +113,8 @@ function ItemMenu({id, index}) {
             setFoto(item.foto)
             setFile(item.file)
             setNomeImagem(item.nomeImagem)
+            setTipo(item.tipo)
         }
-
 
     }, []);
 
