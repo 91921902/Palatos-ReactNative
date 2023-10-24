@@ -98,7 +98,7 @@ function TelaReserva({navigation}) {
                 <View style={styles.containerReserva}>
                     {reservas.length > 0 && (
                         reservas.map((obj, index) => (
-                            <View style={styles.boxReserva}>
+                            <View style={styles.boxReserva} key={obj.codigoReserva}>
                                 <View style={styles.boxInfo}>
                                     <Text style={styles.textInfo}>Nome: </Text>
                                     <Text style={styles.info}>{obj.nome}</Text>

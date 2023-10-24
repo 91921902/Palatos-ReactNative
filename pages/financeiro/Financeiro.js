@@ -61,19 +61,19 @@ function Financeiro({navigation}) {
   const data = [
     {
       key: 'Bebida',
-      value: porcentBebida,
+      value: porcentBebida || 0,
       svg: { fill: '#75AEED' },
       
     },
     {
       key: 'Sobremesas',
-      value: porcentSobremesa,
+      value: porcentSobremesa || 0,
       svg: { fill: '#45444A'},
      
     },
     {
       key: 'Pratos',
-      value: porcentPrato,
+      value: porcentPrato || 0,
       svg: { fill: '#82FC8E'},
      
     },
