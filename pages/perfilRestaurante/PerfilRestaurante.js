@@ -1,11 +1,11 @@
-import React,{useState,useEffect} from "react";
+import React,{useState,useEffect} from "react"
 import { styles } from "./styles"
 import {  View, Text, TextInput, TouchableOpacity, Image } from "react-native"
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
-import * as Font from 'expo-font';
+import * as Font from 'expo-font'
 import BotaoVoltar from "../../components/BotaoVoltar"
-import { ScrollView } from "react-native";
+import { ScrollView } from "react-native"
 
 function PerfilRestaurante({navigation}) {
 
@@ -42,7 +42,7 @@ function PerfilRestaurante({navigation}) {
                     borderRadius: 5000,
                     
                 }}>
-                    <Image source={require("../../assets/imgPadrao.png")} style={styles.imgemRest} />.
+                    <Image source={require("../../assets/imgPadrao.png")} style={styles.imgemRest} />
                 </View>
             </View>
 
@@ -60,7 +60,11 @@ function PerfilRestaurante({navigation}) {
 
             <View style={styles.boxDescricao}>
                 <ScrollView style={styles.scrollView}>
-                 <Text style={styles.textoScrollView}>oiopioioioioioijdxhjahudgjwqhdbj,hxcgjuvdcesvchgvcdhnesvchhgsvcdxsvjxvasxcgvhgvedvcxjcvdsghvxsvxjvsdvdhxcgjuvdcesvchgvcdhnesvchhgsvcdxsvjxvasxcgvhgvedvcxjcvdsghvxsvxjvsdvdhxcgjuvdcesvchgvcdhnesvchhgsvcdxsvjxvasxcgvhgvedvcxjcvdsghvxsvxjvsdvdhxcgjuvdcesvchgvcdhnesvchhgsvcdxsvjxvasxcgvhgvedvcxjcvdsghvxsvxjvsdvd</Text>
+                 <Text style={styles.textoScrollView}>oiopioioioioioijdxhjahudgjwqhdbj,
+                 hxcgjuvdcesvchgvcdhnesvchhgsvcdxsvjxvasxcgvhgvedvcxjcvdsghvxsvxjvsdvdhx
+                 cgjuvdcesvchgvcdhnesvchhgsvcdxsvjxvasxcgvhgvedvcxjcvdsghvxsvxjvsdvdhxcg
+                 juvdcesvchgvcdhnesvchhgsvcdxsvjxvasxcgvhgvedvcxjcvdsghvxsvxjvsdvdhxcgju
+                 vdcesvchgvcdhnesvchhgsvcdxsvjxvasxcgvhgvedvcxjcvdsghvxsvxjvsdvd</Text>
                 </ScrollView>
             </View>
 

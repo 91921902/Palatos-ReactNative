@@ -12,7 +12,8 @@ export const styles = StyleSheet.create({
         width: "100%",
         height: "30%",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        paddingTop:50,
     },
     imgemRest: {
         width: 200,

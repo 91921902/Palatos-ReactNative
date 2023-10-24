@@ -10,10 +10,10 @@ import MenuRestaurante from './pages/menuRestaurante/MenuRestaurante';
 export default function App() {
   return (
     <View style={styles.container}>
-      <CadastroCliente />
-      {/* <PagInicial /> */}
+      {/* <CadastroCliente /> */}
+      <PagInicial />
       {/* <BuscaRestaurante /> */}
-      <PerfilRestaurante /> 
+      {/* <PerfilRestaurante />  */}
       {/* <MenuRestaurante /> */}
 
     </View>

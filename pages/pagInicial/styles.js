@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
         width:'100%',
         alignItems: "flex-end", // Alinhar à direita
         justifyContent: "flex-start", // Alinhar ao topo
-        paddingTop: 20, // Espaço superior
+        paddingTop: 50, // Espaço superior
         paddingRight: 20, // Espaço direito
         // backgroundColor: "green",
     },
@@ -93,7 +93,7 @@ export const styles = StyleSheet.create({
 
     },
     botaoEntrar:{
-        width: "80%",
+        width: "40%",
         height: 50,
         backgroundColor: "transparent",
         borderWidth: 2,
@@ -107,7 +107,7 @@ export const styles = StyleSheet.create({
         textoBotaoEntrar:{
         color:"#445A14",
         textAlign: "justify",
-        fontFamily: "Lemonada",
+        fontFamily: "lemonada",
         fontSize: 16,
         fontStyle: "normal",
                 
@@ -131,7 +131,7 @@ export const styles = StyleSheet.create({
     textoCadastro:{
        color: "#445A14",
        textAlign: "justify",
-       fontFamily: "Lemonada",
+       fontFamily: "lemonada",
        fontSize: 16,
        fontStyle: "normal",
     
