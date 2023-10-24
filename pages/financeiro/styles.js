@@ -47,5 +47,11 @@ export const styles = StyleSheet.create({
         fontFamily: "lemonada",
         color: "#445A14",
         fontSize: 10
+    },
+    textNotPurchases: {
+        fontSize: 18,
+        fontFamily: "kavoon",
+        color: "#445A14",
+        marginTop: 40
     }
 })

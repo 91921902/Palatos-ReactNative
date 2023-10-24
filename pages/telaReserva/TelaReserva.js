@@ -114,15 +114,15 @@ function TelaReserva({navigation}) {
                                 <View style={[styles.boxInfo, {flexDirection: "column", alignItems: "flex-start", width: "100%", flex: 1}]}>
                                     <Text style={styles.textInfo}>Pedidos: </Text>
                                     <View style={{flexDirection: "row", width: "100%", flex: 1}}>
-                                    <Text style={[styles.info, {marginBottom: 3}]} key={index}>
+                                    <Text style={[styles.info, {marginBottom: 3}]}>
                                         {
                                             obj.pedido.map((itemPedido, index) => (
-                                                <>
+                                                <Text key={index}>
                                                     {itemPedido}
                                                     {
                                                         obj.pedido.length != (index + 1) ? ", " : "."
                                                     }
-                                                </>
+                                                </Text>
                                             ))
                                         }   
                                         </Text>

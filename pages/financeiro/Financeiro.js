@@ -16,6 +16,9 @@ function Financeiro({navigation}) {
     const [porcentBebida, setPorcentBebida] = useState(0)
     const [porcentSobremesa, setPorcentSobremesa] = useState(0)
     const [filteredProducts, setFilteredProducts] = useState(null)
+    const [allProducts, setAllProducts] = useState([])
+    const [data, setData] = useState([])
+    const [chartIsValid, setChartIsValid] = useState(false)
 
     useEffect(() => {
         async function loadFonts() {
@@ -30,30 +33,78 @@ function Financeiro({navigation}) {
 
         async function getData() {
 
-            //const token = await AsyncStorage.getItem("token")
-            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjo0MywiaWF0IjoxNjk3NDE0MTQ2LCJleHAiOjIzMDIyMTQxNDZ9.drK4rr_L4ATnS5CXolmnhjjSCNh3U5N17CaP78mJCpM"
-
+            const token = await AsyncStorage.getItem("token")
+            
             const result = await api.get("restaurante/financeiro/getAll", {
                 headers: {
-                    Authorization: "Bearer " + token
+                    Authorization: token
                 }
             })
 
             const {
-                allPurchases,
-                filteredPurchases,
+                allProducts,
+                filteredPurchases, 
                 porcentPurchases
             } = result.data;
+            
+            setAllProducts(allProducts)
 
-            setPorcentPrato(porcentPurchases.pratos)
-            setPorcentBebida(porcentPurchases.bebidas)
-            setPorcentSobremesa(porcentPurchases.sobremesas)
+            if (filteredPurchases) {
 
+                setPorcentPrato(porcentPurchases.pratos)
+                setPorcentBebida(porcentPurchases.bebidas)
+                setPorcentSobremesa(porcentPurchases.sobremesas)
+
+            } else {
+
+                setPorcentPrato(0)
+                setPorcentBebida(0)
+                setPorcentSobremesa(0)
+
+                
+
+            }
+            
             setFilteredProducts(filteredPurchases)
+
+            setData([
+                {
+                  key: 'Bebida',
+                  value: porcentBebida,
+                  svg: { fill: '#75AEED' },
+                  
+                },
+                {
+                  key: 'Sobremesas',
+                  value: porcentSobremesa,
+                  svg: { fill: '#45444A'},
+                 
+                },
+                {
+                  key: 'Pratos',
+                  value: porcentPrato,
+                  svg: { fill: '#82FC8E'},
+                 
+                },
+            ])
+
+            let isZero = true
+            for(let i = 0 ; i < data.length ; i++) {
+
+            if (data[i].value == 0) {
+                isZero = false
+                break
+            }
+
+            }
+
+            if (!isZero) {
+                setChartIsValid = true
+            }
+
         }
 
         getData()
-
 
     }, []);
 
@@ -61,48 +112,27 @@ function Financeiro({navigation}) {
         return null; 
     }
 
-  const data = [
-    {
-      key: 'Bebida',
-      value: porcentBebida || 0,
-      svg: { fill: '#75AEED' },
-      
-    },
-    {
-      key: 'Sobremesas',
-      value: porcentSobremesa || 0,
-      svg: { fill: '#45444A'},
-     
-    },
-    {
-      key: 'Pratos',
-      value: porcentPrato || 0,
-      svg: { fill: '#82FC8E'},
-     
-    },
-  ];
-
   function nextPage(filter) {
 
     let products
+    const isValid = filteredProducts ? true : false
 
     switch(filter) {
 
         case "Bebidas":
-            products = filteredProducts.bebidas //verificar o nomes das props
+            products = isValid ? filteredProducts.bebidas : 0
             break
         case "Pratos":
-            products = filteredProducts.pratos //verificar o nomes das props
+            products = isValid ? filteredProducts.pratos : 0
             break
         case "Sobremesas":
-            products = filteredProducts.sobremesas //verificar o nomes das props
+            products = isValid ? filteredProducts.sobremesas : 0
             break
-        default:
-            products = filteredProducts
     }
 
         navigation.navigate("Filtros", {
-            products
+            products,
+            allProducts
         })
 
   }
@@ -112,14 +142,21 @@ function Financeiro({navigation}) {
          <BotaoVoltar onPress={() => {navigation.goBack()}}/>
         <View style={styles.subContainers}>
             <Text style={styles.title}>Financeiro</Text>
-            <PieChart
-                data={data}
-                style={{ height: 250, width: 250, marginTop: 30 }}
-                innerRadius={'40%'} 
-                animate={true}
-                animationDuration={500}
-                padAngle={0.02}
-            />
+            {
+                chartIsValid ? (
+                    <PieChart
+                        data={data}
+                        style={{ height: 250, width: 250, marginTop: 30 }}
+                        innerRadius={'40%'} 
+                        animate={true}
+                        animationDuration={500}
+                        padAngle={0.02}
+                    />
+                ) : (
+                    <Text style={styles.textNotPurchases}>Não ha compras para visualizar</Text>
+                )
+            }
+            
             <View style={{position: "absolute", left: 10, top: "82%"}}>
                 <View style={styles.boxGuia}>
                     <View style={[styles.quadradinhoCor, {backgroundColor: "#75AEED"}]} accessibilityLabel="Bebidas (50%)" importantForAccessibility="no-hide-descendants"/> 
