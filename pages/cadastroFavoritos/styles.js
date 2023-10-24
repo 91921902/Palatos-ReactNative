@@ -46,7 +46,6 @@ emailEtel:{
    color: '#445A14',
    fontFamily: 'Kavoon',
    fontSize: 14,
-   fontWeight: 400,
  },
 
  emailTelTexto:{

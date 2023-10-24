@@ -38,7 +38,7 @@ foto:{
 
 tituloDoPrato:{
     color:'#445A14',
-    fontSize:'16px',
+    fontSize:16,
     fontFamily:'kavoon',
     alignItems: 'center',
     justifyContent : 'center',
@@ -57,13 +57,12 @@ descricao:{
     justifyContent:'center',
     fontFamily: 'Lemonada',
     fontSize: 12,
-    fontWeight: 380,
     marginTop:10,
 },
 observacoes:{
     width: 243,
     color:'#445A14',
-    fontSize:'16px',
+    fontSize:16,
     fontFamily:'kavoon',
 },
 
@@ -108,7 +107,6 @@ valor:{
     width: 243,
     fontFamily: 'Kavoon',
     fontSize: 32,
-    fontWeight: 400,
     alignItems: 'center',
 },
 
@@ -116,7 +114,7 @@ valorView:{
     width: 134,
     height: 41, 
     alignItems: 'center',
-   padding:50,
+    padding:50,
     
 },
 
@@ -126,6 +124,7 @@ btnCarrinho:{
     borderRadius: 10,
     borderColor:'#445A14',
     borderWidth:3,
+    marginBottom:20,
 
 },
 carrinhoView:{

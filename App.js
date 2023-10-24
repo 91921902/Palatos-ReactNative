@@ -7,7 +7,7 @@ import CadastroFavoritos from './pages/cadastroFavoritos/CadastroFavorito';
 export default function App() {
   return (
     <View style={styles.container}>
-    <MenuIndividual/>
+    <CadastroFavoritos/>
     </View>
   );
 }

@@ -86,7 +86,7 @@ return(
 
     <View>
         <TextInput style={styles.inpObs}
-            placeholder='Ex: Tirar cebola, tirar salada...'
+            placeholder='   Ex: Tirar cebola, tirar salada...'
             placeholderTextColor={'#92A14D'}
             value={observacoes}
             onChangeText={setObservacoes}
