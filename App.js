@@ -24,7 +24,7 @@ const MyNavigator = () => {
         <Stack.Screen name="NovoMenu" component={NovoMenu} />
         <Stack.Screen name="PainelADM" component={PainelADM}/>
         <Stack.Screen name="Financeiro" component={Financeiro}/>
-        <Stack.Screen name="Filtros" component={Filtros}/>
+        <Stack.Screen name="Filtros" component={Filtros}/> 
         <Stack.Screen name="Mesas" component={Mesas} />
         <Stack.Screen name="EditarMesa" component={EditarMesa}/>
         <Stack.Screen name="TelaComanda" component={TelaComanda}/>
@@ -33,6 +33,8 @@ const MyNavigator = () => {
     </NavigationContainer>
   );
 };
+
+//NAVEGAR PARA FILTROS
 
 export default function App() {
   return (

@@ -15,6 +15,7 @@ function Financeiro({navigation}) {
     const [porcentPrato, setPorcentPrato] = useState(0)
     const [porcentBebida, setPorcentBebida] = useState(0)
     const [porcentSobremesa, setPorcentSobremesa] = useState(0)
+    const [filteredProducts, setFilteredProducts] = useState(null)
 
     useEffect(() => {
         async function loadFonts() {
@@ -47,6 +48,8 @@ function Financeiro({navigation}) {
             setPorcentPrato(porcentPurchases.pratos)
             setPorcentBebida(porcentPurchases.bebidas)
             setPorcentSobremesa(porcentPurchases.sobremesas)
+
+            setFilteredProducts(filteredPurchases)
         }
 
         getData()
@@ -78,6 +81,31 @@ function Financeiro({navigation}) {
      
     },
   ];
+
+  function nextPage(filter) {
+
+    let products
+
+    switch(filter) {
+
+        case "Bebidas":
+            products = filteredProducts.bebidas //verificar o nomes das props
+            break
+        case "Pratos":
+            products = filteredProducts.pratos //verificar o nomes das props
+            break
+        case "Sobremesas":
+            products = filteredProducts.sobremesas //verificar o nomes das props
+            break
+        default:
+            products = filteredProducts
+    }
+
+        navigation.navigate("Filtros", {
+            products
+        })
+
+  }
 
   return (
     <View style={styles.containerFinanceiro}>
@@ -116,13 +144,13 @@ function Financeiro({navigation}) {
                 Especificações
             </Text>
             <View style={{width: "100%", alignItems: "center", gap: 30, paddingTop: 30}}>
-                <Pressable style={styles.btnEspecificacoes}>
+                <Pressable style={styles.btnEspecificacoes} onPress={() => {nextPage("Bebidas")}}>
                     <Text style={styles.textBtns}>Bebidas</Text>
                 </Pressable>
-                <Pressable style={styles.btnEspecificacoes}>
+                <Pressable style={styles.btnEspecificacoes} onPress={() => {nextPage("Sobremesas")}}>
                     <Text style={styles.textBtns}>Sobremesas</Text>
                 </Pressable>
-                <Pressable style={styles.btnEspecificacoes}>
+                <Pressable style={styles.btnEspecificacoes} onPress={() => {nextPage("Pratos")}}>
                     <Text style={styles.textBtns}>Pratos Principais</Text>
                 </Pressable>
             </View>
