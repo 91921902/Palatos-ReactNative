@@ -29,15 +29,19 @@ pedidoCliente:{
     borderRadius:20,
     borderWidth:2,
     borderColor:'#445A14',
+    
 },
 
 nomePrato:{
-paddingLeft:15,
+    paddingLeft:15,
+   
+    
+
 },
 
 nomePratoTexto:{
     color: '#000',
-    fontFamily: 'Lemonada',
+    fontFamily: 'lemonada',
     fontSize: 14,
 },
 
@@ -47,7 +51,7 @@ valor:{
 },
 valorTexto:{
     color: '#000',
-    fontFamily: 'Lemonada',
+    fontFamily: 'lemonada',
     fontSize: 14,
 },
 

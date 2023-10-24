@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
     container: {
+    width: '100%',
       flex: 1,
       justifyContent: 'flex-start',
       alignItems: 'center',
@@ -12,7 +13,7 @@ export const styles = StyleSheet.create({
       height: 48,
     },
 
-    paiLogo:{
+    paiLogo:{        
         alignItems: 'flex-end',
         paddingLeft: 250, 
         paddingTop: 16, 
@@ -24,23 +25,24 @@ export const styles = StyleSheet.create({
     textoPedido:{
         color: '#445A14',
         textAlign: 'center',
-        fontFamily: 'Kavoon',
+        fontFamily: 'kavoon',
         fontSize:24,
-        margin:-10,
+      
     },
-    paiPedido:{
+    paiPedido:{            
         flexDirection:'row',
         alignItems:'center',
-        margin:-10,
         padding:20,
         paddingBottom:30,
     
     },
     pedido:{
-        width:'100%',
+        borderColor:'blue',
         alignItems:'center',
         paddingTop:15,
         gap:10,
+        width: '100%',
+        height: '100%',
     },
 
     valorTotalPai:{
@@ -53,11 +55,13 @@ export const styles = StyleSheet.create({
     scroll:{
         width:'100%',
         height:300,
+        borderWidth:1,
+       flex:1
     },
 
     valorTotal:{
         color: '#000',
-        fontFamily: 'Lemonada',
+        fontFamily: 'lemonada',
         fontSize: 14,
     },
 
@@ -82,7 +86,7 @@ export const styles = StyleSheet.create({
     textoBtn:{
         color: '#445A14',
         textAlign: 'center',
-        fontFamily: 'Kavoon',
+        fontFamily: 'kavoon',
         fontSize: 12,
     }
 

@@ -25,9 +25,10 @@ container:{
     borderRadius:100,
     borderColor:'#445A14',
     borderWidth:2,
+    paddingTop:30,
  },
  nome:{
-    fontFamily:'Kavoon',
+    fontFamily:'kavoon',
     fontSize:22,
     color:'#445A14',
  },
@@ -37,14 +38,14 @@ container:{
  },
 
  textoReserva:{
-    fontFamily:'Kavoon',
+    fontFamily:'kavoon',
     fontSize:14,
     color:'#445A14',
  },
 
 emailEtel:{
    color: '#445A14',
-   fontFamily: 'Kavoon',
+   fontFamily: 'kavoon',
    fontSize: 14,
  },
 
@@ -62,7 +63,7 @@ emailEtel:{
 
  resposta:{
    color: '#445A14',
-   fontFamily: 'Lemonada',
+   fontFamily: 'lemonada',
    fontSize: 14,
    
  },
@@ -77,7 +78,7 @@ emailEtel:{
  },
 
  favorito:{
-   fontFamily: 'Kavoon',
+   fontFamily: 'kavoon',
    fontSize: 17,
    color:'#445A14',
  },

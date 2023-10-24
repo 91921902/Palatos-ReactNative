@@ -45,8 +45,9 @@ export default function Pedidos() {
           <Text style={styles.textoPedido}>Seu pedido:</Text>
      </View>
 
-      <ScrollView style={styles.scroll}>
+      <ScrollView style={{width: '100%'}} >
           <View style={styles.pedido}>
+            <PedidoCliente/>
             <PedidoCliente/>
           </View>
       </ScrollView>
