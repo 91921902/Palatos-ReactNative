@@ -1,7 +1,9 @@
 import React from "react";
 import { useState } from "react";
 import { StyleSheet, Image } from "react-native";
-import { Text, View } from "react-native";
+import { Text, View, Pressable } from "react-native";
+import { Icon } from "react-native-elements";
+import A11y from "../providers/A11y.js"
 
 function formataTempo(numeroEmSegundos) {
     let horas = numeroEmSegundos / 3600
@@ -23,6 +25,9 @@ function Comanda({ obj }) {
     }
     return (
         <View style={styles.comandaContainer}>
+            <Pressable style={styles.btnDelete} role="button" {...A11y.label("Excluir mesa do restaurante")}>
+                <Icon name="delete" color={"white"} type='antdesign'/>
+            </Pressable>
             {
                 !obj.isReserva ? (
                     <Text style={styles.textMesa}>Mesa do restaurante</Text>
@@ -79,7 +84,8 @@ const styles = StyleSheet.create({
         borderWidth: 3,
         borderColor: "#B7A187",
         borderRadius: 3,
-        paddingBottom: 80
+        paddingBottom: 80,
+        position: "relative"
     },
     icon: {
         width: 60, 
@@ -132,6 +138,17 @@ const styles = StyleSheet.create({
         position: "absolute",
         bottom: 10,
         right: 10
+    },
+    btnDelete: {
+        width: 45,
+        height: 45,
+        backgroundColor: "red",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "absolute",
+        right: -20,
+        top: -20,
+        borderRadius: 500
     }
 })
 

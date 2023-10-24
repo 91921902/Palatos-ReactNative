@@ -11,9 +11,9 @@ export default function App() {
     <View style={styles.container}>
       {/* <PagInicial /> */}
       {/* <EditarMesas /> */}
-     {/*<TelaComanda />*/}
+     <TelaComanda />
       {/* <PlanosEPacotes /> */}
-       <TelaReserva />
+       {/*<TelaReserva />*/}
     </View>
   );
 }
