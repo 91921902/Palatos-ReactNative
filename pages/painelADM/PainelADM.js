@@ -78,21 +78,35 @@ function PainelADM({navigation, route}) {
 
     }, []);
 
-    function nextPageFinanceiro() {
+    function nextPage(page) {
 
-        navigation.navigate("Financeiro")
+        switch(page) {
 
-    }
-
-    function goToPerfil() {
-
-        navigation.navigate("NovoCadastro")
-
-    }
-
-    function goToMenu() {
-
-        navigation.navigate("NovoMenu")
+            case "Financeiro":
+                //validaçao
+                navigation.navigate("Financeiro")
+                break
+            case "NovoCadastro":
+                //validaçao
+                navigation.navigate("NovoCadastro")
+                break
+            case "NovoMenu":
+                //validaçao
+                navigation.navigate("NovoMenu")
+                break
+            case "Mesas":
+                //validaçao
+                navigation.navigate("Mesas")
+                break
+            case "Comandas":
+                //validaçao
+                navigation.navigate("TelaComanda")
+                break
+            case "Reservas":
+                //validaçao
+                navigation.navigate("TelaReserva")
+                break
+        }
 
     }
 
@@ -117,7 +131,7 @@ function PainelADM({navigation, route}) {
                 <Text style={styles.textTitleAdm}>Painel administrativo</Text>
                 <ScrollView style={{width: "100%",height: "100%"}}>
                     <View style={styles.boxBtnAdm}>
-                        <Pressable style={styles.btnAdm} accessibilityRole='button' onPress={goToPerfil}>
+                        <Pressable style={styles.btnAdm} accessibilityRole='button' onPress={() => {nextPage("NovoCadastro")}}>
                             <Text style={styles.textBtnAdm}>Editar Perfil</Text>
                             <View style={styles.boxIconCadeado}>
                                     <Icon 
@@ -128,7 +142,7 @@ function PainelADM({navigation, route}) {
                             </View>
                         </Pressable>
 
-                        <Pressable style={styles.btnAdm} accessibilityRole='button' onPress={goToMenu}>
+                        <Pressable style={styles.btnAdm} accessibilityRole='button' onPress={() => {nextPage("NovoMenu")}}>
                             <Text style={styles.textBtnAdm}>Editar Menu</Text>
                             <View style={styles.boxIconCadeado}>
                                 <Icon 
@@ -139,7 +153,7 @@ function PainelADM({navigation, route}) {
                             </View>
                         </Pressable>
 
-                        <Pressable style={styles.btnAdm} accessibilityRole='button' onPress={nextPageFinanceiro}>
+                        <Pressable style={styles.btnAdm} accessibilityRole='button' onPress={() => {nextPage("Financeiro")}}>
                             <Text style={styles.textBtnAdm}>Financeiro</Text>
                             <View style={styles.boxIconCadeado}>
                                 <Icon 
@@ -150,15 +164,15 @@ function PainelADM({navigation, route}) {
                             </View>
                         </Pressable>
 
-                        <Pressable style={styles.btnAdm} accessibilityRole='button'>
+                        <Pressable style={styles.btnAdm} accessibilityRole='button' onPress={() => {nextPage("Reservas")}}>
                             <Text style={styles.textBtnAdm}>Reservas</Text>
                         </Pressable>
 
-                        <Pressable style={styles.btnAdm} accessibilityRole='button'>
+                        <Pressable style={styles.btnAdm} accessibilityRole='button' onPress={() => {nextPage("Comandas")}}>
                             <Text style={styles.textBtnAdm}>Comandas</Text>
                         </Pressable>
 
-                        <Pressable style={styles.btnAdm} accessibilityRole='button'>
+                        <Pressable style={styles.btnAdm} accessibilityRole='button' onPress={() => {nextPage("Mesas")}}>
                             <Text style={styles.textBtnAdm}>Mesas</Text>
                         </Pressable>
                     </View>

@@ -16,7 +16,7 @@ import * as Font from 'expo-font';
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 
 
-function EditarMesa() {
+function EditarMesa({navigation}) {
 
 
     const [mesas, setMesas] = useState([])
@@ -74,10 +74,13 @@ function EditarMesa() {
             })
     }
 
+    function backPage() {
+        navigation.goback()
+    }
 
     return (
         <View style={styles.containerEditarMesa}>
-            <BotaoVoltar />
+            <BotaoVoltar onPress={backPage}/>
             <Text style={styles.titleMesas}>Mesas:</Text>
             <ScrollView style={styles.boxMesas}>
                 <View style={{ alignItems: "center", gap: 30 }}>

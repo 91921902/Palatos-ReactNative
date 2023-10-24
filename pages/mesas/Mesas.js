@@ -17,7 +17,7 @@ import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import BotaoQRCode from "../../components/BotaoQRCode"
 
 
-function Mesas() {
+function Mesas({navigation}) {
 
 
     const [mesas, setMesas] = useState([])
@@ -68,10 +68,14 @@ function Mesas() {
         return null;
     }
 
+    function backPage() {
+        navigation.goBack()
+    }
+
 
     return (
         <View style={styles.containerMesas}>
-            <BotaoVoltar />
+            <BotaoVoltar onPress={backPage}/>
             <BotaoQRCode />
             <Text style={styles.titleMesa}>Mesas:</Text>
             <ScrollView style={{ height: "60%", width: "100%" }}>

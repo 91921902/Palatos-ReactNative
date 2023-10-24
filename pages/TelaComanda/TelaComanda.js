@@ -17,7 +17,7 @@ import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
 
 
-function TelaComanda() {
+function TelaComanda({navigation}) {
 
 
     const [comandas, setComandas] = useState([])
@@ -103,9 +103,15 @@ function TelaComanda() {
         return null;
     }
 
+    function backPage() {
+
+        navigation.goBack()
+
+    }
+
     return (
         <View style={styles.container}>
-            <BotaoVoltar />
+            <BotaoVoltar onPress={backPage}/>
             <Text style={styles.title}>Comandas:</Text>
             <ScrollView contentContainerStyle={{width: "100%"}}>
                 <View style={styles.comandas}>

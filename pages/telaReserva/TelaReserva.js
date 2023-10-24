@@ -9,7 +9,7 @@ import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
 
 
-function TelaReserva() {
+function TelaReserva({navigation}) {
     const [reservas, setReservas] = useState([])
     const [fontLoaded, setFontLoaded] = useState(false);
 
@@ -84,11 +84,15 @@ function TelaReserva() {
     if (!fontLoaded) {
         return
     }
+
+    function backpage() {
+        navigation.goBack()
+    }
     
 
     return (
         <View style={styles.container}>
-            <BotaoVoltar />
+            <BotaoVoltar onPress={backpage}/>
             <Text style={styles.title}>Reservas:</Text>
             <ScrollView style={{width: "100%"}}>
                 <View style={styles.containerReserva}>
