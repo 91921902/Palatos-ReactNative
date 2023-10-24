@@ -16,7 +16,7 @@ import decode from "jwt-decode"
 async function createRestaurant(formData, navigation, menu) {   
 
     //let token = await AsyncStorage.getItem("token")
-    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoxMCwiaWF0IjoxNjk3MzE5ODA2LCJleHAiOjIzMDIxMTk4MDZ9.qtaulig33bBqC3wGjBvAwKFJjCaRRJXffZynzvN72As"
+    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoxMCwiaWF0IjoxNjk4MTcxODI3LCJleHAiOjIzMDI5NzE4Mjd9.ZEEZJ41kkGH89-t5lFeRuwSP8MZk5RAhJvbxmq_7kts"
    
     const novoRestaurante = await api.post("/restaurante/add", formData, 
         {
@@ -26,6 +26,8 @@ async function createRestaurant(formData, navigation, menu) {
             }
         }
     )
+
+    console.log(novoRestaurante.data)
 
     token = novoRestaurante.data.token
 
@@ -139,7 +141,7 @@ function NovoMenu({navigation, route}) {
             }
         }
 
-        //getParmsOrNot()
+        getParmsOrNot()
     }, []);
 
     if (!fontLoaded) {

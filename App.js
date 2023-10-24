@@ -19,16 +19,16 @@ const MyNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='TelaComanda' >
-        <Stack.Screen  name="planosEPacotes" component={PlanosEPacotes} />
-        <Stack.Screen  name="NovoCadastro" component={NovoCadastro} />
+        <Stack.Screen name="planosEPacotes" component={PlanosEPacotes} />
+        <Stack.Screen name="NovoCadastro" component={NovoCadastro} />
         <Stack.Screen name="NovoMenu" component={NovoMenu} />
-        <Stack.Screen name="PainelADM" component={PainelADM}/>
-        <Stack.Screen name="Financeiro" component={Financeiro}/>
-        <Stack.Screen name="Filtros" component={Filtros}/> 
+        <Stack.Screen name="PainelADM" component={PainelADM} />
+        <Stack.Screen name="Financeiro" component={Financeiro} />
+        <Stack.Screen name="Filtros" component={Filtros} />
         <Stack.Screen name="Mesas" component={Mesas} />
-        <Stack.Screen name="EditarMesa" component={EditarMesa}/>
-        <Stack.Screen name="TelaComanda" component={TelaComanda}/>
-        <Stack.Screen name="TelaReserva" component={TelaReserva}/>
+        <Stack.Screen name="EditarMesa" component={EditarMesa} />
+        <Stack.Screen name="TelaComanda" component={TelaComanda} />
+        <Stack.Screen name="TelaReserva" component={TelaReserva} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -57,8 +57,12 @@ function Filtros({navigation, route}) {
     useEffect(() => {
         /*setListProducts([{id: 1, nome: "bebida", quantidade: 3},{id: 2, nome: "bebida", quantidade: 3},{id: 3, nome: "bebida", quantidade: 3},{id: 4, nome: "bebida", quantidade: 3},{id: 5, nome: "bebida", quantidade: 3},{id: 6, nome: "bebida", quantidade: 3},{id: 7, nome: "bebida", quantidade: 3},{id: 8, nome: "bebida", quantidade: 3},{id: 9, nome: "bebida", quantidade: 3},{id: 10, nome: "bebida", quantidade: 3},{id: 11, nome: "bebida", quantidade: 3},{id: 12, nome: "bebida", quantidade: 3},{id: 13, nome: "bebida", quantidade: 3},{id: 14, nome: "bebida", quantidade: 3},])*/
 
-        const {products} = route.params;
-        setListProducts(products)
+        const {products, allProducts} = route.params
+
+        if (products) {
+            setListProducts(products)
+        }
+        
     }, [])
 
     function animationMarginToDown() {

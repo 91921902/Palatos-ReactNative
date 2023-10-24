@@ -7,6 +7,7 @@ import { useFormTools } from "../../providers/FormRestContext"
 import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import decode from "jwt-decode"
+import api from "../../providers/api"
 
 /* - COPIAR ISSO PARA USAR A FONT PERSONALIZADA - */
 
@@ -79,12 +80,13 @@ function NovoCadastro({ navigation }) {
                 const {idRestaurante} = decoded
 
                 if (idRestaurante) {
-
+               
                     setIsEdit(true)
 
                     const restauranteData = await api.get("/restaurante/" + idRestaurante)
-                    const restaurante = restauranteData.data.resultRestaurant
-
+                   
+                    const restaurante = restauranteData.data.result
+                    
                     setNome(restaurante.nome)
                     setDescricao(restaurante.descricao)
                     setFoto(restaurante.foto)
@@ -92,14 +94,14 @@ function NovoCadastro({ navigation }) {
                     setCep(restaurante.cep)
                     setRua(restaurante.rua)
 
-                    //navigation.navigate("PainelADM" , {idRestaurante})
+                    navigation.navigate("PainelADM" , {idRestaurante})
                 }
             }
 
             
         }
 
-       
+        getIds()
         
         async function searchData() {
             const data = await AsyncStorage.getItem("novoCadastro")
