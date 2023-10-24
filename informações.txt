@@ -1,0 +1,21 @@
+Tela reserva (restaurante):
+Nome, código da reserva horário e pratos solicitados
+
+
+
+Comandas:
+Botão voltar
+Título Comandas
+componente Comanda:
+tipo de comanda (Mesa da reserva ou mesa do restaurante)
+Se for reserva, ter o texto ainda não chegou caso ela não esteja ainda no restaurante.
+Nome do prato,
+observações,
+número da mesa
+P. S: Adicionar um timer para mostrar quanto tempo o pedido está ativo.
+
+
+
+
+
+pacotes
