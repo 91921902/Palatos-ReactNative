@@ -6,10 +6,15 @@ import * as Font from 'expo-font';
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import BotaoVoltar from "../../components/BotaoVoltar";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import api from "../../providers/api";
 
 function Financeiro({navigation}) {
 
     const [fontLoaded, setFontLoaded] = useState(false);
+    const [porcentPrato, setPorcentPrato] = useState(0)
+    const [porcentBebida, setPorcentBebida] = useState(0)
+    const [porcentSobremesa, setPorcentSobremesa] = useState(0)
 
     useEffect(() => {
         async function loadFonts() {
@@ -22,7 +27,29 @@ function Financeiro({navigation}) {
 
         loadFonts();
 
-        
+        async function getData() {
+
+            //const token = await AsyncStorage.getItem("token")
+            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjo0MywiaWF0IjoxNjk3NDE0MTQ2LCJleHAiOjIzMDIyMTQxNDZ9.drK4rr_L4ATnS5CXolmnhjjSCNh3U5N17CaP78mJCpM"
+
+            const result = await api.get("restaurante/financeiro/getAll", {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            })
+
+            const {
+                allPurchases,
+                filteredPurchases,
+                porcentPurchases
+            } = result.data;
+
+            setPorcentPrato(porcentPurchases.pratos)
+            setPorcentBebida(porcentPurchases.bebidas)
+            setPorcentSobremesa(porcentPurchases.sobremesas)
+        }
+
+        getData()
 
 
     }, []);
@@ -33,20 +60,20 @@ function Financeiro({navigation}) {
 
   const data = [
     {
-      key: 'A',
-      value: 50, // Porcentagem
+      key: 'Bebida',
+      value: porcentBebida,
       svg: { fill: '#75AEED' },
       
     },
     {
-      key: 'B',
-      value: 30,
+      key: 'Sobremesas',
+      value: porcentSobremesa,
       svg: { fill: '#45444A'},
      
     },
     {
-      key: 'C',
-      value: 20,
+      key: 'Pratos',
+      value: porcentPrato,
       svg: { fill: '#82FC8E'},
      
     },

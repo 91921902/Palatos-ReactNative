@@ -12,7 +12,7 @@ const Stack = createStackNavigator();
 const MyNavigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='NovoMenu' screenOptions={{headerShown: false}}>
+      <Stack.Navigator initialRouteName='NovoCadastro' screenOptions={{headerShown: false}}>
         <Stack.Screen  name="NovoCadastro" component={NovoCadastro} />
         <Stack.Screen name="NovoMenu" component={NovoMenu} />
         <Stack.Screen name="PainelADM" component={PainelADM}/>
