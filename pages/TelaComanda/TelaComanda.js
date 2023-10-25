@@ -27,78 +27,79 @@ function TelaComanda({navigation}) {
     useEffect(() => {
         async function carregaComandas() {
             //Puxar do backend
-            // let tempoAtual = new Date().getTime()/1000
-            // let listaComandas = [
-            //     {
-            //         id: 1,
-            //         isReserva: false,
-            //         chegou: false,
-            //         tempoAtiva: (tempoAtual-60),
-            //         nomePrato: "Bife a cavalo",
-            //         numeroMesa: 1,
-            //         observacoes: "Bem paçado!"
-            //     },
-            //     {
-            //         id: 2,
-            //         nomePrato: "Frango à Parmegiana",
-            //         isReserva: false,
-            //         chegou: false,
-            //         tempoAtiva: (tempoAtual-60),
-            //         numeroMesa: 2,
-            //         observacoes: "Sem espaguete"
-            //     },
-            //     {
-            //         id: 3,
-            //         nomePrato: "Frango à Parmegiana",
-            //         isReserva: true,
-            //         chegou: false,
-            //         tempoAtiva: (tempoAtual-3800),
-            //         numeroMesa: 4,
-            //         observacoes: null
-            //     },
-            //     {
-            //         id: 4,
-            //         nomePrato: "Feijoada",
-            //         isReserva: true,
-            //         chegou: true,
-            //         tempoAtiva: (tempoAtual-3600),
-            //         numeroMesa: 5,
-            //         observacoes: "Sem couve e laranja whndhaiwndyhwnd wyhdnwyndwydn wdnwdn  nwundiAWndi ANW IUdn IUAWNd iunwiniunduwndwin uwn u und"
-            //     },
-            //     {
-            //         id: 5,
-            //         nomePrato: "Tutu à Mineira",
-            //         isReserva: false,
-            //         chegou: true,
-            //         tempoAtiva: (tempoAtual-77),
-            //         numeroMesa: 3,
-            //         observacoes: "Sem couve, por favor"
-            //     },
-            //     {
-            //         id: 6,
-            //         nomePrato: "Pavê",
-            //         isReserva: true,
-            //         chegou: false,
-            //         tempoAtiva: (tempoAtual-60),
-            //         numeroMesa: 6,
-            //         observacoes: null
-            //     },
-            // ]
+            let tempoAtual = new Date().getTime()/1000
+            let listaComandas = [
+                {
+                    id: 1,
+                    isReserva: false,
+                    chegou: false,
+                    tempoAtiva: (tempoAtual-60),
+                    nomePrato: "Bife a cavalo",
+                    numeroMesa: 1,
+                    observacoes: "Bem paçado!"
+                },
+                {
+                    id: 2,
+                    nomePrato: "Frango à Parmegiana",
+                    isReserva: false,
+                    chegou: false,
+                    tempoAtiva: (tempoAtual-60),
+                    numeroMesa: 2,
+                    observacoes: "Sem espaguete"
+                },
+                {
+                    id: 3,
+                    nomePrato: "Frango à Parmegiana",
+                    isReserva: true,
+                    chegou: false,
+                    tempoAtiva: (tempoAtual-3800),
+                    numeroMesa: 4,
+                    observacoes: null
+                },
+                {
+                    id: 4,
+                    nomePrato: "Feijoada",
+                    isReserva: true,
+                    chegou: true,
+                    tempoAtiva: (tempoAtual-3600),
+                    numeroMesa: 5,
+                    observacoes: "Sem couve e laranja"
+                },
+                {
+                    id: 5,
+                    nomePrato: "Tutu à Mineira",
+                    isReserva: false,
+                    chegou: true,
+                    tempoAtiva: (tempoAtual-77),
+                    numeroMesa: 3,
+                    observacoes: "Sem couve, por favor"
+                },
+                {
+                    id: 6,
+                    nomePrato: "Pavê",
+                    isReserva: true,
+                    chegou: false,
+                    tempoAtiva: (tempoAtual-60),
+                    numeroMesa: 6,
+                    observacoes: null
+                },
+            ]
 
-            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjo0MywiaWF0IjoxNjk3NDE0MTQ2LCJleHAiOjIzMDIyMTQxNDZ9.drK4rr_L4ATnS5CXolmnhjjSCNh3U5N17CaP78mJCpM"
-            let listaComandas = []
+            //const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjo0MywiaWF0IjoxNjk3NDE0MTQ2LCJleHAiOjIzMDIyMTQxNDZ9.drK4rr_L4ATnS5CXolmnhjjSCNh3U5N17CaP78mJCpM"
+            //let listaComandas = []
 
-            try {
-                const result = await api.get("/restaurante/comandas", {
-                    headers: {
-                        Authorization: token
-                    }
-                })
-                listaComandas = result.data.ListaComandas
-            } catch(err) {
-                console.log(`Erro ao puxar comandas: ${err}`)
-            }
-            console.log(listaComandas)
+            // try {
+            //     const result = await api.get("/restaurante/comandas", {
+            //         headers: {
+            //             Authorization: token
+            //         }
+            //     })
+            //     console.log(result)
+            //     listaComandas = result.data.ListaComandas
+            // } catch(err) {
+            //     console.log(`Erro ao puxar comandas: ${err}`)
+            // }
+            // console.log(listaComandas)
             setComandas(listaComandas)
         }
 
