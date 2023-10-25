@@ -29,7 +29,7 @@ function Comanda({ obj }) {
                 <Icon name="delete" color={"white"} type='antdesign'/>
             </Pressable>
             {
-                !obj.isReserva ? (
+                !obj.is_reserva ? (
                     <Text style={styles.textMesa}>Mesa do restaurante</Text>
                 ) : (
                     <Text style={styles.textMesa}>Mesa da reserva</Text>
@@ -42,12 +42,12 @@ function Comanda({ obj }) {
                     <Text 
                         style={[
                             styles.infos, 
-                            !obj.isReserva &&  {fontSize: 20,marginTop: -8},
-                            obj.isReserva && obj.chegou &&  {fontSize: 20,marginTop: -8},
-                            obj.isReserva && !obj.chegou && {color: "red", paddingLeft: 0, paddingTop: 3}
+                            !obj.is_reserva &&  {fontSize: 20,marginTop: -8},
+                            obj.is_reserva && obj.chegou &&  {fontSize: 20,marginTop: -8},
+                            obj.is_reserva && !obj.chegou && {color: "red", paddingLeft: 0, paddingTop: 3}
                         ]}
                     >
-                        {!obj.chegou && obj.isReserva ? "Não chegou" : obj.numeroMesa}</Text>
+                        {!obj.chegou && obj.is_reserva ? "Não chegou" : obj.numeroMesa}</Text>
                 </View>
 
                 <View style={{width: "100%", height: 2, backgroundColor: "#B7A187", marginBottom: 5, marginTop: 5}}/>

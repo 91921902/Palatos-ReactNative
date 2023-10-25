@@ -86,6 +86,8 @@ function TelaComanda({navigation}) {
             // ]
 
             const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjo0MywiaWF0IjoxNjk3NDE0MTQ2LCJleHAiOjIzMDIyMTQxNDZ9.drK4rr_L4ATnS5CXolmnhjjSCNh3U5N17CaP78mJCpM"
+            let listaComandas = []
+
             try {
                 const result = await api.get("/restaurante/comandas", {
                     headers: {
@@ -93,11 +95,10 @@ function TelaComanda({navigation}) {
                     }
                 })
                 listaComandas = result.data.ListaComandas
-                console.log(typeof listaComandas)
-                console.log(listaComandas)
             } catch(err) {
                 console.log(`Erro ao puxar comandas: ${err}`)
             }
+            console.log(listaComandas)
             setComandas(listaComandas)
         }
 
