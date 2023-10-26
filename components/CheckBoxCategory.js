@@ -8,6 +8,7 @@ import { useFormTools } from "../providers/FormRestContext";
 export default function CheckBoxCategory({filter}) {
     
     const [categorias, setCategorias] = useState([])
+    const [notChageCategory, setNotChangeCategory] = useState([])
     const [categoriaFiltrada, setCategoriaFiltrada] = useState(filter || "")
     const [categoriasSelected, setCategoriasSelected] = useState(
         categorias.map(() => false)
@@ -35,29 +36,33 @@ export default function CheckBoxCategory({filter}) {
     }, [categoriasSelected])
 
     useEffect(() => {
+
+        //buscar as categorias do banco
+        let categorias = ["Massas", "Doces", "Pizzas", "Carnes", "Vegetariano", "Sopas", "Frutos do mar", "Saladas", "Sanduíches"];
+
+        setCategorias(categorias)
+        setNotChangeCategory(categorias)
+
+    }, [])
+
+    useEffect(() => {
         async function setCategorys() {
 
             if (filter.length > 0) {
                 
-                const filtro = categorias.filter((categoria) => {
+                const filtro = notChageCategory.filter((categoria) => {
                     return categoria.toLowerCase().includes((filter).toLowerCase());
                 });
                 
                 setCategorias(filtro)
 
-            } 
+            } else {
+                setCategorias(notChageCategory)
+            }
 
-        }
+        } 
         setCategorys()
     }, [filter])
-
-    useEffect(() => {
-
-        //buscar as categorias do banco
-        let categorias = ["massas", "doces", "pizzas", "teste", "teste", "teste", "teste", "teste", "teste"]
-        setCategorias(categorias)
-
-    }, [])
 
     function setCategory(indexCategory) {
         const newCategoriasSelected = [...categoriasSelected];
