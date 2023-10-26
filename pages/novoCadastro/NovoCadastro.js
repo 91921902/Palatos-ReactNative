@@ -165,10 +165,6 @@ function NovoCadastro({ navigation }) {
         })
     }
 
-    function nextFormPageTeste() {
-       console.log(categorias)
-    }
-
     const pickImage = async () => {
         
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -197,14 +193,19 @@ function NovoCadastro({ navigation }) {
         }
     };
 
+    function backPage() {
 
-    function returnPage() {
-        navigation.goBack()
+        const rest = AsyncStorage.getItem("login")
+
+        if (rest) {
+            navigation.navigate("PainelADM")
+        }
+
     }
     
     return(
         <View style={styles.containerNovoCadastro}>
-            <BotaoVoltar onPress={returnPage}/>                     
+            <BotaoVoltar onPress={backPage}/>                     
             <View style={styles.boxUploadPhoto}>
                 <Pressable style={[styles.buttonUpload, {overflow: !foto ? "" : "hidden"}]} onPress={pickImage}>
                     {!foto ? (

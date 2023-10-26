@@ -76,6 +76,13 @@ function PainelADM({navigation, route}) {
 
         }
 
+        async function temp() {
+            //temp
+            await AsyncStorage.setItem("login", "true")
+        }
+
+        temp()
+
     }, []);
 
     function nextPage(page) {
