@@ -6,7 +6,8 @@ export const styles = StyleSheet.create({
         height: "100%",
         alignItems: "center",
         paddingTop: "25%",
-        paddingBottom: 30
+        paddingBottom: 30,
+        backgroundColor: "#fff"
     },
     titleMesa: {
         fontFamily: "kavoon",

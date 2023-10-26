@@ -95,15 +95,15 @@ function PainelADM({navigation, route}) {
                 navigation.navigate("NovoMenu")
                 break
             case "Mesas":
-                //validaçao
+               
                 navigation.navigate("Mesas")
                 break
             case "Comandas":
-                //validaçao
+               
                 navigation.navigate("TelaComanda")
                 break
             case "Reservas":
-                //validaçao
+               
                 navigation.navigate("TelaReserva")
                 break
         }

@@ -8,8 +8,6 @@ import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import ProdutoQuantidadeLista from "../../components/ProdutoQuantidadeLista";
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-
-
 function Filtros({navigation, route}) {
   
     const [fontLoaded, setFontLoaded] = useState(false);
@@ -18,16 +16,13 @@ function Filtros({navigation, route}) {
     const [date, setDate] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [typeFilterText, setTypeFilterText] = useState("Produtos Vendidos:");
+    const [products, setProducts] = useState([])
+
 
     const [typeFilter, setTypeFilter] = useState("default");
 
     const [animationMargin, setAnimationMargin] = useState(new Animated.Value(-10))
     const [animationOpacity, setAnimationOpacity] = useState(new Animated.Value(0))
-    /*
-    {(listProducts)
-        id, nome, quandidade
-    }
-    */
 
     function toggleTextFilter(type) {
         switch(type) {
@@ -55,18 +50,103 @@ function Filtros({navigation, route}) {
     };
 
     useEffect(() => {
-        /*setListProducts([{id: 1, nome: "bebida", quantidade: 3},{id: 2, nome: "bebida", quantidade: 3},{id: 3, nome: "bebida", quantidade: 3},{id: 4, nome: "bebida", quantidade: 3},{id: 5, nome: "bebida", quantidade: 3},{id: 6, nome: "bebida", quantidade: 3},{id: 7, nome: "bebida", quantidade: 3},{id: 8, nome: "bebida", quantidade: 3},{id: 9, nome: "bebida", quantidade: 3},{id: 10, nome: "bebida", quantidade: 3},{id: 11, nome: "bebida", quantidade: 3},{id: 12, nome: "bebida", quantidade: 3},{id: 13, nome: "bebida", quantidade: 3},{id: 14, nome: "bebida", quantidade: 3},])*/
 
-        const {products, allProducts} = route.params
-
-        if (products) {
-            setListProducts(products)
+        async function loadFonts() {
+            await Font.loadAsync({
+                'kavoon': fontKavoon,
+                'lemonada': fontLemonada,
+            });
+            setFontLoaded(true);
         }
+    
+        loadFonts();
         
+        const {products, allProducts} = route.params
+        const filterProducts = []     
+            
+        /* for(let oldObj of products) {
+            
+            let isNew = true
+
+            for (let newObj of filterProducts) {
+            
+                for (let prop in newObj) {
+                
+                    if (newObj[prop] == oldObj[prop] || prop == "id" || prop == "data_compra") {
+                    
+                        if (prop != "id" && prop != "data_compra" && prop != "tipo") {
+                            
+                            const index = filterProducts.findIndex(objeto => objeto.id === newObj.id);
+                            
+                            if (isNaN(filterProducts[index].quantidade) || filterProducts[index].quantidade == 0) {
+                                filterProducts[index].quantidade = 1
+                            } else {
+                                filterProducts[index].quantidade += 1
+                            }
+
+                            isNew = false
+                        }
+                    } 
+                }
+            }
+
+            if (filterProducts.length == 0 || isNew) {
+                filterProducts.push(oldObj)
+            }
+            
+        }
+
+        for (let i = 0 ; i < filterProducts.length ; i++) {
+
+            if (isNaN(filterProducts[i].quantidade)) {
+                filterProducts[i].quantidade = 1
+            }
+
+        } */
+
+        setListProducts(products)
+        setProducts(products)
+        
+       
     }, [])
+
+    useEffect(() => {
+
+
+        
+
+        if (typeFilter == "maisVendidos") {
+
+            const oldOrder = [...products]
+            oldOrder.sort((a, b) => b.quantidade - a.quantidade);
+            setListProducts(oldOrder)
+
+        } else if (typeFilter == "data") {
+
+            const productsDate = []
+
+            const data = new Date(date).toLocaleDateString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+              });
+
+            for (let obj of products) {
+                if (obj.data_compra == data) {
+                    productsDate.push(obj)
+                }
+            }
+
+            setListProducts(productsDate)
+
+        } 
+
+    }, [typeFilter, date])
 
     function animationMarginToDown() {
         setFilterOrNot(!filterOrNot)
+        setListProducts(products)
+        setTypeFilter("default")
 
         Animated.timing(
             animationMargin,
@@ -92,19 +172,7 @@ function Filtros({navigation, route}) {
         }
 
     }
-    
 
-    useEffect(() => {
-        async function loadFonts() {
-        await Font.loadAsync({
-            'kavoon': fontKavoon,
-            'lemonada': fontLemonada,
-        });
-        setFontLoaded(true);
-        }
-
-        loadFonts();
-    }, []);
 
     if (!fontLoaded) {
         return null; 
@@ -112,7 +180,7 @@ function Filtros({navigation, route}) {
 
     return(
         <View style={styles.containerFiltros}>
-           <BotaoVoltar onPress={() => navigation.goBack()}/>
+           <BotaoVoltar onPress={() =>{navigation.goBack()}}/>
            <View style={styles.boxFilter}>
                 <View style={styles.boxFilterSearch}>
                     <View>
@@ -133,8 +201,8 @@ function Filtros({navigation, route}) {
                                 <Pressable style={styles.btnFilter} onPress={() => {
                                     
                                     if (typeFilter == "maisVendidos") {
-                                        setTypeFilter("default")
-                                        toggleTextFilter("normal")
+                                        //setTypeFilter("default")
+                                        //toggleTextFilter("normal") ATENCAO
                                     } else {
                                         setTypeFilter("maisVendidos")
                                         toggleTextFilter("maisVendidos")
@@ -145,8 +213,8 @@ function Filtros({navigation, route}) {
                                 </Pressable>
                                 <Pressable style={styles.btnFilter} onPress={() => {
                                     if (typeFilter == "data") {
-                                        setTypeFilter("default")
-                                        toggleTextFilter("normal")
+                                        //setTypeFilter("default")
+                                        //toggleTextFilter("normal")
                                     } else {
                                         setTypeFilter("data")
                                         toggleTextFilter("data")
@@ -195,23 +263,15 @@ function Filtros({navigation, route}) {
                 <View style={styles.headerList}>
                     <Text style={[styles.textHeaderList, {borderRightWidth: 1, borderColor: "#445A14"}]}>Nome:</Text>
                     <Text style={styles.textHeaderList}>Quantidade:</Text>
-                </View>
-                {
-                    listProducts.length > 0 ? (
-                        <FlatList 
-                            keyExtractor={item => item.id}
-                            data={listProducts}
-                            renderItem={item => <ProdutoQuantidadeLista {...item} />}
-                            scrollEnabled={false}
-                        />
-                    ) : (
-                        <View style={styles.boxTextProductsNotFound}>
-                            <Text style={{fontSize: 13, fontFamily: "kavoon", color: "#445A14"}}>
-                                Produtos Não Encontrados.
-                            </Text>
-                        </View>
-                    )
-                }
+                </View>     
+
+                <FlatList 
+                    keyExtractor={item => item.id}
+                    data={listProducts}
+                    renderItem={item => <ProdutoQuantidadeLista {...item} />}
+                    scrollEnabled={false}
+                />
+                
            </ScrollView>
         </View>
     );

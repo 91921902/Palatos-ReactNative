@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     },
     subContainer: {
         width: "50%",
-        height: "100%",
+        minHeight: 40,
         alignItems: "center",
         justifyContent: "center"
     },

@@ -24,7 +24,7 @@ function TelaReserva({navigation}) {
                 {
                     nome: "João",
                     codigoReserva: 2524,
-                    horario: dataAtual.getDate() + 1,
+                    horario: "15:00",
                     pedido: [
                         "Bife Acebolado",
                         "Doce de leite"
@@ -33,7 +33,7 @@ function TelaReserva({navigation}) {
                 {
                     nome: "David",
                     codigoReserva: 3844,
-                    horario: dataAtual.getHours() + 2,
+                    horario: "16:00",
                     pedido: [
                         "Feijoada",
                         "Mousse de Maracujá"
@@ -42,7 +42,7 @@ function TelaReserva({navigation}) {
                 {
                     nome: "Eduarda",
                     codigoReserva: 6499,
-                    horario: dataAtual.getDate() + 2,
+                    horario: "18:00",
                     pedido: [
                         "Macarrão",
                         "Bolo de chocolate com brigadeiro",
