@@ -80,7 +80,7 @@ async function createMenu(token, navigation, restaurante, menu) {
             return
         }
 
-        pratosCriados.push(pratoCriado.data.codigo)
+        pratosCriados.push(pratoCriado.data.produto.codigo)
      
     }
 
