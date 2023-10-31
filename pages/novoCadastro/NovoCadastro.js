@@ -194,7 +194,7 @@ function NovoCadastro({ navigation }) {
     };
 
     function backPage() {
-
+        
         const rest = AsyncStorage.getItem("login")
 
         if (rest) {
