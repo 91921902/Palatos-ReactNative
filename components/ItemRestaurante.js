@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, Pressable, Text } from "react-native";
 import { Image } from "react-native";
 
-export default function ItemRestaurante() {
+export default function ItemRestaurante({rest}) {
     return(
         <View style={styles.itemRestaurante}>
             <View style={styles.imagem}>
@@ -13,9 +13,13 @@ export default function ItemRestaurante() {
             <View style={styles.descricao}>
              <Image source={require('../assets/icons/coracao.png')}style={styles.coracao}/>
              
-               <Text style={styles.tituloRestaurante} numberOfLines={1} ellipsizeMode="tail">Nome Restaurantefgfxddrssertjsetjsetj</Text>
+               <Text style={styles.tituloRestaurante} numberOfLines={1} ellipsizeMode="tail">
+                {rest.nome}
+               </Text>
 
-               <Text style={styles.categoriaRestaurante} numberOfLines={1} ellipsizeMode="tail">Massa, Lasanha, abobora, pinhão, salada verde, brocolis, abobrinha, arroz, feijão</Text>
+               <Text style={styles.categoriaRestaurante} numberOfLines={1} ellipsizeMode="tail">
+                {rest.descricao}
+               </Text>
 
              <Pressable style={styles.botao}>
                 <Text style={styles.textoBotao}>ver mais</Text>

@@ -11,8 +11,8 @@ export default function App() {
   return (
     <View style={styles.container}>
       {/* <CadastroCliente /> */}
-      <PagInicial />
-      {/* <BuscaRestaurante /> */}
+      {/* <PagInicial /> */}
+      <BuscaRestaurante />
       {/* <PerfilRestaurante />  */}
       {/* <MenuRestaurante /> */}
 
