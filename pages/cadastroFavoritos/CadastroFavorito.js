@@ -11,6 +11,11 @@ import BolaFavoritos from '../../components/BolaFavoritos';
 
 export default function CadastroFavoritos(){
     const [fontLoaded, setFontLoaded] = useState(false);
+    const [nome, setNome]= useState('');
+    const [email,setEmail]=useState('');
+    const [telefone, setTelefone]=useState('');
+    const [favoritos, setFavoritos]=useState([]);
+    const [reservas, serReservas]=useState([]);
 
     useEffect(() => {
         async function loadFonts() {
@@ -42,30 +47,36 @@ return(
     </View>
   
     <View style={styles.nomeView}>
-        <Text style={styles.nome}>teste nome pessoa</Text>
+        <Text style={styles.nome}>{nome}</Text>
     </View>
 
 
     <View style={styles.emailTelTexto}>
                  <View style={styles.direcaoEmailTel}>
                         <Text style={styles.emailEtel}>Email:</Text>
-                        <Text style={styles.resposta}>resposta ex...</Text>
+                        <Text style={styles.resposta}>{email}</Text>
                     </View> 
 
                 <View style={styles.direcaoEmailTel}>
                     <Text style={styles.emailEtel}>Tel:</Text>
-                    <Text style={styles.resposta}>resposta ex...</Text>
+                    <Text style={styles.resposta}>{telefone}</Text>
             </View>
 
     </View>
 
 
-    <View style={styles.favoritoView}>
+    <View >
         <Text style={styles.favorito}>Favoritos</Text>
     </View>
 
 <ScrollView horizontal={true} style={styles.favoritosStar}>
-        <BolaFavoritos />
+        {
+            favoritos.map(favorito => {
+                return(
+                    <BolaFavoritos restaurante={favorito}/>
+                )
+            })
+        }
        
    
 </ScrollView>

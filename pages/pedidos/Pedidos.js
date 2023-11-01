@@ -9,6 +9,8 @@ import PedidoCliente from '../../components/PedidoCliente';
 export default function Pedidos() {
 
     const [fontLoaded, setFontLoaded] = useState(false);
+    const [pedido, setPedido]= useState([]);
+    const [valorTotal, setValorTotal]=useState(0);
 
     useEffect(() => {
         async function loadFonts() {
@@ -24,6 +26,14 @@ export default function Pedidos() {
 
     if (!fontLoaded) {
         return null; 
+    }
+
+    function somarValorTotal(){
+        let valor=0
+        for(let produto of pedido){
+          valor+=produto.preco 
+      }
+      setValorTotal(valor)
     }
 
   return (
@@ -47,13 +57,18 @@ export default function Pedidos() {
 
       <ScrollView style={{width: '100%'}} >
           <View style={styles.pedido}>
-            <PedidoCliente/>
-            <PedidoCliente/>
+           {
+            pedido.map(produto => {
+              return (
+                <PedidoCliente produto={produto}/>
+              )
+            })
+           }
           </View>
       </ScrollView>
 
       <View style={styles.valorTotalPai}>
-        <Text style={styles.valorTotal}>Valor total: R$</Text>
+        <Text style={styles.valorTotal}>Valor total: R$ {valorTotal}</Text>
       </View>
 
 

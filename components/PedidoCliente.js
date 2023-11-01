@@ -1,18 +1,18 @@
 import React from "react"; 
 import {View , StyleSheet, Image, Text} from 'react-native'
 
-export default function PedidoCliente(){
+export default function PedidoCliente({produto}){
 
 
     return (
         <View style={styles.pedidoCliente}>
 
             <View style={styles.nomePrato}>
-                <Text style={styles.nomePratoTexto}>Nome do prato</Text>
+                <Text style={styles.nomePratoTexto}>{produto.nome_produto}</Text>
             </View>
 
             <View style={styles.valor} >
-                <Text style={styles.valorTexto}>R$</Text>
+                <Text style={styles.valorTexto}>R$ {produto.preco}</Text>
             </View> 
 
 

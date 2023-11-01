@@ -10,7 +10,6 @@ export default function LoginRestaurante() {
     const [fontLoaded, setFontLoaded] = useState(false);
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
-    const data=[]
 
     useEffect(() => {
         async function loadFonts() {
@@ -30,14 +29,10 @@ export default function LoginRestaurante() {
 
 
     function Enviardados(){
-        let dados={
-          email:email ,
-          senha:senha
-        }
 
-        data.push(dados)
 
     }
+    
   return (
     <View style={styles.container}>
       <Image
@@ -47,21 +42,21 @@ export default function LoginRestaurante() {
       
       <Text style={styles.emailSenha}>Email</Text>
       <TextInput 
-      style={styles.inputs} 
-      value={email}
-      onChangeText={setEmail}
+        style={styles.inputs} 
+        value={email}
+        onChangeText={setEmail}
       />
 
       <Text style={styles.emailSenha}>Senha</Text>
       <TextInput 
-      style={styles.inputs}
-      value={senha}
-      onChangeText={setSenha}
+        style={styles.inputs}
+        value={senha}
+        onChangeText={setSenha}
       />
 
       <Pressable
-       style={styles.btnEntrar}
-       onPress={Enviardados}
+        style={styles.btnEntrar}
+        onPress={Enviardados}
        >
 
         <Text style={styles.palavraEntrar}>Entrar</Text>

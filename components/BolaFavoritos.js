@@ -1,18 +1,23 @@
 import React from "react"; 
 import {View , StyleSheet, Image} from 'react-native'
 
-export default function BolaFavoritos(){
+export default function BolaFavoritos({restaurante}){
 
 
     return (
         <View style={styles.bolasView}>
-            <View style={styles.bolinha}></View>
+            <View style={styles.bolinha}>
+            <Image 
+                source={{uri:restaurante.foto}}
+                style={{width: '100%', height: '100%', resizeMode:'contain', borderRadius:5000}}  
+                />
+            </View>
 
             <View style={styles.estrelinha}>
-            <Image 
-             source={require('../assets/estrela 1.png')}
-             style={{width: 20, height: 25, }}  
-            />
+                <Image 
+                source={require('../assets/estrela 1.png')}
+                style={{width: 20, height: 25, }}  
+                />
             </View>
 
         </View>   
