@@ -5,11 +5,11 @@ export const styles = StyleSheet.create({
 container:{
     flex:1,
     width:'100%',
-    //height:'100%',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 40,
-    gap:20,
+    paddingTop: 80,
+    paddingBottom:30,
+    backgroundColor:'white'
  },
 
  scroll:{
@@ -20,8 +20,8 @@ container:{
  },
 
  fotoPessoa:{
-    width:140,
-    height:140,
+    width:170,
+    height:170,
     borderRadius:100,
     borderColor:'#445A14',
     borderWidth:2,
@@ -35,6 +35,7 @@ container:{
 
  favoritosStar:{
   width:'90%',
+  marginTop:10
  },
 
  textoReserva:{
@@ -52,7 +53,8 @@ emailEtel:{
  emailTelTexto:{
    width:'80%',
    alignItems:'flex-start',
-   gap:10,
+   gap:30,
+   marginBottom:20,
  },
 
  direcaoEmailTel:{
@@ -70,8 +72,8 @@ emailEtel:{
 
  visualizarReserva:{
     position:'relative',
-    width: 243,
-    height: 142,
+    width: "80%",
+    height: 200,
     borderColor:'#445A14',
     borderWidth:2,
     borderRadius:10,
