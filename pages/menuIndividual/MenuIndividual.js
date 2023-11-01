@@ -6,14 +6,21 @@ import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import MiniLogo from '../../components/MiniLogo';
 import BotaoVoltar from '../../components/BotaoVoltar';
+import api from "../../providers/api"
+import AsyncStorage from '@react-native-async-storage/async-storage/lib/typescript';
+import jwtDecode from 'jwt-decode';
 
 
-export default function MenuIndividual() {
+export default function MenuIndividual({navigation}) {
     const [fontLoaded, setFontLoaded] = useState(false);
     const [observacoes, setObservacoes] = useState('');
     const [quantidade, setQuantidade] = useState(1);
-    const [prato, setprato] = useState({ id: 1, foto: "", nome: "lagosta", descricao: "muito boa", preco: "55" });
-    const [valoresEnviados, setvaloresEnviados] = useState()
+    const [valoresEnviados, setvaloresEnviados] = useState("");
+    const [nomePrato, setNomePrato]=useState("");
+    const [descricao, setDescricao]=useState("");
+    const [preco, setPreco]=useState(0);
+    const [foto, setFoto]=useState("");
+
 
 
     const aumentarNumero = () => {
@@ -23,12 +30,6 @@ export default function MenuIndividual() {
     const diminuirNumero = () => {
         setQuantidade(quantidade - 1);
     };
-
-
-
-
-    let dadosEnviar = { idPrato: '', quantidade: '', observacao: observacoes }
-
 
 
     useEffect(() => {
@@ -42,8 +43,27 @@ export default function MenuIndividual() {
 
         loadFonts();
 
-        //buscar os dados
 
+        async function buscarDados(){
+            const token= await AsyncStorage.getItem("token")
+
+            try {
+                    const decode = jwtDecode(token)
+                    const resultado= await api.get(`restaurante/cardapio/${decode.idRestaunte}`)
+                    setNomePrato(resultado.data.nome_produto)
+                    setDescricao(resultado.data.descricao)
+                    setPreco(resultado.data.preco)
+                    setFoto(resultado.data.foto)
+            
+            } catch (error) {
+                alert("erro")
+            }
+                
+        }
+
+             buscarDados()
+
+       
 
     }, []);
 
@@ -64,17 +84,20 @@ export default function MenuIndividual() {
                 <View style={styles.caixaFoto}>
 
                     <View style={styles.foto}>
-
+                    <Image
+                        source={{uri:foto}}
+                        style={styles.fotoProduto}
+                        />
                     </View>
 
                 </View>
 
                 <View >
-                    <Text style={styles.tituloDoPrato}>{prato.nome}</Text>
+                    <Text style={styles.tituloDoPrato}>{nomePrato}</Text>
                 </View>
 
                 <View style={styles.descricaoView}>
-                    <Text style={styles.descricao}>{prato.descricao}</Text>
+                    <Text style={styles.descricao}>{descricao}</Text>
                 </View>
 
 
@@ -116,7 +139,7 @@ export default function MenuIndividual() {
                 </View>
 
                 <View style={styles.valorView}>
-                    <Text style={styles.valor}>R$ {prato.preco}</Text>
+                    <Text style={styles.valor}>R$ {preco}</Text>
                 </View>
 
                 <View style={styles.carrinhoView}>

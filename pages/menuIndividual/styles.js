@@ -36,6 +36,14 @@ foto:{
     borderColor:'#445A14',
 },
 
+fotoProduto:{
+    width:"100%",
+    height:"100%",
+    borderRadius:5000,
+    resizeMode:'contain'
+
+},
+
 tituloDoPrato:{
     color:'#445A14',
     fontSize:16,

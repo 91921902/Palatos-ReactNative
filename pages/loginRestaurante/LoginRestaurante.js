@@ -4,8 +4,10 @@ import{styles} from './styles'
 import * as Font from 'expo-font';
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
+import api from "../../providers/api"
+import AsyncStorage from '@react-native-async-storage/async-storage/lib/typescript';
 
-export default function LoginRestaurante() {
+export default function LoginRestaurante({navigation}) {
 
     const [fontLoaded, setFontLoaded] = useState(false);
     const [email, setEmail] = useState('');
@@ -28,8 +30,18 @@ export default function LoginRestaurante() {
     }
 
 
-    function Enviardados(){
+    async function Enviardados(){
+      const usuario={email:email , senha:senha}
+      const resposta= await api.post("restaurante/login",usuario)
 
+      if(resposta.data.status=="success"){
+            const token=resposta.data.token
+            await AsyncStorage.setItem("token",token)
+            navigation.navigate("PainelADM")
+      }
+      else{
+        alert('Login incorreto')
+      }
 
     }
     
