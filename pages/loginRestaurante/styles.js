@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
       alignItems: 'center',
       gap: 15,
       paddingBottom:100,
+      backgroundColor:'white',
     
     },
   
@@ -17,7 +18,7 @@ export const styles = StyleSheet.create({
     },
   
     inputs: {
-      width: 245,
+      width: "80%",
       height: 50,
       borderRadius: 20,
       borderWidth: 2, 
@@ -27,35 +28,31 @@ export const styles = StyleSheet.create({
     },
   
     btnEntrar:{
-      width: 117,
-      height: 41,
+      width: 150,
+      height: 50,
       justifyContent:'center',
       alignItems:'center',
       borderRadius: 20,
       borderWidth: 2, 
       borderColor: '#445A14', 
-      backgroundColor: '#FFF',
-      
+      marginTop:10,
     },
   
     palavraEntrar:{
-      flex:1,
-      justifyContent:'center',
-      alignItems:'center',
-      padding:10,
       color:'#445A14',
       fontFamily:'lemonada'
+
       },
   
     emailSenha:{
-    width:210,
+    width:"80%",
+    paddingLeft:30,
     color: '#445A14',
     textAlign: 'justify',
     fontSize: 16,
-    fontStyle: 'normal', 
-    lineHeight: 20, 
     marginBottom:-10,
-    fontFamily:'lemonada'
+    fontFamily:'lemonada',
+
   },
 
   textoLembrar:{

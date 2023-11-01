@@ -7,11 +7,11 @@ import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import MiniLogo from '../../components/MiniLogo';
 import BotaoVoltar from '../../components/BotaoVoltar';
 import api from "../../providers/api"
-import AsyncStorage from '@react-native-async-storage/async-storage/lib/typescript';
-import jwtDecode from 'jwt-decode';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
-export default function MenuIndividual({navigation}) {
+
+export default function MenuIndividual({navigation, route}) {
     const [fontLoaded, setFontLoaded] = useState(false);
     const [observacoes, setObservacoes] = useState('');
     const [quantidade, setQuantidade] = useState(1);
@@ -28,6 +28,7 @@ export default function MenuIndividual({navigation}) {
     };
 
     const diminuirNumero = () => {
+        if(quantidade==1) return
         setQuantidade(quantidade - 1);
     };
 
@@ -45,15 +46,17 @@ export default function MenuIndividual({navigation}) {
 
 
         async function buscarDados(){
-            const token= await AsyncStorage.getItem("token")
+            const {id}=route.params
 
             try {
-                    const decode = jwtDecode(token)
-                    const resultado= await api.get(`restaurante/cardapio/${decode.idRestaunte}`)
-                    setNomePrato(resultado.data.nome_produto)
-                    setDescricao(resultado.data.descricao)
-                    setPreco(resultado.data.preco)
-                    setFoto(resultado.data.foto)
+                    
+                    const resultado= await api.get(`restaurante/cardapio/prato/${id}`)
+                    .then(result => result.data.produto)
+                    setNomePrato(resultado.nome_produto)
+                    setDescricao(resultado.descricao)
+                    setPreco(resultado.preco)
+                    setFoto(resultado.foto)
+                    console.log(resultado)
             
             } catch (error) {
                 alert("erro")
@@ -61,8 +64,8 @@ export default function MenuIndividual({navigation}) {
                 
         }
 
-             buscarDados()
-
+           
+        buscarDados()
        
 
     }, []);
@@ -73,7 +76,7 @@ export default function MenuIndividual({navigation}) {
 
 
     return (
-        <ScrollView style={styles.scroll}>
+        <ScrollView contentContainerStyle={styles.scroll}>
 
             <View style={styles.container}>
                 <MiniLogo />
@@ -84,10 +87,13 @@ export default function MenuIndividual({navigation}) {
                 <View style={styles.caixaFoto}>
 
                     <View style={styles.foto}>
-                    <Image
+                        {foto && (
+                            <Image
                         source={{uri:foto}}
                         style={styles.fotoProduto}
                         />
+                        )}
+                    
                     </View>
 
                 </View>
@@ -105,12 +111,13 @@ export default function MenuIndividual({navigation}) {
                     <Text style={styles.observacoes}>Observações:</Text>
                 </View>
 
-                <View>
+                <View style={{width:"100%",alignItems:'center'}}>
                     <TextInput style={styles.inpObs}
                         placeholder='   Ex: Tirar cebola, tirar salada...'
                         placeholderTextColor={'#92A14D'}
                         value={observacoes}
                         onChangeText={setObservacoes}
+                        cursorColor={"black"}
                     />
 
                     <Text style={styles.excluirAlgo}></Text>
@@ -125,22 +132,22 @@ export default function MenuIndividual({navigation}) {
 
                     <Pressable onPress={aumentarNumero}>
                         <Image
-                            source={require('../../assets/mais 1.png')}
-                            style={{ width: 31, height: 34, }}
+                            source={require('../../assets/mais.png')}
+                            style={{ width: 31, height: 34, resizeMode:'contain',marginRight:5}}
                         />
                     </Pressable>
 
                     <Pressable onPress={diminuirNumero} >
                         <Image
-                            source={require('../../assets/menos 1.png')}
-                            style={{ width: 31, height: 34, }}
+                            source={require('../../assets/menos.png')}
+                            style={{ width: 31, height: 34, resizeMode:'contain' }}
                         />
                     </Pressable>
                 </View>
 
-                <View style={styles.valorView}>
+               
                     <Text style={styles.valor}>R$ {preco}</Text>
-                </View>
+              
 
                 <View style={styles.carrinhoView}>
                     <Pressable style={styles.btnCarrinho}>

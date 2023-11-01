@@ -5,7 +5,7 @@ import * as Font from 'expo-font';
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import api from "../../providers/api"
-import AsyncStorage from '@react-native-async-storage/async-storage/lib/typescript';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function LoginRestaurante({navigation}) {
 

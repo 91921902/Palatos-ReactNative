@@ -14,6 +14,8 @@ container:{
  scroll:{
     flex:1,
     width:'100%',  
+    backgroundColor:'blue',
+    height:'100%',
  },
 
 miniLogo:{
@@ -25,7 +27,7 @@ caixaFoto:{
 width:'100%',
 height:'30%',
 alignItems: 'center',
-
+marginTop:20
 },
 
 foto:{
@@ -63,7 +65,7 @@ descricao:{
     color: "#445A14",
     textAlign: 'center',
     justifyContent:'center',
-    fontFamily: 'Lemonada',
+    fontFamily: 'lemonada',
     fontSize: 12,
     marginTop:10,
 },
@@ -75,14 +77,14 @@ observacoes:{
 },
 
 inpObs:{
-    width: 243,
-    height: 88,
+    width:'80%',
+    height: 150,
     borderRadius: 10,
     borderWidth:3,
     borderColor:'#445A14',
     backgroundColor: "#FFF",
     marginTop:3,
-    fontFamily:'Lemonada',
+    fontFamily:'lemonada',
     fontSize: 12,
 
 
@@ -111,28 +113,28 @@ icones:{
 },
 
 valor:{
-    color: '#000',
     width: 243,
-    fontFamily: 'Kavoon',
+    fontFamily: 'kavoon',
     fontSize: 32,
-    alignItems: 'center',
+    position:'absolute',
+    bottom:50,
+    left:45,
 },
 
 valorView:{
     width: 134,
     height: 41, 
     alignItems: 'center',
-    padding:50,
-    
+    backgroundColor:'red'
 },
 
 btnCarrinho:{
-    width: 109,
-    height: 45,
+    width:150,
+    height: 55,
     borderRadius: 10,
     borderColor:'#445A14',
     borderWidth:3,
-    marginBottom:20,
+    marginBottom:20
 
 },
 carrinhoView:{
@@ -145,7 +147,7 @@ carrinhoView:{
 textoCarrinho:{
     color: '#445A14',
     textAlign: 'center',
-    fontFamily: 'Kavoon',
+    fontFamily: 'kavoon',
     fontSize: 12,
     padding:5,
 }

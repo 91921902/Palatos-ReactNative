@@ -39,8 +39,6 @@ const MyNavigator = () => {
         <Stack.Screen name="CadastroFavoritos" component={CadastroFavoritos} />
         <Stack.Screen name="Pedidos" component={Pedidos} />
         <Stack.Screen name="DescricaoReserva" component={DescricaoReserva} />
-        
-
       </Stack.Navigator>
     </NavigationContainer>
   );
