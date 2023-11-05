@@ -76,14 +76,14 @@ function PagInicial() {
       <View style={styles.formularioPagInicial}>
         <View style={styles.inputsFormulario}>
           <Text style={styles.textoInput}>Email</Text>
-          {/* Campo de entrada de email */}
-          <TextInput style={styles.input} onChangeText={text => setEmail(text)} value={email} />
+         
+          <TextInput style={styles.input} onChangeText={setEmail} value={email} />
         </View>
 
         <View style={styles.inputsFormulario}>
           <Text style={styles.textoInput}>Senha</Text>
-          {/* Campo de entrada de senha */}
-          <TextInput style={styles.input} onChangeText={text => setSenha(text)} value={senha} />
+         
+          <TextInput style={styles.input} onChangeText={setSenha} value={senha} />
         </View>
       </View>
 
