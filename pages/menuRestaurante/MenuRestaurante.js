@@ -10,6 +10,7 @@ import NomePrato from "../../components/NomePrato";
 
 function MenuRestaurante({navigation}) {
     const [fontLoaded, setFontLoaded] = useState(false);
+    const [menu, setMenu]=useState([]);
 
     useEffect(() => {
         async function loadFonts() {
@@ -45,12 +46,13 @@ function MenuRestaurante({navigation}) {
             <ScrollView>
                 <View style={styles.nomePrato}>
                  <NomePrato/>
-                 <NomePrato/>
-                 <NomePrato/>
-                 <NomePrato/>
-                 <NomePrato/>
-                 <NomePrato/>
-                 <NomePrato/>
+               {
+                menu.map(produto =>{
+                    return(
+                        <NomePrato produto={produto} key={produto.id}/>
+                    )
+                })
+               }
                 </View>
 
             </ScrollView>

@@ -2,23 +2,27 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Image } from "react-native";
 
-export default function NomePrato() {
+export default function NomePrato({produto}) {
+
+    
+
     return(
+
         <View style={styles.nomePrato}>
             <View style={styles.imagem}>
-             <Image source={require('../assets/icons/fotoPrato.png')} style={styles.fotoPrato} />
+             <Image source={{uri: produto.foto}} style={styles.fotoPrato} />
             </View>
            <View style={styles.retangulo}>
                 <View style={styles.titulo}>
-                <Text style={styles.textoTitulo} numberOfLines={1} ellipsizeMode="tail">Lasanha De Abobrinha Grelhada</Text>
+                <Text style={styles.textoTitulo} numberOfLines={1} ellipsizeMode="tail">{produto.nome_produto}</Text>
                 </View>
                
                 <View style={styles.descricao}>
-                <Text style={styles.textoDescricao}numberOfLines={1} ellipsizeMode="tail">Abobrinha, queijo,presunto, orégano, carne moida</Text>
+                <Text style={styles.textoDescricao}numberOfLines={1} ellipsizeMode="tail">{produto.descricao}</Text>
                 </View>
 
                 <View style={styles.preco}>
-                    <Text style={styles.textoPreco}>R$</Text>
+                    <Text style={styles.textoPreco}>R$ {produto.preco}</Text>
                     <Text style={styles.textoUnidade}>1 unid.</Text>
                 </View>
             </View> 
