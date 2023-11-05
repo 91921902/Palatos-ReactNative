@@ -44,8 +44,6 @@ const MyNavigator = () => {
   );
 };
 
-//NAVEGAR PARA FILTROS
-
 export default function App() {
   return (
     <FormProvider>
