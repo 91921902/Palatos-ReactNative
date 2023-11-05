@@ -1,24 +1,105 @@
-import React from "react";
-import { Text, View } from "react-native";
-import { styles } from "./styles"
+
+import React, { useState, useEffect } from "react";
+import { styles } from "./styles";
+import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
+import fontKavoon from "../../assets/fonts/kavoon.ttf";
+import fontLemonada from "../../assets/fonts/lemonada.ttf";
+import * as Font from 'expo-font';
+
 
 function PagInicial() {
+  // Estado para verificar se as fontes foram carregadas
+  const [fontLoaded, setFontLoaded] = useState(false);
 
+  // Estados para armazenar o email e a senha digitados pelo usuário
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
 
-    return(
-        <View style={styles.containerPagInicial}>
-            <View>
-                {/* aqui vai ser o topo */}
-            </View>
-            <View style={styles.body}>
-                {/* aqui vai ser o body */}
-            </View>
-            <View>
+  // Estado para armazenar os dados do usuário em um array
+  const [userList, setUserList] = useState([]);
+ 
 
-            </View>
+  useEffect(() => {
+    async function loadFonts() {
+      await Font.loadAsync({
+        'kavoon': fontKavoon,
+        'lemonada': fontLemonada,
+      });
+      setFontLoaded(true);
+    }
+
+    loadFonts();
+  }, []);
+
+  if (!fontLoaded) {
+    return null;
+  }
+
+  // Função para lidar com o login
+  const handleLogin = async () => {
+    // Verifica se o email ou senha estão em branco
+    if (!email || !senha) {
+      return;
+    }
+
+    try {
+      // Simulando uma solicitação POST para o backend com as credenciais
+      // Substitua esta parte pelo código de solicitação real para o seu backend
+      // Aqui estamos apenas simulando um objeto de usuário com email e senha
+      const user = { email, senha };
+
+      // Adiciona os dados do usuário ao userList
+      setUserList([...userList, user]);
+
+      console.log('User List:', userList);
+
+      // Redireciona o usuário para a tela inicial do aplicativo
+      // (usando a navegação do React Navigation, por exemplo)
+    } catch (error) {
+      // Lidar com erros de conexão, etc.
+      console.log('erro')
+    }
+  };
+
+  return (
+    <View style={styles.containerPagInicial}>
+      <View style={styles.loginRestaurante}>
+        <TouchableOpacity style={styles.botaoLogin}>
+          <Text style={styles.textoBotaoLogin}>Login restaurante</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.logo}>
+        <Image source={require("../../assets/logo-texto.png")} style={styles.logoTexto} />
+      </View>
+
+      <View style={styles.formularioPagInicial}>
+        <View style={styles.inputsFormulario}>
+          <Text style={styles.textoInput}>Email</Text>
+         
+          <TextInput style={styles.input} onChangeText={setEmail} value={email} />
         </View>
-    );
 
+        <View style={styles.inputsFormulario}>
+          <Text style={styles.textoInput}>Senha</Text>
+         
+          <TextInput style={styles.input} onChangeText={setSenha} value={senha} />
+        </View>
+      </View>
+
+      <View style={styles.entrar}>
+        <TouchableOpacity style={styles.botaoEntrar} onPress={handleLogin}>
+          <Text style={styles.textoBotaoEntrar}>Entrar</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.cadastro}>
+        <TouchableOpacity style={styles.botaoCadastro}>
+          <Text style={styles.textoCadastro}>Não tenho cadastro...</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 }
 
-export default PagInicial
+export default PagInicial;

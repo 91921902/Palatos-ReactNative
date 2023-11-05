@@ -1,23 +1,127 @@
-import React from "react";
-import { Text, View } from "react-native";
+import React,{useState,useEffect} from "react";
 import { styles } from "./styles"
+import {  View, Text, TextInput, TouchableOpacity } from "react-native"
+import MiniLogo from "../../components/MiniLogo";
+import BotaoVoltar from "../../components/BotaoVoltar";
+import fontKavoon from "../../assets/fonts/kavoon.ttf"
+import fontLemonada from "../../assets/fonts/lemonada.ttf"
+import * as Font from 'expo-font';
 
+  
 function CadastroCliente() {
+ 
+  const [fontLoaded, setFontLoaded] = useState(false);
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [confirmarSenha, setConfirmarSenha] = useState('');
+  const [dadosCadastrados, setDadosCadastrados] = useState([]);
+  const [erro, setErro] = useState('');
 
+
+
+    useEffect(() => {
+        async function loadFonts() {
+        await Font.loadAsync({
+            'kavoon': fontKavoon,
+            'lemonada': fontLemonada,
+        });
+        setFontLoaded(true);
+        }
+
+        loadFonts();
+    }, []);
+
+    if (!fontLoaded) {
+        return null; 
+    }
+    const realizarCadastro = () => {
+      // Implemente a validação dos campos (email, senha e confirmação de senha) aqui.
+      // Se a validação for bem-sucedida, você pode adicionar os dados ao vetor dadosCadastrados.
+  
+      // Exemplo de validação:
+      if (!email || !senha || !confirmarSenha) {
+        alert('Preencha todos os campos.');
+        return;
+        
+      }
+  
+      if (senha !== confirmarSenha) {
+        alert('As senhas não coincidem.');
+        return;
+      }
+  
+      // Se a validação passar, você pode adicionar os dados ao vetor.
+      const dadosCadastro = {
+        email,
+        senha,
+      };
+      setDadosCadastrados([...dadosCadastrados, dadosCadastro]);
+      setErro(''); // Limpa qualquer mensagem de erro anterior.
+      console.log("Dados Cadastrados:", dadosCadastrados);
+    }
+    
+   
+      
 
     return(
+   
         <View style={styles.containerCadastroCliente}>
-            <View>
-                {/* aqui vai ser o topo */}
-            </View>
-            <View style={styles.body}>
-                {/* aqui vai ser o body */}
-            </View>
-            <View>
 
-            </View>
+        <View style={styles.titulo} >
+          <Text style={styles.textoTitulo}>Faça seu cadastro:</Text>
         </View>
+  
+        <View style={styles.formularioCadastroCliente}>
+          
+          <View style={styles.inputsPar}>
+            <Text style={styles.textoInput}>Email</Text>
+            <TextInput 
+            style={styles.inputs}
+            value={email}
+            onChangeText={setEmail}
+            />
+         </View>
+
+          <View style={styles.inputsPar}>
+            <Text style={styles.textoInput}>Senha</Text>
+            <TextInput 
+            style={styles.inputs}
+            value={senha}
+            onChangeText={setSenha}
+            secureTextEntry
+            />
+          </View>
+           
+           <View style={styles.inputsPar}>
+              <Text style={styles.textoInput}>Confirmar Senha</Text>
+              <TextInput 
+              style={styles.inputs} 
+              cursorColor = {"#445A14"}
+              value={confirmarSenha}
+              onChangeText={setConfirmarSenha}
+              secureTextEntry
+              />
+           </View>
+
+        </View>
+  
+        
+        <View style={styles.confirmar}>
+          <TouchableOpacity style={styles.botaoConfirmar}onPress={realizarCadastro}>
+  
+           <Text style={styles.textoBotaoConfirmar}>Confirmar</Text>
+  
+          </TouchableOpacity>
+          
+        </View>
+  
+  
+  
+      </View>
+  
     );
+
+    
 
 }
 
