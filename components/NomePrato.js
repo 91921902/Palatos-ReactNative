@@ -1,14 +1,18 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Pressable } from "react-native";
 import { Image } from "react-native";
 
-export default function NomePrato({produto}) {
+export default function NomePrato({produto,navigation}) {
 
-    
+    function entrarPrato(){
+        navigation.navigate("MenuIndividual",{
+            idProduto:produto.id
+        })
+    }
 
     return(
 
-        <View style={styles.nomePrato}>
+        <Pressable style={styles.nomePrato} onPress={entrarPrato}>
             <View style={styles.imagem}>
              <Image source={{uri: produto.foto}} style={styles.fotoPrato} />
             </View>
@@ -26,7 +30,7 @@ export default function NomePrato({produto}) {
                     <Text style={styles.textoUnidade}>1 unid.</Text>
                 </View>
             </View> 
-        </View>
+        </Pressable>
     );
 }
 

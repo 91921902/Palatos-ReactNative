@@ -20,8 +20,43 @@ export default function MenuIndividual({navigation, route}) {
     const [descricao, setDescricao]=useState("");
     const [preco, setPreco]=useState(0);
     const [foto, setFoto]=useState("");
+    const [isCarrinho, setIsCarrinho]= useState(false);
 
 
+    async function enviarParaCarrinhoOuNao(){
+
+        if(isCarrinho){
+            const {idProduto}=route.params
+            const idMesa= await AsyncStorage.getItem("mesa")
+            const result = await api.post("/users/carrinhoMesa/deleteItem/"+ idMesa, {
+                idProduto:idProduto
+            })
+
+            if(result.data.status!='success'){
+                console.log("erro ao remover item do carrinho")
+            }
+
+        } else{
+
+        
+
+        const idMesa= await AsyncStorage.getItem("mesa")
+        const {idProduto}=route.params
+
+        const req={
+            observacoes:observacoes,
+            quantidade:quantidade,
+            idProduto,
+            idMesa:Number(idMesa)
+        }
+
+        const result= await api.post("/users/carrinhoMesa/addItem",req)
+
+        if(result.data.status=="success"){
+            setIsCarrinho(true)
+        }
+    }
+    };
 
     const aumentarNumero = () => {
         setQuantidade(quantidade + 1);
@@ -56,11 +91,28 @@ export default function MenuIndividual({navigation, route}) {
                     setDescricao(resultado.descricao)
                     setPreco(resultado.preco)
                     setFoto(resultado.foto)
-                    console.log(resultado)
+
+                    const idMesa= await AsyncStorage.getItem("mesa")
+                    
+                    const carrinho= await api.get('/users/carrinhoMesa/getAll/' + idMesa)
+                    .then(result => result.data.pratos)
+
+                    function filtrarPorId(array, idDesejado) {
+                        return array.filter(objeto => objeto.id == idDesejado);
+                    }
+                    const {idProduto}=route.params
+                    const recebeItemOuNao= filtrarPorId(carrinho,idProduto)
+
+                    if(recebeItemOuNao){
+                     setIsCarrinho(true)
+                    }
+
             
             } catch (error) {
                 alert("erro")
             }
+
+            
                 
         }
 
@@ -150,8 +202,14 @@ export default function MenuIndividual({navigation, route}) {
               
 
                 <View style={styles.carrinhoView}>
-                    <Pressable style={styles.btnCarrinho}>
-                        <Text style={styles.textoCarrinho}>Enviar para o carrinho</Text>
+                    <Pressable style={styles.btnCarrinho} onPress={enviarParaCarrinhoOuNao}>
+                            {
+                                isCarrinho ? (
+                                    <Text style={styles.textoCarrinho}>Remover do carrinho</Text>
+                                ) : (
+                                    <Text style={styles.textoCarrinho}>Enviar para o carrinho</Text>
+                                )
+                            }
                     </Pressable>
                 </View>
 
