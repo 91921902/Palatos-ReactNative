@@ -45,11 +45,10 @@ function MenuRestaurante({navigation}) {
 
             <ScrollView>
                 <View style={styles.nomePrato}>
-                 <NomePrato/>
                {
                 menu.map(produto =>{
                     return(
-                        <NomePrato produto={produto} key={produto.id}/>
+                        <NomePrato produto={produto} key={produto.id} navigation={navigation}/>
                     )
                 })
                }
