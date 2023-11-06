@@ -80,7 +80,7 @@ export default function MenuIndividual({navigation, route}) {
 
             <View style={styles.container}>
                 <MiniLogo />
-                <BotaoVoltar />
+                <BotaoVoltar onPress={() => {navigation.goBack()}}/>
 
 
 
