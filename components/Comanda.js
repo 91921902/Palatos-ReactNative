@@ -10,7 +10,7 @@ function formataTempo(numeroEmSegundos) {
     numeroEmSegundos %= 3600
     let minutos = numeroEmSegundos / 60
     numeroEmSegundos %= 60
-    const formatarNumero = (num) => (num < 10? `0${parseInt(num)}`: parseInt(num))
+    const formatarNumero = (num) => (num < 10 ? `0${parseInt(num)}` : parseInt(num))
     return `${formatarNumero(horas)}:${formatarNumero(minutos)}:${formatarNumero(numeroEmSegundos)}`
 }
 
@@ -18,15 +18,16 @@ function Comanda({ obj }) {
     const [tempoAtiva, setTempoAtiva] = useState("")
     {
         setInterval(() => {
-            let dataAtual = new Date().getTime() / 1000
-            let tempo = (dataAtual - obj.tempoAtiva)
+            let dataAtual = new Date()
+            let dataPedido = new Date(obj.data_entrada)
+            let tempo = Math.floor((dataAtual - dataPedido) / 1000)
             setTempoAtiva(formataTempo(tempo))
         }, 1000)
     }
     return (
         <View style={styles.comandaContainer}>
             <Pressable style={styles.btnDelete} role="button" {...A11y.label("Excluir mesa do restaurante")}>
-                <Icon name="delete" color={"white"} type='antdesign'/>
+                <Icon name="delete" color={"white"} type='antdesign' />
             </Pressable>
             {
                 !obj.is_reserva ? (
@@ -37,42 +38,48 @@ function Comanda({ obj }) {
             }
             <View style={styles.containerInfos}>
 
-                <View style={{width: "100%", flexDirection: "row"}}>
+                <View style={{ width: "100%", flexDirection: "row" }}>
                     <Text style={styles.textInfo}>Número da mesa:  </Text>
-                    <Text 
+                    <Text
                         style={[
-                            styles.infos, 
-                            !obj.is_reserva &&  {fontSize: 20,marginTop: -8},
-                            obj.is_reserva && obj.chegou &&  {fontSize: 20,marginTop: -8},
-                            obj.is_reserva && !obj.chegou && {color: "red", paddingLeft: 0, paddingTop: 3}
+                            styles.infos,
+                            !obj.is_reserva && { fontSize: 20, marginTop: -8 },
+                            obj.is_reserva && obj.chegou && { fontSize: 20, marginTop: -8 },
+                            obj.is_reserva && !obj.chegou && { color: "red", paddingLeft: 0, paddingTop: 3 }
                         ]}
                     >
                         {!obj.chegou && obj.is_reserva ? "Não chegou" : obj.numeroMesa}</Text>
                 </View>
 
-                <View style={{width: "100%", height: 2, backgroundColor: "#B7A187", marginBottom: 5, marginTop: 5}}/>
+                <View style={{ width: "100%", height: 2, backgroundColor: "#B7A187", marginBottom: 5, marginTop: 5 }} />
 
-                <View style={{width: "100%"}}>
+                <View style={{ width: "100%" }}>
                     <Text style={styles.textInfo}>Pedido: </Text>
+                    {obj.ProdutoComandas.map((objProduto) => (
+                        <View>
+                            <Text>{objProduto.nome_produto}</Text>
+                            {objProduto.observacoes != "" && <Text>{objProduto.observacoes}</Text>}
+                        </View>
+                    ))}
                     <Text style={styles.infos}>{obj.nomePrato}</Text>
                 </View>
 
-                <View style={{width: "100%", height: 2, backgroundColor: "#B7A187", marginBottom: 5, marginTop: 5}}/>
+                <View style={{ width: "100%", height: 2, backgroundColor: "#B7A187", marginBottom: 5, marginTop: 5 }} />
 
-                <View style={{width: "100%"}}>
+                <View style={{ width: "100%" }}>
                     <Text style={styles.textInfo}>{obj.observacoes ? `Observações:` : `Nenhuma observação disponível`}</Text>
-                    <Text style={[styles.infos, {textAlign: "left"}]}>{obj.observacoes}</Text>
+                    <Text style={[styles.infos, { textAlign: "left" }]}>{obj.observacoes}</Text>
                 </View>
             </View>
             <View style={styles.fullTimer}>
-                <Text style={{fontSize: 15, fontFamily: "kavoon", color: "#445A14"}}>Timer:</Text>
+                <Text style={{ fontSize: 15, fontFamily: "kavoon", color: "#445A14" }}>Timer:</Text>
                 <View style={styles.timer}>
                     {tempoAtiva != "" && (
                         <Text style={styles.textTimer}>{tempoAtiva}</Text>
                     )}
                 </View>
             </View>
-            <Image source={require("../assets/icons/comanda.png")} style={styles.icon}/>
+            <Image source={require("../assets/icons/comanda.png")} style={styles.icon} />
         </View>
     )
 }
@@ -88,8 +95,8 @@ const styles = StyleSheet.create({
         position: "relative"
     },
     icon: {
-        width: 60, 
-        height: 60, 
+        width: 60,
+        height: 60,
         position: "absolute",
         bottom: 10,
         left: 10
@@ -105,7 +112,7 @@ const styles = StyleSheet.create({
     containerInfos: {
         marginTop: 10,
         width: "100%"
-    },  
+    },
     textInfo: {
         marginBottom: 5,
         fontSize: 18,

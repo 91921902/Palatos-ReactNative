@@ -85,7 +85,7 @@ function TelaComanda({navigation}) {
             //     },
             // ]
 
-            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoyLCJpYXQiOjE2OTkzMDE3OTksImV4cCI6MjMwNDEwMTc5OX0.h4hVaNisu6co2nJtrZjJ_r-wYMhIWd5D3Z5MKdFRMIo"
+            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoyLCJpYXQiOjE2OTkzNzc3MDEsImV4cCI6MjMwNDE3NzcwMX0.6zUFwtaQfXUlxX_o_OSnDzfq5yawuf4Qd2mAv_Lbqmw"
             let listaComandas = []
 
             let result
@@ -95,10 +95,11 @@ function TelaComanda({navigation}) {
                         Authorization: token
                     }
                 })
-                //listaComandas = result.data.ListaComandas
+                listaComandas = result.data.ListaComandas
             } catch(err) {
+                console.log(`Erro ao puxar comandas: ${err.message}`)
             }
-            console.log(result)
+            console.log(listaComandas)
             setComandas(listaComandas)
         }
 
