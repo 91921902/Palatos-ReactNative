@@ -86,6 +86,7 @@ export default function LoginRestaurante({navigation}) {
         style={styles.inputs}
         value={senha}
         onChangeText={setSenha}
+        secureTextEntry={true}
       />
 
       <Pressable
