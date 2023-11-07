@@ -29,21 +29,43 @@ export default function LoginRestaurante({navigation}) {
         return null; 
     }
 
+    const validateEmail = () => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    };
+  
+    const validatePassword = () => {
+      // A senha deve ter pelo menos 6 caracteres e conter pelo menos uma letra maiúscula
+      return senha.length >= 6 && /[A-Z]/.test(senha);
+    };
 
-    async function Enviardados(){
-      const usuario={email:email , senha:senha}
-      const resposta= await api.post("restaurante/login",usuario)
 
-      if(resposta.data.status=="success"){
-            const token=resposta.data.token
-            await AsyncStorage.setItem("token",token)
-            navigation.navigate("PainelADM")
+    async function Enviardados() {
+      // Valida o email
+      if (!validateEmail()) {
+        alert('Email incorreto. Certifique-se de que o email contenha "@".');
+        return;
       }
-      else{
-        alert('Login incorreto')
+    
+      // Valida a senha
+      if (!validatePassword()) {
+        alert('A senha deve ter pelo menos 6 caracteres e conter pelo menos uma letra maiúscula.');
+        return;
       }
-
+    
+      // Se o email e a senha estiverem corretos, continua com o envio dos dados
+      const usuario = { email: email, senha: senha };
+      const resposta = await api.post("restaurante/login", usuario);
+    
+      if (resposta.data.status === "success") {
+        const token = resposta.data.token;
+        await AsyncStorage.setItem("token", token);
+        navigation.navigate("PainelADM");
+      } else {
+        alert('Login incorreto');
+      }
     }
+    
     
   return (
     <View style={styles.container}>
