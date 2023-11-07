@@ -5,9 +5,10 @@ import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
 import fontKavoon from "../../assets/fonts/kavoon.ttf";
 import fontLemonada from "../../assets/fonts/lemonada.ttf";
 import * as Font from 'expo-font';
+import api from "../../providers/api"
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
-function PagInicial() {
+function PagInicial({navigation}) {
   // Estado para verificar se as fontes foram carregadas
   const [fontLoaded, setFontLoaded] = useState(false);
 
@@ -49,9 +50,16 @@ function PagInicial() {
       const user = { email, senha };
 
       // Adiciona os dados do usuário ao userList
-      setUserList([...userList, user]);
+     
+      const usuario = api.post("users/login",user)
 
-      console.log('User List:', userList);
+      if (usuario.token){
+        await AsyncStorage.setItem("token", usuario.token)
+        navigation.navigate('BuscaRestaurante')
+     }else{
+       alert("erro")
+
+     }
 
       // Redireciona o usuário para a tela inicial do aplicativo
       // (usando a navegação do React Navigation, por exemplo)
