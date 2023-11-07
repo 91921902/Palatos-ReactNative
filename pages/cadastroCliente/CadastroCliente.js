@@ -6,9 +6,10 @@ import BotaoVoltar from "../../components/BotaoVoltar";
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import * as Font from 'expo-font';
-
+import api from "../../providers/api"
+import AsyncStorage from '@react-native-async-storage/async-storage';
   
-function CadastroCliente() {
+function CadastroCliente({navigation}) {
  
   const [fontLoaded, setFontLoaded] = useState(false);
   const [email, setEmail] = useState('');
@@ -34,7 +35,7 @@ function CadastroCliente() {
     if (!fontLoaded) {
         return null; 
     }
-    const realizarCadastro = () => {
+    const realizarCadastro = async () => {
       // Implemente a validação dos campos (email, senha e confirmação de senha) aqui.
       // Se a validação for bem-sucedida, você pode adicionar os dados ao vetor dadosCadastrados.
   
@@ -55,9 +56,20 @@ function CadastroCliente() {
         email,
         senha,
       };
-      setDadosCadastrados([...dadosCadastrados, dadosCadastro]);
+
+      const usuario = await api.post('users/newUser',dadosCadastro)
+      .then(resposta => resposta.data)
+
+      if (usuario.token){
+         await AsyncStorage.setItem("token", usuario.token)
+         navigation.navigate('BuscaRestaurante')
+      }else{
+        alert("erro")
+
+      }
+      
       setErro(''); // Limpa qualquer mensagem de erro anterior.
-      console.log("Dados Cadastrados:", dadosCadastrados);
+      
     }
     
    
