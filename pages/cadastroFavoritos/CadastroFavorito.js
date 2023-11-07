@@ -1,5 +1,5 @@
 import React,  {useState,useEffect} from 'react';
-import { View, Image, Text, TextInput, TouchableOpacity, Pressable, ScrollView } from 'react-native';
+import { View, Image, Text, TextInput, TouchableOpacity, Pressable, ScrollView, Alert } from 'react-native';
 import{styles} from './styles'
 import * as Font from 'expo-font';
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
@@ -16,7 +16,7 @@ export default function CadastroFavoritos({navigation}){
     const [nome, setNome]= useState('');
     const [email,setEmail]=useState('');
     const [telefone, setTelefone]=useState('');
-    const [favoritos, setFavoritos]=useState([{}]);
+    const [favoritos, setFavoritos]=useState([]);
     const [reservas, setReservas]=useState([]);
 
     useEffect(() => {
@@ -29,6 +29,7 @@ export default function CadastroFavoritos({navigation}){
         }
 
         loadFonts();
+        buscarDados();
     }, []);
 
     if (!fontLoaded) {
@@ -38,18 +39,25 @@ export default function CadastroFavoritos({navigation}){
     async function buscarDados(){
 
         const token=await AsyncStorage.getItem('token')
+        //const token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoxMCwiaWF0IjoxNjk5Mzg1NjU1LCJleHAiOjIzMDQxODU2NTV9.k_JNl5rBJuEs6lZBrUolAqmQA_SIriTBcYPtiTDMBpM'
         let id
 
         try {
             const decode=jwtDecode(token)
             id=decode.userId
+            
         } catch (error) {
             navigation.navigate("")
             console.log(error)
         }
+       
+        const usuario= await api.get(`users/getUser/${id}`,{
+            headers:{
+                Authorization:token
+            }
+        })
+        .then(response => response.data.usuario)
 
-        const usuario= await api.get(`user/getUser/${id}`)
-        .then(response => response.data)
 
         setNome(usuario.nome)
         setEmail(usuario.email)
@@ -96,31 +104,35 @@ return(
 
 <ScrollView horizontal={true} style={styles.favoritosStar}>
         {
-            favoritos.map(favorito => {
-                return(
-                    <BolaFavoritos restaurante={favorito} navigation={navigation}/>
-                )
-            })
+            favoritos.length > 0 && (
+                favoritos.map(favorito => {
+                    return(
+                        <BolaFavoritos key={favorito.id_restaurante} restaurante={favorito} navigation={navigation}/>
+                    )
+                })
+            )
         }
-       
-   
+        
 </ScrollView>
-
+{
+            favoritos.length == 0 && (
+                <Text style={styles.notFavoritos}>Você ainda não possue favoritos :(</Text>
+            )
+        }
 <View style={styles.reservaView}> 
     <Text style={styles.textoReserva}>Minhas reservas:</Text>
 </View>
 
 <View style={styles.visualizarReserva}>
-
-
-
-    
-    <View style={styles.viewReserva}>
-     <Image
-         source={require('../../assets/reserva.png')}
-         style={styles.iconeReserva}
-        />
-    </View>
+    <ScrollView>
+        {
+            reservas.map(reserva => {
+                return(
+                    <Text style={styles.reservaPessoa}>Código:{reserva.cod}   Data:{reserva.data_entrada} </Text>
+                )
+            })
+        }
+    </ScrollView>
 </View>
  
 

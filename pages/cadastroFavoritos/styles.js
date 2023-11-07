@@ -35,7 +35,18 @@ container:{
 
  favoritosStar:{
   width:'90%',
-  marginTop:10
+  marginTop:10,
+  
+ },
+ notFavoritos:{
+  width:'100%',
+  color:'red',
+  fontFamily:'kavoon',
+  fontSize:14,
+  textAlign:'center',
+  position:'absolute',
+  top:'65%'
+
  },
 
  textoReserva:{
@@ -53,8 +64,9 @@ emailEtel:{
  emailTelTexto:{
    width:'80%',
    alignItems:'flex-start',
-   gap:30,
+   gap:10,
    marginBottom:20,
+  marginTop:20
  },
 
  direcaoEmailTel:{
@@ -95,6 +107,14 @@ emailEtel:{
    bottom:15,
    right:10,
    
+ },
+ reservaPessoa:{
+  width:'100%',
+  fontFamily: 'kavoon',
+  fontSize: 15,
+  color:'#445A14',
+  textAlign:'center',
+  marginTop:10
  }
 
 

@@ -49,7 +49,8 @@ const styles = StyleSheet.create({
         minWidth: 80,
         height :100,
         marginLeft:5,
-        alignItems:"center"
+        alignItems:"center",
+
     },
 
     estrelinha:{
