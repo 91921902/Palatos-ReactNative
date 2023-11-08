@@ -8,6 +8,7 @@ import MiniLogo from '../../components/MiniLogo';
 import BotaoVoltar from '../../components/BotaoVoltar';
 import api from "../../providers/api"
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import BotaoCarrinho from '../../components/CarrinhoIcon';
 
 
 
@@ -131,8 +132,9 @@ export default function MenuIndividual({navigation, route}) {
         <ScrollView contentContainerStyle={styles.scroll}>
 
             <View style={styles.container}>
-                <MiniLogo />
                 <BotaoVoltar onPress={() => {navigation.goBack()}}/>
+                <BotaoCarrinho onPress={() => {navigation.navigate("Pedidos")}}/>
+
 
 
 

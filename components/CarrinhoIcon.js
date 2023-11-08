@@ -4,7 +4,7 @@ export default function BotaoCarrinho({onPress}) {
 
     return(
         <Pressable style={styles.botaoCarrinho} onPress={onPress}>
-            <Image source={require("../assets/icons/voltar.png")} style={{resizeMode: "contain", width: 50, height: 50}}/>
+            <Image source={require("../assets/carrinho.png")} style={{resizeMode: "contain", width: 50, height: 50}}/>
         </Pressable>
     );
 }
@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
         height: 50,
         position: "absolute",
         top: 40,
-        left: 30,
+        right: 30,
         borderRadius: 5000,
     }
 })

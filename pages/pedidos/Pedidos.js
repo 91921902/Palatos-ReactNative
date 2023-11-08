@@ -8,6 +8,7 @@ import PedidoCliente from '../../components/PedidoCliente';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../../providers/api';
 import decode from 'jwt-decode'
+import BotaoVoltar from '../../components/BotaoVoltar';
 
 export default function Pedidos({ navigation }) {
 
@@ -74,13 +75,9 @@ export default function Pedidos({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <BotaoVoltar/>
 
-      <View style={styles.paiLogo}>
-        <Image
-          style={styles.logo}
-          source={require('../../assets/mini-logo.png')}
-        />
-      </View>
+     
 
       <View style={styles.paiPedido}>
         <Image
