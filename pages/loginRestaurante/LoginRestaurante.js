@@ -71,13 +71,15 @@ export default function LoginRestaurante({navigation}) {
     <View style={styles.container}>
       <Image
         style={styles.logo}
+        accessibilityLabel='Logo Palatos'
         source={require('../../assets/palatosLogo.png')}
       />
       
-      <Text style={styles.emailSenha}>Email</Text>
+      <Text style={styles.emailSenha}>E-mail</Text>
       <TextInput 
         style={styles.inputs} 
         value={email}
+        accessibilityLabel='E-mail'
         onChangeText={setEmail}
       />
 
@@ -85,12 +87,14 @@ export default function LoginRestaurante({navigation}) {
       <TextInput 
         style={styles.inputs}
         value={senha}
+        accessibilityLabel='Senha'
         onChangeText={setSenha}
         secureTextEntry={true}
       />
 
       <Pressable
         style={styles.btnEntrar}
+        role='button'
         onPress={Enviardados}
        >
 

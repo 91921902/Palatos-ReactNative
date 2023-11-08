@@ -97,8 +97,9 @@ function TelaComanda({navigation}) {
                 })
                 listaComandas = result.data.ListaComandas
             } catch(err) {
-                console.log(`Erro ao puxar comandas: ${err.message}`)
+                console.log(`Erro ao puxar comandas: ${err}`)
             }
+            console.log(result)
             console.log(listaComandas)
             setComandas(listaComandas)
         }
