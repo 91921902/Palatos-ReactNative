@@ -5,8 +5,11 @@ import * as Font from 'expo-font';
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import PedidoCliente from '../../components/PedidoCliente';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from '../../providers/api';
+import decode from 'jwt-decode'
 
-export default function Pedidos() {
+export default function Pedidos({navigation}) {
 
     const [fontLoaded, setFontLoaded] = useState(false);
     const [pedido, setPedido]= useState([]);
@@ -22,6 +25,36 @@ export default function Pedidos() {
         }
 
         loadFonts();
+
+        async function buscarCarrinho(){
+
+          const cliente= JSON.parse(await AsyncStorage.getItem('cliente')) 
+
+          if(cliente){
+            const {idMesa,idRestaurante}=cliente
+            const carrinho= await api.get("users/carrinhoMesa/getAll/" + idMesa).then(response => response.data.pratos);
+            setPedido(carrinho)
+
+          }else{
+            const token= await AsyncStorage.getItem('token');
+            
+            let id
+            try {
+              const decoded=decode(token)
+              const {userId}=decoded
+              id=userId
+            } catch (error) {
+              
+            }
+            const carrinho= await api.get('users/carrinhoReserva/'+ id)
+            .then(response => response.data.carrinho);
+            setPedido(carrinho)
+
+          }
+
+        }
+
+        buscarCarrinho();
     }, []);
 
     if (!fontLoaded) {
