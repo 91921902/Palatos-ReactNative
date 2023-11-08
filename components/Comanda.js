@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { StyleSheet, Image } from "react-native";
 import { Text, View, Pressable } from "react-native";
@@ -14,19 +14,30 @@ function formataTempo(numeroEmSegundos) {
     return `${formatarNumero(horas)}:${formatarNumero(minutos)}:${formatarNumero(numeroEmSegundos)}`
 }
 
-function Comanda({ obj }) {
+function Comanda({ obj, deletaComanda }) {
     const [tempoAtiva, setTempoAtiva] = useState("")
-    {
-        setInterval(() => {
-            let dataAtual = new Date()
-            let dataPedido = new Date(obj.data_entrada)
-            let tempo = Math.floor((dataAtual - dataPedido) / 1000)
-            setTempoAtiva(formataTempo(tempo))
-        }, 1000)
-    }
+
+    useEffect(() => {
+        if (!obj.is_reserva) {
+            setInterval(() => {
+                let dataAtual = new Date()
+                let dataPedido = new Date(obj.data_entrada)
+                let tempo = Math.floor((dataAtual - dataPedido) / 1000)
+                setTempoAtiva(formataTempo(tempo))
+            }, 1000)
+
+        } else {
+
+            let dataReserva = new Date(obj.data_entrada)
+            setTempoAtiva(`Reserva programada para ${dataReserva.getHours()}:${dataReserva.getMinutes()}`)
+
+        }
+
+    }, [])
     return (
         <View style={styles.comandaContainer}>
-            <Pressable style={styles.btnDelete} role="button" {...A11y.label("Excluir mesa do restaurante")}>
+            <Pressable style={styles.btnDelete} {...A11y.role("button")} {...A11y.label("Excluir mesa do restaurante")}
+                onPress={deletaComanda}>
                 <Icon name="delete" color={"white"} type='antdesign' />
             </Pressable>
             {
@@ -56,28 +67,35 @@ function Comanda({ obj }) {
                 <View style={{ width: "100%" }}>
                     <Text style={styles.textInfo}>Pedido: </Text>
                     {obj.ProdutoComandas.map((objProduto) => (
-                        <View>
+                        <View key={objProduto.id}>
                             <Text>{objProduto.nome_produto}</Text>
-                            {objProduto.observacoes != "" && <Text>{objProduto.observacoes}</Text>}
+                            <Text>
+                                {objProduto.observacoes != "" ? (
+                                    objProduto.observacoes
+                                ) : (
+                                    "Nenhuma observação disponível"
+                                )}
+                            </Text>
                         </View>
                     ))}
-                    <Text style={styles.infos}>{obj.nomePrato}</Text>
+                    {/* <Text style={styles.infos}>{obj.nomePrato}</Text> */}
                 </View>
 
                 <View style={{ width: "100%", height: 2, backgroundColor: "#B7A187", marginBottom: 5, marginTop: 5 }} />
 
                 <View style={{ width: "100%" }}>
-                    <Text style={styles.textInfo}>{obj.observacoes ? `Observações:` : `Nenhuma observação disponível`}</Text>
-                    <Text style={[styles.infos, { textAlign: "left" }]}>{obj.observacoes}</Text>
+                    {/* <Text style={styles.textInfo}>{obj.observacoes ? `Observações:` : `Nenhuma observação disponível`}</Text> */}
+                    {/* <Text style={[styles.infos, { textAlign: "left" }]}>{obj.observacoes}</Text> */}
                 </View>
             </View>
             <View style={styles.fullTimer}>
-                <Text style={{ fontSize: 15, fontFamily: "kavoon", color: "#445A14" }}>Timer:</Text>
-                <View style={styles.timer}>
-                    {tempoAtiva != "" && (
-                        <Text style={styles.textTimer}>{tempoAtiva}</Text>
+                <Text style={{ fontSize: 15, fontFamily: "kavoon", color: "#445A14" }}>
+                    {!obj.is_reserva ? (
+                        `Comanda ativa à ${tempoAtiva}`
+                    ) : (
+                        tempoAtiva
                     )}
-                </View>
+                </Text>
             </View>
             <Image source={require("../assets/icons/comanda.png")} style={styles.icon} />
         </View>

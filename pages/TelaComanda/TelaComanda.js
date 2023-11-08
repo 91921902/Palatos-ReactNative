@@ -17,7 +17,8 @@ import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
 
 
-function TelaComanda({navigation}) {
+function TelaComanda({ navigation }) {
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoyLCJpYXQiOjE2OTkzNzc3MDEsImV4cCI6MjMwNDE3NzcwMX0.6zUFwtaQfXUlxX_o_OSnDzfq5yawuf4Qd2mAv_Lbqmw"
 
 
     const [comandas, setComandas] = useState([])
@@ -27,87 +28,27 @@ function TelaComanda({navigation}) {
     useEffect(() => {
         async function carregaComandas() {
             //Puxar do backend
-            let tempoAtual = new Date().getTime()/1000
-            // let listaComandas = [
-            //     {
-            //         id: 1,
-            //         isReserva: false,
-            //         chegou: false,
-            //         tempoAtiva: (tempoAtual-60),
-            //         nomePrato: "Bife a cavalo",
-            //         numeroMesa: 1,
-            //         observacoes: "Bem paçado!"
-            //     },
-            //     {
-            //         id: 2,
-            //         nomePrato: "Frango à Parmegiana",
-            //         isReserva: false,
-            //         chegou: false,
-            //         tempoAtiva: (tempoAtual-60),
-            //         numeroMesa: 2,
-            //         observacoes: "Sem espaguete"
-            //     },
-            //     {
-            //         id: 3,
-            //         nomePrato: "Frango à Parmegiana",
-            //         isReserva: true,
-            //         chegou: false,
-            //         tempoAtiva: (tempoAtual-3800),
-            //         numeroMesa: 4,
-            //         observacoes: null
-            //     },
-            //     {
-            //         id: 4,
-            //         nomePrato: "Feijoada",
-            //         isReserva: true,
-            //         chegou: true,
-            //         tempoAtiva: (tempoAtual-3600),
-            //         numeroMesa: 5,
-            //         observacoes: "Sem couve e laranja"
-            //     },
-            //     {
-            //         id: 5,
-            //         nomePrato: "Tutu à Mineira",
-            //         isReserva: false,
-            //         chegou: true,
-            //         tempoAtiva: (tempoAtual-77),
-            //         numeroMesa: 3,
-            //         observacoes: "Sem couve, por favor"
-            //     },
-            //     {
-            //         id: 6,
-            //         nomePrato: "Pavê",
-            //         isReserva: true,
-            //         chegou: false,
-            //         tempoAtiva: (tempoAtual-60),
-            //         numeroMesa: 6,
-            //         observacoes: null
-            //     },
-            // ]
+            let tempoAtual = new Date().getTime() / 1000
 
-            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoyLCJpYXQiOjE2OTkzNzc3MDEsImV4cCI6MjMwNDE3NzcwMX0.6zUFwtaQfXUlxX_o_OSnDzfq5yawuf4Qd2mAv_Lbqmw"
             let listaComandas = []
 
-            let result
             try {
-                result = await api.get("/restaurante/comandas", {
+                const result = await api.get("/restaurante/comandas", {
                     headers: {
                         Authorization: token
                     }
                 })
                 listaComandas = result.data.ListaComandas
-            } catch(err) {
+            } catch (err) {
                 console.log(`Erro ao puxar comandas: ${err}`)
             }
-            console.log(result)
-            console.log(listaComandas)
             setComandas(listaComandas)
         }
 
         async function loadFonts() {
             await Font.loadAsync({
                 'lemonada': fontLemonada,
-                'kavoon':fontKavoon
+                'kavoon': fontKavoon
             });
             setFontLoaded(true);
         }
@@ -120,6 +61,17 @@ function TelaComanda({navigation}) {
         return null;
     }
 
+    async function deletaComanda(obj) {
+        const result = await api.delete(`/restaurante/comandas/delete/${obj.id}`, {
+            headers: {
+                Authorization: token
+            }
+        })
+        if (result.status !== 200) {
+            console.log("Erro ao deletar comanda")
+        }
+    }
+
     function backPage() {
 
         navigation.goBack()
@@ -128,13 +80,13 @@ function TelaComanda({navigation}) {
 
     return (
         <View style={styles.container}>
-            <BotaoVoltar onPress={backPage}/>
+            <BotaoVoltar onPress={backPage} />
             <Text style={styles.title}>Comandas:</Text>
-            <ScrollView contentContainerStyle={{width: "100%"}}>
+            <ScrollView contentContainerStyle={{ width: "100%" }}>
                 <View style={styles.comandas}>
                     {comandas.length > 0 && (
-                        comandas.map((obj, key) => (
-                            <Comanda key={key} obj={obj} />
+                        comandas.map((obj) => (
+                            <Comanda key={obj.id} obj={obj} deletaComanda={deletaComanda} />
                         ))
                     )}
                 </View>
