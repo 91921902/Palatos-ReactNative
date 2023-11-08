@@ -27,8 +27,6 @@ async function createRestaurant(formData, navigation, menu) {
         }
     )
 
-    console.log(novoRestaurante.data)
-
     token = novoRestaurante.data.token
 
     await AsyncStorage.setItem("token", token)
@@ -45,7 +43,7 @@ async function createMenu(token, navigation, restaurante, menu) {
    let isDeleted = false
 
    function destroy() {
-
+        isDeleted = true
         api.delete('/restaurante/cardapio/deletePratosCriados', pratosCriados)
 
    }
@@ -115,13 +113,11 @@ function NovoMenu({navigation, route}) {
                 const {formData} = route.params;
                 setFormRestaurante(formData)
             } else {
-              
-                //const restaurante = await AsyncStorage.getItem("restaurante")
                
                 const token = await AsyncStorage.getItem("token")
 
                 if (!token) {
-                    navigation.navigate("NovoCadastro")
+                    navigation.navigate("PagInicial")
                 }
 
                 const decoded = decode(token)

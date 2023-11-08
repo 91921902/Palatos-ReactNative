@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import decode from "jwt-decode"
 import api from "../../providers/api"
 
+
 /* - COPIAR ISSO PARA USAR A FONT PERSONALIZADA - */
 
 import * as Font from 'expo-font';
@@ -38,7 +39,10 @@ function NovoCadastro({ navigation }) {
     const [rua, setRua] = useState("")
     const { userTools } = useFormTools()
     const {categorias} = useFormTools()
+
     const [isEdit, setIsEdit] = useState(false)
+    const [fileEdit, setFileEdit] = useState({})
+    const [oldRestaurant, setOldRestaurant] = useState({})
 
     //----------------------------------------------------------------
 
@@ -67,12 +71,14 @@ function NovoCadastro({ navigation }) {
 
         loadFonts();
 
+        //FUNCAO TALVEZ SEJA INUTIL
         async function getIds() {
 
             const token = await AsyncStorage.getItem("token")
 
             if (!token) {
                 navigation.navigate("NovoCadastro")
+                // navigation.navigate("PagInicial")
             } else {
                 
                 const decoded = decode(token)
@@ -83,7 +89,7 @@ function NovoCadastro({ navigation }) {
                
                     setIsEdit(true)
 
-                    const restauranteData = await api.get("/restaurante/" + idRestaurante)
+                    const restauranteData = await api.get("/restaurante/search/" + idRestaurante)
                    
                     const restaurante = restauranteData.data.result
                     
@@ -101,13 +107,21 @@ function NovoCadastro({ navigation }) {
             
         }
 
-        getIds()
         
-        async function searchData() {
-            const data = await AsyncStorage.getItem("novoCadastro")
+        
+        async function isEditOrNot() {
+            //const data = await AsyncStorage.getItem("novoCadastro")
+            const data = await AsyncStorage.getItem("restaurante")
+            const token = await AsyncStorage.getItem("token")
+            const tokenIsValid = await api.get("users/auth", {
+                headers: {
+                    Authorization: token
+                }
+            }).then(response => response.data.status)
 
-            if (data) {
+            if (data && tokenIsValid) {
 
+                setIsEdit(true)
                 const dataParsed = JSON.parse(data)
 
                 setNome(dataParsed.nome)
@@ -121,10 +135,66 @@ function NovoCadastro({ navigation }) {
                 setFoto(dataParsed.foto)
                 setCep(dataParsed.cep)
                 setRua(dataParsed.rua)
+
+                setOldRestaurant({
+                    nome,
+                    endereco,
+                    telefone,
+                    celular,
+                    descricao,
+                    categorias: categorias,
+                    reservasAtivas: btnReservation,
+                    tempoTolerancia,
+                    cep,
+                    rua,
+                    fotoEditada: false
+                })
+
+            } else {
+                
+                if (token) {
+
+                    const decoded = decode(token)
+                    const {idRestaurante} = decoded
+                    if (idRestaurante && tokenIsValid) {
+                        const restaurante = await api.get("/restaurante/search/" + idRestaurante)
+                        .then(response => response.data.result)
+
+                        if (restaurante) {
+                            setIsEdit(true)
+
+                            setNome(restaurante.nome)
+                            setEndereco(restaurante.endereco)
+                            setTelefone(restaurante.telefone_fixo)
+                            setCelular(restaurante.celular)
+                            setDescricao(restaurante.descricao)
+                            setNewCategorias(restaurante.categorias)
+                            setBtnReservation(restaurante.reservasAtivas)
+                            setTempoTolerancia(restaurante.tempoTolerancia)
+                            setFoto(restaurante.foto)
+                            setCep(restaurante.cep)
+                            setRua(restaurante.rua)
+
+                            setOldRestaurant({
+                                nome,
+                                endereco,
+                                telefone,
+                                celular,
+                                descricao,
+                                categorias: categorias,
+                                reservasAtivas: btnReservation,
+                                tempoTolerancia,
+                                cep,
+                                rua,
+                                fotoEditada: false
+                            })
+                        }
+                    }
+                } 
             }
         }
 
-        searchData()
+        isEditOrNot()
 
     }, []);
 
@@ -141,7 +211,7 @@ function NovoCadastro({ navigation }) {
         const isAuth = true
 
         if (!isAuth) {
-            navigation.navigate('login', {
+            navigation.navigate('PagInicial', {
                 message: "Para utilizar todos os recursos você precisa estar logado"
             })
         }
@@ -152,7 +222,6 @@ function NovoCadastro({ navigation }) {
         formData.append('celular',celular)
         formData.append('descricao', descricao)
         formData.append('categorias', categorias)
-        formData.append('categorias', "massas")
         formData.append('reservasAtivas', btnReservation)
         formData.append('tempoTolerancia', tempoTolerancia)
         formData.append('cep', cep)
@@ -179,13 +248,31 @@ function NovoCadastro({ navigation }) {
             const fileName = result.assets[0].uri.substring(result.assets[0].uri.lastIndexOf("/") + 1, result.assets[0].uri.length)
             const fileType = fileName.split(".")[1]
 
-            formData.append('file', JSON.parse(JSON.stringify({
-                name: fileName,
-                uri: result.assets[0].uri,
-                type: 'image/' + fileType
-            })))
+            if (isEdit) {
 
-            setFormData(formData)
+                const OldRestaurante = oldRestaurant
+                OldRestaurante.fotoEditada = true
+                setOldRestaurant(OldRestaurante)
+
+                setFileEdit(
+                    JSON.parse(JSON.stringify({
+                        name: fileName,
+                        uri: result.assets[0].uri,
+                        type: 'image/' + fileType
+                    }))
+                )
+
+            } else {
+
+                formData.append('file', JSON.parse(JSON.stringify({
+                    name: fileName,
+                    uri: result.assets[0].uri,
+                    type: 'image/' + fileType
+                })))
+    
+                setFormData(formData)
+
+            }
 
         } else {
             // ToastAndroid.show("Operação Cancelada", 600)
@@ -199,6 +286,41 @@ function NovoCadastro({ navigation }) {
 
         if (rest) {
             navigation.navigate("PainelADM")
+        }
+
+    }
+
+    async function editRestaurant() {
+
+        const formData = new FormData()
+        formData.append('nome', nome)
+        formData.append('endereco', endereco)
+        formData.append('telefone', telefone)
+        formData.append('celular',celular)
+        formData.append('descricao', descricao)
+        formData.append('categorias', categorias)
+        formData.append('reservasAtivas', btnReservation)
+        formData.append('tempoTolerancia', tempoTolerancia)
+        formData.append('cep', cep)
+        formData.append('rua', rua)
+        if (oldRestaurant.fotoEditada) {
+              formData.append('file', fileEdit)
+        }
+        try {
+            const token = await AsyncStorage.getItem("token")
+            const decoded = decode(token)
+            const {idRestaurante} = decoded
+            await api.put("restaurante/edit/" + idRestaurante, formData, {
+                headers: {
+                    Authorization: token
+                }
+            })
+
+            await AsyncStorage.removeItem("restaurante")
+            navigation.navigate("PainelADM")
+
+        } catch(err) {
+            alert("erro em tentar editar o restaurante")
         }
 
     }
@@ -332,7 +454,14 @@ function NovoCadastro({ navigation }) {
                     </View>
                 </View>
                 <View style={{alignItems: "flex-end", marginTop: 30, padding: 15}}>
-                    <Text style={{fontFamily: "lemonada", fontSize: 18, color: "#445A14"}} accessibilityRole="button" onPress={nextFormPage}>Próximo</Text>
+                    {
+                        isEdit ? (
+                            <Text style={{fontFamily: "lemonada", fontSize: 18, color: "#445A14"}} accessibilityRole="button" onPress={editRestaurant}>Editar</Text> 
+                        ) : (
+                           <Text style={{fontFamily: "lemonada", fontSize: 18, color: "#445A14"}} accessibilityRole="button" onPress={nextFormPage}>Próximo</Text> 
+                        )
+                    }
+                    
                 </View>
             </ScrollView>
         </View>

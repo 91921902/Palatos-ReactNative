@@ -11,6 +11,11 @@ import EditarMesa from "./pages/editarMesa/EditarMesa.js"
 import MenuIndividual from "./pages/menuIndividual/MenuIndividual.js"
 import CadastroFavoritos from "./pages/cadastroFavoritos/CadastroFavorito.js"
 import Pedidos from "./pages/pedidos/Pedidos.js"
+import cadastroCliente from "./pages/cadastroCliente/CadastroCliente.js"
+import pagInicial from "./pages/pagInicial/PagInicial.js"
+import buscaRestaurante from "./pages/buscaRestaurante/BuscaRestaurante.js"
+import perfilRestaurante from "./pages/perfilRestaurante/PerfilRestaurante.js"
+import menuRestaurante from "./pages/menuRestaurante/MenuRestaurante.js"
 
 import { FormProvider } from './providers/FormRestContext.js';
 import { NavigationContainer } from '@react-navigation/native';
@@ -39,6 +44,11 @@ const MyNavigator = () => {
         <Stack.Screen name="CadastroFavoritos" component={CadastroFavoritos} />
         <Stack.Screen name="Pedidos" component={Pedidos} />
         <Stack.Screen name="DescricaoReserva" component={DescricaoReserva} />
+        <Stack.Screen name="CadastroCliente" component={cadastroCliente} />
+        <Stack.Screen name="PagInicial" component={pagInicial} />
+        <Stack.Screen name="BuscaRestaurante" component={buscaRestaurante} />
+        <Stack.Screen name="PerfilRestaurante" component={perfilRestaurante} />
+        <Stack.Screen name="MenuRestaurante" component={menuRestaurante} />
       </Stack.Navigator>
     </NavigationContainer>
   );

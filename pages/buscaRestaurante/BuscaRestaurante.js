@@ -7,7 +7,7 @@ import * as Font from 'expo-font';
 import ItemRestaurante from "../../components/ItemRestaurante";
 
 
-function BuscaRestaurante() {
+function BuscaRestaurante({navigation}) {
     const [fontLoaded, setFontLoaded] = useState(false);
   
     useEffect(() => {
