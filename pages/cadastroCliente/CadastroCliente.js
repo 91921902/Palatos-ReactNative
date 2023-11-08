@@ -1,8 +1,6 @@
 import React,{useState,useEffect} from "react";
 import { styles } from "./styles"
 import {  View, Text, TextInput, TouchableOpacity } from "react-native"
-import MiniLogo from "../../components/MiniLogo";
-import BotaoVoltar from "../../components/BotaoVoltar";
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import * as Font from 'expo-font';
@@ -12,6 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 function CadastroCliente({navigation}) {
  
   const [fontLoaded, setFontLoaded] = useState(false);
+  const[nome, setNome]=useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
@@ -84,6 +83,15 @@ function CadastroCliente({navigation}) {
         </View>
   
         <View style={styles.formularioCadastroCliente}>
+
+        <View style={styles.inputsPar}>
+            <Text style={styles.textoInput}>Nome Completo</Text>
+            <TextInput 
+            style={styles.inputs}
+            value={nome}
+            onChangeText={setNome}
+            />
+         </View>
           
           <View style={styles.inputsPar}>
             <Text style={styles.textoInput}>Email</Text>
