@@ -116,9 +116,7 @@ valor:{
     width: 243,
     fontFamily: 'kavoon',
     fontSize: 32,
-    position:'absolute',
-    bottom:50,
-    left:45,
+    paddingTop:15,
 },
 
 valorView:{

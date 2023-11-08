@@ -30,20 +30,27 @@ function PainelADM({navigation, route}) {
         async function getData() {
 
             const token = await AsyncStorage.getItem("token")
-            let idRestaurante
+            let idRestaurante, userId
             try {
                
                 const decoded = jwtDecode(token)
                 if (decoded) {
                     idRestaurante = decoded.idRestaurante; 
+                    userId = decoded.userId
 
                 } else {
-                    navigation.navigate("PainelADM", {message: "Erro de Autenticação"})
+                    navigation.navigate("PagInicial", {message: "Erro de Autenticação"})
                 }
 
             } catch (error) {
 
-                navigation.navigate("PainelADM", {message: "Erro de Autenticação"})
+                if (!idRestaurante && userId) {
+                    navigation.navigate("buscaRestaurante", {message: "Erro de Autenticação"})
+
+                } else {
+                    navigation.navigate("PagInicial", {message: "Erro de Autenticação"})
+
+                }
 
             }
             
@@ -75,13 +82,6 @@ function PainelADM({navigation, route}) {
             getData()
 
         }
-
-        async function temp() {
-            //temp
-            await AsyncStorage.setItem("login", "true")
-        }
-
-        temp()
 
     }, []);
 

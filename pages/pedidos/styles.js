@@ -63,12 +63,15 @@ export const styles = StyleSheet.create({
         color: '#000',
         fontFamily: 'lemonada',
         fontSize: 14,
+        paddingLeft:30,
     },
 
     botoes:{
         width:'100%',
-        alignItems:'flex-end',
         gap:10,
+        alignItems:"flex-end",
+        padding:20,
+        paddingBottom:30,
     },
 
     btnFim:{
