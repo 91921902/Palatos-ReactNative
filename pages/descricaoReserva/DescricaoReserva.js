@@ -7,7 +7,7 @@ import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import PedidoCliente from '../../components/PedidoCliente';
 
 export default function DescricaoReserva() {
-
+    //precisa do idRestaurante, userId(para pegar o carrinho), idMesa(boa parte disso vai estar o asyncStorage)
     const [fontLoaded, setFontLoaded] = useState(false);
     const [tolerancia, setTolerancia]= useState(0);
 

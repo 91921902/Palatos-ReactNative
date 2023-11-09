@@ -109,7 +109,7 @@ export default function Pedidos({ navigation }) {
 
         {
           isReservation ? (
-            <Pressable style={styles.btnFim}>
+            <Pressable style={styles.btnFim} onPress={() => navigation.navigate("DescricaoReserva")}>
               <Text style={styles.textoBtn}>Reservar</Text>
             </Pressable>
           ) : (
