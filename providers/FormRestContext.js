@@ -8,6 +8,7 @@ let lastId = 0
 
 export const FormProvider = ({ children }) => {
   
+    const [comandas, setComandas] = useState([])
     const [menu, setMenu] = useState([{
         id: lastId,
         nome: "",
@@ -20,6 +21,15 @@ export const FormProvider = ({ children }) => {
     }]);
     const [categorias, setCategorias] = useState([])
 
+    const comandaTools = {
+        setAllComandas: (listaComandas) => {
+            setComandas(listaComandas)
+        },
+        deleta: (id) => {
+            setComandas(comandas.filter((objComanda => objComanda.id != id)))
+        }
+    }
+    
     const menuTools = {
         setNewMenu: (menu) => {
             setMenu(menu)
@@ -109,7 +119,7 @@ export const FormProvider = ({ children }) => {
     }
 
     return (
-        <FormRestContext.Provider value={{ menu, menuTools, categorias ,setNewCategorias, userTools}}>
+        <FormRestContext.Provider value={{ menu, menuTools, categorias ,setNewCategorias, userTools, comandas, comandaTools}}>
         {children}
         </FormRestContext.Provider>
     );

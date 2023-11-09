@@ -7,6 +7,7 @@ import { styles } from "./styles"
 import BotaoVoltar from "../../components/BotaoVoltar.js"
 import Comanda from "../../components/Comanda.js"
 import A11y from "../../providers/A11y.js"
+import { useFormTools } from "../../providers/FormRestContext.js"
 
 
 
@@ -21,7 +22,7 @@ function TelaComanda({ navigation }) {
     const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoyLCJpYXQiOjE2OTkzNzc3MDEsImV4cCI6MjMwNDE3NzcwMX0.6zUFwtaQfXUlxX_o_OSnDzfq5yawuf4Qd2mAv_Lbqmw"
 
 
-    const [comandas, setComandas] = useState([])
+    const { comandas } = useFormTools()
     const [fontLoaded, setFontLoaded] = useState(false);
 
 
@@ -42,7 +43,7 @@ function TelaComanda({ navigation }) {
             } catch (err) {
                 console.log(`Erro ao puxar comandas: ${err}`)
             }
-            setComandas(listaComandas)
+            comandas.setAllComandas(listaComandas)
         }
 
         async function loadFonts() {
@@ -61,16 +62,6 @@ function TelaComanda({ navigation }) {
         return null;
     }
 
-    async function deletaComanda(obj) {
-        const result = await api.delete(`/restaurante/comandas/delete/${obj.id}`, {
-            headers: {
-                Authorization: token
-            }
-        })
-        if (result.status !== 200) {
-            console.log("Erro ao deletar comanda")
-        }
-    }
 
     function backPage() {
 

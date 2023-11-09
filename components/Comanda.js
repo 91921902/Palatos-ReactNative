@@ -4,6 +4,8 @@ import { StyleSheet, Image } from "react-native";
 import { Text, View, Pressable } from "react-native";
 import { Icon } from "react-native-elements";
 import A11y from "../providers/A11y.js"
+import { FormProvider, useFormTools } from "../providers/FormRestContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function formataTempo(numeroEmSegundos) {
     let horas = numeroEmSegundos / 3600
@@ -14,7 +16,7 @@ function formataTempo(numeroEmSegundos) {
     return `${formatarNumero(horas)}:${formatarNumero(minutos)}:${formatarNumero(numeroEmSegundos)}`
 }
 
-function Comanda({ obj, deletaComanda }) {
+function Comanda({ obj }) {
     const [tempoAtiva, setTempoAtiva] = useState("")
 
     useEffect(() => {
@@ -34,6 +36,26 @@ function Comanda({ obj, deletaComanda }) {
         }
 
     }, [])
+
+    const {comandas, comandaTools} = useFormTools()
+
+    async function deletaComanda() {
+        //const token = await AsyncStorage.getItem("token")
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoyLCJpYXQiOjE2OTkzNzc3MDEsImV4cCI6MjMwNDE3NzcwMX0.6zUFwtaQfXUlxX_o_OSnDzfq5yawuf4Qd2mAv_Lbqmw"
+
+        const result = await api.delete(`/restaurante/comandas/delete/${obj.id}`, {
+            headers: {
+                Authorization: token
+            }
+        })
+        if (result.status !== 200) {
+            console.log("Erro ao deletar comanda")
+        } else {
+            comandaTools.deleta(obj.id)
+        }
+    }
+
+
     return (
         <View style={styles.comandaContainer}>
             <Pressable style={styles.btnDelete} {...A11y.role("button")} {...A11y.label("Excluir mesa do restaurante")}
