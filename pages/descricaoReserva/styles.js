@@ -71,7 +71,14 @@ export const styles = StyleSheet.create({
         fontFamily: 'Lemonada',
         fontSize: 14,
     },
-
+    textDate: {
+        width:'100%',
+        textAlign:"center",
+        fontSize: 18,
+        fontFamily: "lemonada",
+        color: "#445A14",
+        paddingTop:2
+    },
     horarioTitulo:{
         color: '#445A14', 
         fontFamily: 'Lemonada',
@@ -79,8 +86,7 @@ export const styles = StyleSheet.create({
     },
     inptData:{
         width: 121,
-        height: 47,
-    
+        height: 47
     },
 
     dataEhorario:{

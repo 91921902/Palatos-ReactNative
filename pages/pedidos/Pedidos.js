@@ -28,6 +28,7 @@ export default function Pedidos({ navigation }) {
 
     loadFonts();
 
+
     async function buscarCarrinho() {
 
       const cliente = JSON.parse(await AsyncStorage.getItem('cliente')) //MEGA IMPORTANTE
@@ -63,6 +64,20 @@ export default function Pedidos({ navigation }) {
 
   if (!fontLoaded) {
     return null;
+  }
+
+  async function criarComanda(){
+
+    const cliente= JSON.parse(await AsyncStorage.getItem("cliente"))
+    const resposta = await api.post("restaurante/comandas/createComanda",{idMesa:cliente.idMesa})
+    .then(response => response.data)
+
+    if(resposta.status=='success'){
+        navigation.navigate("BuscaRestaurante")
+    }else{
+      alert("Tivemos um problema com seu pedido")
+    }
+    
   }
 
   function somarValorTotal() {
@@ -114,7 +129,7 @@ export default function Pedidos({ navigation }) {
             </Pressable>
           ) : (
 
-            <Pressable style={styles.btnFim}>
+            <Pressable style={styles.btnFim} onPress={criarComanda}>
               <Text style={styles.textoBtn}>Finalizar pedido</Text>
             </Pressable>
 
