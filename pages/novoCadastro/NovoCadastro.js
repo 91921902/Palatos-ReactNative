@@ -216,17 +216,23 @@ function NovoCadastro({ navigation }) {
             })
         }
 
-        formData.append('nome', nome)
-        formData.append('endereco', endereco)
-        formData.append('telefone', telefone)
-        formData.append('celular',celular)
-        formData.append('descricao', descricao)
-        formData.append('categorias', categorias)
-        formData.append('reservasAtivas', btnReservation)
-        formData.append('tempoTolerancia', tempoTolerancia)
-        formData.append('cep', cep)
-        formData.append('rua', rua)
-        
+        const newFormData = new FormData()
+
+        for (const [chave, valor] of formData.entries()) {
+            newFormData.append(chave, valor);
+        }
+
+        newFormData.append('nome', nome)
+        newFormData.append('endereco', endereco)
+        newFormData.append('telefone', telefone)
+        newFormData.append('celular',celular)
+        newFormData.append('descricao', descricao)
+        newFormData.append('categorias', categorias)
+        newFormData.append('reservasAtivas', btnReservation)
+        newFormData.append('tempoTolerancia', tempoTolerancia)
+        newFormData.append('cep', cep)
+        newFormData.append('rua', rua)
+    
         setFormData(formData)
 
         navigation.navigate('NovoMenu', {
@@ -246,7 +252,10 @@ function NovoCadastro({ navigation }) {
         if (!result.canceled) {
             setFoto(result.assets[0].uri);
             const fileName = result.assets[0].uri.substring(result.assets[0].uri.lastIndexOf("/") + 1, result.assets[0].uri.length)
-            const fileType = fileName.split(".")[1]
+
+            const indiceBarra =  result.assets[0].uri.indexOf('/');
+        
+            const fileType =  result.assets[0].uri.substring(indiceBarra + 1, indiceBarra + 4)
 
             if (isEdit) {
 
@@ -255,22 +264,28 @@ function NovoCadastro({ navigation }) {
                 setOldRestaurant(OldRestaurante)
 
                 setFileEdit(
-                    JSON.parse(JSON.stringify({
+                    {
                         name: fileName,
                         uri: result.assets[0].uri,
                         type: 'image/' + fileType
-                    }))
+                    }
                 )
 
             } else {
 
-                formData.append('file', JSON.parse(JSON.stringify({
+                const newFormData = new FormData()
+
+                for (const [chave, valor] of formData.entries()) {
+                    newFormData.append(chave, valor);
+                }
+
+                newFormData.append('file', JSON.parse(JSON.stringify({
                     name: fileName,
                     uri: result.assets[0].uri,
                     type: 'image/' + fileType
                 })))
     
-                setFormData(formData)
+                setFormData(newFormData)
 
             }
 
