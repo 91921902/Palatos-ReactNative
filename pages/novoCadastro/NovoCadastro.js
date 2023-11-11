@@ -27,7 +27,7 @@ function NovoCadastro({ navigation }) {
     // FORM
 
     const [btnReservation, setBtnReservation] = useState(true)
-    const [formData, setFormData] = useState(new FormData())
+    const [file, setFile] = useState({})
     const [nome, setNome] = useState("")
     const [endereco, setEndereco] = useState("")
     const [telefone, setTelefone] = useState("")
@@ -110,14 +110,20 @@ function NovoCadastro({ navigation }) {
         
         
         async function isEditOrNot() {
-            //const data = await AsyncStorage.getItem("novoCadastro")
+            
             const data = await AsyncStorage.getItem("restaurante")
-            const token = await AsyncStorage.getItem("token")
-            const tokenIsValid = await api.get("users/auth", {
-                headers: {
-                    Authorization: token
-                }
-            }).then(response => response.data.status)
+            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoxMCwiaWF0IjoxNjk4MTcxODI3LCJleHAiOjIzMDI5NzE4Mjd9.ZEEZJ41kkGH89-t5lFeRuwSP8MZk5RAhJvbxmq_7kts"
+            let tokenIsValid
+            try {
+               tokenIsValid = await api.get("users/auth", {
+                    headers: {
+                        Authorization: token
+                    }
+                }).then(response => response.data.status) 
+            } catch (error) {
+                alert("erro")
+            }
+            
 
             if (data && tokenIsValid) {
 
@@ -218,10 +224,6 @@ function NovoCadastro({ navigation }) {
 
         const newFormData = new FormData()
 
-        for (const [chave, valor] of formData.entries()) {
-            newFormData.append(chave, valor);
-        }
-
         newFormData.append('nome', nome)
         newFormData.append('endereco', endereco)
         newFormData.append('telefone', telefone)
@@ -232,11 +234,17 @@ function NovoCadastro({ navigation }) {
         newFormData.append('tempoTolerancia', tempoTolerancia)
         newFormData.append('cep', cep)
         newFormData.append('rua', rua)
-    
-        setFormData(formData)
+        const {type, uri, name} = file
+        console.log(file)
+        newFormData.append('file', JSON.parse(JSON.stringify({
+            type: type, 
+            uri: uri,
+            name: name
+        })))
+        
 
         navigation.navigate('NovoMenu', {
-            formData: formData
+            formData: newFormData
         })
     }
 
@@ -273,20 +281,12 @@ function NovoCadastro({ navigation }) {
 
             } else {
 
-                const newFormData = new FormData()
-
-                for (const [chave, valor] of formData.entries()) {
-                    newFormData.append(chave, valor);
-                }
-
-                newFormData.append('file', JSON.parse(JSON.stringify({
+                setFile({
                     name: fileName,
                     uri: result.assets[0].uri,
                     type: 'image/' + fileType
-                })))
+                })
     
-                setFormData(newFormData)
-
             }
 
         } else {

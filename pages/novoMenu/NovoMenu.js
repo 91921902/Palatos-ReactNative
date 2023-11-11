@@ -17,8 +17,6 @@ async function createRestaurant(formData, navigation, menu) {
 
     //let token = await AsyncStorage.getItem("token")
     let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoxMCwiaWF0IjoxNjk4MTcxODI3LCJleHAiOjIzMDI5NzE4Mjd9.ZEEZJ41kkGH89-t5lFeRuwSP8MZk5RAhJvbxmq_7kts"
-
-    console.log(JSON.stringify(formData.get('file')))
     
     const novoRestaurante = await api.post("/restaurante/add", formData, 
         {
