@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import { ScrollView, View } from "react-native";
 import { CheckBox } from "react-native-elements"
 import { useFormTools } from "../providers/FormRestContext";
+import api from "../providers/api";
 
 
 
@@ -37,11 +38,22 @@ export default function CheckBoxCategory({filter}) {
 
     useEffect(() => {
 
-        //buscar as categorias do banco
-        let categorias = ["Massas", "Doces", "Pizzas", "Carnes", "Vegetariano", "Sopas", "Frutos do mar", "Saladas", "Sanduíches"];
+        /* let categorias = ["Massas", "Doces", "Pizzas", "Carnes", "Vegetariano", "Sopas", "Frutos do mar", "Saladas", "Sanduíches"]; */
 
-        setCategorias(categorias)
-        setNotChangeCategory(categorias)
+        async function getAllCategorias() {
+            const categorias = await api.get("categoria/").then(response => response.data.result)
+
+            const nomeCategorias = []
+            for(let obj of categorias) {
+                nomeCategorias.push(obj.nome)
+            }
+
+            setCategorias(nomeCategorias)
+            setNotChangeCategory(nomeCategorias)
+            console.log(nomeCategorias)
+        }
+
+        getAllCategorias()
 
     }, [])
 

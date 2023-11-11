@@ -69,7 +69,7 @@ function Financeiro({navigation}) {
 
         }
 
-        //getData()
+        getData()
 
         function getDataFaka() {
 
@@ -154,7 +154,7 @@ function Financeiro({navigation}) {
 
         }
 
-        getDataFaka()
+        /* getDataFaka() */
 
     }, []);
 

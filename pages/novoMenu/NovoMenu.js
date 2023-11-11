@@ -11,9 +11,10 @@ import { useFormTools } from "../../providers/FormRestContext";
 import api from "../../providers/api";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import decode from "jwt-decode"
+import QRCode from "react-native-qrcode-svg";
 
 
-async function createRestaurant(file, formData, navigation, menu) {   
+async function createRestaurant(file, formData, navigation, menu, quantMesas) {   
 
     //let token = await AsyncStorage.getItem("token")
     let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoxMCwiaWF0IjoxNjk4MTcxODI3LCJleHAiOjIzMDI5NzE4Mjd9.ZEEZJ41kkGH89-t5lFeRuwSP8MZk5RAhJvbxmq_7kts"
@@ -36,10 +37,10 @@ async function createRestaurant(file, formData, navigation, menu) {
 
     const restauranteData = novoRestaurante.data
 
-    createMenu(token, navigation, restauranteData, menu)
+    createMenu(token, navigation, restauranteData, menu, quantMesas)
 }
 
-async function createMenu(token, navigation, restaurante, menu) {
+async function createMenu(token, navigation, restaurante, menu, quantMesas) {
 
    
    const pratosCriados = []
@@ -85,6 +86,61 @@ async function createMenu(token, navigation, restaurante, menu) {
      
     }
 
+    async function createTables() {
+
+        for (let i = 0 ; i < quantMesas ; i++) {
+
+            const idRest = restaurante.resultRestaurant.id
+            let mesa
+            try {
+                mesa = await api.post(`restaurante/mesa/add/${idRest}`, {
+                    headers: {
+                        Authorization: token
+                    }
+                }).then(response => response.data.mesa)
+    
+                await api.post(`restaurante/listaMesa/add`,{
+                    idMesa: mesa.id,
+                    idRestaurante: idRest
+                } ,{
+                    headers: {
+                        Authorization: token
+                    }
+                })
+            } catch (error) {
+                alert("erro")
+            }
+
+            const jsonMesa = JSON.stringify({
+                idRestaurante: idRest,
+                idMesa: mesa.id
+            })
+
+            const qrcode = `data:image/png;base64,${QRCode.toDataURL(jsonMesa)}`
+            const formData = new FormData()
+
+            formData.append('qrcode', JSON.parse(JSON.stringify({
+                name: "qrcode",
+                uri: qrcode,
+                type: "image/png"
+            })))
+
+            try {
+                await api.post(`restaurante/mesa/addQrCode/${mesa.id}`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': token
+                    }
+                })
+            } catch (error) {
+                alert("erro")
+            }
+            
+        }
+    }
+
+    //createTables()
+
     navigation.navigate("PainelADM", { restaurante, isDeleted })
 
 }
@@ -94,6 +150,7 @@ function NovoMenu({navigation, route}) {
     const [fontLoaded, setFontLoaded] = useState(false);
     const [formRestaurante, setFormRestaurante] = useState("")
     const [file, setFile] = useState(null)
+    const [quantMesas, setQuantMesas] = useState(0)
     const { menu, menuTools } = useFormTools()
 
     useEffect(() => {
@@ -161,6 +218,8 @@ function NovoMenu({navigation, route}) {
                     style={styles.inputQuantMesas}
                     cursorColor={"#92A14D"}
                     accessibilityLabel="Quantidade de mesas do seu restaurante"
+                    value={quantMesas}
+                    onChangeText={setQuantMesas}
                 />
             </View>
             <View style={styles.titleMenu}>
@@ -180,7 +239,7 @@ function NovoMenu({navigation, route}) {
                 </View>
             </ScrollView>
             <View style={styles.boxFinalizarMenu}>
-                <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={() => createRestaurant(file, formRestaurante, navigation, menu)}>
+                <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={() => createRestaurant(file, formRestaurante, navigation, menu, quantMesas)}>
                     <Text style={styles.textFinalizarMenu}>Finalizar Menu</Text>
                 </Pressable>
             </View>

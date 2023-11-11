@@ -63,46 +63,6 @@ function Filtros({navigation, route}) {
         
         const {products, allProducts} = route.params
         const filterProducts = []     
-            
-        /* for(let oldObj of products) {
-            
-            let isNew = true
-
-            for (let newObj of filterProducts) {
-            
-                for (let prop in newObj) {
-                
-                    if (newObj[prop] == oldObj[prop] || prop == "id" || prop == "data_compra") {
-                    
-                        if (prop != "id" && prop != "data_compra" && prop != "tipo") {
-                            
-                            const index = filterProducts.findIndex(objeto => objeto.id === newObj.id);
-                            
-                            if (isNaN(filterProducts[index].quantidade) || filterProducts[index].quantidade == 0) {
-                                filterProducts[index].quantidade = 1
-                            } else {
-                                filterProducts[index].quantidade += 1
-                            }
-
-                            isNew = false
-                        }
-                    } 
-                }
-            }
-
-            if (filterProducts.length == 0 || isNew) {
-                filterProducts.push(oldObj)
-            }
-            
-        }
-
-        for (let i = 0 ; i < filterProducts.length ; i++) {
-
-            if (isNaN(filterProducts[i].quantidade)) {
-                filterProducts[i].quantidade = 1
-            }
-
-        } */
 
         setListProducts(products)
         setProducts(products)
