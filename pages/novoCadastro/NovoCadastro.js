@@ -234,17 +234,10 @@ function NovoCadastro({ navigation }) {
         newFormData.append('tempoTolerancia', tempoTolerancia)
         newFormData.append('cep', cep)
         newFormData.append('rua', rua)
-        const {type, uri, name} = file
-        console.log(file)
-        newFormData.append('file', JSON.parse(JSON.stringify({
-            type: type, 
-            uri: uri,
-            name: name
-        })))
-        
 
         navigation.navigate('NovoMenu', {
-            formData: newFormData
+            formData: newFormData,
+            file
         })
     }
 
@@ -254,7 +247,7 @@ function NovoCadastro({ navigation }) {
           mediaTypes: ImagePicker.MediaTypeOptions.All,
           allowsEditing: true,
           aspect: [4, 3],
-          quality: 1,
+          quality: 1
         });
     
         if (!result.canceled) {
@@ -266,7 +259,7 @@ function NovoCadastro({ navigation }) {
             const fileType =  result.assets[0].uri.substring(indiceBarra + 1, indiceBarra + 4)
 
             if (isEdit) {
-
+                
                 const OldRestaurante = oldRestaurant
                 OldRestaurante.fotoEditada = true
                 setOldRestaurant(OldRestaurante)
@@ -281,6 +274,19 @@ function NovoCadastro({ navigation }) {
 
             } else {
 
+                const formData = new FormData()
+                formData.append('file', JSON.parse(JSON.stringify({
+                    name: fileName,
+                    uri: result.assets[0].uri,
+                    type: 'image/' + fileType
+                })))
+
+                await api.post("loadImage", formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+             
                 setFile({
                     name: fileName,
                     uri: result.assets[0].uri,

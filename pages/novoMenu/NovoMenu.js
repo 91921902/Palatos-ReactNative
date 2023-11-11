@@ -13,10 +13,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import decode from "jwt-decode"
 
 
-async function createRestaurant(formData, navigation, menu) {   
+async function createRestaurant(file, formData, navigation, menu) {   
 
     //let token = await AsyncStorage.getItem("token")
     let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoxMCwiaWF0IjoxNjk4MTcxODI3LCJleHAiOjIzMDI5NzE4Mjd9.ZEEZJ41kkGH89-t5lFeRuwSP8MZk5RAhJvbxmq_7kts"
+
+    console.log(file)
+    formData.append('file', JSON.parse(JSON.stringify(file)))
     
     const novoRestaurante = await api.post("/restaurante/add", formData, 
         {
@@ -90,6 +93,7 @@ function NovoMenu({navigation, route}) {
 
     const [fontLoaded, setFontLoaded] = useState(false);
     const [formRestaurante, setFormRestaurante] = useState("")
+    const [file, setFile] = useState(null)
     const { menu, menuTools } = useFormTools()
 
     useEffect(() => {
@@ -110,8 +114,9 @@ function NovoMenu({navigation, route}) {
 
             if (route.params) {
               
-                const {formData} = route.params;
+                const {formData, file} = route.params;
                 setFormRestaurante(formData)
+                setFile(file)
                 
             } else {
                
@@ -175,7 +180,7 @@ function NovoMenu({navigation, route}) {
                 </View>
             </ScrollView>
             <View style={styles.boxFinalizarMenu}>
-                <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={() => createRestaurant(formRestaurante, navigation, menu)}>
+                <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={() => createRestaurant(file, formRestaurante, navigation, menu)}>
                     <Text style={styles.textFinalizarMenu}>Finalizar Menu</Text>
                 </Pressable>
             </View>
