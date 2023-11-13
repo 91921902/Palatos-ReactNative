@@ -63,11 +63,11 @@ async function createMenu(token, navigation, restaurante, menu, quantMesas) {
         formDataMenu.append('preco', menuItem.preco)
         formDataMenu.append('nomeImagem', menuItem.nomeImagem)
         formDataMenu.append('tipo', menuItem.tipo)
-        formDataMenu.append('file', JSON.parse(JSON.stringify({
+        formDataMenu.append('file',{
             name: name,
             uri: uri,
             type: type
-        })))
+        })
 
         const pratoCriado = await api.post("/restaurante/cardapio/add", formDataMenu, {
             headers: {

@@ -281,6 +281,15 @@ function NovoCadastro({ navigation }) {
                     type: 'image/' + fileType
                 })))
 
+                console.log(formData)
+                const entries = formData.entries();
+
+                // Use um loop para percorrer as entradas
+                for (const entry of entries) {
+                    const [key, value] = entry;
+                    console.log(`Chave: ${key}, Valor: ${value}`);
+                }
+
                 await api.post("loadImage", formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
@@ -412,7 +421,7 @@ function NovoCadastro({ navigation }) {
                         <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} onPressIn={() => setCategoriasVisiveis(true)} onChangeText={setFiltroCategoria} value={filtroCategoria} accessibilityLabel="Categoria:"/>
                        
                         {
-                            categoriasVisiveis ? (<CheckBoxCategory filter={filtroCategoria}/>) : (<View />)
+                            true ? (<CheckBoxCategory filter={filtroCategoria}/>) : (<View />)
                         }  
                        
                     </View>

@@ -52,14 +52,14 @@ export default function DescricaoReserva({navigation}) {
     const mudarHorario = (text) => {
       // Remove qualquer caracter não numérico
       const numericText = text.replace(/\D/g, '');
-  
-      // Adiciona automaticamente os dois pontos após 2 caracteres
-      if (numericText.length <= 2) {
-        setHorario(numericText);
-      } else {
-        setHorario(`${numericText.slice(0, 2)}:${numericText.slice(2, 4)}`);
-      }
-    };
+
+
+          if (numericText.length <= 2) {
+            setHorario(numericText);
+          } else {
+            setHorario(`${numericText.slice(0, 2)}:${numericText.slice(2, 4)}`);
+          }
+        };
 
     async function criarRerserva(){
 
@@ -86,6 +86,7 @@ export default function DescricaoReserva({navigation}) {
 
 
     }
+
    
     
 
@@ -95,7 +96,7 @@ export default function DescricaoReserva({navigation}) {
       <View style={styles.paiLogoRegras}>
         <Image
           style={styles.logoRegras}
-          source={require('../../assets/regras.png')}
+          source={require('../../assets/iconreserva.png')}
         />
       </View>
 
@@ -114,7 +115,7 @@ export default function DescricaoReserva({navigation}) {
 
           <Text style={styles.textoRegras}>-Pagamento obrigatório de 50% do valor, sem devolução!</Text>
 
-          <Text style={styles.textoRegras}>-As reservas não podem ser no dia,somente dias posteriores.</Text>
+          <Text style={styles.textoRegras}>-As reservas não podem ser no dia, somente dias posteriores.</Text>
        </View>
 
           <View style={styles.viewData}>
@@ -140,7 +141,8 @@ export default function DescricaoReserva({navigation}) {
 
               <View style={styles.horarioView}>
                   <Text style={styles.horarioTitulo}>Horário</Text>
-                  <TextInput style={styles.inptHora}
+                  <TextInput 
+                    style={styles.inptHora}
                      value={horario}
                      onChangeText={(text) => mudarHorario(text)}
                      keyboardType="numeric"
