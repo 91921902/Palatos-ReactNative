@@ -71,9 +71,8 @@ function Comanda({ obj }) {
                 )
             }
             <View style={styles.containerInfos}>
-
                 <View style={{ width: "100%", flexDirection: "row" }}>
-                    <Text style={styles.textInfo}>Número da mesa:  </Text>
+                    <Text style={styles.textInfo}>Número da mesa:</Text>
                     <Text
                         style={[
                             styles.infos,
