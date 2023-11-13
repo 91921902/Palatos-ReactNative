@@ -231,7 +231,7 @@ function Financeiro({navigation}) {
                     />
             }   
 
-            {!chartIsValid && <Text style={styles.textNotPurchases}>Não ha compras para visualizar</Text>}
+            {!chartIsValid && <Text style={styles.textNotPurchases}>Não há compras para visualizar</Text>}
                     
             <View style={{position: "absolute", left: 10, top: "82%"}}>
                 <View style={styles.boxGuia}>
