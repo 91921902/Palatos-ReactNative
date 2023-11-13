@@ -4,8 +4,9 @@ import { StyleSheet, Image } from "react-native";
 import { Text, View, Pressable } from "react-native";
 import { Icon } from "react-native-elements";
 import A11y from "../providers/A11y.js"
-import { FormProvider, useFormTools } from "../providers/FormRestContext";
+import { useFormTools } from "../providers/FormRestContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import api from "../providers/api.js";
 
 function formataTempo(numeroEmSegundos) {
     let horas = numeroEmSegundos / 3600
@@ -37,21 +38,21 @@ function Comanda({ obj }) {
 
     }, [])
 
-    const {comandas, comandaTools} = useFormTools()
+    const { comandaTools } = useFormTools()
 
     async function deletaComanda() {
         //const token = await AsyncStorage.getItem("token")
         const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoyLCJpYXQiOjE2OTkzNzc3MDEsImV4cCI6MjMwNDE3NzcwMX0.6zUFwtaQfXUlxX_o_OSnDzfq5yawuf4Qd2mAv_Lbqmw"
 
-        const result = await api.delete(`/restaurante/comandas/delete/${obj.id}`, {
-            headers: {
-                Authorization: token
-            }
-        })
-        if (result.status !== 200) {
-            console.log("Erro ao deletar comanda")
-        } else {
+        try {
+            const result = await api.delete(`/restaurante/comandas/delete/${obj.id}`, {
+                headers: {
+                    Authorization: token
+                }
+            })
             comandaTools.deleta(obj.id)
+        } catch (err) {
+            console.log(`Erro ao deletar comanda: ${err}`)
         }
     }
 
@@ -70,9 +71,8 @@ function Comanda({ obj }) {
                 )
             }
             <View style={styles.containerInfos}>
-
                 <View style={{ width: "100%", flexDirection: "row" }}>
-                    <Text style={styles.textInfo}>Número da mesa:  </Text>
+                    <Text style={styles.textInfo}>Número da mesa:</Text>
                     <Text
                         style={[
                             styles.infos,
