@@ -7,11 +7,7 @@ import { styles } from "./styles"
 import BotaoVoltar from "../../components/BotaoVoltar.js"
 import Comanda from "../../components/Comanda.js"
 import A11y from "../../providers/A11y.js"
-import { useFormTools } from "../../providers/FormRestContext.js"
-
-
-
-/* - COPIAR ISSO PARA USAR A FONT PERSONALIZADA - */
+import { useFormTools } from "../../providers/FormRestContext"
 
 import * as Font from 'expo-font';
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
@@ -22,7 +18,7 @@ function TelaComanda({ navigation }) {
     const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoyLCJpYXQiOjE2OTkzNzc3MDEsImV4cCI6MjMwNDE3NzcwMX0.6zUFwtaQfXUlxX_o_OSnDzfq5yawuf4Qd2mAv_Lbqmw"
 
 
-    const { comandas } = useFormTools()
+    const { comandaTools, comandas } = useFormTools()
     const [fontLoaded, setFontLoaded] = useState(false);
 
 
@@ -43,7 +39,7 @@ function TelaComanda({ navigation }) {
             } catch (err) {
                 console.log(`Erro ao puxar comandas: ${err}`)
             }
-            comandas.setAllComandas(listaComandas)
+            comandaTools.setAllComandas(listaComandas)
         }
 
         async function loadFonts() {
@@ -63,7 +59,8 @@ function TelaComanda({ navigation }) {
     }
 
 
-    function backPage() {
+    function backPage() {70
+
 
         navigation.goBack()
 
@@ -77,7 +74,7 @@ function TelaComanda({ navigation }) {
                 <View style={styles.comandas}>
                     {comandas.length > 0 && (
                         comandas.map((obj) => (
-                            <Comanda key={obj.id} obj={obj} deletaComanda={deletaComanda} />
+                            <Comanda key={obj.id} obj={obj} />
                         ))
                     )}
                 </View>
