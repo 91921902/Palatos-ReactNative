@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
     descricaoText:{
         color: '#445A14',
         textAlign: 'center',
-        fontFamily: 'Kavoon',
+        fontFamily: 'kavoon',
         fontSize: 20,
     },
     descricao:{
@@ -29,7 +29,7 @@ export const styles = StyleSheet.create({
     regrasTexto:{
         color: '#445A14',
         textAlign: 'center',
-        fontFamily: 'Kavoon',
+        fontFamily: 'kavoon',
         fontSize: 14,
     },
     regrasTitulo:{
@@ -51,14 +51,14 @@ export const styles = StyleSheet.create({
     textoRegras:{
         color: '#445A14',
         textAlign: 'column',
-        fontFamily: 'Lemonada',
+        fontFamily: 'lemonada',
         fontSize: 12,
     },
 
     dataEhora:{
         color: '#445A14',
         textAlign: 'center',
-        fontFamily:'Kavoon',
+        fontFamily:'kavoon',
         fontSize: 14,
     },
 
@@ -68,7 +68,7 @@ export const styles = StyleSheet.create({
 
     dataTitulo:{
         color: '#445A14',
-        fontFamily: 'Lemonada',
+        fontFamily: 'lemonada',
         fontSize: 14,
     },
     textDate: {
@@ -113,6 +113,7 @@ export const styles = StyleSheet.create({
      borderWidth:2,
      borderRadius:20,
      borderColor:'#445A14',
+     textAlign:"center",
     },
 
     inptHora:{
@@ -121,6 +122,10 @@ export const styles = StyleSheet.create({
         borderWidth:2,
         borderRadius:20,
         borderColor:'#445A14',
+        textAlign:"center",
+        fontSize: 18,
+        fontFamily: "lemonada",
+        color: "#445A14",
     },
     btnConfirmar:{
         width:121,
