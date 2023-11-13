@@ -25,7 +25,6 @@ function TelaComanda({ navigation }) {
     useEffect(() => {
         async function carregaComandas() {
             //Puxar do backend
-            let tempoAtual = new Date().getTime() / 1000
 
             let listaComandas = []
 
@@ -39,6 +38,7 @@ function TelaComanda({ navigation }) {
             } catch (err) {
                 console.log(`Erro ao puxar comandas: ${err}`)
             }
+            console.log(listaComandas)
             comandaTools.setAllComandas(listaComandas)
         }
 

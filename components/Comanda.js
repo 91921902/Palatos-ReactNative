@@ -72,7 +72,6 @@ function Comanda({ obj }) {
             }
             <View style={styles.containerInfos}>
                 <View style={{ width: "100%", flexDirection: "row" }}>
-                    <Text style={styles.textInfo}>Número da mesa:</Text>
                     <Text
                         style={[
                             styles.infos,
@@ -81,7 +80,7 @@ function Comanda({ obj }) {
                             obj.is_reserva && !obj.chegou && { color: "red", paddingLeft: 0, paddingTop: 3 }
                         ]}
                     >
-                        {!obj.chegou && obj.is_reserva ? "Não chegou" : obj.numeroMesa}</Text>
+                        {obj.is_reserva && !obj.numeroMesa? `Não chegou` : `Mesa #${obj.numeroMesa}`}</Text>
                 </View>
 
                 <View style={{ width: "100%", height: 2, backgroundColor: "#B7A187", marginBottom: 5, marginTop: 5 }} />
