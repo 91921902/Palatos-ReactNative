@@ -19,6 +19,9 @@ export const FormProvider = ({ children }) => {
         file: "",
         tipo: "Categoria"
     }]);
+    const [menuExistente, setMenuExistente] = useState([])
+
+
     const [categorias, setCategorias] = useState([])
 
     const comandaTools = {
@@ -66,7 +69,13 @@ export const FormProvider = ({ children }) => {
                 tipo: "Categoria"
             }])
             lastId++
-        }
+        },
+
+        // editar menu existente aqui
+
+        setNewMenuExistente(menu) {
+            setMenuExistente(menu)
+        },
     };
 
     const setNewCategorias = (categorias) => {
