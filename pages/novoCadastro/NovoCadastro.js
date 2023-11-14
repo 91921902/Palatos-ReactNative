@@ -211,7 +211,7 @@ function NovoCadastro({ navigation }) {
 /* ----------------------------------------------- */
     
 
-    function nextFormPage() {
+    async function nextFormPage() {
 
         //const isAuth = userTools.authUser()
         const isAuth = true
@@ -234,6 +234,10 @@ function NovoCadastro({ navigation }) {
         newFormData.append('tempoTolerancia', tempoTolerancia)
         newFormData.append('cep', cep)
         newFormData.append('rua', rua)
+        
+        const plano = JSON.parse(await AsyncStorage.getItem("plano"))
+
+        newFormData.append('plano', plano)
 
         navigation.navigate('NovoMenu', {
             formData: newFormData,
