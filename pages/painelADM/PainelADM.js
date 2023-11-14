@@ -73,13 +73,13 @@ function PainelADM({navigation, route}) {
 
             } else {
                 
-                getData()
+                // getData()
                 
             }
             
         } else {
 
-            getData()
+            // getData()
 
         }
 

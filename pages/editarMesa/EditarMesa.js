@@ -7,6 +7,7 @@ import { styles } from "./styles"
 import BotaoVoltar from "../../components/BotaoVoltar.js"
 import ItemMesa from "../../components/ItemMesa.js"
 import A11y from "../../providers/A11y.js"
+import fontKavoon from "../../assets/fonts/kavoon.ttf"
 
 
 
@@ -52,6 +53,7 @@ function EditarMesa({navigation}) {
         async function loadFonts() {
             await Font.loadAsync({
                 'lemonada': fontLemonada,
+                'kavoon': fontKavoon,
             });
             setFontLoaded(true);
         }
