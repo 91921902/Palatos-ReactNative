@@ -17,7 +17,7 @@ import QRCode from "react-native-qrcode-svg";
 async function createRestaurant(file, formData, navigation, menu, quantMesas) {   
 
     //let token = await AsyncStorage.getItem("token")
-    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoxMCwiaWF0IjoxNjk4MTcxODI3LCJleHAiOjIzMDI5NzE4Mjd9.ZEEZJ41kkGH89-t5lFeRuwSP8MZk5RAhJvbxmq_7kts"
+    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoxMCwiaWF0IjoxNjk5OTkyNDgyLCJleHAiOjIzMDQ3OTI0ODJ9.Tgy9ZMee8Y1cYInLQfM7AOts9ftcHWftwpv5x46Hcvc"
 
     console.log(file)
     formData.append('file', JSON.parse(JSON.stringify(file)))
@@ -151,7 +151,8 @@ function NovoMenu({navigation, route}) {
     const [formRestaurante, setFormRestaurante] = useState("")
     const [file, setFile] = useState(null)
     const [quantMesas, setQuantMesas] = useState(0)
-    const { menu, menuTools } = useFormTools()
+    const { menu, menuTools, menuExistente } = useFormTools()
+    const [isEdit, setIsEdit] = useState(false)
 
     useEffect(() => {
         async function loadFonts() {
@@ -164,6 +165,31 @@ function NovoMenu({navigation, route}) {
 
         loadFonts();
 
+        async function isEditOrNot() {
+
+            const token = await AsyncStorage.getItem("token")
+
+            let idRestaurante
+            try {
+                const decoded = decode(token)
+                idRestaurante = decoded.idRestaurante
+            } catch(err) {
+                alert("erro")
+            }
+            
+            if (idRestaurante) {
+                setIsEdit(true)
+
+                const menu = await api.get(`restaurante/cardapio/${idRestaurante}`)
+
+                menuTools.setNewMenuExistente(menu || [])
+                
+
+
+            }
+
+        }
+        isEditOrNot()
         
 
         async function getParmsOrNot() {
@@ -229,18 +255,27 @@ function NovoMenu({navigation, route}) {
                 <View style={styles.menuItens}>
 
                     {
-                        menu.map((item, index) => {
-                            return(
-                               <ItemMenu key={item.id} item={item} id={item.id} index={index}/> 
-                            );
-                        })
+                        isEdit ? (
+                            menu.map((item, index) => {
+                                return(
+                                    <ItemMenu key={item.id} item={item} id={item.id} index={index} isEdit={isEdit}/> 
+                                );
+                            })
+                        ) : (
+                            menuExistente.map((item, index) => {
+                                return(
+                                    <ItemMenu key={item.id} item={item} id={item.id} index={index} isEdit={isEdit}/> 
+                                )
+                            })
+                        )
                     }
-
                 </View>
             </ScrollView>
             <View style={styles.boxFinalizarMenu}>
                 <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={() => createRestaurant(file, formRestaurante, navigation, menu, quantMesas)}>
-                    <Text style={styles.textFinalizarMenu}>Finalizar Menu</Text>
+                    
+                    {isEdit && <Text style={styles.textFinalizarMenu}>Editar Menu</Text>}
+                    {!isEdit && <Text style={styles.textFinalizarMenu}>Finalizar Menu</Text>}
                 </Pressable>
             </View>
         </View>

@@ -6,6 +6,7 @@ export const styles = StyleSheet.create({
         flex:1,
         width: '100%',
         paddingTop:150,
+        backgroundColor: "white"
     },
 
     miniLogo:{
@@ -55,26 +56,22 @@ export const styles = StyleSheet.create({
     },
 
     planoMensal:{
-        width: 279,
-        height: 84,
+        width: "100%",
+        height:"100%",
         borderRadius:10,
-        borderWidth:1,
-        borderColor: '#445A14',
-       
+        resizeMode: "stretch",
     },
 
     botaoPosition:{
-    alignItems: 'center',
+        alignItems: 'center',
 
 
     },
 
     botaoBanner:{
-        width: 279,
-        height: 84,
+        width: "92%",
+        height: 120,
         borderRadius:10,
-        borderWidth:1,
-        borderColor: '#445A14',
        
     },
 
