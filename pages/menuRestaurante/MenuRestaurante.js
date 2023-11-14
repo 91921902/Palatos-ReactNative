@@ -7,6 +7,7 @@ import * as Font from 'expo-font';
 import BotaoVoltar from "../../components/BotaoVoltar"
 import MiniLogo from "../../components/MiniLogo"//temporario carrinho
 import NomePrato from "../../components/NomePrato";
+import BotaoCarrinho from '../../components/CarrinhoIcon';
 
 function MenuRestaurante({navigation}) {
     const [fontLoaded, setFontLoaded] = useState(false);
@@ -34,7 +35,8 @@ function MenuRestaurante({navigation}) {
         <View style={styles.containerMenuRestaurante}>
 
              <BotaoVoltar onPress={() => navigation.goBack()}/>
-             <MiniLogo/>
+             {/* <MiniLogo/> */}
+             <BotaoCarrinho/>
 
             <View style={styles.menuRestaurante}>
 

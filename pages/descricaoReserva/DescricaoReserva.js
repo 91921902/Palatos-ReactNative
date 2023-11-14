@@ -115,7 +115,7 @@ export default function DescricaoReserva({navigation}) {
 
           <Text style={styles.textoRegras}>-Pagamento obrigatório de 50% do valor, sem devolução!</Text>
 
-          <Text style={styles.textoRegras}>-As reservas não podem ser no dia, somente dias posteriores.</Text>
+          <Text style={styles.textoRegras}></Text>
        </View>
 
           <View style={styles.viewData}>

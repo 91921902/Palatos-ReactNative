@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     textoBotao:{
       color:'#445A14',
       fontFamily:'Inter',
-      fontSize: 20,
+      fontSize: 10,
       fontStyle: 'normal',
      
 
