@@ -11,12 +11,28 @@ import decode from "jwt-decode"
 import api from "../../providers/api"
 
 
-/* - COPIAR ISSO PARA USAR A FONT PERSONALIZADA - */
-
 import * as Font from 'expo-font';
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import CheckBoxCategory from "../../components/CheckBoxCategory"
 
+function getExtensionFile(mimeType) {
+
+    let extension = null
+
+    switch (mimeType) {
+        case "image/png":
+            extension = "png"
+            break
+        case "image/jpeg":
+            extension = "jpg"
+            break
+        default:
+            extension = null
+            break
+    }
+
+    return extension
+}
 
 function base64toBlob(base64Data, contentType = '', sliceSize = 512) {
     // tentando tirar o tipo de conteúdo que está em base64 aaaaa
@@ -280,11 +296,12 @@ function NovoCadastro({ navigation }) {
 
         if (!result.canceled) {
             setFoto(result.assets[0].uri);
-            const fileName = result.assets[0].uri.substring(result.assets[0].uri.lastIndexOf("/") + 1, result.assets[0].uri.length)
 
             const indiceDoisPontos = result.assets[0].uri.indexOf(':');
-
             const fileType = result.assets[0].uri.substring(indiceDoisPontos + 1, result.assets[0].uri.indexOf(";"))
+
+            const extensionFile = getExtensionFile(fileType)
+
 
             if (isEdit) {
 
@@ -294,7 +311,7 @@ function NovoCadastro({ navigation }) {
 
                 setFileEdit(
                     {
-                        name: fileName,
+                        name: extensionFile,
                         uri: result.assets[0].uri,
                         type: 'image/' + fileType
                     }
@@ -311,7 +328,7 @@ function NovoCadastro({ navigation }) {
                 }
 
                 const formData = new FormData()
-                formData.append('file', blob, fileName)
+                formData.append('file', blob, `.${extensionFile}`)
 
                 const dataRequest = await api.post("loadImage", formData, {
                     headers: {
@@ -321,7 +338,7 @@ function NovoCadastro({ navigation }) {
 
                 console.log(dataRequest)
                 setFile({
-                    name: fileName,
+                    name: extensionFile,
                     uri: result.assets[0].uri,
                     type: 'image/' + fileType
                 })
