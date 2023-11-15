@@ -1,6 +1,7 @@
 import React from "react"
 import { useState, useEffect } from "react"
 import { Image, View, Text, ScrollView, TextInput, Animated, Easing, Pressable, Platform } from "react-native"
+import { Buffer } from "buffer"
 import { styles } from "./styles"
 import BotaoVoltar from "../../components/BotaoVoltar.js"
 import { useFormTools } from "../../providers/FormRestContext"
@@ -16,6 +17,29 @@ import * as Font from 'expo-font';
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import CheckBoxCategory from "../../components/CheckBoxCategory"
 
+
+function base64toBlob(base64Data, contentType = '', sliceSize = 512) {
+    // tentando tirar o tipo de conteúdo que está em base64 aaaaa
+
+    base64Data = base64Data.split(",")[1]
+    const byteCharacters = atob(base64Data);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        const byteNumbers = new Array(slice.length);
+        for (let i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        const byteArray = new Uint8Array(byteNumbers);
+        byteArrays.push(byteArray);
+    }
+
+    const blob = new Blob(byteArrays, { type: contentType });
+    return blob;
+}
 
 
 function NovoCadastro({ navigation }) {
@@ -38,7 +62,7 @@ function NovoCadastro({ navigation }) {
     const [cep, setCep] = useState("")
     const [rua, setRua] = useState("")
     const { userTools } = useFormTools()
-    const {categorias} = useFormTools()
+    const { categorias } = useFormTools()
 
     const [isEdit, setIsEdit] = useState(false)
     const [fileEdit, setFileEdit] = useState({})
@@ -52,10 +76,10 @@ function NovoCadastro({ navigation }) {
 
     const toggleReservation = () => {
         Animated.timing(animatedValue, {
-        toValue: btnReservation ? 1 : 0,
-        duration: 1000, // Duração da animação em milissegundos
-        easing: Easing.linear, // Easing para uma transição suave
-        useNativeDriver: false, // Deixe como 'false' para animações de estilo
+            toValue: btnReservation ? 1 : 0,
+            duration: 1000, // Duração da animação em milissegundos
+            easing: Easing.linear, // Easing para uma transição suave
+            useNativeDriver: false, // Deixe como 'false' para animações de estilo
         }).start();
 
         setBtnReservation(!btnReservation);
@@ -63,10 +87,10 @@ function NovoCadastro({ navigation }) {
 
     useEffect(() => {
         async function loadFonts() {
-        await Font.loadAsync({
-            'lemonada': fontLemonada,
-        });
-        setFontLoaded(true);
+            await Font.loadAsync({
+                'lemonada': fontLemonada,
+            });
+            setFontLoaded(true);
         }
 
         loadFonts();
@@ -80,19 +104,19 @@ function NovoCadastro({ navigation }) {
                 navigation.navigate("NovoCadastro")
                 // navigation.navigate("PagInicial")
             } else {
-                
+
                 const decoded = decode(token)
 
-                const {idRestaurante} = decoded
+                const { idRestaurante } = decoded
 
                 if (idRestaurante) {
-               
+
                     setIsEdit(true)
 
                     const restauranteData = await api.get("/restaurante/search/" + idRestaurante)
-                   
+
                     const restaurante = restauranteData.data.result
-                    
+
                     setNome(restaurante.nome)
                     setDescricao(restaurante.descricao)
                     setFoto(restaurante.foto)
@@ -100,30 +124,30 @@ function NovoCadastro({ navigation }) {
                     setCep(restaurante.cep)
                     setRua(restaurante.rua)
 
-                    navigation.navigate("PainelADM" , {idRestaurante})
+                    navigation.navigate("PainelADM", { idRestaurante })
                 }
             }
 
-            
+
         }
 
-        
-        
+
+
         async function isEditOrNot() {
-            
+
             const data = await AsyncStorage.getItem("restaurante")
             const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoxMCwiaWF0IjoxNjk4MTcxODI3LCJleHAiOjIzMDI5NzE4Mjd9.ZEEZJ41kkGH89-t5lFeRuwSP8MZk5RAhJvbxmq_7kts"
             let tokenIsValid
             try {
-               tokenIsValid = await api.get("users/auth", {
+                tokenIsValid = await api.get("users/auth", {
                     headers: {
                         Authorization: token
                     }
-                }).then(response => response.data.status) 
+                }).then(response => response.data.status)
             } catch (error) {
                 alert("erro")
             }
-            
+
 
             if (data && tokenIsValid) {
 
@@ -157,14 +181,14 @@ function NovoCadastro({ navigation }) {
                 })
 
             } else {
-                
+
                 if (token) {
 
                     const decoded = decode(token)
-                    const {idRestaurante} = decoded
+                    const { idRestaurante } = decoded
                     if (idRestaurante && tokenIsValid) {
                         const restaurante = await api.get("/restaurante/search/" + idRestaurante)
-                        .then(response => response.data.result)
+                            .then(response => response.data.result)
 
                         if (restaurante) {
                             setIsEdit(true)
@@ -196,7 +220,7 @@ function NovoCadastro({ navigation }) {
                             })
                         }
                     }
-                } 
+                }
             }
         }
 
@@ -205,11 +229,11 @@ function NovoCadastro({ navigation }) {
     }, []);
 
     if (!fontLoaded) {
-        return null; 
+        return null;
     }
 
-/* ----------------------------------------------- */
-    
+    /* ----------------------------------------------- */
+
 
     async function nextFormPage() {
 
@@ -227,14 +251,14 @@ function NovoCadastro({ navigation }) {
         newFormData.append('nome', nome)
         newFormData.append('endereco', endereco)
         newFormData.append('telefone', telefone)
-        newFormData.append('celular',celular)
+        newFormData.append('celular', celular)
         newFormData.append('descricao', descricao)
         newFormData.append('categorias', categorias)
         newFormData.append('reservasAtivas', btnReservation)
         newFormData.append('tempoTolerancia', tempoTolerancia)
         newFormData.append('cep', cep)
         newFormData.append('rua', rua)
-        
+
         const plano = JSON.parse(await AsyncStorage.getItem("plano"))
 
         newFormData.append('plano', plano)
@@ -246,24 +270,24 @@ function NovoCadastro({ navigation }) {
     }
 
     const pickImage = async () => {
-        
+
         let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
-          allowsEditing: true,
-          aspect: [4, 3],
-          quality: 1
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1
         });
-    
+
         if (!result.canceled) {
             setFoto(result.assets[0].uri);
             const fileName = result.assets[0].uri.substring(result.assets[0].uri.lastIndexOf("/") + 1, result.assets[0].uri.length)
 
-            const indiceBarra =  result.assets[0].uri.indexOf('/');
-        
-            const fileType =  result.assets[0].uri.substring(indiceBarra + 1, indiceBarra + 4)
+            const indiceDoisPontos = result.assets[0].uri.indexOf(':');
+
+            const fileType = result.assets[0].uri.substring(indiceDoisPontos + 1, result.assets[0].uri.indexOf(";"))
 
             if (isEdit) {
-                
+
                 const OldRestaurante = oldRestaurant
                 OldRestaurante.fotoEditada = true
                 setOldRestaurant(OldRestaurante)
@@ -278,34 +302,30 @@ function NovoCadastro({ navigation }) {
 
             } else {
 
-                const formData = new FormData()
-                formData.append('file', JSON.parse(JSON.stringify({
-                    name: fileName,
-                    uri: result.assets[0].uri,
-                    type: 'image/' + fileType
-                })))
-
-                console.log(formData)
-                const entries = formData.entries();
-
-                // Use um loop para percorrer as entradas
-                for (const entry of entries) {
-                    const [key, value] = entry;
-                    console.log(`Chave: ${key}, Valor: ${value}`);
+                let blob
+                try {
+                    blob = base64toBlob(result.assets[0].uri, fileType)
+                } catch (err) {
+                    console.log(`Erro ao converter para binário`, err)
+                    alert(`Erro ao converter para binário: ${err}`)
                 }
 
-                await api.post("loadImage", formData, {
+                const formData = new FormData()
+                formData.append('file', blob, fileName)
+
+                const dataRequest = await api.post("loadImage", formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
                 })
-             
+
+                console.log(dataRequest)
                 setFile({
                     name: fileName,
                     uri: result.assets[0].uri,
                     type: 'image/' + fileType
                 })
-    
+
             }
 
         } else {
@@ -315,7 +335,7 @@ function NovoCadastro({ navigation }) {
     };
 
     function backPage() {
-        
+
         const rest = AsyncStorage.getItem("login")
 
         if (rest) {
@@ -330,7 +350,7 @@ function NovoCadastro({ navigation }) {
         formData.append('nome', nome)
         formData.append('endereco', endereco)
         formData.append('telefone', telefone)
-        formData.append('celular',celular)
+        formData.append('celular', celular)
         formData.append('descricao', descricao)
         formData.append('categorias', categorias)
         formData.append('reservasAtivas', btnReservation)
@@ -338,12 +358,12 @@ function NovoCadastro({ navigation }) {
         formData.append('cep', cep)
         formData.append('rua', rua)
         if (oldRestaurant.fotoEditada) {
-              formData.append('file', fileEdit)
+            formData.append('file', fileEdit)
         }
         try {
             const token = await AsyncStorage.getItem("token")
             const decoded = decode(token)
-            const {idRestaurante} = decoded
+            const { idRestaurante } = decoded
             await api.put("restaurante/edit/" + idRestaurante, formData, {
                 headers: {
                     Authorization: token
@@ -353,61 +373,61 @@ function NovoCadastro({ navigation }) {
             await AsyncStorage.removeItem("restaurante")
             navigation.navigate("PainelADM")
 
-        } catch(err) {
+        } catch (err) {
             alert("erro em tentar editar o restaurante")
         }
 
     }
-    
-    return(
+
+    return (
         <View style={styles.containerNovoCadastro}>
-            <BotaoVoltar onPress={backPage}/>                     
+            <BotaoVoltar onPress={backPage} />
             <View style={styles.boxUploadPhoto}>
-                <Pressable style={[styles.buttonUpload, {overflow: !foto ? "" : "hidden"}]} onPress={pickImage}>
+                <Pressable style={[styles.buttonUpload, { overflow: !foto ? "" : "hidden" }]} onPress={pickImage}>
                     {!foto ? (
                         <>
-                            <Image source={require("../../assets/icons/btnMaisV2.png")} style={styles.btnMais}/>
-                            <Text style={{color: "white", fontFamily: "lemonada", fontSize: 10}}>Insira sua logo aqui</Text>
+                            <Image source={require("../../assets/icons/btnMaisV2.png")} style={styles.btnMais} />
+                            <Text style={{ color: "white", fontFamily: "lemonada", fontSize: 10 }}>Insira sua logo aqui</Text>
                         </>
                     ) : (
-                        <Image source={{uri: foto}} style={{height: '100%', width: '100%', resizeMode: "cover"}} />
-                    )} 
+                        <Image source={{ uri: foto }} style={{ height: '100%', width: '100%', resizeMode: "cover" }} />
+                    )}
                 </Pressable>
             </View>
-            <ScrollView style={{height: "60%"}}>
+            <ScrollView style={{ height: "60%" }}>
                 <View style={styles.formularioCadastroRest}>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Nome do Restaurante:</Text>
-                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Nome:" value={nome} onChangeText={setNome}/>
+                        <TextInput style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Nome:" value={nome} onChangeText={setNome} />
                     </View>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>CEP (opcional):</Text>
-                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="CEP:" value={cep} onChangeText={setCep}/>
+                        <TextInput style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="CEP:" value={cep} onChangeText={setCep} />
                     </View>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Rua (opcional):</Text>
-                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Rua:" value={rua} onChangeText={setRua}/>
+                        <TextInput style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Rua:" value={rua} onChangeText={setRua} />
                     </View>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Endereço:</Text>
-                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Endereço:" value={endereco} onChangeText={setEndereco}/>
+                        <TextInput style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Endereço:" value={endereco} onChangeText={setEndereco} />
                     </View>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Telefone (opcional):</Text>
-                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Telefone (opcional):" value={telefone} onChangeText={setTelefone}/>
+                        <TextInput style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Telefone (opcional):" value={telefone} onChangeText={setTelefone} />
                     </View>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Celular:</Text>
-                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Celular:" value={celular} onChangeText={setCelular}/>
+                        <TextInput style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Celular:" value={celular} onChangeText={setCelular} />
                     </View>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Descrição (opcional):</Text>
-                        <TextInput  
+                        <TextInput
                             value={descricao}
                             onChangeText={setDescricao}
                             style={[styles.inptFormRest, {
-                                padding: 10, 
-                                height: 200, 
+                                padding: 10,
+                                height: 200,
                                 textAlignVertical: "top",
                                 fontSize: 12
                             }]}
@@ -418,61 +438,62 @@ function NovoCadastro({ navigation }) {
                             accessibilityRole="text"
                             accessibilityLabel="Descrição do restaurante:"
                         />
-                        <Text style={{paddingLeft: 10, fontFamily: "lemonada", color: "#445A14", fontSize: 11}}>Max 186</Text>
+                        <Text style={{ paddingLeft: 10, fontFamily: "lemonada", color: "#445A14", fontSize: 11 }}>Max 186</Text>
                     </View>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Categoria (Min. 1):</Text>
-                        <TextInput  style={styles.inptFormRest} cursorColor={"#445A14"} onPressIn={() => setCategoriasVisiveis(true)} onChangeText={setFiltroCategoria} value={filtroCategoria} accessibilityLabel="Categoria:"/>
-                       
+                        <TextInput style={styles.inptFormRest} cursorColor={"#445A14"} onPressIn={() => setCategoriasVisiveis(true)} onChangeText={setFiltroCategoria} value={filtroCategoria} accessibilityLabel="Categoria:" />
+
                         {
-                            true ? (<CheckBoxCategory filter={filtroCategoria}/>) : (<View />)
-                        }  
-                       
+                            true ? (<CheckBoxCategory filter={filtroCategoria} />) : (<View />)
+                        }
+
                     </View>
                     <View style={styles.boxReserva}>
-                        <Text style={{fontFamily: "lemonada", fontSize: 18, color: "#445A14"}}>Terá reserva?</Text>
+                        <Text style={{ fontFamily: "lemonada", fontSize: 18, color: "#445A14" }}>Terá reserva?</Text>
 
-                        <View>    
+                        <View>
                             <View style={styles.btnYesOrNot} accessibilityRole="button">
                                 <Animated.View
                                     style={[
                                         styles.controllerBtnYesOrNot,
                                         {
-                                        left: animatedValue.interpolate({
-                                            inputRange: [0, 1],
-                                            outputRange: ['2%', '50%'],
-                                        }),
+                                            left: animatedValue.interpolate({
+                                                inputRange: [0, 1],
+                                                outputRange: ['2%', '50%'],
+                                            }),
                                         },
                                     ]}
                                 />
-                                <Pressable  onPress={toggleReservation}  style={{width: "50%"}}>
+                                <Pressable onPress={toggleReservation} style={{ width: "50%" }}>
                                     <Text style={[styles.textBtnYes, { color: btnReservation ? "white" : "#92A14D" }]}>Sim</Text>
                                 </Pressable>
-                                <Pressable  onPress={toggleReservation} style={{width: "50%"}}>
+                                <Pressable onPress={toggleReservation} style={{ width: "50%" }}>
                                     <Text style={[styles.textBtnNot, { color: btnReservation ? "#92A14D" : "white" }]}>Não</Text>
                                 </Pressable>
                             </View>
                         </View>
-                                     
+
                         {
                             btnReservation ? (
                                 <View style={{
                                     alignItems: "center",
                                     gap: 20
                                 }}>
-                                    <Text style={{fontFamily: "lemonada", fontSize: 12, color: "#445A14"}}>Escolha seu tempo de tolerância:</Text>
-                                    <TextInput 
+                                    <Text style={{ fontFamily: "lemonada", fontSize: 12, color: "#445A14" }}>Escolha seu tempo de tolerância:</Text>
+                                    <TextInput
                                         keyboardType="numeric"
                                         onChangeText={setTempoTolerancia}
                                         value={tempoTolerancia}
-                                        style={{width: 150, backgroundColor: "transparent", height: 50,borderWidth: 2,
-                                        borderColor: "#445A14",
-                                        borderRadius: 15,
-                                        textAlign: "center",
-                                        fontSize: 20,
-                                        color: "#92A14D",
-                                        fontFamily: "lemonada",
-                                    }}
+                                        style={{
+                                            width: 150, backgroundColor: "transparent", height: 50, borderWidth: 2,
+                                            borderColor: "#445A14",
+                                            borderRadius: 15,
+                                            textAlign: "center",
+                                            fontSize: 20,
+                                            color: "#92A14D",
+                                            fontFamily: "lemonada",
+                                        }}
                                         placeholder="Min"
                                         placeholderTextColor={"#92A14D"}
                                         cursorColor={"#445A14"}
@@ -484,18 +505,18 @@ function NovoCadastro({ navigation }) {
                             )
                         }
 
-                        
+
                     </View>
                 </View>
-                <View style={{alignItems: "flex-end", marginTop: 30, padding: 15}}>
+                <View style={{ alignItems: "flex-end", marginTop: 30, padding: 15 }}>
                     {
                         isEdit ? (
-                            <Text style={{fontFamily: "lemonada", fontSize: 18, color: "#445A14"}} accessibilityRole="button" onPress={editRestaurant}>Editar</Text> 
+                            <Text style={{ fontFamily: "lemonada", fontSize: 18, color: "#445A14" }} accessibilityRole="button" onPress={editRestaurant}>Editar</Text>
                         ) : (
-                           <Text style={{fontFamily: "lemonada", fontSize: 18, color: "#445A14"}} accessibilityRole="button" onPress={nextFormPage}>Próximo</Text> 
+                            <Text style={{ fontFamily: "lemonada", fontSize: 18, color: "#445A14" }} accessibilityRole="button" onPress={nextFormPage}>Próximo</Text>
                         )
                     }
-                    
+
                 </View>
             </ScrollView>
         </View>
