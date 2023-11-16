@@ -6,9 +6,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, TextInput, StyleSheet, Pressable, Image, Platform } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
 import { useFormTools } from "../providers/FormRestContext";
+import ImageTools from "../providers/ImageTools";
 
+const imageTools = new ImageTools()
 
-function ItemMenu({id, index}) {
+function ItemMenu({id, index, isEdit}) {
 
     const [fontLoaded, setFontLoaded] = useState(false);
     const [nome, setNome] = useState("")
@@ -16,7 +18,6 @@ function ItemMenu({id, index}) {
     const [price, setPrice] = useState("")
     const [foto, setFoto] = useState("")
     const [file, setFile] = useState("")
-    const [nomeImagem, setNomeImagem] = useState("")
     const [tipo, setTipo] = useState("Categoria")
 
     const [botaoCategorias, setBotaoCategorias] = useState({
@@ -47,7 +48,6 @@ function ItemMenu({id, index}) {
             descricao: desc,
             preco: price,
             foto: foto,
-            nomeImagem: nomeImagem,
             file: file,
             tipo: tipo
         }
@@ -60,7 +60,6 @@ function ItemMenu({id, index}) {
                 descricao: desc,
                 preco: price,
                 foto: foto,
-                nomeImagem: nomeImagem,
                 file: file,
                 tipo: tipo
             })
@@ -112,7 +111,6 @@ function ItemMenu({id, index}) {
             setPrice(item.preco)
             setFoto(item.foto)
             setFile(item.file)
-            setNomeImagem(item.nomeImagem)
             setTipo(item.tipo)
         }
 
@@ -143,33 +141,33 @@ function ItemMenu({id, index}) {
         }
     }
 
-
     const pickImage = async () => {
-        
+
         let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
-          allowsEditing: true,
-          aspect: [4, 3],
-          quality: 1,
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1
         });
-    
+
         if (!result.canceled) {
             setFoto(result.assets[0].uri);
 
-            const fileName = result.assets[0].uri.substring(result.assets[0].uri.lastIndexOf("/") + 1, result.assets[0].uri.length)
-            const fileType = fileName.split(".")[1]
-            
+            const indiceDoisPontos = result.assets[0].uri.indexOf(':');
+            const fileType = result.assets[0].uri.substring(indiceDoisPontos + 1, result.assets[0].uri.indexOf(";"))
+
+            const extensionFile = imageTools.getExtensionFile(fileType)
+
             const image = {
-                name: fileName,
+                extension: extensionFile,
                 uri: result.assets[0].uri,
-                type: 'image/' + fileType
+                type: fileType
             }
 
             setFile(image)
-            setNomeImagem(fileName)
 
         } else {
-            //ToastAndroid.show("Operação Cancelada", 1000)
+            // ToastAndroid.show("Operação Cancelada", 600)
             alert("operação cancelada")
         }
     };

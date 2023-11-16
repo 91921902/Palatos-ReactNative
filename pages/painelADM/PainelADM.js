@@ -54,7 +54,7 @@ function PainelADM({navigation, route}) {
 
             }
             
-            await api.get(`/restaurante/${idRestaurante}`).then(response => {
+            await api.get(`/restaurante/search/${idRestaurante}`).then(response => {
                 const restauranteData = response.data
                 const restaurante = restauranteData.result
                 AsyncStorage.setItem("restaurante", JSON.stringify(restaurante))
@@ -64,7 +64,11 @@ function PainelADM({navigation, route}) {
 
         if (route.params) {
             
-            const { restaurante } = route.params;
+            const { restaurante, isDeleted } = route.params;
+
+            if (isDeleted) {
+                alert("Não foi possivel criar o menu")
+            }
 
             if (restaurante) {
                 
@@ -73,13 +77,13 @@ function PainelADM({navigation, route}) {
 
             } else {
                 
-                // getData()
+                getData()
                 
             }
             
         } else {
 
-            // getData()
+            getData()
 
         }
 

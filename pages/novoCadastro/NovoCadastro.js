@@ -9,53 +9,13 @@ import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import decode from "jwt-decode"
 import api from "../../providers/api"
-
+import ImageTools from "../../providers/ImageTools.js"
 
 import * as Font from 'expo-font';
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import CheckBoxCategory from "../../components/CheckBoxCategory"
 
-function getExtensionFile(mimeType) {
-
-    let extension = null
-
-    switch (mimeType) {
-        case "image/png":
-            extension = "png"
-            break
-        case "image/jpeg":
-            extension = "jpg"
-            break
-        default:
-            extension = null
-            break
-    }
-
-    return extension
-}
-
-function base64toBlob(base64Data, contentType = '', sliceSize = 512) {
-    // tentando tirar o tipo de conteúdo que está em base64 aaaaa
-
-    base64Data = base64Data.split(",")[1]
-    const byteCharacters = atob(base64Data);
-    const byteArrays = [];
-
-    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-        const slice = byteCharacters.slice(offset, offset + sliceSize);
-
-        const byteNumbers = new Array(slice.length);
-        for (let i = 0; i < slice.length; i++) {
-            byteNumbers[i] = slice.charCodeAt(i);
-        }
-
-        const byteArray = new Uint8Array(byteNumbers);
-        byteArrays.push(byteArray);
-    }
-
-    const blob = new Blob(byteArrays, { type: contentType });
-    return blob;
-}
+const imageTools = new ImageTools()
 
 
 function NovoCadastro({ navigation }) {
@@ -100,7 +60,7 @@ function NovoCadastro({ navigation }) {
 
         setBtnReservation(!btnReservation);
     };
-
+    
     useEffect(() => {
         async function loadFonts() {
             await Font.loadAsync({
@@ -111,48 +71,12 @@ function NovoCadastro({ navigation }) {
 
         loadFonts();
 
-        //FUNCAO TALVEZ SEJA INUTIL
-        async function getIds() {
-
-            const token = await AsyncStorage.getItem("token")
-
-            if (!token) {
-                navigation.navigate("NovoCadastro")
-                // navigation.navigate("PagInicial")
-            } else {
-
-                const decoded = decode(token)
-
-                const { idRestaurante } = decoded
-
-                if (idRestaurante) {
-
-                    setIsEdit(true)
-
-                    const restauranteData = await api.get("/restaurante/search/" + idRestaurante)
-
-                    const restaurante = restauranteData.data.result
-
-                    setNome(restaurante.nome)
-                    setDescricao(restaurante.descricao)
-                    setFoto(restaurante.foto)
-                    setEndereco(restaurante.endereco)
-                    setCep(restaurante.cep)
-                    setRua(restaurante.rua)
-
-                    navigation.navigate("PainelADM", { idRestaurante })
-                }
-            }
-
-
-        }
-
-
-
         async function isEditOrNot() {
 
             const data = await AsyncStorage.getItem("restaurante")
             const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoxMCwiaWF0IjoxNjk4MTcxODI3LCJleHAiOjIzMDI5NzE4Mjd9.ZEEZJ41kkGH89-t5lFeRuwSP8MZk5RAhJvbxmq_7kts"
+            //const token = await AsyncStorage.getItem("token")
+
             let tokenIsValid
             try {
                 tokenIsValid = await api.get("users/auth", {
@@ -163,7 +87,6 @@ function NovoCadastro({ navigation }) {
             } catch (error) {
                 alert("erro")
             }
-
 
             if (data && tokenIsValid) {
 
@@ -198,7 +121,7 @@ function NovoCadastro({ navigation }) {
 
             } else {
 
-                if (token) {
+                if (token && false) {
 
                     const decoded = decode(token)
                     const { idRestaurante } = decoded
@@ -262,6 +185,7 @@ function NovoCadastro({ navigation }) {
             })
         }
 
+        const plano = JSON.parse(await AsyncStorage.getItem("plano"))
         const newFormData = new FormData()
 
         newFormData.append('nome', nome)
@@ -274,14 +198,24 @@ function NovoCadastro({ navigation }) {
         newFormData.append('tempoTolerancia', tempoTolerancia)
         newFormData.append('cep', cep)
         newFormData.append('rua', rua)
-
-        const plano = JSON.parse(await AsyncStorage.getItem("plano"))
-
         newFormData.append('plano', plano)
 
+        const {extension, uri, type} = file
+
+        let blob
+        try {
+            blob = imageTools.base64toBlob(uri, type)
+        } catch (err) {
+            console.log(`Erro ao converter para binário`, err)
+            alert(`Erro ao converter para binário: ${err}`)
+        }
+
+        newFormData.append('file', blob, `.${extension}`)
+
+        await AsyncStorage.removeItem("plano")
+
         navigation.navigate('NovoMenu', {
-            formData: newFormData,
-            file
+            formData: newFormData
         })
     }
 
@@ -300,7 +234,7 @@ function NovoCadastro({ navigation }) {
             const indiceDoisPontos = result.assets[0].uri.indexOf(':');
             const fileType = result.assets[0].uri.substring(indiceDoisPontos + 1, result.assets[0].uri.indexOf(";"))
 
-            const extensionFile = getExtensionFile(fileType)
+            const extensionFile = imageTools.getExtensionFile(fileType)
 
 
             if (isEdit) {
@@ -311,7 +245,7 @@ function NovoCadastro({ navigation }) {
 
                 setFileEdit(
                     {
-                        name: extensionFile,
+                        extension: extensionFile,
                         uri: result.assets[0].uri,
                         type: 'image/' + fileType
                     }
@@ -319,28 +253,10 @@ function NovoCadastro({ navigation }) {
 
             } else {
 
-                let blob
-                try {
-                    blob = base64toBlob(result.assets[0].uri, fileType)
-                } catch (err) {
-                    console.log(`Erro ao converter para binário`, err)
-                    alert(`Erro ao converter para binário: ${err}`)
-                }
-
-                const formData = new FormData()
-                formData.append('file', blob, `.${extensionFile}`)
-
-                const dataRequest = await api.post("loadImage", formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                })
-
-                console.log(dataRequest)
                 setFile({
-                    name: extensionFile,
+                    extension: extensionFile,
                     uri: result.assets[0].uri,
-                    type: 'image/' + fileType
+                    type: fileType
                 })
 
             }

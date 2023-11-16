@@ -12,15 +12,15 @@ import api from "../../providers/api";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import decode from "jwt-decode"
 import QRCode from "react-native-qrcode-svg";
+import ImageTools from "../../providers/ImageTools";
+
+const imageTools = new ImageTools()
 
 
-async function createRestaurant(file, formData, navigation, menu, quantMesas) {   
+async function createRestaurant(formData, navigation, menu, quantMesas) {   
 
     //let token = await AsyncStorage.getItem("token")
     let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoxMCwiaWF0IjoxNjk5OTkyNDgyLCJleHAiOjIzMDQ3OTI0ODJ9.Tgy9ZMee8Y1cYInLQfM7AOts9ftcHWftwpv5x46Hcvc"
-
-    console.log(file)
-    formData.append('file', JSON.parse(JSON.stringify(file)))
     
     const novoRestaurante = await api.post("/restaurante/add", formData, 
         {
@@ -55,20 +55,24 @@ async function createMenu(token, navigation, restaurante, menu, quantMesas) {
     for (let i = 0; i < menu.length; i++) {
 
         const menuItem = menu[i]
-        const { name, uri, type } = menuItem.file
+        const { extension, uri, type } = menuItem.file
         const formDataMenu = new FormData()
      
         formDataMenu.append('nome', menuItem.nome)
         formDataMenu.append('descricao', menuItem.descricao)
         formDataMenu.append('preco', menuItem.preco)
-        formDataMenu.append('nomeImagem', menuItem.nomeImagem)
         formDataMenu.append('tipo', menuItem.tipo)
-        formDataMenu.append('file',{
-            name: name,
-            uri: uri,
-            type: type
-        })
+        let blobImage
 
+        try {
+            blobImage = imageTools.base64toBlob(uri, type)
+            formDataMenu.append('file', blobImage, `.${extension}`)
+
+        } catch (error) {
+            console.log(error)
+            alert("erro 1")
+        }
+      
         const pratoCriado = await api.post("/restaurante/cardapio/add", formDataMenu, {
             headers: {
                 'Content-Type': 'multipart/form-data',
@@ -108,7 +112,7 @@ async function createMenu(token, navigation, restaurante, menu, quantMesas) {
                     }
                 })
             } catch (error) {
-                alert("erro")
+                alert("erro 2")
             }
 
             const jsonMesa = JSON.stringify({
@@ -118,12 +122,15 @@ async function createMenu(token, navigation, restaurante, menu, quantMesas) {
 
             const qrcode = `data:image/png;base64,${QRCode.toDataURL(jsonMesa)}`
             const formData = new FormData()
+            
+            try {
+                const blob = imageTools.base64toBlob(qrcode)
+                formData.append('file', blob, `.png`)
 
-            formData.append('qrcode', JSON.parse(JSON.stringify({
-                name: "qrcode",
-                uri: qrcode,
-                type: "image/png"
-            })))
+            } catch (error) {
+                console.log(error)
+                alert("erro 3")
+            }
 
             try {
                 await api.post(`restaurante/mesa/addQrCode/${mesa.id}`, formData, {
@@ -133,7 +140,7 @@ async function createMenu(token, navigation, restaurante, menu, quantMesas) {
                     }
                 })
             } catch (error) {
-                alert("erro")
+                alert("erro 9")
             }
             
         }
@@ -150,8 +157,8 @@ function NovoMenu({navigation, route}) {
     const [fontLoaded, setFontLoaded] = useState(false);
     const [formRestaurante, setFormRestaurante] = useState("")
     const [file, setFile] = useState(null)
-    const [quantMesas, setQuantMesas] = useState(0)
-    const { menu, menuTools, menuExistente } = useFormTools()
+    const [quantMesas, setQuantMesas] = useState("0")
+    const { menu, menuTools } = useFormTools()
     const [isEdit, setIsEdit] = useState(false)
 
     useEffect(() => {
@@ -168,30 +175,24 @@ function NovoMenu({navigation, route}) {
         async function isEditOrNot() {
 
             const token = await AsyncStorage.getItem("token")
-
-            let idRestaurante
-            try {
-                const decoded = decode(token)
-                idRestaurante = decoded.idRestaurante
-            } catch(err) {
-                alert("erro")
-            }
+          
+            const decoded = decode(token)
+            let  idRestaurante = decoded.idRestaurante
             
             if (idRestaurante) {
+
                 setIsEdit(true)
 
                 const menu = await api.get(`restaurante/cardapio/${idRestaurante}`)
 
-                menuTools.setNewMenuExistente(menu || [])
-                
-
-
+                menuTools.setNewMenu(menu || [])
+            
             }
 
         }
+
         isEditOrNot()
         
-
         async function getParmsOrNot() {
             
 
@@ -199,7 +200,6 @@ function NovoMenu({navigation, route}) {
               
                 const {formData, file} = route.params;
                 setFormRestaurante(formData)
-                setFile(file)
                 
             } else {
                
@@ -255,24 +255,17 @@ function NovoMenu({navigation, route}) {
                 <View style={styles.menuItens}>
 
                     {
-                        isEdit ? (
-                            menu.map((item, index) => {
-                                return(
-                                    <ItemMenu key={item.id} item={item} id={item.id} index={index} isEdit={isEdit}/> 
-                                );
-                            })
-                        ) : (
-                            menuExistente.map((item, index) => {
-                                return(
-                                    <ItemMenu key={item.id} item={item} id={item.id} index={index} isEdit={isEdit}/> 
-                                )
-                            })
-                        )
+                        menu.map((item, index) => {
+                            return(
+                                <ItemMenu key={item.id} item={item} id={item.id} index={index} isEdit={isEdit}/> 
+                            );
+                        })
                     }
+
                 </View>
             </ScrollView>
             <View style={styles.boxFinalizarMenu}>
-                <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={() => createRestaurant(file, formRestaurante, navigation, menu, quantMesas)}>
+                <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={() => createRestaurant( formRestaurante, navigation, menu, quantMesas)}>
                     
                     {isEdit && <Text style={styles.textFinalizarMenu}>Editar Menu</Text>}
                     {!isEdit && <Text style={styles.textFinalizarMenu}>Finalizar Menu</Text>}

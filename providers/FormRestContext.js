@@ -15,11 +15,9 @@ export const FormProvider = ({ children }) => {
         descricao: "",
         preco: "",
         foto: "",
-        nomeImagem: "",
         file: "",
         tipo: "Categoria"
     }]);
-    const [menuExistente, setMenuExistente] = useState([])
 
 
     const [categorias, setCategorias] = useState([])
@@ -71,11 +69,6 @@ export const FormProvider = ({ children }) => {
             lastId++
         },
 
-        // editar menu existente aqui
-
-        setNewMenuExistente(menu) {
-            setMenuExistente(menu)
-        },
     };
 
     const setNewCategorias = (categorias) => {
