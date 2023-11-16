@@ -99,15 +99,14 @@ export const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: "#445A14",
         borderRadius: 15,
+        alignItems: "center",
+        justifyContent: "center"
     },
     textoBotaoEntrar:{
-        width: "100%",
         color:"#445A14",
         fontFamily: "lemonada",
         fontSize: 16,
         textAlign: "center",
-        heigth: "100%"  
-
     },
     cadastro:{//ultima View
        height:'10%',

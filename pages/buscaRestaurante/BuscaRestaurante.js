@@ -5,11 +5,16 @@ import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import * as Font from 'expo-font';
 import ItemRestaurante from "../../components/ItemRestaurante";
+import api from "../../providers/api";
+import decode from "jwt-decode"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 function BuscaRestaurante({navigation}) {
     const [fontLoaded, setFontLoaded] = useState(false);
-  
+    const [restaurantes, setRestaurantes] = useState([]);
+    const [favoritos, setFavoritos] = useState([])
+
     useEffect(() => {
       async function loadFonts() {
         await Font.loadAsync({
@@ -18,36 +23,40 @@ function BuscaRestaurante({navigation}) {
         });
         setFontLoaded(true);
       }
-  
+
+      async function chamarRestaurantes(){
+
+        let userId
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoxMCwiaWF0IjoxNzAwMTY4MjI0LCJleHAiOjIzMDQ5NjgyMjR9.QVy4liUcrsNUA2NdVUUum3IcLyD5H7LKhlRoxuBKVp8'
+        //const token = await AsyncStorage.getItem("token")
+
+        try {
+          const decoded = decode(token)
+          userId = decoded.userId
+        } catch (error) {
+          alert("erro")
+        }
+
+        const dataRestaurantes= await api.get("restaurante")
+        .then(result => result.data.result)
+
+        const favoritosData = await api.get("users/getUser/"+userId, {
+          headers: {
+            Authorization: token
+          }
+        })
+        .then(response => response.data.usuario.favoritos)
+
+        setFavoritos([...favoritosData])
+        setRestaurantes([...dataRestaurantes])
+
+      }
+
+      chamarRestaurantes()
       loadFonts();
     }, []);
   
-    const [restaurantes, setRestaurantes] = useState([
-      {
-        id: 1,
-        foto: "(isso não da pra simular)",
-        nome: "la crose da curta",
-        descricao: "muuyyy italiano, gostamos de caracol bem cremoso"
-      },
-      {
-        id: 2,
-        foto: "(isso não da pra simular)",
-        nome: "restaurante do seu zé",
-        descricao: "aqui é só pão e agua, não gostou? va embora!"
-      },
-      {
-        id: 3,
-        foto: "(isso não da pra simular)",
-        nome: "reniro",
-        descricao: "gostamos de comida, não de pessoas, passa bem."
-      },
-      {
-        id: 4,
-        foto: "(isso não da pra simular)",
-        nome: "el frango",
-        descricao: "gostamos mucho de frango manito"
-      }
-    ]);
+    
   
     if (!fontLoaded) {
       return null;
@@ -70,7 +79,7 @@ function BuscaRestaurante({navigation}) {
         <ScrollView>
         <View style={styles.componente}>
             {restaurantes.map(restaurante => (
-              <ItemRestaurante key={restaurante.id} rest={restaurante} />
+              <ItemRestaurante key={restaurante.id} rest={restaurante} favoritos={favoritos} navigation={navigation}/>
             ))}
           </View>
         </ScrollView>

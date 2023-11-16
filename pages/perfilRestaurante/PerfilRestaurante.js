@@ -6,6 +6,7 @@ import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import * as Font from 'expo-font'
 import BotaoVoltar from "../../components/BotaoVoltar"
 import { ScrollView } from "react-native"
+import api from "../../providers/api"
 
 function PerfilRestaurante({ navigation, route }) {
 
@@ -14,21 +15,44 @@ function PerfilRestaurante({ navigation, route }) {
     const [nome, setNome] = useState("");
     const [descricao, setDescricao] = useState("");
     const [foto, setFoto] = useState("");
-    const [avaliacao, setAvaliacao]=useState(5);
+    const [avaliacao, setAvaliacao]=useState("0");
 
 
     useEffect(() => {
        
-       function carregarEstrelas(){
-        for(let i = 0; i < avaliacao; i++ ){
-           setEstrela([...estrela,true])
-        }
-        while(estrela.length <= 5){
-            setEstrela([...estrela,false])
+        function carregarEstrelas(){
+
+            const avalicaoNumber = Number(avaliacao)
+
+            for(let i = 0; i < avalicaoNumber; i++ ){
+            setEstrela([...estrela,true])
+            }
+            while(estrela.length <= 5){
+                setEstrela([...estrela,false])
+            }
         }
 
-    }
-    carregarEstrelas()
+        async function buscarRestaurante() {
+
+            //const {id} = route.params;
+            const id = 39
+            const rest = await api.get("restaurante/search/"+id)
+            .then(response => response.data.result)
+
+            const {
+                nome,
+                descricao,
+                foto
+            } = rest
+
+            setNome(nome)
+            setDescricao(descricao)
+            setFoto(foto)
+            setAvaliacao("5")
+
+            carregarEstrelas()
+        }
+        buscarRestaurante()
 
         async function loadFonts() {
             await Font.loadAsync({
@@ -58,7 +82,8 @@ function PerfilRestaurante({ navigation, route }) {
                     borderRadius: 5000,
 
                 }}>
-                    <Image source={require("../../assets/imgPadrao.png")} style={styles.imgemRest} />
+                    {foto && <Image source={{uri: foto}} style={styles.imgemRest} />}
+                    {!foto && <Image source={require("../../assets/imgPadrao.png")} style={styles.imgemRest} />}
                 </View>
             </View>
 

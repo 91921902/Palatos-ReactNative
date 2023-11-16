@@ -59,14 +59,15 @@ export const styles = StyleSheet.create({
         width: "100%",
         alignItems: "center",
         height:'20%',
+        
   
         },
         botaoConfirmar:{
-          width:229,
+          width:190,
           height:44,
           backgroundColor:'transparente',
           borderColor: "#445A14",
-          borderRadius:22,
+          borderRadius:15,
           alignSelf: 'center', 
           textAlignVertical: 'top',
           alignSelf:'center', 
@@ -84,8 +85,8 @@ export const styles = StyleSheet.create({
         },
         botaoJaTenhoCadastro: {
           position: "absolute",
-          bottom: 15,
-          left: 15
+          bottom: 40,
+          left: 20
         },
         textoJaTenhoCadastro:{
           color: "#445A14",

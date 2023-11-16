@@ -1,18 +1,42 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { View, StyleSheet, Pressable, Text } from "react-native";
 import { Image } from "react-native";
 
-export default function ItemRestaurante({rest}) {
+export default function ItemRestaurante({rest, favoritos, navigation}) {
+
+    const [isFavorito, setIsFavorito] = useState(false)
+
+    useEffect(() => {
+
+      for(let fav of favoritos) {
+        if (rest.id == fav.id_restaurante) {
+          setIsFavorito(true)
+          break
+        }
+      }
+
+    }, [])
+
+    function irParaRestaurante(id) {
+      
+      navigation.navigate("PerfilRestaurante", {
+        id: id
+      })
+
+    }
+
     return(
-        <View style={styles.itemRestaurante}>
+        <Pressable style={styles.itemRestaurante} onPress={() => irParaRestaurante(rest.id)}>
             <View style={styles.imagem}>
              <Image source={require('../assets/fotoRestaurante.png')} style={styles.fotoRestaurante} />
 
             </View>
 
             <View style={styles.descricao}>
-             <Image source={require('../assets/icons/coracao.png')}style={styles.coracao}/>
-             
+
+                {isFavorito && <Image source={require('../assets/icons/coracao.png')}style={styles.coracao}/>}
+                {!isFavorito && <Image source={require('../assets/icons/coracaoVazio.png')}style={styles.coracao}/>}
+
                <Text style={styles.tituloRestaurante} numberOfLines={1} ellipsizeMode="tail">
                 {rest.nome}
                </Text>
@@ -26,7 +50,7 @@ export default function ItemRestaurante({rest}) {
              </Pressable>
             </View>
             
-        </View>
+        </Pressable>
     );
 }
 
@@ -67,9 +91,9 @@ const styles = StyleSheet.create({
     },
     textoBotao:{
       color:'#445A14',
-      fontFamily:'Inter',
+      fontFamily:'lemonada',
       fontSize: 10,
-      fontStyle: 'normal',
+
      
 
     },
@@ -82,8 +106,7 @@ const styles = StyleSheet.create({
     tituloRestaurante:{
         color:'#445A14',
         fontFamily:'kavoon',
-        fontSize: 20,
-        fontStyle: 'normal',
+        fontSize: 20
        
   
 
@@ -91,10 +114,8 @@ const styles = StyleSheet.create({
     },
     categoriaRestaurante:{
         color: '#445A14',
-        fontFamily: 'Inter',
-        fontSize: 16,
-        fontStyle:'normal',
-        fontWight: 400,
+        fontFamily: 'lemonada',
+        fontSize: 16
   
 
     },
