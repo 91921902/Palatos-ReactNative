@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { styles } from "./styles"
-import { View, Text, TextInput, TouchableOpacity, Image } from "react-native"
+import { View, Text, TextInput, TouchableOpacity, Image, RefreshControlComponent } from "react-native"
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import * as Font from 'expo-font'
@@ -15,44 +15,48 @@ function PerfilRestaurante({ navigation, route }) {
     const [nome, setNome] = useState("");
     const [descricao, setDescricao] = useState("");
     const [foto, setFoto] = useState("");
-    const [avaliacao, setAvaliacao]=useState("0");
+    const [avaliacao, setAvaliacao] = useState("0");
 
 
     useEffect(() => {
-       
-        function carregarEstrelas(){
+
+        function carregarEstrelas() {
 
             const avalicaoNumber = Number(avaliacao)
 
-            for(let i = 0; i < avalicaoNumber; i++ ){
-            setEstrela([...estrela,true])
+            let listaEstrelas = []
+            for (let i = 0; i < avalicaoNumber; i++) {
+                listaEstrelas.push(true)
             }
-            while(estrela.length <= 5){
-                setEstrela([...estrela,false])
+            while(listaEstrelas.length < 5) {
+                listaEstrelas.push(false)
             }
+            setEstrela(listaEstrelas)
         }
 
         async function buscarRestaurante() {
 
             //const {id} = route.params;
             const id = 39
-            const rest = await api.get("restaurante/search/"+id)
-            .then(response => response.data.result)
+            try {
+                const rest = await api.get("restaurante/search/" + id)
 
-            const {
-                nome,
-                descricao,
-                foto
-            } = rest
+                const {
+                    nome,
+                    descricao,
+                    foto
+                } = rest.data
 
-            setNome(nome)
-            setDescricao(descricao)
-            setFoto(foto)
-            setAvaliacao("5")
+                setNome(nome)
+                setDescricao(descricao)
+                setFoto(foto)
+                setAvaliacao("5")
 
-            carregarEstrelas()
+                carregarEstrelas()
+            } catch (err) {
+                console.log(`Erro ao pegar restaurante: ${err}`)
+            }
         }
-        buscarRestaurante()
 
         async function loadFonts() {
             await Font.loadAsync({
@@ -63,6 +67,7 @@ function PerfilRestaurante({ navigation, route }) {
         }
 
         loadFonts();
+        buscarRestaurante()
     }, []);
 
     if (!fontLoaded) {
@@ -82,7 +87,7 @@ function PerfilRestaurante({ navigation, route }) {
                     borderRadius: 5000,
 
                 }}>
-                    {foto && <Image source={{uri: foto}} style={styles.imgemRest} />}
+                    {foto && <Image source={{ uri: foto }} style={styles.imgemRest} />}
                     {!foto && <Image source={require("../../assets/imgPadrao.png")} style={styles.imgemRest} />}
                 </View>
             </View>
@@ -92,17 +97,17 @@ function PerfilRestaurante({ navigation, route }) {
             </View>
 
             <View style={styles.boxFavoritos}>
-               
-              {
-                estrela.map(bool =>  {
-                  if(bool){
-                    return(<Image source={require(`../../assets/icons/estrela.png`)} style={styles.favoritos} />)
-                  }
-                  else{
-                    return(<Image source={require(`../../assets/icons/estrelaVazia.png`)} style={styles.favoritos} />)
-                  }
-                })
-              }
+
+                {
+                    estrela.map(bool => {
+                        if (bool) {
+                            return (<Image source={require(`../../assets/icons/estrela.png`)} style={styles.favoritos} />)
+                        }
+                        else {
+                            return (<Image source={require(`../../assets/icons/estrelaVazia.png`)} style={styles.favoritos} />)
+                        }
+                    })
+                }
             </View>
 
             <View style={styles.boxDescricao}>
