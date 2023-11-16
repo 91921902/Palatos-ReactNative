@@ -135,7 +135,9 @@ function CadastroCliente({navigation}) {
           
         </View>
   
-  
+        <TouchableOpacity style={styles.botaoJaTenhoCadastro} onPress={() => navigation.navigate("PagInicial")}>
+            <Text style={styles.textoJaTenhoCadastro}>Já tenho cadastro...</Text>
+        </TouchableOpacity>
   
       </View>
   

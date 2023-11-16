@@ -72,7 +72,7 @@ function PagInicial({navigation}) {
   return (
     <View style={styles.containerPagInicial}>
       <View style={styles.loginRestaurante}>
-        <TouchableOpacity style={styles.botaoLogin}>
+        <TouchableOpacity style={styles.botaoLogin} onPress={() => navigation.navigate("LoginRestaurante")}>
           <Text style={styles.textoBotaoLogin}>Login restaurante</Text>
         </TouchableOpacity>
       </View>
@@ -102,7 +102,7 @@ function PagInicial({navigation}) {
       </View>
 
       <View style={styles.cadastro}>
-        <TouchableOpacity style={styles.botaoCadastro}>
+        <TouchableOpacity style={styles.botaoCadastro} onPress={() => {navigation.navigate("CadastroCliente")}}>
           <Text style={styles.textoCadastro}>Não tenho cadastro...</Text>
         </TouchableOpacity>
       </View>

@@ -99,18 +99,14 @@ export const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: "#445A14",
         borderRadius: 15,
-        fontSize: 12,
-        paddingLeft: 10,
-        fontFamily: "lemonada",
-        alignItems:"center",
     },
-        textoBotaoEntrar:{
+    textoBotaoEntrar:{
+        width: "100%",
         color:"#445A14",
-        textAlign: "justify",
         fontFamily: "lemonada",
         fontSize: 16,
-        fontStyle: "normal",
-                
+        textAlign: "center",
+        heigth: "100%"  
 
     },
     cadastro:{//ultima View
@@ -133,8 +129,7 @@ export const styles = StyleSheet.create({
        textAlign: "justify",
        fontFamily: "lemonada",
        fontSize: 16,
-       fontStyle: "normal",
-    
+
 
     },
   

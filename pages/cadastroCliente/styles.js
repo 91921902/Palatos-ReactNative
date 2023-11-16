@@ -82,5 +82,17 @@ export const styles = StyleSheet.create({
           fontStyle:'normal',
           textAlignVertical: 'center',
         },
+        botaoJaTenhoCadastro: {
+          position: "absolute",
+          bottom: 15,
+          left: 15
+        },
+        textoJaTenhoCadastro:{
+          color: "#445A14",
+          textAlign: "justify",
+          fontFamily: "lemonada",
+          fontSize: 16
+        }
+        
     
 })
