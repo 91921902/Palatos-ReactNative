@@ -19,7 +19,8 @@ export const styles = StyleSheet.create({
     imgemRest: {
         width: 200,
         height: 200,
-        resizeMode: "contain"
+        resizeMode: "cover",
+        borderRadius: 5000
     },
     boxNomeRest:{
         width: "100%",

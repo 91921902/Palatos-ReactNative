@@ -146,7 +146,7 @@ async function createMenu(token, navigation, restaurante, menu, quantMesas) {
         }
     }
 
-    //createTables()
+    createTables()
 
     navigation.navigate("PainelADM", { restaurante, isDeleted })
 

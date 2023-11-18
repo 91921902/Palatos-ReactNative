@@ -5,13 +5,15 @@ export const styles = StyleSheet.create({
         flex: 1,
         width: "100%",
         height: "100%",  
-        
+        paddingTop: 25,
+        paddingBottom: 30
       },
       restaurante:{ //primeira View
         width: "80%",
         height:"100%",
         backgroundColor:"transparent",
         borderWidth:2,
+        borderRightWidth: 0,
         borderColor:"#445A14",
         borderTopLeftRadius:20,
         borderBottomLeftRadius:20,
@@ -40,8 +42,8 @@ export const styles = StyleSheet.create({
        borderBottomRightRadius:20,
        borderColor:"#445A14",
        borderWidth:2,
-       borderLeftColor:"#445A14",
-       marginLeft:-3,
+       borderLeftWidth:0,
+       marginLeft:-5,
        justifyContent:"center",
        alignItems: "flex-end",
        paddingRight:20,

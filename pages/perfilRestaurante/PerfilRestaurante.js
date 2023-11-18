@@ -15,7 +15,7 @@ function PerfilRestaurante({ navigation, route }) {
     const [nome, setNome] = useState("");
     const [descricao, setDescricao] = useState("");
     const [foto, setFoto] = useState("");
-    const [avaliacao, setAvaliacao] = useState("0");
+    const [avaliacao, setAvaliacao] = useState("3");
 
 
     useEffect(() => {
@@ -23,7 +23,7 @@ function PerfilRestaurante({ navigation, route }) {
         function carregarEstrelas() {
 
             const avalicaoNumber = Number(avaliacao)
-
+       
             let listaEstrelas = []
             for (let i = 0; i < avalicaoNumber; i++) {
                 listaEstrelas.push(true)
@@ -31,28 +31,26 @@ function PerfilRestaurante({ navigation, route }) {
             while(listaEstrelas.length < 5) {
                 listaEstrelas.push(false)
             }
+  
             setEstrela(listaEstrelas)
         }
 
         async function buscarRestaurante() {
 
-            //const {id} = route.params;
-            const id = 39
+            const {id} = route.params;
+
             try {
-                const rest = await api.get("restaurante/search/" + id)
+                await api.get("restaurante/search/" + id)
+                .then((response) => {
+                    const restaurante = response.data.result
 
-                const {
-                    nome,
-                    descricao,
-                    foto
-                } = rest.data
-
-                setNome(nome)
-                setDescricao(descricao)
-                setFoto(foto)
-                setAvaliacao("5")
-
-                carregarEstrelas()
+                    setNome(restaurante.nome)
+                    setDescricao(restaurante.descricao)
+                    setFoto(restaurante.foto)
+                    carregarEstrelas()
+                
+                })
+                
             } catch (err) {
                 console.log(`Erro ao pegar restaurante: ${err}`)
             }
@@ -69,6 +67,14 @@ function PerfilRestaurante({ navigation, route }) {
         loadFonts();
         buscarRestaurante()
     }, []);
+
+    function irParaMenu() {
+        const {id} = route.params;
+
+        navigation.navigate("MenuRestaurante", {
+            idRestaurante: id
+        })
+    }
 
     if (!fontLoaded) {
         return null
@@ -99,12 +105,12 @@ function PerfilRestaurante({ navigation, route }) {
             <View style={styles.boxFavoritos}>
 
                 {
-                    estrela.map(bool => {
+                    estrela.map((bool, index) => {
                         if (bool) {
-                            return (<Image source={require(`../../assets/icons/estrela.png`)} style={styles.favoritos} />)
+                            return (<Image key={index} source={require(`../../assets/icons/estrela.png`)} style={styles.favoritos} />)
                         }
                         else {
-                            return (<Image source={require(`../../assets/icons/estrelaVazia.png`)} style={styles.favoritos} />)
+                            return (<Image key={index} source={require(`../../assets/icons/estrelaVazia.png`)} style={styles.favoritos} />)
                         }
                     })
                 }
@@ -118,7 +124,7 @@ function PerfilRestaurante({ navigation, route }) {
 
             <View style={styles.boxMenu}>
 
-                <TouchableOpacity style={styles.botaoMenu}>
+                <TouchableOpacity style={styles.botaoMenu} onPress={irParaMenu}>
                     <Text style={styles.textoMenu}>Ver Menu</Text>
                 </TouchableOpacity>
 

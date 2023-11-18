@@ -16,6 +16,10 @@ function BuscaRestaurante({navigation}) {
     const [favoritos, setFavoritos] = useState([])
 
     useEffect(() => {
+
+    }, [])
+
+    useEffect(() => {
       async function loadFonts() {
         await Font.loadAsync({
           'kavoon': fontKavoon,
@@ -37,18 +41,15 @@ function BuscaRestaurante({navigation}) {
           alert("erro")
         }
 
-        const dataRestaurantes= await api.get("restaurante")
-        .then(result => result.data.result)
+        await api.get("restaurante")
+        .then(result => setRestaurantes([...result.data.result]))
 
-        const favoritosData = await api.get("users/getUser/"+userId, {
+        await api.get("users/getUser/"+userId, {
           headers: {
             Authorization: token
           }
         })
-        .then(response => response.data.usuario.favoritos)
-
-        setFavoritos([...favoritosData])
-        setRestaurantes([...dataRestaurantes])
+        .then(response => setFavoritos([...response.data.usuario.favoritos]))
 
       }
 
