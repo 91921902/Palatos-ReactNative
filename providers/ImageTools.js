@@ -1,16 +1,45 @@
-import RNFetchBlob from 'rn-fetch-blob';
+import * as FileSystem from 'expo-file-system';
+import {decode as atob} from 'base-64'
 
 class ImageTools {
 
-    base64toBlobTESTE(base64Data, contentType = '', sliceSize = 512) {
+    async fileToBase64(filePath) {
+        try {
+            let fileInfo = await FileSystem.getInfoAsync(filePath);
+        
+            if (!fileInfo.exists) {
+                console.error('O arquivo não existe');
+                return null;
+            }
+    
+            let base64Data = await FileSystem.readAsStringAsync(filePath, {
+                encoding: FileSystem.EncodingType.Base64,
+            });
 
+    
+            return base64Data;
+        } catch (error) {
+            console.error('Erro ao ler o arquivo:', error);
+            return null;
+        }
+    }
+
+    async base64toBlob(base64Data, contentType = '', sliceSize = 512) {
         if (!base64Data) {
             return
         }
 
-        base64Data = base64Data.split(",")[1]
+        if (base64Data.indexOf("file:///") != -1) {
+
+            base64Data = await this.fileToBase64(base64Data)
+            
+        } else {
+
+            base64Data = base64Data.split(",")[1]
+
+        }
+        
         const byteCharacters = atob(base64Data);
-        // byteCharacters = decode(base64Data);
         const byteArrays = [];
 
         for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
@@ -26,16 +55,6 @@ class ImageTools {
         }
 
         const blob = new Blob(byteArrays, { type: contentType });
-        return blob;
-
-    }
-
-    async base64toBlob(base64Data, contentType = '', sliceSize = 512) {
-        const response = await RNFetchBlob.config({
-            fileCache: true
-        }).fetch('GET', `data:image/${contentType};base64,${base64Data}`);
-    
-        const blob = response.blob(contentType);
         return blob;
     }
 

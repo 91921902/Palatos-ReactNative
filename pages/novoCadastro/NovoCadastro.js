@@ -1,7 +1,6 @@
 import React from "react"
 import { useState, useEffect } from "react"
 import { Image, View, Text, ScrollView, TextInput, Animated, Easing, Pressable, Platform } from "react-native"
-import { Buffer } from "buffer"
 import { styles } from "./styles"
 import BotaoVoltar from "../../components/BotaoVoltar.js"
 import { useFormTools } from "../../providers/FormRestContext"
@@ -200,27 +199,11 @@ function NovoCadastro({ navigation }) {
         newFormData.append('rua', rua)
         newFormData.append('plano', plano)
 
-        const {extension, uri, type} = file
-        
-
-        if (uri) {
-
-            let blob
-            try {
-                blob = imageTools.base64toBlob(uri, type)
-            } catch (err) {
-                console.log(`Erro ao converter para binário`, err)
-                alert(`Erro ao converter para binário: ${err}`)
-            }
-
-            newFormData.append('file', blob, `.${extension}`)
-
-        }
-
         await AsyncStorage.removeItem("plano")
 
         navigation.navigate('NovoMenu', {
-            formData: newFormData
+            formData: newFormData,
+            fotoRestaurante: file
         })
     }
 
@@ -235,14 +218,22 @@ function NovoCadastro({ navigation }) {
 
         if (!result.canceled) {
             setFoto(result.assets[0].uri);
+            const file = result.assets[0].uri
 
-            const indiceDoisPontos = result.assets[0].uri.indexOf(':');
-            const fileType = result.assets[0].uri.substring(indiceDoisPontos + 1, result.assets[0].uri.indexOf(";"))
+            const indiceDoisPontos = file.indexOf(':');
+            let fileType = file.substring(indiceDoisPontos + 1, file.indexOf(";"))
 
+            if (file.indexOf("file:///") != -1) {
+
+                const mimeType = file.slice((file.lastIndexOf('.') + 1))
+                fileType = `image/${mimeType}`
+                
+
+            }
             const extensionFile = imageTools.getExtensionFile(fileType)
 
 
-            if (isEdit) {
+            if (isEdit && false) {
 
                 const OldRestaurante = oldRestaurant
                 OldRestaurante.fotoEditada = true
@@ -251,7 +242,7 @@ function NovoCadastro({ navigation }) {
                 setFileEdit(
                     {
                         extension: extensionFile,
-                        uri: result.assets[0].uri,
+                        uri: file,
                         type: 'image/' + fileType
                     }
                 )
@@ -260,7 +251,7 @@ function NovoCadastro({ navigation }) {
 
                 setFile({
                     extension: extensionFile,
-                    uri: result.assets[0].uri,
+                    uri: file,
                     type: fileType
                 })
 

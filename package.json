@@ -16,9 +16,11 @@
     "@react-navigation/native": "^6.1.8",
     "@react-navigation/stack": "^6.3.18",
     "axios": "^1.5.0",
+    "base-64": "^1.0.0",
     "buffer": "^6.0.3",
     "expo": "^49.0.7",
     "expo-barcode-scanner": "^12.7.0",
+    "expo-file-system": "^15.6.0",
     "expo-image-picker": "~14.3.2",
     "expo-status-bar": "~1.6.0",
     "jwt-decode": "^3.1.2",
@@ -34,8 +36,7 @@
     "react-native-svg": "13.9.0",
     "react-native-svg-charts": "^5.4.0",
     "react-native-vector-icons": "^10.0.0",
-    "react-native-web": "~0.19.6",
-    "rn-fetch-blob": "^0.12.0"
+    "react-native-web": "~0.19.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

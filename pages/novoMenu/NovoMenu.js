@@ -17,11 +17,28 @@ import ImageTools from "../../providers/ImageTools";
 const imageTools = new ImageTools()
 
 
-async function createRestaurant(formData, navigation, menu, quantMesas) {   
+async function createRestaurant(formData, file, navigation, menu, quantMesas) {   
 
     //let token = await AsyncStorage.getItem("token")
     let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoxMCwiaWF0IjoxNjk5OTkyNDgyLCJleHAiOjIzMDQ3OTI0ODJ9.Tgy9ZMee8Y1cYInLQfM7AOts9ftcHWftwpv5x46Hcvc"
-    
+
+    const {extension, uri, type} = file
+        
+     if (uri) {
+
+        let blob
+        try {
+            blob = imageTools.base64toBlob(uri, type)
+        } catch (err) {
+            console.log(`Erro ao converter para binário`, err)
+            alert(`Erro ao converter para binário: ${err}`)
+        }
+
+        formData.append('file', blob, `.${extension}`)
+        //formData.append('file', blob)
+
+    }
+   
     const novoRestaurante = await api.post("/restaurante/add", formData, 
         {
             headers: {
@@ -62,11 +79,12 @@ async function createMenu(token, navigation, restaurante, menu, quantMesas) {
         formDataMenu.append('descricao', menuItem.descricao)
         formDataMenu.append('preco', menuItem.preco)
         formDataMenu.append('tipo', menuItem.tipo)
-        let blobImage
-
+       
         try {
-            blobImage = imageTools.base64toBlob(uri, type)
+            const blobImage = imageTools.base64toBlob(uri, type)
+
             formDataMenu.append('file', blobImage, `.${extension}`)
+            
 
         } catch (error) {
             console.log(error)
@@ -146,7 +164,7 @@ async function createMenu(token, navigation, restaurante, menu, quantMesas) {
         }
     }
 
-    createTables()
+    //createTables()
 
     navigation.navigate("PainelADM", { restaurante, isDeleted })
 
@@ -179,7 +197,7 @@ function NovoMenu({navigation, route}) {
             const decoded = decode(token)
             let  idRestaurante = decoded.idRestaurante
             
-            if (idRestaurante) {
+            if (idRestaurante && false) {
 
                 setIsEdit(true)
 
@@ -189,7 +207,7 @@ function NovoMenu({navigation, route}) {
                 if (menu.length == 0) {
 
                     menuTools.setNewMenu([{
-                        id: lastId,
+                        id: 0,
                         nome: "",
                         descricao: "",
                         preco: "",
@@ -215,9 +233,9 @@ function NovoMenu({navigation, route}) {
 
             if (route.params) {
               
-                const {formData, file} = route.params;
+                const {formData, fotoRestaurante} = route.params;
                 setFormRestaurante(formData)
-                
+                setFile(fotoRestaurante)
             } else {
                
                 const token = await AsyncStorage.getItem("token")
@@ -282,7 +300,7 @@ function NovoMenu({navigation, route}) {
                 </View>
             </ScrollView>
             <View style={styles.boxFinalizarMenu}>
-                <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={() => createRestaurant( formRestaurante, navigation, menu, quantMesas)}>
+                <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={() => createRestaurant( formRestaurante, file, navigation, menu, quantMesas)}>
                     
                     {isEdit && <Text style={styles.textFinalizarMenu}>Editar Menu</Text>}
                     {!isEdit && <Text style={styles.textFinalizarMenu}>Finalizar Menu</Text>}
