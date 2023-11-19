@@ -201,16 +201,21 @@ function NovoCadastro({ navigation }) {
         newFormData.append('plano', plano)
 
         const {extension, uri, type} = file
+        
 
-        let blob
-        try {
-            blob = imageTools.base64toBlob(uri, type)
-        } catch (err) {
-            console.log(`Erro ao converter para binário`, err)
-            alert(`Erro ao converter para binário: ${err}`)
+        if (uri) {
+
+            let blob
+            try {
+                blob = imageTools.base64toBlob(uri, type)
+            } catch (err) {
+                console.log(`Erro ao converter para binário`, err)
+                alert(`Erro ao converter para binário: ${err}`)
+            }
+
+            newFormData.append('file', blob, `.${extension}`)
+
         }
-
-        newFormData.append('file', blob, `.${extension}`)
 
         await AsyncStorage.removeItem("plano")
 

@@ -184,8 +184,25 @@ function NovoMenu({navigation, route}) {
                 setIsEdit(true)
 
                 const menu = await api.get(`restaurante/cardapio/${idRestaurante}`)
+                .then(response => response.data.menu)
 
-                menuTools.setNewMenu(menu || [])
+                if (menu.length == 0) {
+
+                    menuTools.setNewMenu([{
+                        id: lastId,
+                        nome: "",
+                        descricao: "",
+                        preco: "",
+                        foto: "",
+                        file: "",
+                        tipo: "Categoria"
+                    }])
+
+                } else {
+
+                    menuTools.setNewMenu(menu)
+
+                }
             
             }
 

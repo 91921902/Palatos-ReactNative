@@ -1,10 +1,16 @@
+import RNFetchBlob from 'rn-fetch-blob';
 
 class ImageTools {
 
-    base64toBlob(base64Data, contentType = '', sliceSize = 512) {
+    base64toBlobTESTE(base64Data, contentType = '', sliceSize = 512) {
+
+        if (!base64Data) {
+            return
+        }
 
         base64Data = base64Data.split(",")[1]
         const byteCharacters = atob(base64Data);
+        // byteCharacters = decode(base64Data);
         const byteArrays = [];
 
         for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
@@ -22,6 +28,15 @@ class ImageTools {
         const blob = new Blob(byteArrays, { type: contentType });
         return blob;
 
+    }
+
+    async base64toBlob(base64Data, contentType = '', sliceSize = 512) {
+        const response = await RNFetchBlob.config({
+            fileCache: true
+        }).fetch('GET', `data:image/${contentType};base64,${base64Data}`);
+    
+        const blob = response.blob(contentType);
+        return blob;
     }
 
     getExtensionFile(mimeType) {

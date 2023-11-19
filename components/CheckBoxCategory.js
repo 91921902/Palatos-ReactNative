@@ -50,7 +50,6 @@ export default function CheckBoxCategory({filter}) {
 
             setCategorias(nomeCategorias)
             setNotChangeCategory(nomeCategorias)
-            console.log(nomeCategorias)
         }
 
         getAllCategorias()
