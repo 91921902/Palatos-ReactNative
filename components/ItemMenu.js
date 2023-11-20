@@ -152,15 +152,23 @@ function ItemMenu({id, index, isEdit}) {
 
         if (!result.canceled) {
             setFoto(result.assets[0].uri);
+            const file = result.assets[0].uri
 
-            const indiceDoisPontos = result.assets[0].uri.indexOf(':');
-            const fileType = result.assets[0].uri.substring(indiceDoisPontos + 1, result.assets[0].uri.indexOf(";"))
+            const indiceDoisPontos = file.indexOf(':');
+            let fileType = file.substring(indiceDoisPontos + 1, file.indexOf(";"))
 
+            if (file.indexOf("file:///") != -1) {
+
+                const mimeType = file.slice((file.lastIndexOf('.') + 1))
+                fileType = `image/${mimeType}`
+                
+
+            }
             const extensionFile = imageTools.getExtensionFile(fileType)
 
             const image = {
                 extension: extensionFile,
-                uri: result.assets[0].uri,
+                uri: file,
                 type: fileType
             }
 
