@@ -28,7 +28,7 @@ export default function ItemRestaurante({rest, favoritos, navigation}) {
     return(
         <Pressable style={styles.itemRestaurante} onPress={() => irParaRestaurante(rest.id)}>
             <View style={styles.imagem}>
-             <Image source={require('../assets/fotoRestaurante.png')} style={styles.fotoRestaurante} />
+             <Image source={{uri: rest.foto}} style={styles.fotoRestaurante} />
 
             </View>
 
@@ -45,9 +45,9 @@ export default function ItemRestaurante({rest, favoritos, navigation}) {
                 {rest.descricao}
                </Text>
 
-             <Pressable style={styles.botao}>
+             <View style={styles.botao}>
                 <Text style={styles.textoBotao}>ver mais</Text>
-             </Pressable>
+             </View>
             </View>
             
         </Pressable>
