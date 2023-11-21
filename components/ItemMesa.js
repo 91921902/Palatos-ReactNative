@@ -58,11 +58,8 @@ function ItemMesa({ index, tipoMenu, obj }) {
 
     async function mudarStatusComCodigo(){
         try {
-            const resultado = await api.patch("/restaurantes/mesa/checarReserva", {
-                id: obj.id,
-                codigoMesa: codigoMesa
-            });
-            const json = await resultado.json();
+            const resultado = await api.put(`/restaurante/reserva/completed/${codigoMesa}`);
+            console.log(resultado.data)
         } catch (err) {
             console.log(`Erro ao liberar mesa com código da reserva: ${err}`);
         }
