@@ -1,5 +1,4 @@
 import * as FileSystem from 'expo-file-system';
-import {decode as atob} from 'base-64'
 
 class ImageTools {
 
