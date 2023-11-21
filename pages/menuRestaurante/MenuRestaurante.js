@@ -1,4 +1,4 @@
-    import React, {useEffect,useState} from "react";
+import React, {useEffect,useState} from "react";
 import { ScrollView, Text, View } from "react-native";
 import { styles } from "./styles"
 import fontKavoon from "../../assets/fonts/kavoon.ttf"

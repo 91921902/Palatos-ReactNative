@@ -33,8 +33,9 @@ function Financeiro({navigation}) {
 
         async function getData() {
 
-            const token = await AsyncStorage.getItem("token")
-            
+            //const token = await AsyncStorage.getItem("token")
+            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoxMCwiaWF0IjoxNzAwNTg4ODk5LCJleHAiOjIzMDUzODg4OTl9.9jfBlhnrjdGGCqa8JNiLwg3LfLKbmxbbDJnaex7vL1k"
+
             const result = await api.get("restaurante/financeiro/getAll", {
                 headers: {
                     Authorization: token
@@ -69,9 +70,9 @@ function Financeiro({navigation}) {
 
         }
 
-        getData()
+        getDataFake()
 
-        function getDataFaka() {
+        function getDataFake() {
 
             const allProducts = [
                 { id: 0, nome: "Camarão", preco: 23.3, tipo: "prato", data_compra: "19/12/2023", quantidade: 10 },
@@ -153,8 +154,6 @@ function Financeiro({navigation}) {
             setFilteredProducts(filteredPurchases)
 
         }
-
-        /* getDataFaka() */
 
     }, []);
 

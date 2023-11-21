@@ -21,6 +21,7 @@ export const FormProvider = ({ children }) => {
 
 
     const [categorias, setCategorias] = useState([])
+    const [mesas, setMesas] = useState([])
 
     const comandaTools = {
         setAllComandas: (listaComandas) => {
@@ -28,6 +29,18 @@ export const FormProvider = ({ children }) => {
         },
         deleta: (id) => {
             setComandas(comandas.filter((objComanda => objComanda.id != id)))
+        }
+    }
+    
+    const mesaTools = {
+        setListaMesas: (listaMesas) => {
+            setMesas(listaMesas)
+        },
+        modificaMesa: (id, obj) => {
+            const objMesa = mesas.find(mesa => mesa.id == id)
+            if(objMesa) {
+                objMesa = obj
+            }
         }
     }
     
@@ -121,7 +134,7 @@ export const FormProvider = ({ children }) => {
     }
 
     return (
-        <FormRestContext.Provider value={{ menu, menuTools, categorias ,setNewCategorias, userTools, comandas, comandaTools}}>
+        <FormRestContext.Provider value={{ menu, menuTools, categorias, setNewCategorias, userTools, comandas, comandaTools, mesas, mesaTools}}>
         {children}
         </FormRestContext.Provider>
     );

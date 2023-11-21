@@ -58,11 +58,8 @@ function ItemMesa({ index, tipoMenu, obj }) {
 
     async function mudarStatusComCodigo(){
         try {
-            const resultado = await api.patch("/restaurantes/mesa/mudarStatus", {
-                id: obj.id,
-                codigoMesa: codigoMesa
-            });
-            const json = await resultado.json();
+            const resultado = await api.put(`/restaurante/reserva/completed/${codigoMesa}`);
+            console.log(resultado.data)
         } catch (err) {
             console.log(`Erro ao liberar mesa com código da reserva: ${err}`);
         }
@@ -71,7 +68,7 @@ function ItemMesa({ index, tipoMenu, obj }) {
     return (
         <View style={[styles.itemMesa, {height: heightItem}]}>
             <View style={styles.boxIdMesa}>
-                <Text style={styles.textIdMesa}>{obj.identificacao_mesa}</Text>
+                <Text style={styles.textIdMesa}>{obj.identificacao_mesa || "Identificação não disponível"}</Text>
             </View>
             
             {tipoMenu == 1 ? (

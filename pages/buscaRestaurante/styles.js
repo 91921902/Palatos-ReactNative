@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
         borderBottomLeftRadius:20,
         borderRightColor:"#445A14",
         paddingLeft:10,
-        fontSize:18,
+        fontSize:16,
         fontFamily:'lemonada',
       },
     
@@ -50,10 +50,9 @@ export const styles = StyleSheet.create({
 
       },
       inicio:{
-      width:"100%",
-      height:"20%",
-      alignItems:"center",
-      justifyContent:"center",
-
-      },
+        width:"100%",
+        height:"20%",
+        alignItems:"center",
+        justifyContent: "center"
+      }
 })

@@ -6,6 +6,7 @@ import { useState } from "react"
 import { styles } from "./styles"
 import BotaoVoltar from "../../components/BotaoVoltar.js"
 import ItemMesa from "../../components/ItemMesa.js"
+import { useFormTools} from "../../providers/FormRestContext.js"
 
 
 
@@ -16,42 +17,31 @@ import * as Font from 'expo-font';
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import BotaoQRCode from "../../components/BotaoQRCode"
+import { useFocusEffect } from "@react-navigation/native"
 
 
-function Mesas({navigation}) {
+function Mesas({ navigation }) {
 
 
-    const [mesas, setMesas] = useState([])
+    const {mesaTools, mesas} = useFormTools()
     const [codigoMesa, setCodigoMesa] = useState("")
     const [fontLoaded, setFontLoaded] = useState(false);
 
 
     useEffect(() => {
         async function carregaMesas() {
-            //Tem que puxar do backend, fim do mundo
-            let listaMesas = [
-                {
-                    id: 1,
-                    ocupada: false,
-                    identificacao_mesa: "Mesa 1"
-                },
-                {
-                    id: 2,
-                    ocupada: true,
-                    identificacao_mesa: "Mesa 2"
-                },
-                {
-                    id: 3,
-                    ocupada: false,
-                    identificacao_mesa: "Mesa 3"
-                },
-                {
-                    id: 4,
-                    ocupada: false,
-                    identificacao_mesa: "Mesa 4"
-                },
-            ]
-            setMesas(listaMesas)
+            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoyLCJpYXQiOjE3MDA0OTM3MzAsImV4cCI6MjMwNTI5MzczMH0.76HH3mwRclhn7wt12Ca9IggTiKVxwfppwICUMTnpU5M"
+            try {
+                const response = await api.get("restaurante/mesa/54", {
+                    headers: {
+                        Authorization: token
+                    }
+                })
+                mesaTools.setListaMesas(response.data.mesas)
+            }
+            catch (err) {
+                console.log("Erro ao puxar mesas:", err)
+            }
         }
         async function loadFonts() {
             await Font.loadAsync({
@@ -76,14 +66,14 @@ function Mesas({navigation}) {
 
     return (
         <View style={styles.containerMesas}>
-            <BotaoVoltar onPress={backPage}/>
+            <BotaoVoltar onPress={backPage} />
             <BotaoQRCode />
             <Text style={styles.titleMesa}>Mesas:</Text>
             <ScrollView style={{ height: "60%", width: "100%" }}>
-                <View style={{width: "100%", alignItems: "center", gap: 25}}>
+                <View style={{ width: "100%", alignItems: "center", gap: 25 }}>
                     {mesas.length > 0 ? (
-                        mesas.map((obj, key) => (
-                            <ItemMesa key={key} tipoMenu={1} obj={obj} />
+                        mesas.map((obj) => (
+                            <ItemMesa key={obj.id} tipoMenu={1} obj={obj} />
                         ))
                     ) : (
                         <View></View>

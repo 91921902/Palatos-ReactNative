@@ -38,6 +38,7 @@ function PerfilRestaurante({ navigation, route }) {
         async function buscarRestaurante() {
 
             const {id} = route.params;
+            
 
             try {
                 await api.get("restaurante/search/" + id)
@@ -70,7 +71,7 @@ function PerfilRestaurante({ navigation, route }) {
 
     function irParaMenu() {
         const {id} = route.params;
-
+        
         navigation.navigate("MenuRestaurante", {
             idRestaurante: id
         })

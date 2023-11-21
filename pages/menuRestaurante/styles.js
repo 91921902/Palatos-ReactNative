@@ -22,8 +22,6 @@ export const styles = StyleSheet.create({
         color:'#445A14',
         fontFamily:'lemonada',  
         fontSize: 18,
-        fontstyle:'normal',
-
 
       },
       nomePrato:{//segunda View
