@@ -58,7 +58,7 @@ function ItemMesa({ index, tipoMenu, obj }) {
 
     async function mudarStatusComCodigo(){
         try {
-            const resultado = await api.patch("/restaurantes/mesa/mudarStatus", {
+            const resultado = await api.patch("/restaurantes/mesa/checarReserva", {
                 id: obj.id,
                 codigoMesa: codigoMesa
             });
