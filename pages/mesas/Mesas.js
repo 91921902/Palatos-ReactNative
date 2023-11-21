@@ -6,6 +6,7 @@ import { useState } from "react"
 import { styles } from "./styles"
 import BotaoVoltar from "../../components/BotaoVoltar.js"
 import ItemMesa from "../../components/ItemMesa.js"
+import { useFormTools} from "../../providers/FormRestContext.js"
 
 
 
@@ -16,12 +17,13 @@ import * as Font from 'expo-font';
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import BotaoQRCode from "../../components/BotaoQRCode"
+import { useFocusEffect } from "@react-navigation/native"
 
 
 function Mesas({ navigation }) {
 
 
-    const [mesas, setMesas] = useState([])
+    const {mesaTools, mesas} = useFormTools()
     const [codigoMesa, setCodigoMesa] = useState("")
     const [fontLoaded, setFontLoaded] = useState(false);
 
@@ -30,13 +32,12 @@ function Mesas({ navigation }) {
         async function carregaMesas() {
             const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoyLCJpYXQiOjE3MDA0OTM3MzAsImV4cCI6MjMwNTI5MzczMH0.76HH3mwRclhn7wt12Ca9IggTiKVxwfppwICUMTnpU5M"
             try {
-                const response = await api.get("restaurante/mesa", {
+                const response = await api.get("restaurante/mesa/54", {
                     headers: {
                         Authorization: token
                     }
                 })
-                setMesas(response.data)
-                console.log(mesas)
+                mesaTools.setListaMesas(response.data.mesas)
             }
             catch (err) {
                 console.log("Erro ao puxar mesas:", err)
@@ -71,8 +72,8 @@ function Mesas({ navigation }) {
             <ScrollView style={{ height: "60%", width: "100%" }}>
                 <View style={{ width: "100%", alignItems: "center", gap: 25 }}>
                     {mesas.length > 0 ? (
-                        mesas.map((obj, key) => (
-                            <ItemMesa key={key} tipoMenu={1} obj={obj} />
+                        mesas.map((obj) => (
+                            <ItemMesa key={obj.id} tipoMenu={1} obj={obj} />
                         ))
                     ) : (
                         <View></View>

@@ -71,7 +71,7 @@ function ItemMesa({ index, tipoMenu, obj }) {
     return (
         <View style={[styles.itemMesa, {height: heightItem}]}>
             <View style={styles.boxIdMesa}>
-                <Text style={styles.textIdMesa}>{obj.identificacao_mesa}</Text>
+                <Text style={styles.textIdMesa}>{obj.identificacao_mesa || "Identificação não disponível"}</Text>
             </View>
             
             {tipoMenu == 1 ? (
