@@ -19,8 +19,8 @@ const imageTools = new ImageTools()
 
 async function createRestaurant(formData, file, navigation, menu, quantMesas) {   
 
-    //let token = await AsyncStorage.getItem("token")
-    let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoxMCwiaWF0IjoxNjk5OTkyNDgyLCJleHAiOjIzMDQ3OTI0ODJ9.Tgy9ZMee8Y1cYInLQfM7AOts9ftcHWftwpv5x46Hcvc"
+    let token = await AsyncStorage.getItem("token")
+    //let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoxMCwiaWF0IjoxNjk5OTkyNDgyLCJleHAiOjIzMDQ3OTI0ODJ9.Tgy9ZMee8Y1cYInLQfM7AOts9ftcHWftwpv5x46Hcvc"
 
     if (file) {
 
@@ -174,13 +174,13 @@ function NovoMenu({navigation, route}) {
             const decoded = decode(token)
             let  idRestaurante = decoded.idRestaurante
             
-            if (idRestaurante && false) {
+            if (idRestaurante) {
 
                 setIsEdit(true)
 
                 const menu = await api.get(`restaurante/cardapio/${idRestaurante}`)
                 .then(response => response.data.menu)
-
+               
                 if (menu.length == 0) {
 
                     menuTools.setNewMenu([{

@@ -6,7 +6,7 @@ import api from "../providers/api";
 
 
 
-export default function CheckBoxCategory({filter}) {
+export default function CheckBoxCategory({filter, categoriasEdit}) {
     
     const [categorias, setCategorias] = useState([])
     const [notChageCategory, setNotChangeCategory] = useState([])
@@ -19,7 +19,7 @@ export default function CheckBoxCategory({filter}) {
     const { setNewCategorias } = useFormTools()
 
     useEffect(() => {
-
+        
         const categoriasEscolhidas = []
 
         for (let i = 0 ; i < categorias.length ; i++) {
@@ -38,8 +38,6 @@ export default function CheckBoxCategory({filter}) {
 
     useEffect(() => {
 
-        /* let categorias = ["Massas", "Doces", "Pizzas", "Carnes", "Vegetariano", "Sopas", "Frutos do mar", "Saladas", "Sanduíches"]; */
-
         async function getAllCategorias() {
             const categorias = await api.get("categoria/").then(response => response.data.result)
 
@@ -50,6 +48,46 @@ export default function CheckBoxCategory({filter}) {
 
             setCategorias(nomeCategorias)
             setNotChangeCategory(nomeCategorias)
+
+            
+            if (categoriasEdit) {
+                const allIndex = []
+                for (let categoria of categoriasEdit) {
+
+                    const index = categorias.findIndex(obj => obj.nome == categoria)
+                    allIndex.push(index)
+
+                }
+                
+                // ERRO DE RENDERIZACAO
+
+                for (let i = 0 ; i < categorias.length ; i++) {
+                    let isChecked = false
+                    if (allIndex.length == 0) {
+                        break
+                    }
+                    for (let index of allIndex) {
+                        
+                        if (index == i) {
+                            isChecked = true
+
+                            const array = [...categoriasSelected]
+                            array[i] = true
+                            setCategoriasSelected(array)
+                            
+                            const indexRemove = allIndex.indexOf(index)
+                            allIndex.splice(indexRemove, 1)
+                        }
+                    }
+
+                    if (!isChecked) {
+                        const array = [...categoriasSelected]
+                        array[i] = false
+                        setCategoriasSelected(array)
+                    }
+
+                }
+            }
         }
 
         getAllCategorias()
@@ -82,11 +120,14 @@ export default function CheckBoxCategory({filter}) {
         ];
         setCategoriasSelected(newCategoriasSelected);
     }
+
+
     
     return(
         <View>
             {
                 categorias.map((category, index) => {
+                    console.log(categoriasSelected)
                     return(
                         <CheckBox 
                             title={category}
