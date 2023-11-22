@@ -45,8 +45,6 @@ function NovoCadastro({ navigation }) {
 
     //----------------------------------------------------------------
 
-
-
     const animatedValue = new Animated.Value(btnReservation ? 0 : 1);
 
     const toggleReservation = () => {
@@ -76,8 +74,8 @@ function NovoCadastro({ navigation }) {
             const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoxMCwiaWF0IjoxNjk4MTcxODI3LCJleHAiOjIzMDI5NzE4Mjd9.ZEEZJ41kkGH89-t5lFeRuwSP8MZk5RAhJvbxmq_7kts"
             //const token = await AsyncStorage.getItem("token")
 
-            let tokenIsValid
-            try {
+            let tokenIsValid = false
+            /* try {
                 tokenIsValid = await api.get("users/auth", {
                     headers: {
                         Authorization: token
@@ -85,7 +83,7 @@ function NovoCadastro({ navigation }) {
                 }).then(response => response.data.status)
             } catch (error) {
                 alert("erro")
-            }
+            } */
 
             if (data && tokenIsValid) {
 
@@ -97,7 +95,7 @@ function NovoCadastro({ navigation }) {
                 setTelefone(dataParsed.telefone)
                 setCelular(dataParsed.celular)
                 setDescricao(dataParsed.descricao)
-                setNewCategorias(dataParsed.categorias)
+                //setNewCategorias(dataParsed.categorias)
                 setBtnReservation(dataParsed.reservasAtivas)
                 setTempoTolerancia(dataParsed.tempoTolerancia)
                 setFoto(dataParsed.foto)
@@ -201,10 +199,30 @@ function NovoCadastro({ navigation }) {
 
         await AsyncStorage.removeItem("plano")
 
-        navigation.navigate('NovoMenu', {
-            formData: newFormData,
-            fotoRestaurante: file
-        })
+        if (!file.uri) {
+            file.uri = "sem_imagem"
+        }
+
+        if (file.uri.indexOf("file:///") != -1) {
+
+            newFormData.append('file', JSON.parse(JSON.stringify({
+                name: `restaurante.${file.extension}`,
+                uri: file.uri,
+                type: file.type
+            })))
+
+            navigation.navigate('NovoMenu', {
+                formData: newFormData
+            })
+
+        } else {
+
+            navigation.navigate('NovoMenu', {
+                formData: newFormData,
+                fotoRestaurante: file
+            })
+
+        }
     }
 
     const pickImage = async () => {
@@ -265,11 +283,7 @@ function NovoCadastro({ navigation }) {
 
     function backPage() {
 
-        const rest = AsyncStorage.getItem("login")
-
-        if (rest) {
-            navigation.navigate("PainelADM")
-        }
+        navigation.goBack()
 
     }
 

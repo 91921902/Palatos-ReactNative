@@ -16,7 +16,6 @@ export const styles = StyleSheet.create({
     imgRest: {
         width: 200,
         height: 200,
-        resizeMode: "contain",
         borderRadius: 5000
     },
     boxAdm: {

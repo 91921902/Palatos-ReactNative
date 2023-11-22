@@ -22,10 +22,12 @@ async function createRestaurant(formData, file, navigation, menu, quantMesas) {
     //let token = await AsyncStorage.getItem("token")
     let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoxMCwiaWF0IjoxNjk5OTkyNDgyLCJleHAiOjIzMDQ3OTI0ODJ9.Tgy9ZMee8Y1cYInLQfM7AOts9ftcHWftwpv5x46Hcvc"
 
-    const {extension, uri, type} = file
-        
-     if (uri) {
+    if (file) {
 
+        if (file.uri.indexOf("data:") == -1) return
+
+        const {extension, uri, type} = file
+        
         let blob
         try {
             blob = imageTools.base64toBlob(uri, type)
@@ -35,10 +37,9 @@ async function createRestaurant(formData, file, navigation, menu, quantMesas) {
         }
 
         formData.append('file', blob, `.${extension}`)
-        //formData.append('file', blob)
 
-    }
-   
+    } 
+
     const novoRestaurante = await api.post("/restaurante/add", formData, 
         {
             headers: {
@@ -58,7 +59,7 @@ async function createRestaurant(formData, file, navigation, menu, quantMesas) {
 }
 
 async function createMenu(token, navigation, restaurante, menu, quantMesas) {
-
+   
    
    const pratosCriados = []
    let isDeleted = false
@@ -79,18 +80,30 @@ async function createMenu(token, navigation, restaurante, menu, quantMesas) {
         formDataMenu.append('descricao', menuItem.descricao)
         formDataMenu.append('preco', menuItem.preco)
         formDataMenu.append('tipo', menuItem.tipo)
-       
-        try {
-            const blobImage = imageTools.base64toBlob(uri, type)
 
-            formDataMenu.append('file', blobImage, `.${extension}`)
-            
+        if (uri.indexOf("file:///") != -1) {
 
-        } catch (error) {
-            console.log(error)
-            alert("erro 1")
+            formDataMenu.append('file', JSON.parse(JSON.stringify({
+                name:`produto.${extension}`,
+                uri: uri,
+                type: type
+            })))
+
+        } else {
+
+           try {
+
+                const blobImage = imageTools.base64toBlob(uri, type)
+                formDataMenu.append('file', blobImage, `.${extension}`)
+                
+            } catch (error) {
+                console.log(error)
+                alert("erro 1")
+            } 
+
         }
-      
+       
+        
         const pratoCriado = await api.post("/restaurante/cardapio/add", formDataMenu, {
             headers: {
                 'Content-Type': 'multipart/form-data',
@@ -108,63 +121,27 @@ async function createMenu(token, navigation, restaurante, menu, quantMesas) {
      
     }
 
+    createTables()
     async function createTables() {
-
+        
         for (let i = 0 ; i < quantMesas ; i++) {
 
             const idRest = restaurante.resultRestaurant.id
             let mesa
             try {
-                mesa = await api.post(`restaurante/mesa/add/${idRest}`, {
+                mesa = await api.post(`restaurante/mesa/add/${idRest}`, {}, {
                     headers: {
-                        Authorization: token
+                        'Content-Type': 'application/json',
+                        'Authorization': token
                     }
                 }).then(response => response.data.mesa)
     
-                await api.post(`restaurante/listaMesa/add`,{
-                    idMesa: mesa.id,
-                    idRestaurante: idRest
-                } ,{
-                    headers: {
-                        Authorization: token
-                    }
-                })
-            } catch (error) {
-                alert("erro 2")
-            }
-
-            const jsonMesa = JSON.stringify({
-                idRestaurante: idRest,
-                idMesa: mesa.id
-            })
-
-            const qrcode = `data:image/png;base64,${QRCode.toDataURL(jsonMesa)}`
-            const formData = new FormData()
-            
-            try {
-                const blob = imageTools.base64toBlob(qrcode)
-                formData.append('file', blob, `.png`)
-
             } catch (error) {
                 console.log(error)
-                alert("erro 3")
-            }
-
-            try {
-                await api.post(`restaurante/mesa/addQrCode/${mesa.id}`, formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        'Authorization': token
-                    }
-                })
-            } catch (error) {
-                alert("erro 9")
             }
             
         }
     }
-
-    //createTables()
 
     navigation.navigate("PainelADM", { restaurante, isDeleted })
 

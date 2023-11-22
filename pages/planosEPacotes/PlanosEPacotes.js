@@ -27,7 +27,6 @@ function PlanosEPacotes({ navigation }) {
 
         loadFonts();
 
-
     }, [])
 
     async function setPlano(plano) {
