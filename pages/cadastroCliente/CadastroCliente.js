@@ -39,7 +39,7 @@ function CadastroCliente({navigation}) {
       // Se a validação for bem-sucedida, você pode adicionar os dados ao vetor dadosCadastrados.
   
       // Exemplo de validação:
-      if (!email || !senha || !confirmarSenha) {
+      if (!email || !senha || !confirmarSenha || !nome) {
         alert('Preencha todos os campos.');
         return;
         
@@ -50,8 +50,9 @@ function CadastroCliente({navigation}) {
         return;
       }
   
-      // Se a validação passar, você pode adicionar os dados ao vetor.
+     
       const dadosCadastro = {
+        nome_completo: nome,
         email,
         senha,
       };

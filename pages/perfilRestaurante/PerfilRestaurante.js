@@ -39,6 +39,7 @@ function PerfilRestaurante({ navigation, route }) {
 
             const {id} = route.params;
             
+            
 
             try {
                 await api.get("restaurante/search/" + id)

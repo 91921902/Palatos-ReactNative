@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
         color:'#445A14',
         fontFamily:'kavoon',
         fontSize: 20,
-        fontStyle: 'normal',
+        
       
     },
     descricao:{
@@ -71,9 +71,9 @@ const styles = StyleSheet.create({
     },
     textoDescricao:{
         color: '#445A14',
-        fontFamily: 'Inter',
+        fontFamily: 'lemonada',
         fontSize: 16,
-        fontStyle:'normal',
+      
       
     },
 
@@ -84,17 +84,15 @@ const styles = StyleSheet.create({
     },
     textoPreco:{
       color: '#445A14',
-      fontFamily:'Inter',
+      fontFamily:'lemonada',
       fontSize:16,
-      fontStyle: 'normal',
       width:'50%',
       height:'100%'
     },
     textoUnidade:{
         color: '#445A14',
-        fontFamily:'Inter',
+        fontFamily:'lemonada',
         fontSize:16,
-        fontStyle: 'normal',
         width:'50%',
         height:'100%',
     },

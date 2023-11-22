@@ -44,14 +44,11 @@ function PagInicial({navigation}) {
     }
 
     try {
-      // Simulando uma solicitação POST para o backend com as credenciais
-      // Substitua esta parte pelo código de solicitação real para o seu backend
-      // Aqui estamos apenas simulando um objeto de usuário com email e senha
+      
       const user = { email, senha };
-
-      // Adiciona os dados do usuário ao userList
      
-      const usuario = api.post("users/login",user)
+      const usuario = await api.post("users/login",user)
+      .then(response => response.data)
 
       if (usuario.token){
         await AsyncStorage.setItem("token", usuario.token)
@@ -61,10 +58,8 @@ function PagInicial({navigation}) {
 
      }
 
-      // Redireciona o usuário para a tela inicial do aplicativo
-      // (usando a navegação do React Navigation, por exemplo)
     } catch (error) {
-      // Lidar com erros de conexão, etc.
+      
       console.log('erro')
     }
   };

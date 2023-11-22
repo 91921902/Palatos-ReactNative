@@ -31,6 +31,9 @@ export const styles = StyleSheet.create({
         gap:30,
         
 
+      },
+      botaoFiltro: {
+        
       }
         
     
