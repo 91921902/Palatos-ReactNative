@@ -6,10 +6,13 @@ import fontLemonada from "../assets/fonts/lemonada.ttf"
 import fontKavoon from "../assets/fonts/kavoon.ttf"
 import { Icon } from "react-native-elements";
 import A11y from "../providers/A11y.js"
+import { useFormTools } from "../providers/FormRestContext.js"
 
 function ItemMesa({ index, tipoMenu, obj }) {
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzLCJpZFJlc3RhdXJhbnRlIjo5LCJpYXQiOjE3MDA2MjM2MTMsImV4cCI6MjMwNTQyMzYxM30.U8MdfPqaAEwpkvwyut-U10cyB-eyVmYroC_twysSMu4"
     const [codigoMesa, setCodigoMesa] = useState("");
     const [campoCodigoVisivel, setCampoCodigoVisivel] = useState(false);
+    const { mesaTools, mesas} = useFormTools()
     const [fontLoaded, setFontLoaded] = useState(false);
     const [heightItem, setHeightItem] = useState(180)
 
@@ -57,10 +60,22 @@ function ItemMesa({ index, tipoMenu, obj }) {
     }
 
     async function mudarStatusComCodigo(){
+        setCampoCodigoVisivel(false)
         try {
-            const resultado = await api.put(`/restaurante/reserva/completed/${codigoMesa}`);
-            console.log(resultado.data)
+            const resultado = await api.put(`restaurante/reserva/completed/${codigoMesa}`, {}, {
+                headers: {
+                    Authorization: token
+                }
+            });
+
+            const objMesa = [...obj]
+            objMesa.ocupada = true
+            mesaTools.modificaMesa(obj.id, objMesa)
+
         } catch (err) {
+
+            mesaTools.modificaMesa(obj.id, true)
+            alert("a não puta que pariu ")
             console.log(`Erro ao liberar mesa com código da reserva: ${err}`);
         }
     }
@@ -89,7 +104,9 @@ function ItemMesa({ index, tipoMenu, obj }) {
                     </View>
 
                     <View style={styles.boxButton}>
-                        <Pressable role="button" {...A11y.label("Reserva")} style={[styles.tableButton, {backgroundColor
+                        <Pressable role="button" {...A11y.label("Reserva")}
+                        disabled={obj.ocupada}
+                        style={[styles.tableButton, {backgroundColor
                         : "#276BEF"}]} accessibilityHint="Mostra ou oculta campo para digitar o código de reserva da mesa" onPress={() => {
                                 setCampoCodigoVisivel(!campoCodigoVisivel);
                                 !campoCodigoVisivel ? (setHeightItem(280)) : (setHeightItem(180))
@@ -115,7 +132,8 @@ function ItemMesa({ index, tipoMenu, obj }) {
                                         returnKeyType="send"
                                         onSubmitEditing={mudarStatusComCodigo}
                                     />
-                                    <Pressable style={styles.btnConfirm} role="button">
+                                    <Pressable style={styles.btnConfirm} role="button"
+                                    onPress={mudarStatusComCodigo}>
                                         <Text style={{fontFamily: "kavoon", color: "#445A14"}}>OK</Text>
                                     </Pressable>
                                 </View>

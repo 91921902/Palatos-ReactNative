@@ -28,14 +28,14 @@ const Stack = createStackNavigator();
 const MyNavigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='CadastroCliente' screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName='Telas' screenOptions={{ headerShown: false }}>
         <Stack.Screen name="planosEPacotes" component={PlanosEPacotes} />
         <Stack.Screen name="NovoCadastro" component={NovoCadastro} />
         <Stack.Screen name="NovoMenu" component={NovoMenu} />
         <Stack.Screen name="PainelADM" component={PainelADM} />
         <Stack.Screen name="Financeiro" component={Financeiro} />
         <Stack.Screen name="Filtros" component={Filtros} />
-        <Stack.Screen name="MesaarMesa" component={EditarMesa} />
+        <Stack.Screen name="Mesa" component={EditarMesa} />
         <Stack.Screen name="Telas" component={Mesas} />
         <Stack.Screen name="EditComanda" component={TelaComanda} />
         <Stack.Screen name="TelaReserva" component={TelaReserva} />

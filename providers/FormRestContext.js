@@ -36,10 +36,11 @@ export const FormProvider = ({ children }) => {
         setListaMesas: (listaMesas) => {
             setMesas(listaMesas)
         },
-        modificaMesa: (id, obj) => {
+        modificaMesa: (id, estado) => {
             const objMesa = mesas.find(mesa => mesa.id == id)
             if(objMesa) {
-                objMesa = obj
+                objMesa.ocupada = estado
+                setMesas([...mesas])
             }
         }
     }

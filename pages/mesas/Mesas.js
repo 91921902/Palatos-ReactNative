@@ -30,9 +30,9 @@ function Mesas({ navigation }) {
 
     useEffect(() => {
         async function carregaMesas() {
-            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoyLCJpYXQiOjE3MDA0OTM3MzAsImV4cCI6MjMwNTI5MzczMH0.76HH3mwRclhn7wt12Ca9IggTiKVxwfppwICUMTnpU5M"
+            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzLCJpZFJlc3RhdXJhbnRlIjo5LCJpYXQiOjE3MDA2MjM2MTMsImV4cCI6MjMwNTQyMzYxM30.U8MdfPqaAEwpkvwyut-U10cyB-eyVmYroC_twysSMu4"
             try {
-                const response = await api.get("restaurante/mesa/54", {
+                const response = await api.get("restaurante/mesa/9", {
                     headers: {
                         Authorization: token
                     }
