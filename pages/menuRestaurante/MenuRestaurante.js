@@ -25,9 +25,10 @@ function MenuRestaurante({navigation, route}) {
         }
 
         async function buscarMenu(){
-            const {id} = route.params;
+            const {idRestaurante} = route.params;
             
-            await api.get(`restaurante/cardapio/${id}`)
+            
+            await api.get(`restaurante/cardapio/${idRestaurante}`)
             .then(resposta => {
                 setMenu(resposta.data.menu)
                 setMenuData(resposta.data.menu)
@@ -79,7 +80,7 @@ function MenuRestaurante({navigation, route}) {
                {
                 menu.map(produto =>{
                     return(
-                        <NomePrato produto={produto} key={produto.id} navigation={navigation}/>
+                        <NomePrato produto={produto} key={produto.codigo} navigation={navigation}/>
                     )
                 })
                }

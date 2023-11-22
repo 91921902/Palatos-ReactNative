@@ -60,6 +60,7 @@ export default function MenuIndividual({navigation, route}) {
     };
 
     const aumentarNumero = () => {
+        if(quantidade > 29) return
         setQuantidade(quantidade + 1);
     };
 
@@ -82,42 +83,48 @@ export default function MenuIndividual({navigation, route}) {
 
 
         async function buscarDados(){
-            const {id}=route.params
-
+            const {id} = route.params
+          
             try {
-                    
-                    const resultado= await api.get(`restaurante/cardapio/prato/${id}`)
-                    .then(result => result.data.produto)
-                    setNomePrato(resultado.nome_produto)
-                    setDescricao(resultado.descricao)
-                    setPreco(resultado.preco)
-                    setFoto(resultado.foto)
+                 
+                const resultado= await api.get(`restaurante/cardapio/prato/${id}`)
+                .then(result => result.data.produto)
+                setNomePrato(resultado.nome_produto)
+                setDescricao(resultado.descricao)
+                setPreco(resultado.preco)
+                setFoto(resultado.foto)
 
-                    const idMesa= await AsyncStorage.getItem("mesa")
-                    
-                    const carrinho= await api.get('/users/carrinhoMesa/getAll/' + idMesa)
-                    .then(result => result.data.pratos)
-
-                    function filtrarPorId(array, idDesejado) {
-                        return array.filter(objeto => objeto.id == idDesejado);
-                    }
-                    const {idProduto}=route.params
-                    const recebeItemOuNao= filtrarPorId(carrinho,idProduto)
-
-                    if(recebeItemOuNao){
-                     setIsCarrinho(true)
-                    }
-
-            
             } catch (error) {
-                alert("erro")
+                alert("erro1")
+                console.log(error)
             }
 
             
+            const idMesa= await AsyncStorage.getItem("mesa")
+
+            try {        
+                const carrinho= await api.get('/users/carrinhoMesa/getAll/' + idMesa)
+                .then(result => result.data.pratos)
+
+                function filtrarPorId(array, idDesejado) {
+                    return array.filter(objeto => objeto.id == idDesejado);
+                }
+                const {idProduto}=route.params
+                const recebeItemOuNao= filtrarPorId(carrinho,idProduto)
+
+                if(recebeItemOuNao){
+                    setIsCarrinho(true)
+                }
+            } catch (error) {
+
+                if (idMesa) {
+                    console.log(error)
+                }
+                
+            }
                 
         }
 
-           
         buscarDados()
        
 
