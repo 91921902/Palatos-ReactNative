@@ -5,8 +5,9 @@ import { Image } from "react-native";
 export default function NomePrato({produto,navigation}) {
 
     function entrarPrato(){
+        
         navigation.navigate("MenuIndividual",{
-            idProduto:produto.id
+            id:produto.codigo
         })
     }
 

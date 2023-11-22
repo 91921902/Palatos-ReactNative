@@ -38,7 +38,7 @@ function PerfilRestaurante({ navigation, route }) {
         async function buscarRestaurante() {
 
             const {id} = route.params;
-            
+   
             
 
             try {
