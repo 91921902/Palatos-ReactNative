@@ -12,7 +12,7 @@ function ItemMesa({ index, tipoMenu, obj }) {
     const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzLCJpZFJlc3RhdXJhbnRlIjo5LCJpYXQiOjE3MDA2MjM2MTMsImV4cCI6MjMwNTQyMzYxM30.U8MdfPqaAEwpkvwyut-U10cyB-eyVmYroC_twysSMu4"
     const [codigoMesa, setCodigoMesa] = useState("");
     const [campoCodigoVisivel, setCampoCodigoVisivel] = useState(false);
-    const { mesaTools, mesas} = useFormTools()
+    const { mesaTools, mesas } = useFormTools()
     const [fontLoaded, setFontLoaded] = useState(false);
     const [heightItem, setHeightItem] = useState(180)
 
@@ -35,10 +35,14 @@ function ItemMesa({ index, tipoMenu, obj }) {
 
     async function liberarMesa() {
         try {
-            const response = await api.patch(`/restaurantes/mesas/mudarStatus`, {
-                id: obj.id,
-                ocupada: false
-            });
+            const response = await api.put(`/restaurante/mesa/toggleOccupied/${obj.id}`, {
+                isOccupied: false
+            }, {
+                headers: {
+                    Authorization: token
+                }
+            })
+            mesaTools.modificaMesa(obj.id, false)
         } catch (err) {
             console.log(`Erro ao atualizar mesa: ${err}`);
         }
@@ -50,79 +54,87 @@ function ItemMesa({ index, tipoMenu, obj }) {
 
     async function ocuparMesa() {
         try {
-            const response = await api.patch(`/restaurantes/mesas/mudarStatus`, {
-                id: obj.id,
-                ocupada: true
-            });
+            const response = await api.put(`/restaurante/mesa/toggleOccupied/${obj.id}`, {
+                isOccupied: true
+            }, {
+                headers: {
+                    Authorization: token
+                }
+            })
+            mesaTools.modificaMesa(obj.id, true)
         } catch (err) {
             console.log(`Erro ao atualizar mesa: ${err}`);
         }
     }
 
-    async function mudarStatusComCodigo(){
+    async function mudarStatusComCodigo() {
         setCampoCodigoVisivel(false)
-        try {
-            const resultado = await api.put(`restaurante/reserva/completed/${codigoMesa}`, {}, {
-                headers: {
-                    Authorization: token
-                }
-            });
-
-            const objMesa = [...obj]
-            objMesa.ocupada = true
-            mesaTools.modificaMesa(obj.id, objMesa)
-
-        } catch (err) {
+        setCodigoMesa("")
+        const resultado = await api.put(`restaurante/reserva/completed/${codigoMesa}/${obj.id}`, {}, {
+            headers: {
+                Authorization: token
+            }
+        });
+        if (resultado.status == 200) {
 
             mesaTools.modificaMesa(obj.id, true)
-            alert("a não puta que pariu ")
-            console.log(`Erro ao liberar mesa com código da reserva: ${err}`);
+        } else {
+
+            console.log(`Erro ao liberar mesa com código da reserva: ${resultado.data ? resultado.data : resultado.status}`);
         }
     }
 
     return (
-        <View style={[styles.itemMesa, {height: heightItem}]}>
+        <View style={[styles.itemMesa, { height: heightItem }]}>
             <View style={styles.boxIdMesa}>
                 <Text style={styles.textIdMesa}>{obj.identificacao_mesa || "Identificação não disponível"}</Text>
             </View>
-            
+
             {tipoMenu == 1 ? (
                 <>
-                <View style={styles.boxBtns}>
-                    <View style={styles.boxButton}> 
-                        <Pressable role="button" onPress={liberarMesa} style={[styles.tableButton, {backgroundColor: "#7AEB71"}]} {...A11y.label("Liberar mesa")}>
-                            <Image source={require("../assets/icons/liberar.png")} style={styles.imgBtnTable}/>
-                        </Pressable>
-                        <Text style={{fontFamily: "lemonada", fontSize: 12, color: "#445A14"}} aria-hidden>Liberar mesa</Text>
-                    </View>
+                    <View style={styles.boxBtns}>
+                        <View style={styles.boxButton}>
+                            <Pressable role="button"
+                            onPress={liberarMesa}
+                            disabled={!obj.ocupada}
+                            style={[styles.tableButton, { backgroundColor: "#7AEB71" }]} {...A11y.label("Liberar mesa")}>
+                                <Image source={require("../assets/icons/liberar.png")} style={styles.imgBtnTable} />
+                            </Pressable>
+                            <Text style={{ fontFamily: "lemonada", fontSize: 12, color: "#445A14" }} aria-hidden>Liberar mesa</Text>
+                        </View>
 
-                    <View style={styles.boxButton}>
-                        <Pressable role="button" onPress={ocuparMesa} style={[styles.tableButton, {backgroundColor: "#EB3333"}]} {...A11y.label("Ocupar mesa")}>
-                        <Image source={require("../assets/icons/ocupar.png")} style={styles.imgBtnTable}/>
-                        </Pressable>
-                        <Text style={{fontFamily: "lemonada", fontSize: 12, color: "#445A14"}} aria-hidden>Ocupar mesa</Text>
-                    </View>
+                        <View style={styles.boxButton}>
+                            <Pressable role="button"
+                            onPress={ocuparMesa}
+                            disabled={obj.ocupada}
+                            style={[styles.tableButton, { backgroundColor: "#EB3333" }]} {...A11y.label("Ocupar mesa")}>
+                                <Image source={require("../assets/icons/ocupar.png")} style={styles.imgBtnTable} />
+                            </Pressable>
+                            <Text style={{ fontFamily: "lemonada", fontSize: 12, color: "#445A14" }} aria-hidden>Ocupar mesa</Text>
+                        </View>
 
-                    <View style={styles.boxButton}>
-                        <Pressable role="button" {...A11y.label("Reserva")}
-                        disabled={obj.ocupada}
-                        style={[styles.tableButton, {backgroundColor
-                        : "#276BEF"}]} accessibilityHint="Mostra ou oculta campo para digitar o código de reserva da mesa" onPress={() => {
-                                setCampoCodigoVisivel(!campoCodigoVisivel);
-                                !campoCodigoVisivel ? (setHeightItem(280)) : (setHeightItem(180))
-                                
-                        }}>
-                            <Image source={require("../assets/icons/reserva.png")} style={styles.imgBtnTable}/>
-                        </Pressable>
-                        <Text style={{fontFamily: "lemonada", fontSize: 12, color: "#445A14"}} aria-hidden>Reserva</Text>
+                        <View style={styles.boxButton}>
+                            <Pressable role="button" {...A11y.label("Reserva")}
+                                disabled={obj.ocupada}
+                                style={[styles.tableButton, {
+                                    backgroundColor
+                                        : "#276BEF"
+                                }]} accessibilityHint="Mostra ou oculta campo para digitar o código de reserva da mesa" onPress={() => {
+                                    setCampoCodigoVisivel(!campoCodigoVisivel);
+                                    !campoCodigoVisivel ? (setHeightItem(280)) : (setHeightItem(180))
+
+                                }}>
+                                <Image source={require("../assets/icons/reserva.png")} style={styles.imgBtnTable} />
+                            </Pressable>
+                            <Text style={{ fontFamily: "lemonada", fontSize: 12, color: "#445A14" }} aria-hidden>Reserva</Text>
+                        </View>
                     </View>
-                </View>
-                <View style={styles.boxCompoReserva}>
-                   
+                    <View style={styles.boxCompoReserva}>
+
                         {campoCodigoVisivel ? (
-                             <View style={styles.boxInpt}>
+                            <View style={styles.boxInpt}>
                                 <Text style={styles.textConfirmCod}>Confirmar Código:</Text>
-                                <View style={{flexDirection: "row", width: "100%", gap: 10, alignItems: "center"}}>
+                                <View style={{ flexDirection: "row", width: "100%", gap: 10, alignItems: "center" }}>
                                     <TextInput
                                         style={styles.inptCod}
                                         value={codigoMesa}
@@ -133,19 +145,19 @@ function ItemMesa({ index, tipoMenu, obj }) {
                                         onSubmitEditing={mudarStatusComCodigo}
                                     />
                                     <Pressable style={styles.btnConfirm} role="button"
-                                    onPress={mudarStatusComCodigo}>
-                                        <Text style={{fontFamily: "kavoon", color: "#445A14"}}>OK</Text>
+                                        onPress={mudarStatusComCodigo}>
+                                        <Text style={{ fontFamily: "kavoon", color: "#445A14" }}>OK</Text>
                                     </Pressable>
                                 </View>
                             </View>
                         ) : (null)}
-                    
-                </View>
-            </>
+
+                    </View>
+                </>
             ) : (
                 <View>
                     <Pressable style={styles.btnDelete} role="button" onPress={deletarMesa} {...A11y.label("Excluir mesa do restaurante")}>
-                        <Icon name="delete" color={"white"}/>
+                        <Icon name="delete" color={"white"} />
                     </Pressable>
                     <Image source={{ uri: obj.qr_code }}
                         style={{ width: 100, height: 100, borderRadius: 10, marginLeft: 15 }}
@@ -164,7 +176,7 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         borderColor: "#B7A187",
         borderWidth: 4,
-        
+
     },
     boxIdMesa: {
         width: "100%",
@@ -192,7 +204,7 @@ const styles = StyleSheet.create({
         width: 65,
         height: 65,
         backgroundColor: "blue",
-        borderRadius:20,
+        borderRadius: 20,
         alignItems: "center",
         justifyContent: "center"
     },
