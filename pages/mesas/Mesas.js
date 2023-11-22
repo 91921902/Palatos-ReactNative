@@ -29,6 +29,16 @@ function Mesas({ navigation }) {
 
 
     useEffect(() => {
+        async function loadFonts() {
+            await Font.loadAsync({
+                'lemonada': fontLemonada,
+                'kavoon': fontKavoon
+            });
+            setFontLoaded(true);
+        }
+
+        loadFonts();
+        
         async function carregaMesas() {
             const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzLCJpZFJlc3RhdXJhbnRlIjo5LCJpYXQiOjE3MDA2MjM2MTMsImV4cCI6MjMwNTQyMzYxM30.U8MdfPqaAEwpkvwyut-U10cyB-eyVmYroC_twysSMu4"
             try {
@@ -43,15 +53,6 @@ function Mesas({ navigation }) {
                 console.log("Erro ao puxar mesas:", err)
             }
         }
-        async function loadFonts() {
-            await Font.loadAsync({
-                'lemonada': fontLemonada,
-                'kavoon': fontKavoon
-            });
-            setFontLoaded(true);
-        }
-
-        loadFonts();
         carregaMesas()
     }, []);
 

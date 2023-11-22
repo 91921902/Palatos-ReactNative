@@ -7,6 +7,7 @@ import fontKavoon from "../assets/fonts/kavoon.ttf"
 import { Icon } from "react-native-elements";
 import A11y from "../providers/A11y.js"
 import { useFormTools } from "../providers/FormRestContext.js"
+import QRCode from "react-native-qrcode-svg";
 
 function ItemMesa({ index, tipoMenu, obj }) {
     const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzLCJpZFJlc3RhdXJhbnRlIjo5LCJpYXQiOjE3MDA2MjM2MTMsImV4cCI6MjMwNTQyMzYxM30.U8MdfPqaAEwpkvwyut-U10cyB-eyVmYroC_twysSMu4"
@@ -159,11 +160,7 @@ function ItemMesa({ index, tipoMenu, obj }) {
                     <Pressable style={styles.btnDelete} role="button" onPress={deletarMesa} {...A11y.label("Excluir mesa do restaurante")}>
                         <Icon name="delete" color={"white"} />
                     </Pressable>
-                    <Image source={{ uri: obj.qr_code }}
-                        style={{ width: 100, height: 100, borderRadius: 10, marginLeft: 15 }}
-                        resizeMode="cover"
-                        {...A11y.label("Qr code da mesa")}
-                    />
+                    <QRCode value={obj.qr_code} accessibilityLabel={"Eita"}/>
                 </View>
             )}
         </View>

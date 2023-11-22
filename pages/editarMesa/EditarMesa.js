@@ -8,48 +8,20 @@ import BotaoVoltar from "../../components/BotaoVoltar.js"
 import ItemMesa from "../../components/ItemMesa.js"
 import A11y from "../../providers/A11y.js"
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
-
-
-
-/* - COPIAR ISSO PARA USAR A FONT PERSONALIZADA - */
+import { useFormTools } from "../../providers/FormRestContext.js"
 
 import * as Font from 'expo-font';
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 
 
-function EditarMesa({navigation}) {
+function EditarMesa({ navigation }) {
 
 
-    const [mesas, setMesas] = useState([])
+    const { mesaTools, mesas } = useFormTools()
     const [fontLoaded, setFontLoaded] = useState(false);
 
 
     useEffect(() => {
-        async function carregaMesas() {
-            //Tem que puxar do backend, fim do mundo
-            let listaMesas = [
-                {
-                    id: 1,
-                    ocupada: false,
-                    identificacao_mesa: "Mesa 1",
-                    qr_code: "https://img.freepik.com/fotos-gratis/lindo-cavalo-castanho_144627-19417.jpg?size=626&ext=jpg"
-                },
-                {
-                    id: 2,
-                    ocupada: true,
-                    identificacao_mesa: "Mesa 2",
-                    qr_code: "https://img.freepik.com/fotos-gratis/cavalo-correndo-pela-velha-paisagem-ocidental_23-2150527864.jpg?size=626&ext=jpg"
-                },
-                {
-                    id: 3,
-                    ocupada: false,
-                    identificacao_mesa: "Mesa 3",
-                    qr_code: "https://img.freepik.com/fotos-premium/conjunto-de-animais-europeus-pintados-com-aquarelas-sobre-fundo-branco-de-maneira-realista-multicolorido-e-iridescente-ideal-para-materiais-didaticos-livros-e-designs-com-temas-da-natureza-criados-por-ia_259452-1887.jpg?size=626&ext=jpg"
-                },
-            ]
-            setMesas(listaMesas)
-        }
-
         async function loadFonts() {
             await Font.loadAsync({
                 'lemonada': fontLemonada,
@@ -59,6 +31,21 @@ function EditarMesa({navigation}) {
         }
 
         loadFonts();
+
+        async function carregaMesas() {
+            try {
+                const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzLCJpZFJlc3RhdXJhbnRlIjo5LCJpYXQiOjE3MDA2MjM2MTMsImV4cCI6MjMwNTQyMzYxM30.U8MdfPqaAEwpkvwyut-U10cyB-eyVmYroC_twysSMu4"
+                const result = await api.get("/restaurante/mesa/9", {
+                    headers: {
+                        Authorization: token
+                    }
+                })
+                mesaTools.setListaMesas(result.data.mesas)
+            } catch(err) {
+                console.log("Erro ao puxar mesas")
+            }
+        }
+
         carregaMesas()
     }, []);
 
@@ -82,13 +69,13 @@ function EditarMesa({navigation}) {
 
     return (
         <View style={styles.containerEditarMesa}>
-            <BotaoVoltar onPress={backPage}/>
+            <BotaoVoltar onPress={backPage} />
             <Text style={styles.titleMesas}>Mesas:</Text>
             <ScrollView style={styles.boxMesas}>
                 <View style={{ alignItems: "center", gap: 30 }}>
                     {mesas.length > 0 ? (
-                        mesas.map((obj, key) => (
-                            <ItemMesa key={key} tipoMenu={2} obj={obj} />
+                        mesas.map((obj) => (
+                            <ItemMesa key={obj.id} tipoMenu={2} obj={obj} />
                         ))
                     ) : (
                         <View></View>
