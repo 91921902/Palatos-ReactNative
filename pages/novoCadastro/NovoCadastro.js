@@ -42,6 +42,7 @@ function NovoCadastro({ navigation }) {
     const [isEdit, setIsEdit] = useState(false)
     const [fileEdit, setFileEdit] = useState({})
     const [oldRestaurant, setOldRestaurant] = useState({})
+    const [categoriasEdit, setCategoriasEdit] = useState([])
 
     //----------------------------------------------------------------
 
@@ -74,8 +75,8 @@ function NovoCadastro({ navigation }) {
             const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoxMCwiaWF0IjoxNjk4MTcxODI3LCJleHAiOjIzMDI5NzE4Mjd9.ZEEZJ41kkGH89-t5lFeRuwSP8MZk5RAhJvbxmq_7kts"
             //const token = await AsyncStorage.getItem("token")
 
-            let tokenIsValid = false
-            /* try {
+            let tokenIsValid
+            try {
                 tokenIsValid = await api.get("users/auth", {
                     headers: {
                         Authorization: token
@@ -83,19 +84,19 @@ function NovoCadastro({ navigation }) {
                 }).then(response => response.data.status)
             } catch (error) {
                 alert("erro")
-            } */
+            }
 
             if (data && tokenIsValid) {
 
                 setIsEdit(true)
                 const dataParsed = JSON.parse(data)
-
+                
                 setNome(dataParsed.nome)
                 setEndereco(dataParsed.endereco)
-                setTelefone(dataParsed.telefone)
+                setTelefone(dataParsed.telefone_fixo)
                 setCelular(dataParsed.celular)
                 setDescricao(dataParsed.descricao)
-                //setNewCategorias(dataParsed.categorias)
+                setCategoriasEdit(dataParsed.cetegorias) //trocar o nome correto
                 setBtnReservation(dataParsed.reservasAtivas)
                 setTempoTolerancia(dataParsed.tempoTolerancia)
                 setFoto(dataParsed.foto)
@@ -118,7 +119,7 @@ function NovoCadastro({ navigation }) {
 
             } else {
 
-                if (token && false) {
+                if (token) {
 
                     const decoded = decode(token)
                     const { idRestaurante } = decoded
@@ -134,7 +135,7 @@ function NovoCadastro({ navigation }) {
                             setTelefone(restaurante.telefone_fixo)
                             setCelular(restaurante.celular)
                             setDescricao(restaurante.descricao)
-                            setNewCategorias(restaurante.categorias)
+                            setCategoriasEdit(restaurante.categorias)
                             setBtnReservation(restaurante.reservasAtivas)
                             setTempoTolerancia(restaurante.tempoTolerancia)
                             setFoto(restaurante.foto)
@@ -387,9 +388,9 @@ function NovoCadastro({ navigation }) {
                         <Text style={styles.formText}>Categoria (Min. 1):</Text>
                         <TextInput style={styles.inptFormRest} cursorColor={"#445A14"} onPressIn={() => setCategoriasVisiveis(true)} onChangeText={setFiltroCategoria} value={filtroCategoria} accessibilityLabel="Categoria:" />
 
-                        {
-                            true ? (<CheckBoxCategory filter={filtroCategoria} />) : (<View />)
-                        }
+                        
+                        <CheckBoxCategory filter={filtroCategoria} categoriasEdit={categoriasEdit}/>
+                        
 
                     </View>
                     <View style={styles.boxReserva}>

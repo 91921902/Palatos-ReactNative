@@ -8,6 +8,8 @@ import ItemRestaurante from "../../components/ItemRestaurante";
 import api from "../../providers/api";
 import decode from "jwt-decode"
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import MeuPerfil from "../../components/MeuPerfil";
+import BotaoQRCode from "../../components/BotaoQRCode";
 
 
 
@@ -81,6 +83,8 @@ function BuscaRestaurante({ navigation }) {
 
   return (
     <View style={styles.containerBuscaRestaurante}>
+      <MeuPerfil />
+      <BotaoQRCode />
       <View style={styles.inicio}>
         <View style={styles.barraPesquisa}>
           <TextInput
