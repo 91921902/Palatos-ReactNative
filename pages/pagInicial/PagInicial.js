@@ -48,7 +48,7 @@ function PagInicial({ navigation }) {
 
 
     let objErro = objErros.find(err => err.type == "senha")
-    if (!senha) {
+    if (senha == "") {
       isError = true
       objErro.message = "Este campo é obrigatório!"
     } else {
@@ -56,12 +56,11 @@ function PagInicial({ navigation }) {
     }
 
     objErro = objErros.find(err => err.type == "email")
-    if (!email) {
+    if (email == "") {
       objErro.message = "Este campo é obrigatório!"
       isError = true
     } else {
       objErro.message = ""
-      isError = false
     }
 
     //a ultima condicao tem prioridade por algum motivo ai
