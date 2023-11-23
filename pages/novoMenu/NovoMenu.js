@@ -202,8 +202,18 @@ function NovoMenu({navigation, route}) {
                     }])
 
                 } else {
-                    
-                    menuTools.setNewMenu(menuData)
+
+                    const obj = {
+                        id: menuData[0].codigo,
+                        nome: menuData[0].nome_produto,
+                        descricao: menuData[0].descricao,
+                        preco: menuData[0].preco,
+                        foto: menuData[0].foto,
+                        nomeImagem: "",
+                        file: "",
+                        tipo: menuData[0].tipo
+                    }
+                    menuTools.setNewMenu([obj])
 
                 }
             
@@ -258,11 +268,22 @@ function NovoMenu({navigation, route}) {
                 <View style={styles.menuItens}>
 
                     {
-                        menu.map((item, index) => {
-                            return(
-                                <ItemMenu key={item.id} item={item} id={item.id} index={index} isEdit={isEdit}/> 
-                            );
-                        })
+
+                        isEdit ? (
+                            
+                            menu.map((item, index) => {
+                                return(
+                                    <ItemMenu key={item.codigo} item={item} id={item.codigo} index={index} isEdit={isEdit}/> 
+                                );
+                            })
+                        ) : (
+                            menu.map((item, index) => {
+                                return(
+                                    <ItemMenu key={item.id} item={item} id={item.id} index={index} isEdit={isEdit}/> 
+                                );
+                            })
+                        )
+                        
                     }
 
                 </View>

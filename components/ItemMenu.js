@@ -31,31 +31,53 @@ function ItemMenu({id, index, isEdit}) {
 
     useEffect(() => { 
 
-        let itemMenu
+        let itemMenu, itemNow
 
-        for (let i = 0 ; i < menu.length ; i++) {
+        if (isEdit) {
+            for (let i = 0 ; i < menu.length ; i++) {
 
-            if (menu[i].id == id) {
-                itemMenu = menu[i]
-                break
+                if (menu[i].codigo == id) {
+                    itemMenu = menu[i]
+                    break
+                }
+    
             }
 
-        }
-       
-        const itemNow = {
-            id: itemMenu.id,
-            nome: nome,
-            descricao: desc,
-            preco: price,
-            foto: foto,
-            file: file,
-            tipo: tipo
+            itemNow = {
+                id: itemMenu.codigo,
+                nome: nome,
+                descricao: desc,
+                preco: price,
+                foto: foto,
+                file: file,
+                tipo: tipo
+            }
+
+        } else {
+            for (let i = 0 ; i < menu.length ; i++) {
+
+                if (menu[i].id == id) {
+                    itemMenu = menu[i]
+                    break
+                }
+    
+            }
+
+            itemNow = {
+                id: itemMenu.id,
+                nome: nome,
+                descricao: desc,
+                preco: price,
+                foto: foto,
+                file: file,
+                tipo: tipo
+            }
         }
 
         function setMenu() {
             
             menuTools.setItem({
-                id: itemMenu.id,
+                id: isEdit ? itemMenu.codigo : itemMenu.id,
                 nome: nome,
                 descricao: desc,
                 preco: price,
@@ -85,8 +107,13 @@ function ItemMenu({id, index, isEdit}) {
           }
 
           if (!compareItens(itemMenu, itemNow)) {
-            setMenu()
-          }
+            //setMenu()
+            console.log(menu[0])
+            console.log(itemMenu)
+            console.log(itemNow)
+
+            //aqui ta estranho
+          } 
           
           
     }, [nome, desc, price, foto, file, menu, tipo])
@@ -115,7 +142,15 @@ function ItemMenu({id, index, isEdit}) {
         }
 
         if (isEdit) {
-            //carregar os valores do produto aqui
+           
+            const item = menu[index]
+
+            setNome(item.nome_produto)
+            setDesc(item.descricao)
+            setPrice(item.preco)
+            setFoto(item.foto)
+            setTipo(item.tipo)
+            setFile(null)
         }
 
     }, []);
