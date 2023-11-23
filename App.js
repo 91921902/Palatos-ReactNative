@@ -28,7 +28,11 @@ const Stack = createStackNavigator();
 const MyNavigator = () => {
   return (
     <NavigationContainer>
+<<<<<<< Updated upstream
       <Stack.Navigator initialRouteName='PagInicial' screenOptions={{ headerShown: false }}>
+=======
+      <Stack.Navigator initialRouteName='CadastroCliente'screenOptions={{ headerShown: false }}>
+>>>>>>> Stashed changes
         <Stack.Screen name="planosEPacotes" component={PlanosEPacotes} />
         <Stack.Screen name="NovoCadastro" component={NovoCadastro} />
         <Stack.Screen name="NovoMenu" component={NovoMenu} />
