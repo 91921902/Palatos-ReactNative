@@ -17,8 +17,8 @@ function PagInicial({ navigation }) {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [erro, setErro] = useState([
-    {type: "email", message: ""},
-    {type: "senha", message: ""}
+    { type: "email", message: "" },
+    { type: "senha", message: "" }
   ])
   // Estado para armazenar os dados do usuário em um array
   const [userList, setUserList] = useState([]);
@@ -47,21 +47,21 @@ function PagInicial({ navigation }) {
     let objErros = [...erro]
 
 
-      let objErro = objErros.find(err => err.type == "senha")
-      if (!senha) {
-        isError = true
-        objErro.message = "Este campo é obrigatório!"
-      } else {
-        objErro.message = ""
+    let objErro = objErros.find(err => err.type == "senha")
+    if (!senha) {
+      isError = true
+      objErro.message = "Este campo é obrigatório!"
+    } else {
+      objErro.message = ""
     }
 
-      objErro = objErros.find(err => err.type == "email")
-      if(!email) {
-        objErro.message = "Este campo é obrigatório!"
-        isError = true
-      } else {
-        objErro.message = ""
-        isError = false
+    objErro = objErros.find(err => err.type == "email")
+    if (!email) {
+      objErro.message = "Este campo é obrigatório!"
+      isError = true
+    } else {
+      objErro.message = ""
+      isError = false
     }
 
     //a ultima condicao tem prioridade por algum motivo ai
@@ -72,7 +72,7 @@ function PagInicial({ navigation }) {
     }
     try {
       let lista = [...erro]
-      for(let obj of lista) {
+      for (let obj of lista) {
         obj.message = ""
       }
       setErro(lista)
@@ -91,7 +91,18 @@ function PagInicial({ navigation }) {
 
     } catch (error) {
 
+      let erros = [...erro]
+      if (error.response.status == 401) {
+        if (error.response.data.status == "wrong_email") {
+          erros[0].message = "E-mail incorreto!"
+        }
+        if (error.response.data.status == "wrong_password") {
+          erros[1].message = "Senha incorreta!"
+        }
+        setErro(erros)
+      }
       console.log('erro')
+
     }
   };
 
@@ -121,7 +132,7 @@ function PagInicial({ navigation }) {
           <Text style={styles.textoInput}>E-mail</Text>
 
           <TextInput style={styles.input} onChangeText={setEmail} value={email} accessibilityLabel="E-mail" />
-          <TelaErro type={'email'} width={"80%"} erro={erro} field={email}/>
+          <TelaErro type={'email'} width={"80%"} erro={erro} field={email} />
 
         </View>
 
