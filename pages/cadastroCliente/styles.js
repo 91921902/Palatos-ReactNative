@@ -2,10 +2,11 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
     containerCadastroCliente: {
-        flex: 1,
-        backgroundColor: '#fff',
-        /* width: "100%",
-        height: "100%", */
+      flex: 1,
+      width: '100%',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: 20, 
         
       
       },
@@ -15,6 +16,8 @@ export const styles = StyleSheet.create({
        width:'100%',
        alignItems:'center',
        justifyContent:'flex-end',
+       padding:50
+
        
     
       },
@@ -25,11 +28,11 @@ export const styles = StyleSheet.create({
         paddingLeft: 5,
       },
       formularioCadastroCliente:{
-        width: "100%",
-        alignItems: "center",
-       height:'60%',
-       justifyContent: 'center',
-       gap:20,
+          width: "100%",
+          alignItems: "center",
+          height:'50%',
+          justifyContent: 'center',
+          gap:20,
         
       },
       inputsPar:{
@@ -59,6 +62,7 @@ export const styles = StyleSheet.create({
         width: "100%",
         alignItems: "center",
         height:'20%',
+        paddingTop:20,
         
   
         },
