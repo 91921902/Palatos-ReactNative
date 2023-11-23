@@ -22,8 +22,7 @@ function PagInicial({ navigation }) {
     { type: "email", message: "" },
     { type: "senha", message: "" }
   ])
-  // Estado para armazenar os dados do usuário em um array
-  const [userList, setUserList] = useState([]);
+  
 
 
   useEffect(() => {
