@@ -1,4 +1,4 @@
-
+import A11y from "../../providers/A11y"
 import React, { useState, useEffect } from "react";
 import { styles } from "./styles";
 import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
@@ -9,21 +9,20 @@ import api from "../../providers/api"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TelaErro from "../../components/TelaErro";
 
-function PagInicial({navigation}) {
+function PagInicial({ navigation }) {
   // Estado para verificar se as fontes foram carregadas
   const [fontLoaded, setFontLoaded] = useState(false);
 
   // Estados para armazenar o email e a senha digitados pelo usuário
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [erro, setErro] = useState([{
-    tipoInpt: "",
-    tipoMessage: ""
-  }])
-
+  const [erro, setErro] = useState([
+    {type: "email", message: ""},
+    {type: "senha", message: ""}
+  ])
   // Estado para armazenar os dados do usuário em um array
   const [userList, setUserList] = useState([]);
- 
+
 
   useEffect(() => {
     async function loadFonts() {
@@ -45,81 +44,64 @@ function PagInicial({navigation}) {
   const handleLogin = async () => {
     // Verifica se o email ou senha estão em branco
     let isError = false
-    
-   
-    if (!senha) {
-      let isExists = false
-      for (let err of erro) {
-        if (err.tipoInpt == 'senha') {
-          isExists = true
-          break
-        }
-      }
+    let objErros = [...erro]
 
-      if (isExists) return
 
-      setErro([...erro, {
-        tipoInpt: "senha",
-        tipoMessage: "vazio"
-      }])
-      isError = true
-    } 
+      let objErro = objErros.find(err => err.type == "senha")
+      if (!senha) {
+        isError = true
+        objErro.message = "Este campo é obrigatório!"
+      } else {
+        objErro.message = ""
+    }
 
-    if (!email) {
-
-      let isExists = false
-      for (let err of erro) {
-        if (err.tipoInpt == 'email') {
-          isExists = true
-          break
-        }
-      }
-
-      if (isExists) return
-  
-      setErro([...erro, {
-        tipoInpt: "email",
-        tipoMessage: "vazio"
-      }])
-      isError = true
+      objErro = objErros.find(err => err.type == "email")
+      if(!email) {
+        objErro.message = "Este campo é obrigatório!"
+        isError = true
+      } else {
+        objErro.message = ""
+        isError = false
     }
 
     //a ultima condicao tem prioridade por algum motivo ai
 
-    if (erro) {
+    setErro(objErros)
+    if (isError) {
       return
     }
     try {
-      
+      let lista = [...erro]
+      for(let obj of lista) {
+        obj.message = ""
+      }
+      setErro(lista)
       const user = { email, senha };
-     
-      const usuario = await api.post("users/login",user)
-      .then(response => response.data)
 
-      if (usuario.token){
+      const usuario = await api.post("users/login", user)
+        .then(response => response.data)
+
+      if (usuario.token) {
         await AsyncStorage.setItem("token", usuario.token)
         navigation.navigate('BuscaRestaurante')
-     }else{
-       alert("erro")
+      } else {
+        alert("erro")
 
-     }
+      }
 
     } catch (error) {
-      
+
       console.log('erro')
     }
   };
 
   function clearError() {
 
-    if (erro[0].tipoInpt == "") return
+    if (erro.length == 0) return
 
     //essa condicao ta errada
 
-    setErro([{
-        tipoInpt: "",
-        tipoMessage: ""
-    }])
+    setErro([])
   }
 
   return (
@@ -136,30 +118,30 @@ function PagInicial({navigation}) {
 
       <View style={styles.formularioPagInicial}>
         <View style={styles.inputsFormulario}>
-          <Text style={styles.textoInput}>Email</Text>
-         
-          <TextInput style={styles.input} onChangeText={setEmail} value={email} />
-          <TelaErro tipo={'email'} width={"80%"} erro={erro}/>
+          <Text style={styles.textoInput}>E-mail</Text>
+
+          <TextInput style={styles.input} onChangeText={setEmail} value={email} accessibilityLabel="E-mail" />
+          <TelaErro type={'email'} width={"80%"} erro={erro} field={email}/>
 
         </View>
 
         <View style={styles.inputsFormulario}>
           <Text style={styles.textoInput}>Senha</Text>
-         
-          <TextInput style={styles.input} onChangeText={setSenha} value={senha} />
-          <TelaErro tipo={'senha'} width={"80%"} erro={erro}/>
+
+          <TextInput style={styles.input} onChangeText={setSenha} value={senha} accessibilityLabel="Senha:" />
+          <TelaErro type={'senha'} width={"80%"} erro={erro} />
 
         </View>
       </View>
 
       <View style={styles.entrar}>
-        <TouchableOpacity style={styles.botaoEntrar} onPress={handleLogin}>
+        <TouchableOpacity style={styles.botaoEntrar} onPress={handleLogin} {...A11y.role("button")}>
           <Text style={styles.textoBotaoEntrar}>Entrar</Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.cadastro}>
-        <TouchableOpacity style={styles.botaoCadastro} onPress={() => {navigation.navigate("CadastroCliente")}}>
+        <TouchableOpacity style={styles.botaoCadastro} onPress={() => { navigation.navigate("CadastroCliente") }} {...A11y.role("button")}>
           <Text style={styles.textoCadastro}>Não tenho cadastro...</Text>
         </TouchableOpacity>
       </View>
