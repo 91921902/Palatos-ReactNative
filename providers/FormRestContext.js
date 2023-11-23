@@ -43,6 +43,9 @@ export const FormProvider = ({ children }) => {
                 objMesa.ocupada = estado
                 setMesas([...mesas])
             }
+        },
+        deletaMesa: (id) => {
+            setMesas(mesas.filter((objMesa => objMesa.id != id)))
         }
     }
     

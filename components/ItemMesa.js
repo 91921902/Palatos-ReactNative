@@ -50,7 +50,16 @@ function ItemMesa({ index, tipoMenu, obj }) {
     }
 
     async function deletarMesa() {
-        const resultado = await api.delete(`/restaurantes/mesas/delete/${obj.idMesa}`);
+        try {
+        const resultado = await api.delete(`/restaurante/mesa/delete/${obj.id}`, {
+            headers: {
+                Authorization: token
+            }
+        });
+        mesaTools.deletaMesa(obj.id)
+        } catch(err) {
+            console.log("Erro ao deletar mesa", err)
+        }
     }
 
     async function ocuparMesa() {
@@ -160,7 +169,7 @@ function ItemMesa({ index, tipoMenu, obj }) {
                     <Pressable style={styles.btnDelete} role="button" onPress={deletarMesa} {...A11y.label("Excluir mesa do restaurante")}>
                         <Icon name="delete" color={"white"} />
                     </Pressable>
-                    <QRCode value={obj.qr_code} accessibilityLabel={"Eita"}/>
+                    <QRCode value={obj.qr_code} />
                 </View>
             )}
         </View>
