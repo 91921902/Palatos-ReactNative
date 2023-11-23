@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from "react";
 import { styles } from "./styles"
-import {  View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView  } from "react-native"
+import {  View, Text, TextInput, TouchableOpacity, ScrollView,KeyboardAvoidingView } from "react-native"
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import * as Font from 'expo-font';
@@ -76,13 +76,12 @@ function CadastroCliente({navigation}) {
     
     return(
 
-      <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={{ flex: 1 }}
-    >
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between' }}
-      >
+    //   <KeyboardAvoidingView
+    //   style={{ backgroundColor: 'fff', flex: 1 }}
+    //   behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    // >
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+       
           <View style={styles.containerCadastroCliente}>
 
           <View style={styles.titulo} >
@@ -149,7 +148,7 @@ function CadastroCliente({navigation}) {
         </View>
       
         </ScrollView>
-      </KeyboardAvoidingView>
+      //  </KeyboardAvoidingView>
   
     );
 

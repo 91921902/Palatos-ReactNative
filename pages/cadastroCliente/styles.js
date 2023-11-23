@@ -12,7 +12,6 @@ export const styles = StyleSheet.create({
       },
     
       titulo:{ 
-       height:'20%',
        width:'100%',
        alignItems:'center',
        justifyContent:'flex-end',
@@ -30,7 +29,7 @@ export const styles = StyleSheet.create({
       formularioCadastroCliente:{
           width: "100%",
           alignItems: "center",
-          height:'50%',
+          height:'200',
           justifyContent: 'center',
           gap:20,
         
@@ -88,9 +87,12 @@ export const styles = StyleSheet.create({
           textAlignVertical: 'center',
         },
         botaoJaTenhoCadastro: {
-          position: "absolute",
+          alignItems:"flex-start",
+          width:'100%',
           bottom: 40,
-          left: 20
+          left: 20,
+          
+          
         },
         textoJaTenhoCadastro:{
           color: "#445A14",
