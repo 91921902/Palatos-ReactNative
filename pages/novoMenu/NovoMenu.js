@@ -16,6 +16,8 @@ import ImageTools from "../../providers/ImageTools";
 const imageTools = new ImageTools()
 
 
+
+
 async function createRestaurant(formData, file, navigation, menu, quantMesas) {   
 
     let token = await AsyncStorage.getItem("token")
@@ -170,7 +172,8 @@ function NovoMenu({navigation, route}) {
 
         async function isEditOrNot() {
 
-            const token = await AsyncStorage.getItem("token")
+            //const token = await AsyncStorage.getItem("token")
+            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzLCJpZFJlc3RhdXJhbnRlIjo5LCJpYXQiOjE3MDA3NjE0MzQsImV4cCI6MjMwNTU2MTQzNH0.Q0aXPW6s5zUYEgW7fe9SHmDHUgOGtUeYf__U4V3KSpU"
 
             if (!token) {
                 return
@@ -183,10 +186,10 @@ function NovoMenu({navigation, route}) {
 
                 setIsEdit(true)
 
-                const menu = await api.get(`restaurante/cardapio/${idRestaurante}`)
+                const menuData = await api.get(`restaurante/cardapio/${idRestaurante}`)
                 .then(response => response.data.menu)
                
-                if (menu.length == 0) {
+                if (menuData.length == 0) {
 
                     menuTools.setNewMenu([{
                         id: 0,
@@ -199,8 +202,8 @@ function NovoMenu({navigation, route}) {
                     }])
 
                 } else {
-
-                    menuTools.setNewMenu(menu)
+                    
+                    menuTools.setNewMenu(menuData)
 
                 }
             
@@ -222,6 +225,12 @@ function NovoMenu({navigation, route}) {
 
         getParmsOrNot()
     }, []);
+
+    async function teste() {
+
+        console.log(menu)
+    
+    }
 
     if (!fontLoaded) {
         return null; 
@@ -259,7 +268,7 @@ function NovoMenu({navigation, route}) {
                 </View>
             </ScrollView>
             <View style={styles.boxFinalizarMenu}>
-                <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={() => createRestaurant( formRestaurante, file, navigation, menu, quantMesas)}>
+                <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={teste}>
                     
                     {isEdit && <Text style={styles.textFinalizarMenu}>Editar Menu</Text>}
                     {!isEdit && <Text style={styles.textFinalizarMenu}>Finalizar Menu</Text>}
@@ -269,5 +278,13 @@ function NovoMenu({navigation, route}) {
     );
 
 }
-
+/* 
+<View style={styles.boxFinalizarMenu}>
+    <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={() => createRestaurant( formRestaurante, file, navigation, menu, quantMesas)}>
+        
+        {isEdit && <Text style={styles.textFinalizarMenu}>Editar Menu</Text>}
+        {!isEdit && <Text style={styles.textFinalizarMenu}>Finalizar Menu</Text>}
+    </Pressable>
+</View>
+*/
 export default NovoMenu
