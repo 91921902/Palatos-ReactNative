@@ -11,7 +11,6 @@ import { useFormTools } from "../../providers/FormRestContext";
 import api from "../../providers/api";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import decode from "jwt-decode"
-import QRCode from "react-native-qrcode-svg";
 import ImageTools from "../../providers/ImageTools";
 
 const imageTools = new ImageTools()
@@ -21,6 +20,8 @@ async function createRestaurant(formData, file, navigation, menu, quantMesas) {
 
     let token = await AsyncStorage.getItem("token")
     //let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoxMCwiaWF0IjoxNjk5OTkyNDgyLCJleHAiOjIzMDQ3OTI0ODJ9.Tgy9ZMee8Y1cYInLQfM7AOts9ftcHWftwpv5x46Hcvc"
+
+    console.log(token)
 
     if (file) {
 
@@ -39,7 +40,7 @@ async function createRestaurant(formData, file, navigation, menu, quantMesas) {
         formData.append('file', blob, `.${extension}`)
 
     } 
-
+    
     const novoRestaurante = await api.post("/restaurante/add", formData, 
         {
             headers: {
@@ -170,6 +171,10 @@ function NovoMenu({navigation, route}) {
         async function isEditOrNot() {
 
             const token = await AsyncStorage.getItem("token")
+
+            if (!token) {
+                return
+            }
           
             const decoded = decode(token)
             let  idRestaurante = decoded.idRestaurante
@@ -206,36 +211,13 @@ function NovoMenu({navigation, route}) {
         isEditOrNot()
         
         async function getParmsOrNot() {
-            
-
+        
             if (route.params) {
               
                 const {formData, fotoRestaurante} = route.params;
                 setFormRestaurante(formData)
                 setFile(fotoRestaurante)
-            } else {
-               
-                const token = await AsyncStorage.getItem("token")
-
-                if (!token) {
-                    navigation.navigate("PagInicial")
-                }
-
-                const decoded = decode(token)
-
-                const {idRestaurante} = decoded
-
-                const restauranteData = await api.get("/restaurante/"+idRestaurante)
-
-                const restaurante = restauranteData.data.resultRestaurant
-
-                if (!restaurante) return
-
-                const pratos = await api.get(`/cardapio/${idRestaurante}`)
-
-                menuTools.setNewMenu(pratos.data.menu)
-
-            }
+            } 
         }
 
         getParmsOrNot()

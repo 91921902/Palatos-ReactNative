@@ -72,7 +72,7 @@ function NovoCadastro({ navigation }) {
         async function isEditOrNot() {
 
             const data = await AsyncStorage.getItem("restaurante")
-            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoxMCwiaWF0IjoxNjk4MTcxODI3LCJleHAiOjIzMDI5NzE4Mjd9.ZEEZJ41kkGH89-t5lFeRuwSP8MZk5RAhJvbxmq_7kts"
+            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE1LCJpYXQiOjE3MDA3MDI4MTAsImV4cCI6MjMwNTUwMjgxMH0.Z0cceOaNbgbPoRw01-mxkFgu_07Mr0WvRW_ZiPxAx6s"
             //const token = await AsyncStorage.getItem("token")
 
             let tokenIsValid
@@ -87,7 +87,7 @@ function NovoCadastro({ navigation }) {
             }
 
             if (data && tokenIsValid) {
-
+                
                 setIsEdit(true)
                 const dataParsed = JSON.parse(data)
                 
@@ -96,7 +96,7 @@ function NovoCadastro({ navigation }) {
                 setTelefone(dataParsed.telefone_fixo)
                 setCelular(dataParsed.celular)
                 setDescricao(dataParsed.descricao)
-                setCategoriasEdit(dataParsed.cetegorias) //trocar o nome correto
+                setCategoriasEdit(dataParsed.categorias) 
                 setBtnReservation(dataParsed.reservasAtivas)
                 setTempoTolerancia(dataParsed.tempoTolerancia)
                 setFoto(dataParsed.foto)
@@ -120,8 +120,9 @@ function NovoCadastro({ navigation }) {
             } else {
 
                 if (token) {
-
+              
                     const decoded = decode(token)
+           
                     const { idRestaurante } = decoded
                     if (idRestaurante && tokenIsValid) {
                         const restaurante = await api.get("/restaurante/search/" + idRestaurante)
