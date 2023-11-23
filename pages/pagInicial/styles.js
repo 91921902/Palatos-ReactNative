@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
         justifyContent: "flex-start", // Alinhar ao topo
         paddingTop: 50, // Espaço superior
         paddingRight: 20, // Espaço direito
-        // backgroundColor: "green",
+       
     },
     botaoLogin:{
         width: 140,//largura
@@ -28,15 +28,19 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
     logo:{ //View logo
+       
         height:'30%',
         width:'100%',
-        alignItems:"center"
-    },
+        alignItems:"center",
+        paddingBottom:60,
+    },   
     logoTexto:{
         width:300,
         height:300,
-        resizeMode: "contain"
-    },
+        resizeMode: "contain",
+        
+       
+    },  
       textoBotaoLogin:{
         fontFamily: "lemonada",
         color: "#445A14",
@@ -53,7 +57,7 @@ export const styles = StyleSheet.create({
        width:'100%',
        justifyContent: 'center',
        gap:20,
-    //    backgroundColor:"pink"
+      
            
     },
     inputsFormulario:{
@@ -83,7 +87,6 @@ export const styles = StyleSheet.create({
     entrar:{//terceira View
        height:'20%',
        width:'100%',
-    //    backgroundColor:'red',
        alignItems: "center",
        justifyContent: 'center',
        gap:20,
@@ -111,8 +114,6 @@ export const styles = StyleSheet.create({
     cadastro:{//ultima View
        height:'10%',
        width:'100%',
-    //    backgroundColor:'black',
-    //    justifyContent: 'flex-end',
        paddingBottom: 20,
 
     },

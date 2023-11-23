@@ -1,11 +1,12 @@
 import React,{useState,useEffect} from "react";
 import { styles } from "./styles"
-import {  View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView  } from "react-native"
+import {  View, Text, TextInput, TouchableOpacity, ScrollView,KeyboardAvoidingView } from "react-native"
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import * as Font from 'expo-font';
 import api from "../../providers/api"
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Platform } from 'react-native';
 
   
 function CadastroCliente({navigation}) {
@@ -74,10 +75,13 @@ function CadastroCliente({navigation}) {
     }
     
     return(
-        <KeyboardAvoidingView 
-          style={{ backgroundColor: 'fff', flex: 1, width: "100%", height: "100%" }}
-          behavior="height"
-        >
+
+    //   <KeyboardAvoidingView
+    //   style={{ backgroundColor: 'fff', flex: 1 }}
+    //   behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    // >
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+       
           <View style={styles.containerCadastroCliente}>
 
           <View style={styles.titulo} >
@@ -142,7 +146,9 @@ function CadastroCliente({navigation}) {
           </TouchableOpacity>
     
         </View>
-      </KeyboardAvoidingView>
+      
+        </ScrollView>
+      //  </KeyboardAvoidingView>
   
     );
 

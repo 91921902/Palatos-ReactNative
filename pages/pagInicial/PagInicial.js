@@ -8,6 +8,8 @@ import * as Font from 'expo-font';
 import api from "../../providers/api"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TelaErro from "../../components/TelaErro";
+import { ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+
 
 function PagInicial({ navigation }) {
   // Estado para verificar se as fontes foram carregadas
@@ -114,6 +116,15 @@ function PagInicial({ navigation }) {
   }
 
   return (
+
+    <KeyboardAvoidingView
+    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    style={{ flex: 1 }}
+  >
+    <ScrollView
+      contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between' }}
+    >
+  
     <View style={styles.containerPagInicial} onTouchStart={clearError}>
       <View style={styles.loginRestaurante}>
         <TouchableOpacity style={styles.botaoLogin} onPress={() => navigation.navigate("LoginRestaurante")}>
@@ -124,6 +135,8 @@ function PagInicial({ navigation }) {
       <View style={styles.logo}>
         <Image source={require("../../assets/logo-texto.png")} style={styles.logoTexto} />
       </View>
+
+      
 
       <View style={styles.formularioPagInicial}>
         <View style={styles.inputsFormulario}>
@@ -143,6 +156,8 @@ function PagInicial({ navigation }) {
         </View>
       </View>
 
+      
+
       <View style={styles.entrar}>
         <TouchableOpacity style={styles.botaoEntrar} onPress={handleLogin} {...A11y.role("button")}>
           <Text style={styles.textoBotaoEntrar}>Entrar</Text>
@@ -155,6 +170,9 @@ function PagInicial({ navigation }) {
         </TouchableOpacity>
       </View>
     </View>
+    </ScrollView>
+  </KeyboardAvoidingView>
+
   );
 }
 
