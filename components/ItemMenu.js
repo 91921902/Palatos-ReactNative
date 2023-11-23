@@ -114,6 +114,10 @@ function ItemMenu({id, index, isEdit}) {
             setTipo(item.tipo)
         }
 
+        if (isEdit) {
+            //carregar os valores do produto aqui
+        }
+
     }, []);
 
     if (!fontLoaded) {
