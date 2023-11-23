@@ -1,11 +1,12 @@
 import React,{useState,useEffect} from "react";
 import { styles } from "./styles"
-import {  View, Text, TextInput, TouchableOpacity } from "react-native"
+import {  View, Text, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView  } from "react-native"
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import * as Font from 'expo-font';
 import api from "../../providers/api"
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
   
 function CadastroCliente({navigation}) {
  
@@ -72,75 +73,76 @@ function CadastroCliente({navigation}) {
       
     }
     
-   
-      
-
     return(
-   
-        <View style={styles.containerCadastroCliente}>
+        <KeyboardAvoidingView 
+          style={{ backgroundColor: 'fff', flex: 1, width: "100%", height: "100%" }}
+          behavior="height"
+        >
+          <View style={styles.containerCadastroCliente}>
 
-        <View style={styles.titulo} >
-          <Text style={styles.textoTitulo}>Faça seu cadastro:</Text>
-        </View>
-  
-        <View style={styles.formularioCadastroCliente}>
-
-        <View style={styles.inputsPar}>
-            <Text style={styles.textoInput}>Nome Completo</Text>
-            <TextInput 
-            style={styles.inputs}
-            value={nome}
-            onChangeText={setNome}
-            />
-         </View>
-          
-          <View style={styles.inputsPar}>
-            <Text style={styles.textoInput}>Email</Text>
-            <TextInput 
-            style={styles.inputs}
-            value={email}
-            onChangeText={setEmail}
-            />
-         </View>
-
-          <View style={styles.inputsPar}>
-            <Text style={styles.textoInput}>Senha</Text>
-            <TextInput 
-            style={styles.inputs}
-            value={senha}
-            onChangeText={setSenha}
-            secureTextEntry
-            />
+          <View style={styles.titulo} >
+            <Text style={styles.textoTitulo}>Faça seu cadastro:</Text>
           </View>
-           
-           <View style={styles.inputsPar}>
-              <Text style={styles.textoInput}>Confirmar Senha</Text>
+    
+          <View style={styles.formularioCadastroCliente}>
+
+          <View style={styles.inputsPar}>
+              <Text style={styles.textoInput}>Nome Completo</Text>
               <TextInput 
-              style={styles.inputs} 
-              cursorColor = {"#445A14"}
-              value={confirmarSenha}
-              onChangeText={setConfirmarSenha}
+              style={styles.inputs}
+              value={nome}
+              onChangeText={setNome}
+              />
+          </View>
+            
+            <View style={styles.inputsPar}>
+              <Text style={styles.textoInput}>Email</Text>
+              <TextInput 
+              style={styles.inputs}
+              value={email}
+              onChangeText={setEmail}
+              />
+          </View>
+
+            <View style={styles.inputsPar}>
+              <Text style={styles.textoInput}>Senha</Text>
+              <TextInput 
+              style={styles.inputs}
+              value={senha}
+              onChangeText={setSenha}
               secureTextEntry
               />
-           </View>
+            </View>
+            
+            <View style={styles.inputsPar}>
+                <Text style={styles.textoInput}>Confirmar Senha</Text>
+                <TextInput 
+                style={styles.inputs} 
+                cursorColor = {"#445A14"}
+                value={confirmarSenha}
+                onChangeText={setConfirmarSenha}
+                secureTextEntry
+                />
+            </View>
 
-        </View>
-  
-        
-        <View style={styles.confirmar}>
-          <TouchableOpacity style={styles.botaoConfirmar}onPress={realizarCadastro}>
-  
-           <Text style={styles.textoBotaoConfirmar}>Confirmar</Text>
-  
-          </TouchableOpacity>
+          </View>
+    
           
+          <View style={styles.confirmar}>
+            <TouchableOpacity style={styles.botaoConfirmar}onPress={realizarCadastro}>
+    
+            <Text style={styles.textoBotaoConfirmar}>Confirmar</Text>
+    
+            </TouchableOpacity>
+            
+          </View>
+    
+          <TouchableOpacity style={styles.botaoJaTenhoCadastro} onPress={() => navigation.navigate("PagInicial")}>
+              <Text style={styles.textoJaTenhoCadastro}>Já tenho cadastro...</Text>
+          </TouchableOpacity>
+    
         </View>
-  
-        <TouchableOpacity style={styles.botaoJaTenhoCadastro} onPress={() => navigation.navigate("PagInicial")}>
-            <Text style={styles.textoJaTenhoCadastro}>Já tenho cadastro...</Text>
-        </TouchableOpacity>
-  
-      </View>
+      </KeyboardAvoidingView>
   
     );
 

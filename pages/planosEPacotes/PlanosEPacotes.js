@@ -16,12 +16,13 @@ function PlanosEPacotes({ navigation }) {
 
 
     useEffect(() => {
-
+        
         async function loadFonts() {
             await Font.loadAsync({
                 'lemonada': fontLemonada,
                 'kavoon': fontKavoon,
             });
+           
             setFontLoaded(true);
         }
 

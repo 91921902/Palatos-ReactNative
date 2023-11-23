@@ -30,6 +30,7 @@ function PainelADM({navigation, route}) {
         async function getData() {
 
             const token = await AsyncStorage.getItem("token")
+            
             let idRestaurante, userId
             try {
                
@@ -37,7 +38,7 @@ function PainelADM({navigation, route}) {
                 if (decoded) {
                     idRestaurante = decoded.idRestaurante; 
                     userId = decoded.userId
-
+                  
                 } else {
                     navigation.navigate("PagInicial", {message: "Erro de Autenticação"})
                 }

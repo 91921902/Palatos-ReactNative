@@ -6,7 +6,7 @@ export default function MeuPerfil() {
 
     return(
         <Pressable style={styles.botaoPerfil}>
-            <Image source={require('../assets/iconqr.png')} style={styles.imagem}/>
+            <Image source={require('../assets/user.png')} style={styles.imagem}/>
         </Pressable>
     );
 }
