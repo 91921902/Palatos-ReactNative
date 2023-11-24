@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from "react";
 import { View, StyleSheet, Pressable, Text } from "react-native";
 import { Image } from "react-native";
+import api from "../providers/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ItemRestaurante({rest, favoritos, navigation}) {
 
@@ -15,13 +17,39 @@ export default function ItemRestaurante({rest, favoritos, navigation}) {
         }
       }
 
-    }, [])
+    }, [favoritos])
 
     function irParaRestaurante(id) {
       
       navigation.navigate("PerfilRestaurante", {
         id: id
       })
+
+    }
+
+    async function toggleFavorito() {
+
+      const idRestaurante = rest.id
+      const token = await AsyncStorage.getItem('token')
+
+      const message = await api.patch("users/toggleFavorito/" + idRestaurante, {}, {
+        headers: {
+          Authorization: token
+        }
+      })
+      .then(response => response.data.message)
+
+      if (message == "Restaurante Favoritado") {
+
+        setIsFavorito(true)
+
+      } else if (message == "Restaurante removido dos favoritos") {
+
+        setIsFavorito(false)
+
+      } else {
+        alert("erro favorito")
+      }
 
     }
 
@@ -34,8 +62,17 @@ export default function ItemRestaurante({rest, favoritos, navigation}) {
 
             <View style={styles.descricao}>
 
-                {isFavorito && <Image source={require('../assets/icons/coracao.png')}style={styles.coracao}/>}
-                {!isFavorito && <Image source={require('../assets/icons/coracaoVazio.png')}style={styles.coracao}/>}
+                {isFavorito && (
+                  <Pressable onPress={toggleFavorito} style={{position:'absolute',right:5, top:3}}>
+                    <Image source={require('../assets/icons/coracao.png')}style={styles.coracao}/> 
+                  </Pressable>
+                )}
+
+                {!isFavorito && (
+                  <Pressable onPress={toggleFavorito} style={{position:'absolute',right:5, top:3}}>
+                    <Image source={require('../assets/icons/coracaoVazio.png')}style={styles.coracao}/>
+                  </Pressable>
+                )}
 
                <Text style={styles.tituloRestaurante} numberOfLines={1} ellipsizeMode="tail">
                 {rest.nome}
@@ -79,9 +116,6 @@ const styles = StyleSheet.create({
     coracao:{
       width:30,
       height:30,
-      position:'absolute',
-      right:5,
-      top:3,
 
     },
     botao:{

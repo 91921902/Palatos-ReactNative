@@ -30,54 +30,33 @@ function ItemMenu({id, index, isEdit}) {
     const { menu, menuTools } = useFormTools()
 
     useEffect(() => { 
-
+    
         let itemMenu, itemNow
 
-        if (isEdit) {
-            for (let i = 0 ; i < menu.length ; i++) {
-
-                if (menu[i].codigo == id) {
-                    itemMenu = menu[i]
-                    break
-                }
-    
+        for (let i = 0 ; i < menu.length ; i++) {
+            
+            if (menu[i].id == id) {
+                itemMenu = menu[i]
+                break
             }
 
-            itemNow = {
-                id: itemMenu.codigo,
-                nome: nome,
-                descricao: desc,
-                preco: price,
-                foto: foto,
-                file: file,
-                tipo: tipo
-            }
-
-        } else {
-            for (let i = 0 ; i < menu.length ; i++) {
-
-                if (menu[i].id == id) {
-                    itemMenu = menu[i]
-                    break
-                }
-    
-            }
-
-            itemNow = {
-                id: itemMenu.id,
-                nome: nome,
-                descricao: desc,
-                preco: price,
-                foto: foto,
-                file: file,
-                tipo: tipo
-            }
         }
+
+        itemNow = {
+            id: itemMenu.id,
+            nome: nome,
+            descricao: desc,
+            preco: price,
+            foto: foto,
+            file: file,
+            tipo: tipo
+        }
+        
 
         function setMenu() {
             
             menuTools.setItem({
-                id: isEdit ? itemMenu.codigo : itemMenu.id,
+                id: itemMenu.id,
                 nome: nome,
                 descricao: desc,
                 preco: price,
@@ -107,12 +86,7 @@ function ItemMenu({id, index, isEdit}) {
           }
 
           if (!compareItens(itemMenu, itemNow)) {
-            //setMenu()
-            console.log(menu[0])
-            console.log(itemMenu)
-            console.log(itemNow)
-
-            //aqui ta estranho
+            setMenu()
           } 
           
           
@@ -145,7 +119,7 @@ function ItemMenu({id, index, isEdit}) {
            
             const item = menu[index]
 
-            setNome(item.nome_produto)
+            setNome(item.nome)
             setDesc(item.descricao)
             setPrice(item.preco)
             setFoto(item.foto)
@@ -329,7 +303,7 @@ function ItemMenu({id, index, isEdit}) {
                             <Image source={require("../assets/icons/adicionar.png")} style={styles.imgAddItem}/>
                         </Pressable>
                     ) : (
-                        <Pressable style={styles.btnRemoveItem} accessibilityRole='button' accessibilityLabel="Adicionar item ao menu" onPress={() => {menuTools.deleteItem(id); console.log(menu)}}>
+                        <Pressable style={styles.btnRemoveItem} accessibilityRole='button' accessibilityLabel="Adicionar item ao menu" onPress={() => {menuTools.deleteItem(id)}}>
                             <Image source={require("../assets/icons/BotaoRemover.png")} style={styles.imgRemoveItem}/>
                         </Pressable>
                     )

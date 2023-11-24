@@ -32,8 +32,7 @@ function BuscaRestaurante({ navigation }) {
     async function chamarRestaurantes() {
 
       let userId
-      const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoxMCwiaWF0IjoxNzAwMTY4MjI0LCJleHAiOjIzMDQ5NjgyMjR9.QVy4liUcrsNUA2NdVUUum3IcLyD5H7LKhlRoxuBKVp8'
-      //const token = await AsyncStorage.getItem("token")
+      const token = await AsyncStorage.getItem("token")
 
       try {
         const decoded = decode(token)
@@ -48,13 +47,13 @@ function BuscaRestaurante({ navigation }) {
           setRestaurantesCarregados([...result.data.result])
         })
 
-      await api.get("users/getUser/" + userId, {
+      const fav = await api.get("users/getUser/" + userId, {
         headers: {
           Authorization: token
         }
       })
-        .then(response => setFavoritos([...response.data.usuario.favoritos]))
-
+      .then(response => response.data.usuario.favoritos)
+      setFavoritos(fav)
     }
 
     chamarRestaurantes()
@@ -75,16 +74,16 @@ function BuscaRestaurante({ navigation }) {
 
   }, [filtro])
 
-
-
   if (!fontLoaded) {
     return null;
   }
 
   return (
     <View style={styles.containerBuscaRestaurante}>
-      <MeuPerfil />
+
+      <MeuPerfil onPress={() => navigation.navigate("CadastroFavoritos")}/>
       <BotaoQRCode />
+
       <View style={styles.inicio}>
         <View style={styles.barraPesquisa}>
           <TextInput

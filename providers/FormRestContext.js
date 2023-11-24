@@ -4,7 +4,7 @@ import api from "./api"
 
 const FormRestContext = createContext();
 
-let lastId = 0
+let lastId = `ID${0}` 
 
 export const FormProvider = ({ children }) => {
   
@@ -50,9 +50,11 @@ export const FormProvider = ({ children }) => {
     }
     
     const menuTools = {
+        
         setNewMenu: (menu) => {
             setMenu(menu)
         },
+
         setItem: (item) => {
             const newMenu = [...menu];
 
@@ -66,16 +68,37 @@ export const FormProvider = ({ children }) => {
 
             setMenu(newMenu);
         },
-        deleteItem: (id) => {
+
+        deleteItem: async (id) => {
+            
+            if (typeof id == "number") {
+
+                const token = await AsyncStorage.getItem('token')
+
+                await api.delete('/restaurante/cardapio/delete', {
+                    headers: {
+                        Authorization: token
+                    },
+                    params: {
+                        pratos: [id]
+                    }
+                })
+
+            }
+
             const oldMenu = [...menu];
 
             const newMenu = oldMenu.filter(item => item.id !== id);
 
             setMenu(newMenu);
         },
+
         createItem: () => {
+            const id = Number(lastId.slice(3))
+            lastId = `ID${id + 1}`
+
             setMenu([...menu, {
-                id: lastId + 1,
+                id: lastId,
                 nome: "",
                 descricao: "",
                 preco: "",
@@ -84,9 +107,7 @@ export const FormProvider = ({ children }) => {
                 file: "",
                 tipo: "Categoria"
             }])
-            lastId++
         },
-
     };
 
     const setNewCategorias = (categorias) => {

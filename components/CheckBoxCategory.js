@@ -94,6 +94,8 @@ export default function CheckBoxCategory({filter, categoriasEdit}) {
 
     }, [])
 
+    // coloca isso categoriasEdit dentro do []
+    
     useEffect(() => {
         async function setCategorys() {
 

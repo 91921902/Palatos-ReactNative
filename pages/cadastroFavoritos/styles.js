@@ -7,7 +7,7 @@ container:{
     width:'100%',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 80,
+    paddingTop: 60,
     paddingBottom:30,
     backgroundColor:'white'
  },
@@ -25,7 +25,9 @@ container:{
     borderRadius:100,
     borderColor:'#445A14',
     borderWidth:2,
-    paddingTop:30,
+    alignItems: "center",
+    backgroundColor: "#445A14",
+    marginBottom: 25
  },
  nome:{
     fontFamily:'kavoon',

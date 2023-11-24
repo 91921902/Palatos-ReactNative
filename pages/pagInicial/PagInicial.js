@@ -150,7 +150,7 @@ function PagInicial({ navigation }) {
         <View style={styles.inputsFormulario}>
           <Text style={styles.textoInput}>Senha</Text>
 
-          <TextInput style={styles.input} onChangeText={setSenha} value={senha} accessibilityLabel="Senha:" />
+          <TextInput style={styles.input} onChangeText={setSenha} value={senha} accessibilityLabel="Senha:" secureTextEntry/>
           <TelaErro type={'senha'} width={"80%"} erro={erro} />
 
         </View>

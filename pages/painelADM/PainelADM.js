@@ -112,7 +112,7 @@ function PainelADM({navigation, route}) {
                 break
             case "Comandas":
                
-                navigation.navigate("TelaComanda")
+                navigation.navigate("EditComanda")
                 break
             case "Reservas":
                

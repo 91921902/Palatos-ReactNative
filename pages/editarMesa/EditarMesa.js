@@ -64,7 +64,7 @@ function EditarMesa({ navigation }) {
     }
 
     function backPage() {
-        navigation.goback()
+        navigation.goBack()
     }
 
     return (

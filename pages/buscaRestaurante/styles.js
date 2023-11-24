@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
         paddingBottom: 30
       },
       restaurante:{ //primeira View
-        width: "80%",
+        width: "90%",
         height:"100%",
         backgroundColor:"transparent",
         borderWidth:2,
@@ -31,12 +31,12 @@ export const styles = StyleSheet.create({
 
       },
       barraPesquisa:{
-         width:"70%",
+         width:"80%",
          height:50,
          flexDirection:"row"
       },
       barraPesquisa2:{
-       width:"20%",
+       width:"10%",
        height:"100%",
        borderTopRightRadius:20,
        borderBottomRightRadius:20,

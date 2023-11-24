@@ -9,8 +9,7 @@ export default function BolaFavoritos({restaurante, navigation}){
 
 
     function goRestaurant(){
-        //navigation.navigate("PerfilRestaurante",{id:idRestaurante})
-        alert('navegação')
+        navigation.navigate("PerfilRestaurante",{id:idRestaurante})
     }
 
     return (

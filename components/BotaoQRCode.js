@@ -2,10 +2,10 @@ import React from "react";
 import { Pressable, StyleSheet, source, Image } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome5'
 
-export default function BotaoQRCode() {
+export default function BotaoQRCode({onPress}) {
 
     return(
-        <Pressable style={styles.botaoQr}>
+        <Pressable style={styles.botaoQr} onPress={onPress}>
             <Image source={require('../assets/iconqr.png')} style={styles.imagem}/>
         </Pressable>
     );

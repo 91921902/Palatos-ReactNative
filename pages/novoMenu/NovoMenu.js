@@ -13,6 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import decode from "jwt-decode"
 import ImageTools from "../../providers/ImageTools";
 
+
 const imageTools = new ImageTools()
 
 
@@ -67,9 +68,18 @@ async function createMenu(token, navigation, restaurante, menu, quantMesas) {
    const pratosCriados = []
    let isDeleted = false
 
-   function destroy() {
+   async function destroy() {
+    
         isDeleted = true
-        api.delete('/restaurante/cardapio/deletePratosCriados', pratosCriados)
+        const params = {
+            pratos: pratosCriados
+        }
+        await api.delete('/restaurante/cardapio/delete', {
+            headers: {
+                Authorization: token
+            },
+            params: params
+        })
 
    }
   
@@ -156,7 +166,7 @@ function NovoMenu({navigation, route}) {
     const [formRestaurante, setFormRestaurante] = useState("")
     const [file, setFile] = useState(null)
     const [quantMesas, setQuantMesas] = useState("0")
-    const { menu, menuTools } = useFormTools()
+    const { menu, menuTools, userTools } = useFormTools()
     const [isEdit, setIsEdit] = useState(false)
 
     useEffect(() => {
@@ -203,17 +213,27 @@ function NovoMenu({navigation, route}) {
 
                 } else {
 
-                    const obj = {
-                        id: menuData[0].codigo,
-                        nome: menuData[0].nome_produto,
-                        descricao: menuData[0].descricao,
-                        preco: menuData[0].preco,
-                        foto: menuData[0].foto,
-                        nomeImagem: "",
-                        file: "",
-                        tipo: menuData[0].tipo
+                    const cardapio = []
+
+                    for (let produto of menuData) {
+
+                        const obj = {
+                            id: produto.codigo,
+                            nome: produto.nome_produto,
+                            descricao: produto.descricao,
+                            preco: produto.preco,
+                            foto: produto.foto,
+                            nomeImagem: "",
+                            file: "",
+                            tipo: produto.tipo
+                        }
+
+                        cardapio.push(obj)
+
                     }
-                    menuTools.setNewMenu([obj])
+
+                    
+                    menuTools.setNewMenu(cardapio)
 
                 }
             
@@ -236,9 +256,85 @@ function NovoMenu({navigation, route}) {
         getParmsOrNot()
     }, []);
 
-    async function teste() {
+    async function editarMenu() {
 
-        console.log(menu)
+        const isValid = {valid: true, erro: null}
+
+        for (let produtoValidate of menu) {
+
+            for (let prop in produtoValidate) {
+
+                if (produtoValidate[prop] == "" && prop != "file") {
+
+                    isValid.valid = false
+                    isValid.erro = 'vazio'
+                    
+                }
+
+                if (prop == 'preco') {
+
+                    const valor = produtoValidate[prop]
+                    const ultimoNumero = valor[valor.length - 1]
+
+                    if (ultimoNumero == ".") {
+                        produtoValidate[prop] = valor.slice(0, ultimoNumero)
+                    }
+
+                }
+
+            }
+
+        }
+
+        if (!isValid.valid) {
+
+
+            return
+        }
+        //const token = await AsyncStorage.getItem('token')
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzLCJpZFJlc3RhdXJhbnRlIjo5LCJpYXQiOjE3MDA4NDgwNjQsImV4cCI6MjMwNTY0ODA2NH0.nlkKW2D9YK43Ucn__peWj5hHHxtaDRfMqYT7fKKrDI0"
+        await AsyncStorage.setItem('token', token)
+
+        for (let produto of menu) {
+
+            const formData = new FormData()
+
+            formData.append('nome', produto.nome)
+            formData.append('descricao', produto.descricao)
+            formData.append('tipo', produto.tipo)
+            formData.append('preco', produto.preco)
+
+            if (produto.file) {
+
+                const { uri, type} = produto.file
+                
+                formData.append('file', JSON.parse(JSON.stringify({
+                    name: 'produto',
+                    uri: uri,
+                    type: type
+                })))
+
+            }
+
+            try {
+                
+                await api.put("/restaurante/cardapio/edit/" + produto.id, formData, {
+                    headers: {
+                        "Authorization": token,
+                        "Content-Type": "multpart/form-data"
+                    }
+                })
+               
+
+            } catch (error) {
+
+                console.log("erro ao editar menu: " + error)
+                
+            }
+
+        }
+
+        //navigation.navigate("PainelADM")
     
     }
 
@@ -250,17 +346,22 @@ function NovoMenu({navigation, route}) {
         <View style={styles.containerNovoMenu}>
             <BotaoVoltar onPress={() => navigation.goBack()}/>
             <MiniLogo />
-            <View style={styles.boxQuantMesas}>
-                <Text style={styles.textQuantMesas} accessibility={false} aria-hidden>Quantidade de mesas do seu Restaurante:</Text>
-                <TextInput 
-                    keyboardType="numeric"
-                    style={styles.inputQuantMesas}
-                    cursorColor={"#92A14D"}
-                    accessibilityLabel="Quantidade de mesas do seu restaurante"
-                    value={quantMesas}
-                    onChangeText={setQuantMesas}
-                />
-            </View>
+            {
+                !isEdit && (
+                    <View style={styles.boxQuantMesas}>
+                        <Text style={styles.textQuantMesas} accessibility={false} aria-hidden>Quantidade de mesas do seu Restaurante:</Text>
+                        <TextInput 
+                            keyboardType="numeric"
+                            style={styles.inputQuantMesas}
+                            cursorColor={"#92A14D"}
+                            accessibilityLabel="Quantidade de mesas do seu restaurante"
+                            value={quantMesas}
+                            onChangeText={setQuantMesas}
+                        />
+                    </View>
+                )
+            }
+
             <View style={styles.titleMenu}>
                <Text style={styles.textTitleMenu}>Faça seu Menu:</Text>
             </View>
@@ -268,44 +369,34 @@ function NovoMenu({navigation, route}) {
                 <View style={styles.menuItens}>
 
                     {
-
-                        isEdit ? (
-                            
-                            menu.map((item, index) => {
-                                return(
-                                    <ItemMenu key={item.codigo} item={item} id={item.codigo} index={index} isEdit={isEdit}/> 
-                                );
-                            })
-                        ) : (
-                            menu.map((item, index) => {
-                                return(
-                                    <ItemMenu key={item.id} item={item} id={item.id} index={index} isEdit={isEdit}/> 
-                                );
-                            })
-                        )
+    
+                        menu.map((item, index) => {
+                            return(
+                                <ItemMenu key={item.id} item={item} id={item.id} index={index} isEdit={isEdit}/> 
+                            );
+                        })
                         
                     }
 
                 </View>
             </ScrollView>
             <View style={styles.boxFinalizarMenu}>
-                <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={teste}>
+                {
+                    isEdit ? (
+                        <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={editarMenu}>
+                            <Text style={styles.textFinalizarMenu}>Editar Menu</Text>
+                        </Pressable>
+                    ) : (
+                        <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={() => createRestaurant( formRestaurante, file, navigation, menu, quantMesas)}>
+                            <Text style={styles.textFinalizarMenu}>Finalizar Menu</Text>
+                        </Pressable>
+                    )
                     
-                    {isEdit && <Text style={styles.textFinalizarMenu}>Editar Menu</Text>}
-                    {!isEdit && <Text style={styles.textFinalizarMenu}>Finalizar Menu</Text>}
-                </Pressable>
+                }
             </View>
         </View>
     );
 
 }
-/* 
-<View style={styles.boxFinalizarMenu}>
-    <Pressable style={styles.btnFinalizarMenu} accessibilityRole="button" onPress={() => createRestaurant( formRestaurante, file, navigation, menu, quantMesas)}>
-        
-        {isEdit && <Text style={styles.textFinalizarMenu}>Editar Menu</Text>}
-        {!isEdit && <Text style={styles.textFinalizarMenu}>Finalizar Menu</Text>}
-    </Pressable>
-</View>
-*/
+
 export default NovoMenu

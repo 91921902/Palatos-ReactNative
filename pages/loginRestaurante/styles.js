@@ -25,6 +25,7 @@ export const styles = StyleSheet.create({
       borderColor: '#445A14',
       backgroundColor: '#FFF', 
       marginLeft: 10, 
+      paddingLeft: 15
     },
   
     btnEntrar:{

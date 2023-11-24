@@ -61,6 +61,7 @@ export default function LoginRestaurante({navigation}) {
         const token = resposta.data.token;
         await AsyncStorage.setItem("token", token);
         navigation.navigate("PainelADM");
+
       } else {
         alert('Login incorreto');
       }
@@ -81,6 +82,7 @@ export default function LoginRestaurante({navigation}) {
         value={email}
         accessibilityLabel='E-mail'
         onChangeText={setEmail}
+        cursorColor={"#445A14"}
       />
 
       <Text style={styles.emailSenha}>Senha</Text>
@@ -89,7 +91,9 @@ export default function LoginRestaurante({navigation}) {
         value={senha}
         accessibilityLabel='Senha'
         onChangeText={setSenha}
-        secureTextEntry={true}
+        cursorColor={"#445A14"}
+        secureTextEntry
+        
       />
 
       <Pressable

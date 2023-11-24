@@ -68,7 +68,7 @@ function Mesas({ navigation }) {
     return (
         <View style={styles.containerMesas}>
             <BotaoVoltar onPress={backPage} />
-            <BotaoQRCode />
+            <BotaoQRCode onPress={() => navigation.navigate("EditarMesa")}/>
             <Text style={styles.titleMesa}>Mesas:</Text>
             <ScrollView style={{ height: "60%", width: "100%" }}>
                 <View style={{ width: "100%", alignItems: "center", gap: 25 }}>
