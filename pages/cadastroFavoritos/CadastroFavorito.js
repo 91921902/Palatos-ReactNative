@@ -10,6 +10,7 @@ import BolaFavoritos from '../../components/BolaFavoritos';
 import api from '../../providers/api'
 import jwtDecode from 'jwt-decode';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import BotaoDeslogar from '../../components/BotaoDeslogar';
 
 export default function CadastroFavoritos({ navigation }) {
     const [fontLoaded, setFontLoaded] = useState(false);
@@ -18,6 +19,8 @@ export default function CadastroFavoritos({ navigation }) {
     const [telefone, setTelefone] = useState('');
     const [favoritos, setFavoritos] = useState([]);
     const [reservas, setReservas] = useState([]);
+
+    
 
     useEffect(() => {
         async function loadFonts() {
@@ -95,13 +98,12 @@ export default function CadastroFavoritos({ navigation }) {
 
     }
 
-
     return (
         <ScrollView contentContainerStyle={styles.scroll}>
 
             <View style={styles.container}>
 
-                <MiniLogo />
+                <BotaoDeslogar navigation={navigation}/>
                 <BotaoVoltar onPress={navigation.goBack}/>
 
                 <View style={styles.fotoPessoa}>

@@ -62,5 +62,18 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: 10,
     
+  },
+  boxSemCadastro: {
+    width: "100%",
+    height: "30%",
+    marginBottom: "-40%",
+    padding: 20,
+    justifyContent: "flex-end"
+  },
+  textSemCadastro: {
+    color: "#445A14",
+    textAlign: "justify",
+    fontFamily: "lemonada",
+    fontSize: 16
   }
   });

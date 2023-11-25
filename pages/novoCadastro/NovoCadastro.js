@@ -141,8 +141,7 @@ function NovoCadastro({ navigation }) {
 
         const errors = checkErrors()
         if(errors) return
-        //const isAuth = userTools.authUser()
-        const isAuth = true
+        const isAuth = await userTools.authUser()
 
         if (!isAuth) {
             navigation.navigate('PagInicial', {

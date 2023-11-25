@@ -10,6 +10,7 @@ import jwtDecode from "jwt-decode"
 
 import api from "../../providers/api"
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import BotaoDeslogar from "../../components/BotaoDeslogar";
 
 function PainelADM({navigation, route}) {
 
@@ -129,7 +130,8 @@ function PainelADM({navigation, route}) {
     return(
         
         <View style={styles.containerPainelADM}>
-            <MiniLogo />
+            <BotaoDeslogar navigation={navigation}/>
+
             <View style={styles.boxImgRest}>
                 <View style={{
                     width: 200,

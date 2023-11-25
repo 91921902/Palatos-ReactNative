@@ -10,6 +10,7 @@ import decode from "jwt-decode"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MeuPerfil from "../../components/MeuPerfil";
 import BotaoQRCode from "../../components/BotaoQRCode";
+import { useFormTools } from '../../providers/FormRestContext';
 
 
 
@@ -19,6 +20,7 @@ function BuscaRestaurante({ navigation }) {
   const [restaurantesCarregados, setRestaurantesCarregados] = useState([])
   const [favoritos, setFavoritos] = useState([])
   const [filtro, setFiltro] = useState("")
+  const { userTools } = useFormTools()
 
   useEffect(() => {
     async function loadFonts() {
@@ -78,10 +80,23 @@ function BuscaRestaurante({ navigation }) {
     return null;
   }
 
+  async function myProfile() {
+
+    const isAuth = await userTools.authUser()
+
+    if (isAuth) {
+      navigation.navigate("CadastroFavoritos")
+    } else {
+      navigation.navigate("PagInicial")
+    }
+
+  }
+
+
   return (
     <View style={styles.containerBuscaRestaurante}>
 
-      <MeuPerfil onPress={() => navigation.navigate("CadastroFavoritos")}/>
+      <MeuPerfil onPress={myProfile}/>
       <BotaoQRCode />
 
       <View style={styles.inicio}>
