@@ -10,7 +10,7 @@ import api from '../../providers/api';
 import decode from 'jwt-decode'
 import BotaoVoltar from '../../components/BotaoVoltar';
 
-export default function Pedidos({ navigation }) {
+export default function Pedidos({ navigation, route }) {
 
   const [fontLoaded, setFontLoaded] = useState(false);
   const [pedido, setPedido] = useState([]);
@@ -32,11 +32,12 @@ export default function Pedidos({ navigation }) {
     async function buscarCarrinho() {
 
       const cliente = JSON.parse(await AsyncStorage.getItem('cliente')) //MEGA IMPORTANTE
+      const { idRest } = route.params;
 
       if (cliente) {
         const { idMesa, idRestaurante } = cliente
-        const carrinho = await api.get("users/carrinhoMesa/getAll/" + idMesa).then(response => response.data.pratos);
-        setPedido(carrinho)
+        await api.get("users/carrinhoMesa/getAll/" + idMesa).then(response => setPedido(response.data.carrinho));
+
 
       } else {
         setIsReservation(true);
@@ -48,11 +49,15 @@ export default function Pedidos({ navigation }) {
           const { userId } = decoded
           id = userId
         } catch (error) {
-
+          console.log(error)
         }
-        const carrinho = await api.get('users/carrinhoReserva/' + id)
-          .then(response => response.data.carrinho);
-        setPedido(carrinho)
+        await api.get('users/carrinhoReserva/getAll/' + idRest, {
+          headers: {
+            Authorization: token
+          }
+        })
+          .then(response => setPedido(response.data.carrinho));
+
         somarValorTotal()
 
       }
@@ -66,18 +71,19 @@ export default function Pedidos({ navigation }) {
     return null;
   }
 
-  async function criarComanda(){
+  async function criarComanda() {
 
-    const cliente= JSON.parse(await AsyncStorage.getItem("cliente"))
-    const resposta = await api.post("restaurante/comandas/createComanda",{idMesa:cliente.idMesa})
-    .then(response => response.data)
+    const cliente = JSON.parse(await AsyncStorage.getItem("cliente"))
+    const resposta = await api.post("restaurante/comandas/createComanda", { idMesa: cliente.idMesa })
+      .then(response => response.data)
 
-    if(resposta.status=='success'){
-        navigation.navigate("BuscaRestaurante")
-    }else{
+    if (resposta.status == 'success') {
+      alert("Pedido enviado!")
+      navigation.navigate("BuscaRestaurante")
+    } else {
       alert("Tivemos um problema com seu pedido")
     }
-    
+
   }
 
   function somarValorTotal() {
@@ -90,9 +96,7 @@ export default function Pedidos({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <BotaoVoltar/>
-
-     
+      <BotaoVoltar onPress={navigation.goBack} />
 
       <View style={styles.paiPedido}>
         <Image
@@ -119,14 +123,15 @@ export default function Pedidos({ navigation }) {
         <Text style={styles.valorTotal}>Valor total: R$ {valorTotal}</Text>
       </View>
 
-
       <View style={styles.botoes}>
 
         {
           isReservation ? (
+
             <Pressable style={styles.btnFim} onPress={() => navigation.navigate("DescricaoReserva")}>
               <Text style={styles.textoBtn}>Reservar</Text>
             </Pressable>
+
           ) : (
 
             <Pressable style={styles.btnFim} onPress={criarComanda}>
@@ -134,14 +139,10 @@ export default function Pedidos({ navigation }) {
             </Pressable>
 
           )
-
         }
-
 
       </View>
 
     </View>
-
-
   );
 }

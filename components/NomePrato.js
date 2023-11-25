@@ -2,12 +2,13 @@ import React from "react";
 import { View, StyleSheet, Text, Pressable } from "react-native";
 import { Image } from "react-native";
 
-export default function NomePrato({produto,navigation}) {
+export default function NomePrato({produto,navigation, idRest}) {
 
     function entrarPrato(){
         
         navigation.navigate("MenuIndividual",{
-            id:produto.codigo
+            id:produto.codigo,
+            idRest: idRest
         })
     }
 

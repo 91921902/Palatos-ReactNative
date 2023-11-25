@@ -32,8 +32,10 @@ export const styles = StyleSheet.create({
         
 
       },
-      botaoFiltro: {
-        
+      marked: {
+        textDecorationLine: "underline", 
+        textDecorationColor: "#445A14",
+        textDecorationStyle: 'solid'
       }
         
     

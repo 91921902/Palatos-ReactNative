@@ -14,6 +14,9 @@ function MenuRestaurante({navigation, route}) {
     const [fontLoaded, setFontLoaded] = useState(false);
     const [menu, setMenu]=useState([]);
     const [menuData, setMenuData] = useState([])
+    const [mark, setMark] = useState("")
+
+    const {idRestaurante} = route.params;
 
     useEffect(() => {
         async function loadFonts() {
@@ -25,7 +28,7 @@ function MenuRestaurante({navigation, route}) {
         }
 
         async function buscarMenu(){
-            const {idRestaurante} = route.params;
+            
             
             
             await api.get(`restaurante/cardapio/${idRestaurante}`)
@@ -46,6 +49,8 @@ function MenuRestaurante({navigation, route}) {
     }
 
     function filtrarProduto(tipo) {
+
+        setMark(tipo)
     
         const filtro = menuData.filter(produto => produto.tipo == tipo)
 
@@ -61,16 +66,16 @@ function MenuRestaurante({navigation, route}) {
 
             <View style={styles.menuRestaurante}>
 
-                <Pressable onPress={() => {filtrarProduto("prato")}}>
-                    <Text style={styles.menu}>Pratos</Text>
+                <Pressable onPress={() => {filtrarProduto("Prato")}}>
+                    <Text style={[styles.menu, mark == "Prato" && styles.marked]}>Pratos</Text>
                 </Pressable>
 
-                <Pressable onPress={() => {filtrarProduto("bebida")}}>
-                    <Text style={styles.menu}>Bebidas</Text>
+                <Pressable onPress={() => {filtrarProduto("Bebida")}}>
+                    <Text style={[styles.menu, mark == "Bebida" && styles.marked ]}>Bebidas</Text>
                 </Pressable>
 
-                <Pressable onPress={() => {filtrarProduto("sobremesa")}}>
-                    <Text style={styles.menu}>Sobremesas</Text>
+                <Pressable onPress={() => {filtrarProduto("Sobremesa")}}>
+                    <Text style={[styles.menu, mark == "Sobremesa" && styles.marked ]}>Sobremesas</Text>
                 </Pressable>
              
             </View>
@@ -80,7 +85,7 @@ function MenuRestaurante({navigation, route}) {
                {
                 menu.map(produto =>{
                     return(
-                        <NomePrato produto={produto} key={produto.codigo} navigation={navigation}/>
+                        <NomePrato produto={produto} key={produto.codigo} navigation={navigation} idRest={idRestaurante}/>
                     )
                 })
                }

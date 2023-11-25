@@ -23,6 +23,8 @@ export default function MenuIndividual({navigation, route}) {
     const [foto, setFoto]=useState("");
     const [isCarrinho, setIsCarrinho]= useState(false);
 
+    const {idRest} = route.params;
+
 
     async function enviarParaCarrinhoOuNao(){
 
@@ -39,24 +41,22 @@ export default function MenuIndividual({navigation, route}) {
 
         } else{
 
-        
+            const idMesa= await AsyncStorage.getItem("mesa")
+            const {idProduto}=route.params
 
-        const idMesa= await AsyncStorage.getItem("mesa")
-        const {idProduto}=route.params
+            const req={
+                observacoes:observacoes,
+                quantidade:quantidade,
+                idProduto,
+                idMesa:Number(idMesa)
+            }
 
-        const req={
-            observacoes:observacoes,
-            quantidade:quantidade,
-            idProduto,
-            idMesa:Number(idMesa)
+            const result= await api.post("/users/carrinhoMesa/addItem",req)
+
+            if(result.data.status=="success"){
+                setIsCarrinho(true)
+            }
         }
-
-        const result= await api.post("/users/carrinhoMesa/addItem",req)
-
-        if(result.data.status=="success"){
-            setIsCarrinho(true)
-        }
-    }
     };
 
     const aumentarNumero = () => {
@@ -98,16 +98,32 @@ export default function MenuIndividual({navigation, route}) {
                 alert("erro1")
                 console.log(error)
             }
-
             
             const idMesa= await AsyncStorage.getItem("mesa")
+            
 
-            try {        
-                const carrinho= await api.get('/users/carrinhoMesa/getAll/' + idMesa)
-                .then(result => result.data.pratos)
+            try {   
+                
+                let carrinho
 
-                function filtrarPorId(array, idDesejado) {
-                    return array.filter(objeto => objeto.id == idDesejado);
+                if (idMesa) {
+
+                    carrinho = await api.get('/users/carrinhoMesa/getAll/' + idMesa)
+                    .then(result => result.data.carrinho)
+
+                } else {
+
+                    
+
+                    carrinho = await api.get('/users/carrinhoReserva/getAll/' + idRest)
+                    .then(result => result.data.carrinho)
+
+                }
+
+                
+
+                function filtrarPorId(carrinho, idDesejado) {
+                    return carrinho.filter(produto => produto.id == idDesejado);
                 }
                 const {idProduto}=route.params
                 const recebeItemOuNao= filtrarPorId(carrinho,idProduto)
@@ -115,6 +131,7 @@ export default function MenuIndividual({navigation, route}) {
                 if(recebeItemOuNao){
                     setIsCarrinho(true)
                 }
+
             } catch (error) {
 
                 if (idMesa) {
@@ -140,7 +157,7 @@ export default function MenuIndividual({navigation, route}) {
 
             <View style={styles.container}>
                 <BotaoVoltar onPress={() => {navigation.goBack()}}/>
-                <BotaoCarrinho onPress={() => {navigation.navigate("Pedidos")}}/>
+                <BotaoCarrinho onPress={() => {navigation.navigate("Pedidos", {idRest})}}/>
 
 
 

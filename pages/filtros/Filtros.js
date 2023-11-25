@@ -18,6 +18,7 @@ function Filtros({navigation, route}) {
     const [typeFilterText, setTypeFilterText] = useState("Produtos Vendidos:");
     const [products, setProducts] = useState([])
 
+    const [leitorDeTelaAtivo, setLeitorDeTelaAtivo] = useState(false)
 
     const [typeFilter, setTypeFilter] = useState("default");
 

@@ -42,7 +42,6 @@ fotoProduto:{
     width:"100%",
     height:"100%",
     borderRadius:5000,
-    resizeMode:'contain'
 
 },
 
@@ -132,7 +131,9 @@ btnCarrinho:{
     borderRadius: 10,
     borderColor:'#445A14',
     borderWidth:3,
-    marginBottom:20
+    marginBottom:20,
+    alignItems: "center",
+    justifyContent: "center"
 
 },
 carrinhoView:{
@@ -147,7 +148,6 @@ textoCarrinho:{
     textAlign: 'center',
     fontFamily: 'kavoon',
     fontSize: 12,
-    padding:5,
 }
 
 });

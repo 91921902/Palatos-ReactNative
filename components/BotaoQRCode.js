@@ -1,6 +1,5 @@
 import React from "react";
 import { Pressable, StyleSheet, source, Image } from "react-native";
-import Icon from 'react-native-vector-icons/FontAwesome5'
 
 export default function BotaoQRCode({onPress}) {
 

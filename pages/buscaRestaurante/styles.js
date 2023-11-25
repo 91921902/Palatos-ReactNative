@@ -54,5 +54,19 @@ export const styles = StyleSheet.create({
         height:"20%",
         alignItems:"center",
         justifyContent: "center"
+      },
+      modal: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "space-evenly",
+        marginVertical: "3%"
+      },
+      botaoCancelar: {
+        backgroundColor: "white",
+        padding: 10,
+        paddingHorizontal: 20,
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: "#445A14"
       }
 })

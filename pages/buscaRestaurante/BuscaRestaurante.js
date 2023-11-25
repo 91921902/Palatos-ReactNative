@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { styles } from "./styles"
-import { View, Text, TextInput, Pressable, Image, ScrollView } from "react-native"
+import { View, Text, TextInput, Pressable, Image, ScrollView, Modal } from "react-native"
 import fontKavoon from "../../assets/fonts/kavoon.ttf"
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import * as Font from 'expo-font';
@@ -11,6 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import MeuPerfil from "../../components/MeuPerfil";
 import BotaoQRCode from "../../components/BotaoQRCode";
 import { useFormTools } from '../../providers/FormRestContext';
+import Scanner from "../../components/Scanner";
 
 
 
@@ -21,6 +22,9 @@ function BuscaRestaurante({ navigation }) {
   const [favoritos, setFavoritos] = useState([])
   const [filtro, setFiltro] = useState("")
   const { userTools } = useFormTools()
+
+  const [modalVisible, setModalVisible] = useState(false)
+ 
 
   useEffect(() => {
     async function loadFonts() {
@@ -97,7 +101,21 @@ function BuscaRestaurante({ navigation }) {
     <View style={styles.containerBuscaRestaurante}>
 
       <MeuPerfil onPress={myProfile}/>
-      <BotaoQRCode />
+      <BotaoQRCode onPress={() => setModalVisible(true)}/>
+
+      <Modal
+        visible={modalVisible}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modal}>
+          <Scanner />
+          <Pressable style={styles.botaoCancelar} onPress={() => setModalVisible(false)}>
+            <Text style={{fontFamily: "lemonada"}}>Cancelar</Text>
+          </Pressable>
+        </View>
+      </Modal>
 
       <View style={styles.inicio}>
         <View style={styles.barraPesquisa}>
