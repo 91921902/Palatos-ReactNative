@@ -40,8 +40,7 @@ function NovoCadastro({ navigation }) {
     const { categorias } = useFormTools()
 
     const [isEdit, setIsEdit] = useState(false)
-    const [fileEdit, setFileEdit] = useState({})
-    const [oldRestaurant, setOldRestaurant] = useState({})
+    const [fileEdit, setFileEdit] = useState(null)
     const [categoriasEdit, setCategoriasEdit] = useState([])
 
     //----------------------------------------------------------------
@@ -70,10 +69,8 @@ function NovoCadastro({ navigation }) {
         loadFonts();
 
         async function isEditOrNot() {
-
-            const data = await AsyncStorage.getItem("restaurante")
-            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE1LCJpYXQiOjE3MDA3MDI4MTAsImV4cCI6MjMwNTUwMjgxMH0.Z0cceOaNbgbPoRw01-mxkFgu_07Mr0WvRW_ZiPxAx6s"
-            //const token = await AsyncStorage.getItem("token")
+            /* const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE1LCJpYXQiOjE3MDA3MDI4MTAsImV4cCI6MjMwNTUwMjgxMH0.Z0cceOaNbgbPoRw01-mxkFgu_07Mr0WvRW_ZiPxAx6s" */
+            const token = await AsyncStorage.getItem("token")
 
             let tokenIsValid
             try {
@@ -86,80 +83,33 @@ function NovoCadastro({ navigation }) {
                 alert("erro")
             }
 
-            if (data && tokenIsValid) {
-                
-                setIsEdit(true)
-                const dataParsed = JSON.parse(data)
-                
-                setNome(dataParsed.nome)
-                setEndereco(dataParsed.endereco)
-                setTelefone(dataParsed.telefone_fixo)
-                setCelular(dataParsed.celular)
-                setDescricao(dataParsed.descricao)
-                setCategoriasEdit(dataParsed.categorias) 
-                setBtnReservation(dataParsed.reservasAtivas)
-                setTempoTolerancia(dataParsed.tempoTolerancia)
-                setFoto(dataParsed.foto)
-                setCep(dataParsed.cep)
-                setRua(dataParsed.rua)
+            if (token) {
+            
+                const decoded = decode(token)
+        
+                const { idRestaurante } = decoded
+                if (idRestaurante && tokenIsValid) {
+                    const restaurante = await api.get("/restaurante/search/" + idRestaurante)
+                        .then(response => response.data.result)
 
-                setOldRestaurant({
-                    nome,
-                    endereco,
-                    telefone,
-                    celular,
-                    descricao,
-                    categorias: categorias,
-                    reservasAtivas: btnReservation,
-                    tempoTolerancia,
-                    cep,
-                    rua,
-                    fotoEditada: false
-                })
+                    if (restaurante) {
+                        setIsEdit(true)
 
-            } else {
-
-                if (token) {
-              
-                    const decoded = decode(token)
-           
-                    const { idRestaurante } = decoded
-                    if (idRestaurante && tokenIsValid) {
-                        const restaurante = await api.get("/restaurante/search/" + idRestaurante)
-                            .then(response => response.data.result)
-
-                        if (restaurante) {
-                            setIsEdit(true)
-
-                            setNome(restaurante.nome)
-                            setEndereco(restaurante.endereco)
-                            setTelefone(restaurante.telefone_fixo)
-                            setCelular(restaurante.celular)
-                            setDescricao(restaurante.descricao)
-                            setCategoriasEdit(restaurante.categorias)
-                            setBtnReservation(restaurante.reservasAtivas)
-                            setTempoTolerancia(restaurante.tempoTolerancia)
-                            setFoto(restaurante.foto)
-                            setCep(restaurante.cep)
-                            setRua(restaurante.rua)
-
-                            setOldRestaurant({
-                                nome,
-                                endereco,
-                                telefone,
-                                celular,
-                                descricao,
-                                categorias: categorias,
-                                reservasAtivas: btnReservation,
-                                tempoTolerancia,
-                                cep,
-                                rua,
-                                fotoEditada: false
-                            })
-                        }
+                        setNome(restaurante.nome)
+                        setEndereco(restaurante.endereco)
+                        setTelefone(restaurante.telefone_fixo)
+                        setCelular(restaurante.celular)
+                        setDescricao(restaurante.descricao)
+                        setCategoriasEdit(restaurante.categorias)
+                        setBtnReservation(restaurante.reservasAtivas)
+                        setTempoTolerancia(restaurante.tempoTolerancia)
+                        setFoto(restaurante.foto)
+                        setCep(restaurante.cep)
+                        setRua(restaurante.rua)
                     }
                 }
             }
+            
         }
 
         isEditOrNot()
@@ -253,17 +203,13 @@ function NovoCadastro({ navigation }) {
             const extensionFile = imageTools.getExtensionFile(fileType)
 
 
-            if (isEdit && false) {
-
-                const OldRestaurante = oldRestaurant
-                OldRestaurante.fotoEditada = true
-                setOldRestaurant(OldRestaurante)
+            if (isEdit) {
 
                 setFileEdit(
                     {
                         extension: extensionFile,
                         uri: file,
-                        type: 'image/' + fileType
+                        type: fileType
                     }
                 )
 
@@ -302,9 +248,17 @@ function NovoCadastro({ navigation }) {
         formData.append('tempoTolerancia', tempoTolerancia)
         formData.append('cep', cep)
         formData.append('rua', rua)
-        if (oldRestaurant.fotoEditada) {
-            formData.append('file', fileEdit)
+
+        if (fileEdit) {
+            const {extension, type, uri} = fileEdit
+
+            formData.append('file', JSON.parse(JSON.stringify({
+                name: `restaurante.${extension}`,
+                uri: uri,
+                type: type
+            })))
         }
+
         try {
             const token = await AsyncStorage.getItem("token")
             const decoded = decode(token)
@@ -314,11 +268,11 @@ function NovoCadastro({ navigation }) {
                     Authorization: token
                 }
             })
-
-            await AsyncStorage.removeItem("restaurante")
+           
             navigation.navigate("PainelADM")
 
         } catch (err) {
+            console.log(err)
             alert("erro em tentar editar o restaurante")
         }
 
