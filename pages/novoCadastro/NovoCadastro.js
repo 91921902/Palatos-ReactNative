@@ -21,19 +21,6 @@ const imageTools = new ImageTools()
 function NovoCadastro({ navigation }) {
 
     const [fontLoaded, setFontLoaded] = useState(false);
-    const [erro, setErro] = useState([
-        { type: "nome", message: "" },
-        { type: "endereco", message: "" },
-        { type: "telefone", message: "" },
-        { type: "celular", message: "" },
-        { type: "descricao", message: "" },
-        { type: "categorias", message: "" },
-        { type: "reservasAtivas", message: "" },
-        { type: "tempoTolerancia", message: "" },
-        { type: "cep", message: "" },
-        { type: "rua", message: "" },
-        { type: "foto", message: "" }
-    ])
     const [categoriasVisiveis, setCategoriasVisiveis] = useState(false)
     const [filtroCategoria, setFiltroCategoria] = useState("")
 
@@ -72,6 +59,8 @@ function NovoCadastro({ navigation }) {
         setBtnReservation(!btnReservation);
     };
 
+    const [erro, setErro] = useState([])
+
     useEffect(() => {
         async function loadFonts() {
             await Font.loadAsync({
@@ -98,9 +87,9 @@ function NovoCadastro({ navigation }) {
             }
 
             if (token) {
-            
+
                 const decoded = decode(token)
-        
+
                 const { idRestaurante } = decoded
                 if (idRestaurante && tokenIsValid) {
                     const restaurante = await api.get("/restaurante/search/" + idRestaurante)
@@ -123,16 +112,17 @@ function NovoCadastro({ navigation }) {
                     }
                 }
             }
-            
+
         }
 
         isEditOrNot()
-
     }, []);
 
     if (!fontLoaded) {
         return null;
     }
+
+
 
     /* ----------------------------------------------- */
 
@@ -140,7 +130,7 @@ function NovoCadastro({ navigation }) {
     async function nextFormPage() {
 
         const errors = checkErrors()
-        if(errors) return
+        if (errors) return
         const isAuth = await userTools.authUser()
 
         if (!isAuth) {
@@ -265,7 +255,7 @@ function NovoCadastro({ navigation }) {
         formData.append('rua', rua)
 
         if (fileEdit) {
-            const {extension, type, uri} = fileEdit
+            const { extension, type, uri } = fileEdit
 
             formData.append('file', JSON.parse(JSON.stringify({
                 name: `restaurante.${extension}`,
@@ -283,7 +273,7 @@ function NovoCadastro({ navigation }) {
                     Authorization: token
                 }
             })
-           
+
             navigation.navigate("PainelADM")
 
         } catch (err) {
@@ -293,30 +283,59 @@ function NovoCadastro({ navigation }) {
 
     }
 
+    function validateField(field, type) {
+        if (field == "") {
+            return "Este campo é obrigatório!"
+        }
+        switch (type) {
+            case "nome":
+                if (field.length < 5) {
+                    return "O nome deve ter no mínimo 5 caracteres!"
+                }
+                break;
+            case "endereco":
+                if (field.length < 5) {
+                    return "Endereço inválido!"
+                }
+                break;
+            case "celular":
+                if (field.length != 11) {
+                    return "Digite apenas os 11 números do celular."
+                }
+                break;
+            case "descricao":
+                if (field.length < 10 || field.length > 186) {
+                    return "A descrição deve estar entre 10 e 186 caracteres!"
+                }
+                break;
+            case "cep":
+                if (field.length != 8) {
+                    return "Digite apenas os 8 números do CEP."
+                }
+                break;
+            case "rua":
+                if (field.length < 3) {
+                    return "A rua deve ter no mínimo 3 caracteres!"
+                }
+                break;
+            default:
+                break;
+        }
+        return ""
+    }
+
     function checkErrors() {
-        let isError = false
-        let objErros = [...erro]
 
-
-        let objErro = objErros.find(err => err.type == "nome")
-        if (nome == "") {
-            isError = true
-            objErro.message = "Este campo é obrigatório!"
-        } else {
-            objErro.message = ""
-        }
-
-        objErro = objErros.find(err => err.type == "endereco")
-        if (endereco == "") {
-            objErro.message = "Este campo é obrigatório!"
-            isError = true
-        } else {
-            objErro.message = ""
-        }
-
-
+        let objErros = [
+            { type: "nome", message: validateField(nome, "nome") },
+            { type: "endereco", message: validateField(endereco, "endereco") },
+            { type: "celular", message: validateField(celular, "celular") },
+            { type: "descricao", message: validateField(descricao, "descricao") },
+            { type: "cep", message: validateField(cep, "cep") },
+            { type: "rua", message: validateField(rua, "rua") },
+        ]
         setErro(objErros)
-        return isError
+        return objErros.some(obj => obj.message != "")
     }
 
 
@@ -344,16 +363,19 @@ function NovoCadastro({ navigation }) {
                         <TelaErro type={"nome"} width={"80%"} erro={erro} />
                     </View>
                     <View style={styles.boxInpt}>
-                        <Text style={styles.formText}>CEP (opcional):</Text>
+                        <Text style={styles.formText}>CEP:</Text>
                         <TextInput style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="CEP:" value={cep} onChangeText={setCep} />
+                        <TelaErro type={"cep"} width={"80%"} erro={erro} />
                     </View>
                     <View style={styles.boxInpt}>
-                        <Text style={styles.formText}>Rua (opcional):</Text>
+                        <Text style={styles.formText}>Rua:</Text>
                         <TextInput style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Rua:" value={rua} onChangeText={setRua} />
+                        <TelaErro type={"rua"} width={"80%"} erro={erro} />
                     </View>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Endereço:</Text>
                         <TextInput style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Endereço:" value={endereco} onChangeText={setEndereco} />
+                        <TelaErro type={"endereco"} width={"80%"} erro={erro} />
                     </View>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Telefone (opcional):</Text>
@@ -362,9 +384,10 @@ function NovoCadastro({ navigation }) {
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Celular:</Text>
                         <TextInput style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Celular:" value={celular} onChangeText={setCelular} />
+                        <TelaErro type={"celular"} width={"80%"} erro={erro} />
                     </View>
                     <View style={styles.boxInpt}>
-                        <Text style={styles.formText}>Descrição (opcional):</Text>
+                        <Text style={styles.formText}>Descrição:</Text>
                         <TextInput
                             value={descricao}
                             onChangeText={setDescricao}
@@ -378,10 +401,11 @@ function NovoCadastro({ navigation }) {
                             numberOfLines={5}
                             maxLength={186}
                             cursorColor={"#445A14"}
-                            accessibilityRole="text"
+                            accessibilityRole="textbox"
                             accessibilityLabel="Descrição do restaurante:"
                         />
                         <Text style={{ paddingLeft: 10, fontFamily: "lemonada", color: "#445A14", fontSize: 11 }}>Max 186</Text>
+                        <TelaErro type={"descricao"} width={"80%"} erro={erro} />
                     </View>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Categoria (Min. 1):</Text>

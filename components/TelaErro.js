@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 
-export default function TelaErro({ type, erro, width }) {
+export default function TelaErro({ type, erro, width}) {
 
     const [message, setMessage] = useState("")
 
