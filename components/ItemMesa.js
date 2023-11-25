@@ -97,7 +97,7 @@ function ItemMesa({ index, tipoMenu, obj }) {
     return (
         <View style={[styles.itemMesa, { height: heightItem }]}>
             <View style={styles.boxIdMesa}>
-                <Text style={styles.textIdMesa}>{obj.identificacao_mesa || "Identificação não disponível"}</Text>
+                <Text style={styles.textIdMesa}>{obj.identificacao_mesa || "Sem identificação"}</Text>
             </View>
 
             {tipoMenu == 1 ? (
@@ -169,7 +169,9 @@ function ItemMesa({ index, tipoMenu, obj }) {
                     <Pressable style={styles.btnDelete} role="button" onPress={deletarMesa} {...A11y.label("Excluir mesa do restaurante")}>
                         <Icon name="delete" color={"white"} />
                     </Pressable>
-                    <QRCode value={obj.qr_code} />
+                    <View style={{marginLeft: 15, paddingTop: 5}}>
+                       <QRCode value={obj.qr_code} /> 
+                    </View>
                 </View>
             )}
         </View>
