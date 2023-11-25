@@ -13,6 +13,7 @@ import ImageTools from "../../providers/ImageTools.js"
 import * as Font from 'expo-font';
 import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import CheckBoxCategory from "../../components/CheckBoxCategory"
+import TelaErro from "../../components/TelaErro.js"
 
 const imageTools = new ImageTools()
 
@@ -20,6 +21,19 @@ const imageTools = new ImageTools()
 function NovoCadastro({ navigation }) {
 
     const [fontLoaded, setFontLoaded] = useState(false);
+    const [erro, setErro] = useState([
+        { type: "nome", message: "" },
+        { type: "endereco", message: "" },
+        { type: "telefone", message: "" },
+        { type: "celular", message: "" },
+        { type: "descricao", message: "" },
+        { type: "categorias", message: "" },
+        { type: "reservasAtivas", message: "" },
+        { type: "tempoTolerancia", message: "" },
+        { type: "cep", message: "" },
+        { type: "rua", message: "" },
+        { type: "foto", message: "" }
+    ])
     const [categoriasVisiveis, setCategoriasVisiveis] = useState(false)
     const [filtroCategoria, setFiltroCategoria] = useState("")
 
@@ -57,7 +71,7 @@ function NovoCadastro({ navigation }) {
 
         setBtnReservation(!btnReservation);
     };
-    
+
     useEffect(() => {
         async function loadFonts() {
             await Font.loadAsync({
@@ -125,6 +139,8 @@ function NovoCadastro({ navigation }) {
 
     async function nextFormPage() {
 
+        const errors = checkErrors()
+        if(errors) return
         //const isAuth = userTools.authUser()
         const isAuth = true
 
@@ -197,7 +213,7 @@ function NovoCadastro({ navigation }) {
 
                 const mimeType = file.slice((file.lastIndexOf('.') + 1))
                 fileType = `image/${mimeType}`
-                
+
 
             }
             const extensionFile = imageTools.getExtensionFile(fileType)
@@ -278,6 +294,34 @@ function NovoCadastro({ navigation }) {
 
     }
 
+    function checkErrors() {
+        let isError = false
+        let objErros = [...erro]
+
+
+        let objErro = objErros.find(err => err.type == "nome")
+        if (nome == "") {
+            isError = true
+            objErro.message = "Este campo é obrigatório!"
+        } else {
+            objErro.message = ""
+        }
+
+        objErro = objErros.find(err => err.type == "endereco")
+        if (endereco == "") {
+            objErro.message = "Este campo é obrigatório!"
+            isError = true
+        } else {
+            objErro.message = ""
+        }
+
+
+        setErro(objErros)
+        return isError
+    }
+
+
+
     return (
         <View style={styles.containerNovoCadastro}>
             <BotaoVoltar onPress={backPage} />
@@ -297,7 +341,8 @@ function NovoCadastro({ navigation }) {
                 <View style={styles.formularioCadastroRest}>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>Nome do Restaurante:</Text>
-                        <TextInput style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Nome:" value={nome} onChangeText={setNome} />
+                        <TextInput style={styles.inptFormRest} cursorColor={"#445A14"} accessibilityLabel="Nome do restaurante:" value={nome} onChangeText={setNome} />
+                        <TelaErro type={"nome"} width={"80%"} erro={erro} />
                     </View>
                     <View style={styles.boxInpt}>
                         <Text style={styles.formText}>CEP (opcional):</Text>
@@ -343,9 +388,9 @@ function NovoCadastro({ navigation }) {
                         <Text style={styles.formText}>Categoria (Min. 1):</Text>
                         <TextInput style={styles.inptFormRest} cursorColor={"#445A14"} onPressIn={() => setCategoriasVisiveis(true)} onChangeText={setFiltroCategoria} value={filtroCategoria} accessibilityLabel="Categoria:" />
 
-                        
-                        <CheckBoxCategory filter={filtroCategoria} categoriasEdit={categoriasEdit}/>
-                        
+
+                        <CheckBoxCategory filter={filtroCategoria} categoriasEdit={categoriasEdit} />
+
 
                     </View>
                     <View style={styles.boxReserva}>
