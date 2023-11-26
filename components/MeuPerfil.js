@@ -5,8 +5,8 @@ import { Pressable, StyleSheet, Image } from "react-native";
 export default function MeuPerfil({onPress}) {
 
     return(
-        <Pressable style={styles.botaoPerfil} onPress={onPress}>
-            <Image source={require('../assets/user.png')} style={styles.imagem}/>
+        <Pressable style={styles.botaoPerfil} onPress={onPress} role="button" accessibilityLabel="Conta menu">
+            <Image source={require('../assets/user.png')} accessibilityElementsHidden={true} style={styles.imagem}/>
         </Pressable>
     );
 }
