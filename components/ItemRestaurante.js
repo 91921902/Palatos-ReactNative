@@ -34,28 +34,28 @@ export default function ItemRestaurante({ rest, favoritos, navigation }) {
 
     if (!token) {
       navigation.navigate("PagInicial")
-      return
-    }
-
-    const message = await api.patch("users/toggleFavorito/" + idRestaurante, {}, {
-      headers: {
-        Authorization: token
-      }
-    })
-      .then(response => response.data.message)
-
-    if (message == "Restaurante Favoritado") {
-
-      setIsFavorito(true)
-
-    } else if (message == "Restaurante removido dos favoritos") {
-
-      setIsFavorito(false)
-
+  
     } else {
-      alert("erro favorito")
-    }
 
+      const message = await api.patch("users/toggleFavorito/" + idRestaurante, {}, {
+        headers: {
+          Authorization: token
+        }
+      })
+        .then(response => response.data.message)
+
+      if (message == "Restaurante Favoritado") {
+
+        setIsFavorito(true)
+
+      } else if (message == "Restaurante removido dos favoritos") {
+
+        setIsFavorito(false)
+
+      } else {
+        alert("erro favorito")
+      }
+    }
   }
 
   return (

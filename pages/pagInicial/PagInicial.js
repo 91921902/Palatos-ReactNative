@@ -47,7 +47,7 @@ function PagInicial({ navigation }) {
     // Verifica se o email ou senha estão em branco
     let isError = false
     let objErros = [...erro]
-
+   
 
     let objErro = objErros.find(err => err.type == "senha")
     if (senha == "") {
@@ -56,7 +56,7 @@ function PagInicial({ navigation }) {
     } else {
       objErro.message = ""
     }
-
+    
     objErro = objErros.find(err => err.type == "email")
     if (email == "") {
       objErro.message = "Este campo é obrigatório!"
@@ -64,8 +64,6 @@ function PagInicial({ navigation }) {
     } else {
       objErro.message = ""
     }
-
-    //a ultima condicao tem prioridade por algum motivo ai
 
     setErro(objErros)
     if (isError) {
@@ -78,7 +76,7 @@ function PagInicial({ navigation }) {
       }
       setErro(lista)
       const user = { email, senha };
-
+      
       const usuario = await api.post("users/login", user)
         .then(response => response.data)
 
@@ -97,24 +95,17 @@ function PagInicial({ navigation }) {
         if (error.response.data.status == "wrong_email") {
           erros[0].message = "E-mail incorreto!"
         }
+        
         if (error.response.data.status == "wrong_password") {
           erros[1].message = "Senha incorreta!"
         }
+       
         setErro(erros)
       }
-      console.log('erro')
+    
 
     }
   };
-
-  function clearError() {
-
-    if (erro.length == 0) return
-
-    //essa condicao ta errada
-
-    setErro([])
-  }
 
   return (
 
@@ -128,7 +119,7 @@ function PagInicial({ navigation }) {
 
       <BotaoHome onPress={() => navigation.navigate("BuscaRestaurante")}/>
   
-    <View style={styles.containerPagInicial} onTouchStart={clearError}>
+    <View style={styles.containerPagInicial} >
       <View style={styles.loginRestaurante}>
         <TouchableOpacity style={styles.botaoLogin} onPress={() => navigation.navigate("LoginRestaurante")}>
           <Text style={styles.textoBotaoLogin}>Login restaurante</Text>
@@ -145,7 +136,7 @@ function PagInicial({ navigation }) {
         <View style={styles.inputsFormulario}>
           <Text style={styles.textoInput}>E-mail</Text>
 
-          <TextInput style={styles.input} onChangeText={setEmail} value={email} accessibilityLabel="E-mail" />
+          <TextInput style={styles.input} onChangeText={setEmail} value={email} accessibilityLabel="E-mail" keyboardType="email-address" cursorColor={"#445A14"} />
           <TelaErro type={'email'} width={"80%"} erro={erro} field={email} />
 
         </View>
@@ -154,7 +145,7 @@ function PagInicial({ navigation }) {
           <Text style={styles.textoInput}>Senha</Text>
 
           <TextInput style={styles.input} onChangeText={setSenha} value={senha} accessibilityLabel="Senha:" secureTextEntry/>
-          <TelaErro type={'senha'} width={"80%"} erro={erro} />
+          <TelaErro type={'senha'} width={"80%"} erro={erro} cursorColor={"#445A14"} />
 
         </View>
       </View>
