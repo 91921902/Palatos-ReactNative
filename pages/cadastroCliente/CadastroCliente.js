@@ -69,7 +69,7 @@ function CadastroCliente({ navigation }) {
         break
         case "senha":
           if(!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,}$/.test(field)) {
-            return "A senha deve ter no mínimo 6 caracteres, ao menos uma letra maiúscula, uma letra minúscula e um número."
+            return "Senha muito fraca."
           }
           if (field != field2) {
             return "As senhas são diferentes."
