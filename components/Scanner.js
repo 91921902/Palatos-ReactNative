@@ -1,30 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Scanner() {
+export default function Scanner({navigation}) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
 
-  useEffect(() => {
+  
     const getBarCodeScannerPermissions = async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
+        const { status } = await BarCodeScanner.requestPermissionsAsync();
+        setHasPermission(status === 'granted');
     };
-
+  
+  useEffect(() => {
+    
     getBarCodeScannerPermissions();
+
   }, []);
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    alert(data)
+    
+    if (type == 256) {
+
+        const parseData = JSON.parse(data)
+
+        const {idRestaurante} = parseData
+
+        async function saveClient() {
+            await AsyncStorage.setItem('cliente', data)
+        }
+
+        saveClient()
+
+        navigation.navigate("MenuRestaurante", {
+            idRestaurante
+        })
+
+    } 
+
   };
 
   if (hasPermission === null) {
-    
+    getBarCodeScannerPermissions();
   }
   if (hasPermission === false) {
-    
+    getBarCodeScannerPermissions();
   }
 
   return (
