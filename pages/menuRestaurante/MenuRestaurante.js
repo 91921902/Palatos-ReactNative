@@ -62,7 +62,9 @@ function MenuRestaurante({navigation, route}) {
         <View style={styles.containerMenuRestaurante}>
 
             <BotaoVoltar onPress={() => navigation.goBack()}/>
-            <BotaoCarrinho onPress={() => navigation.navigate("Pedidos")}/>
+            <BotaoCarrinho onPress={() => navigation.navigate("Pedidos", {
+                idRest: idRestaurante
+            })}/>
 
             <View style={styles.menuRestaurante}>
 

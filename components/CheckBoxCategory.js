@@ -132,6 +132,7 @@ export default function CheckBoxCategory({filter, categoriasEdit}) {
                             checked={category.checked}
                             containerStyle={{borderWidth: 0,  justifyContent: "center", backgroundColor: "transparent"}}
                             textStyle={{fontFamily: "lemonada", color:"#445A14"}}
+                            accessibilityLabel={`${category.nome}, ${category.checked ? "selecionado" : "Não selecionado"}`}
 
                             onPress={() => setCategory(category.id)}
                             key={index}

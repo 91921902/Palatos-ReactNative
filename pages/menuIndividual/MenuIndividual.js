@@ -24,7 +24,7 @@ export default function MenuIndividual({navigation, route}) {
     const [isCarrinho, setIsCarrinho]= useState(false);
 
     const {idRest} = route.params;
-
+    
 
     async function enviarParaCarrinhoOuNao(){
 
@@ -158,9 +158,6 @@ export default function MenuIndividual({navigation, route}) {
             <View style={styles.container}>
                 <BotaoVoltar onPress={() => {navigation.goBack()}}/>
                 <BotaoCarrinho onPress={() => {navigation.navigate("Pedidos", {idRest})}}/>
-
-
-
 
                 <View style={styles.caixaFoto}>
 
