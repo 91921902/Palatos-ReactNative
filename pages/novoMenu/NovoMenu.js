@@ -334,7 +334,7 @@ function NovoMenu({navigation, route}) {
 
         }
 
-        //navigation.navigate("PainelADM")
+        navigation.navigate("PainelADM")
     
     }
 
