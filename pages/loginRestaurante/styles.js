@@ -5,8 +5,8 @@ export const styles = StyleSheet.create({
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      gap: 15,
-      paddingBottom:100,
+      gap: 10,
+      paddingTop: 30,
       backgroundColor:'white',
     
     },
@@ -65,9 +65,8 @@ export const styles = StyleSheet.create({
   },
   boxSemCadastro: {
     width: "100%",
-    height: "30%",
-    marginBottom: "-40%",
     padding: 20,
+    flex: 1,
     justifyContent: "flex-end"
   },
   textSemCadastro: {

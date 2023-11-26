@@ -40,26 +40,32 @@ function BuscaRestaurante({ navigation }) {
       let userId
       const token = await AsyncStorage.getItem("token")
 
-      try {
-        const decoded = decode(token)
-        userId = decoded.userId
-      } catch (error) {
-        alert("erro")
-      }
+      
 
       await api.get("restaurante")
         .then(result => {
           setRestaurantes([...result.data.result])
           setRestaurantesCarregados([...result.data.result])
-        })
-
-      const fav = await api.get("users/getUser/" + userId, {
-        headers: {
-          Authorization: token
-        }
       })
-      .then(response => response.data.usuario.favoritos)
-      setFavoritos(fav)
+
+      if (token) {
+
+        try {
+          const decoded = decode(token)
+          userId = decoded.userId
+        } catch (error) {
+          alert("erro")
+        }
+
+        const fav = await api.get("users/getUser/" + userId, {
+          headers: {
+            Authorization: token
+          }
+        })
+        .then(response => response.data.usuario.favoritos)
+        setFavoritos(fav)
+      }
+
     }
 
     chamarRestaurantes()
@@ -86,7 +92,14 @@ function BuscaRestaurante({ navigation }) {
 
   async function myProfile() {
 
-    const isAuth = await userTools.authUser()
+    let isAuth
+    const token = await AsyncStorage.getItem("token")
+
+    if (token) {
+      isAuth = await userTools.authUser()
+    } else {
+      isAuth = false
+    }
 
     if (isAuth) {
       navigation.navigate("CadastroFavoritos")

@@ -9,6 +9,7 @@ import api from "../../providers/api"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TelaErro from "../../components/TelaErro";
 import { ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import BotaoHome from "../../components/BotaoHome";
 
 
 function PagInicial({ navigation }) {
@@ -124,6 +125,8 @@ function PagInicial({ navigation }) {
     <ScrollView
       contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between' }}
     >
+
+      <BotaoHome onPress={() => navigation.navigate("BuscaRestaurante")}/>
   
     <View style={styles.containerPagInicial} onTouchStart={clearError}>
       <View style={styles.loginRestaurante}>

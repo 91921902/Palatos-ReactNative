@@ -7,6 +7,7 @@ import * as Font from 'expo-font';
 import api from "../../providers/api"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TelaErro from "../../components/TelaErro";
+import BotaoHome from "../../components/BotaoHome";
 
 
 function CadastroCliente({ navigation }) {
@@ -109,10 +110,12 @@ function CadastroCliente({ navigation }) {
 
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
 
+      <BotaoHome onPress={() => navigation.navigate("BuscaRestaurante")} />
+
       <View style={styles.containerCadastroCliente}>
 
         <View style={styles.titulo} >
-          <Text style={styles.textoTitulo}>Faça seu cadastro:</Text>
+          <Text style={styles.textoTitulo}>Cadastro:</Text>
         </View>
 
         <View style={styles.formularioCadastroCliente}>

@@ -32,6 +32,11 @@ export default function ItemRestaurante({ rest, favoritos, navigation }) {
     const idRestaurante = rest.id
     const token = await AsyncStorage.getItem('token')
 
+    if (!token) {
+      navigation.navigate("PagInicial")
+      return
+    }
+
     const message = await api.patch("users/toggleFavorito/" + idRestaurante, {}, {
       headers: {
         Authorization: token

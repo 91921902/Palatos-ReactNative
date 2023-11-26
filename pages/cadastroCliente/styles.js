@@ -6,8 +6,7 @@ export const styles = StyleSheet.create({
       width: '100%',
       alignItems: 'center',
       justifyContent: 'center',
-      paddingVertical: 20, 
-        
+      paddingVertical: 20
       
       },
     
@@ -29,9 +28,8 @@ export const styles = StyleSheet.create({
       formularioCadastroCliente:{
           width: "100%",
           alignItems: "center",
-          height:'200',
           justifyContent: 'center',
-          gap:20,
+          gap:5,
         
       },
       inputsPar:{

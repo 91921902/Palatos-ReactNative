@@ -7,12 +7,18 @@ import fontLemonada from "../../assets/fonts/lemonada.ttf"
 import api from "../../providers/api"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BotaoHome from '../../components/BotaoHome';
+import TelaErro from '../../components/TelaErro';
 
 export default function LoginRestaurante({ navigation }) {
 
   const [fontLoaded, setFontLoaded] = useState(false);
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [erro, setErro] = useState([
+    { type: "email", message: "" },
+    { type: "senha", message: "" },
+    { type: "email_senha", message: "" }
+  ])
 
   useEffect(() => {
     async function loadFonts() {
@@ -30,42 +36,77 @@ export default function LoginRestaurante({ navigation }) {
     return null;
   }
 
-  const validateEmail = () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const validatePassword = () => {
-    // A senha deve ter pelo menos 6 caracteres e conter pelo menos uma letra maiúscula
-    return senha.length >= 6 && /[A-Z]/.test(senha);
-  };
-
 
   async function Enviardados() {
-    // Valida o email
-    if (!validateEmail()) {
-      alert('Email incorreto. Certifique-se de que o email contenha "@".');
-      return;
-    }
 
-    // Valida a senha
-    if (!validatePassword()) {
-      alert('A senha deve ter pelo menos 6 caracteres e conter pelo menos uma letra maiúscula.');
-      return;
+    const erros = checkErrors()
+
+    if (erros) {
+
+      return
     }
 
     // Se o email e a senha estiverem corretos, continua com o envio dos dados
     const usuario = { email: email, senha: senha };
-    const resposta = await api.post("restaurante/login", usuario);
+    let resposta
+
+    try {
+      resposta = await api.post("restaurante/login", usuario);
+    } catch (error) {
+
+      if (error.request.status == 401) {
+
+        setErro([
+          { type: "email", message: validateField(email, "email")},
+          { type: "senha", message: validateField(email, "email")},
+          { type: "email_senha", message: "Email ou Senha incorretos."}
+        ])
+        
+      }
+
+    }
 
     if (resposta.data.status === "success") {
       const token = resposta.data.token;
       await AsyncStorage.setItem("token", token);
       navigation.navigate("PainelADM");
 
-    } else {
-      alert('Login incorreto');
     }
+
+  }
+
+  function checkErrors() {
+
+    let objErros = [
+      { type: "email", message: validateField(email, "email") },
+      { type: "senha", message: validateField(senha, "senha") },
+      { type: "email_senha", message: ""}
+    ]
+    setErro(objErros)
+    return objErros.some(obj => obj.message != "")
+  }
+
+  function validateField(field, type) {
+    if (field == "") {
+      return "Este campo é obrigatório!"
+    }
+    switch (type) {
+      
+      case "email":
+        if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2})?$/.test(field)) {
+          return "E-mail inválido!"
+        }
+        break
+
+      case "senha":
+          if(!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,}$/.test(field)) {
+            return "Senha inválida."
+          }
+          break
+      default:
+        break;
+    }
+    return ""
   }
 
 
@@ -88,6 +129,7 @@ export default function LoginRestaurante({ navigation }) {
         onChangeText={setEmail}
         cursorColor={"#445A14"}
       />
+      <TelaErro erro={erro} type={"email"} width={"80%"} />
 
       <Text style={styles.emailSenha}>Senha</Text>
       <TextInput
@@ -99,6 +141,8 @@ export default function LoginRestaurante({ navigation }) {
         secureTextEntry
 
       />
+      <TelaErro erro={erro} type={"senha"} width={"80%"} />
+      <TelaErro erro={erro} type={"email_senha"} />
 
       <Pressable
         style={styles.btnEntrar}
@@ -110,7 +154,7 @@ export default function LoginRestaurante({ navigation }) {
 
       </Pressable>
       <View style={styles.boxSemCadastro}>
-        <Pressable style={styles.botaoSemCadastro} onPress={() => navigation.navigate("NovoCadastro")}>
+        <Pressable onPress={() => navigation.navigate("NovoCadastro")}>
           <Text style={styles.textSemCadastro}>Cadastrar restaurante...</Text>
         </Pressable>
       </View>
