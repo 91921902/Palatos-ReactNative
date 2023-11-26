@@ -23,6 +23,7 @@ function TelaComanda({ navigation }) {
 
 
     useEffect(() => {
+
         async function carregaComandas() {
             //Puxar do backend
 
@@ -38,7 +39,6 @@ function TelaComanda({ navigation }) {
             } catch (err) {
                 console.log(`Erro ao puxar comandas: ${err}`)
             }
-            console.log(listaComandas)
             comandaTools.setAllComandas(listaComandas)
         }
 
@@ -52,6 +52,11 @@ function TelaComanda({ navigation }) {
 
         loadFonts();
         carregaComandas()
+
+        setInterval(() => {
+            carregaComandas()
+        }, 300000)
+
     }, []);
 
     if (!fontLoaded) {
@@ -59,7 +64,8 @@ function TelaComanda({ navigation }) {
     }
 
 
-    function backPage() {70
+    function backPage() {
+        70
 
 
         navigation.goBack()

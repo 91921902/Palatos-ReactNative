@@ -136,6 +136,7 @@ function CadastroCliente({ navigation }) {
               value={email}
               onChangeText={setEmail}
               accessibilityLabel="E-mail:"
+              keyboardType="email-address"
             />
             <TelaErro erro={erro} type={"email"} width={"80%"} />
           </View>

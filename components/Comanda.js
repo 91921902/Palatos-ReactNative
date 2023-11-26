@@ -60,7 +60,7 @@ function Comanda({ obj }) {
 
     return (
         <View style={styles.comandaContainer}>
-            <Pressable style={styles.btnDelete} {...A11y.role("button")} {...A11y.label("Excluir mesa do restaurante")}
+            <Pressable style={styles.btnDelete} {...A11y.role("button")} {...A11y.label("Excluir comanda")}
                 onPress={deletaComanda}>
                 <Icon name="delete" color={"white"} type='antdesign' />
             </Pressable>

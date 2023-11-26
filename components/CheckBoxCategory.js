@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView, View } from "react-native";
 import { CheckBox } from "react-native-elements"
 import { useFormTools } from "../providers/FormRestContext";
@@ -6,22 +6,23 @@ import api from "../providers/api";
 
 
 
-export default function CheckBoxCategory({filter, categoriasEdit}) {
+export default function CheckBoxCategory({ filter, categoriasEdit }) {
+
     
     const [categorias, setCategorias] = useState([])
     const [notChageCategory, setNotChangeCategory] = useState([])
     const [categoriaFiltrada, setCategoriaFiltrada] = useState(filter || "")
     const [categoriasSelected, setCategoriasSelected] = useState([]);
-    
-    
+
+
     const { setNewCategorias } = useFormTools()
 
     useEffect(() => {
-        
+
         const categoriasEscolhidas = []
 
-        for (let i = 0 ; i < categorias.length ; i++) {
-            
+        for (let i = 0; i < categorias.length; i++) {
+
             if (categorias[i].checked) {
 
                 categoriasEscolhidas.push(categorias[i].nome)
@@ -31,8 +32,8 @@ export default function CheckBoxCategory({filter, categoriasEdit}) {
         }
 
         setNewCategorias(categoriasEscolhidas)
-        
-       
+
+
     }, [categorias])
 
     useEffect(() => {
@@ -44,7 +45,7 @@ export default function CheckBoxCategory({filter, categoriasEdit}) {
 
             const copyCategory = [...categorias]
 
-            for(let obj of copyCategory) {
+            for (let obj of copyCategory) {
                 nomeCategorias.push(obj.nome)
                 obj.checked = false
             }
@@ -52,11 +53,11 @@ export default function CheckBoxCategory({filter, categoriasEdit}) {
             setCategorias(copyCategory)
 
             setNotChangeCategory(copyCategory)
-            
+
             if (categoriasEdit) {
 
                 const copyCategory = [...categorias]
-               
+
                 for (let categoriaEdit of categoriasEdit) {
 
                     for (let categoria of copyCategory) {
@@ -79,31 +80,31 @@ export default function CheckBoxCategory({filter, categoriasEdit}) {
         getAllCategorias()
 
     }, [categoriasEdit])
-    
+
     useEffect(() => {
         async function setCategorys() {
 
             if (filter.length > 0) {
-                
+
                 const filtro = notChageCategory.filter((categoria) => {
                     return categoria.nome.toLowerCase().includes((filter).toLowerCase());
                 });
-                
+
                 setCategorias(filtro)
 
             } else {
                 setCategorias(notChageCategory)
             }
 
-        } 
+        }
         setCategorys()
     }, [filter])
 
     function setCategory(idCategory) {
-        
+
         const copyCategory = [...categorias]
-        
-        for(let categoria of copyCategory) {
+
+        for (let categoria of copyCategory) {
 
             if (categoria.id == idCategory) {
 
@@ -116,24 +117,25 @@ export default function CheckBoxCategory({filter, categoriasEdit}) {
         setCategorias(copyCategory)
 
     }
-    
-    return(
+
+    return (
         <View>
             {
                 categorias.map((category, index) => {
-                   
-                    return(
-                        <CheckBox 
+
+                    return (
+                        <CheckBox
                             title={category.nome}
-                            checkedIcon="check"
+                            accessibilityRole="button"
+                            accessibilityLabel={`${category.nome} ${category.checked? "marcado":"não marcado"}`}
+                            accessibilityState={{checked: category.checked}}
+                            checkedIcon="check"e 
                             uncheckedIcon="square-o"
                             uncheckedColor="#445A14"
                             checkedColor="#445A14"
                             checked={category.checked}
-                            containerStyle={{borderWidth: 0,  justifyContent: "center", backgroundColor: "transparent"}}
-                            textStyle={{fontFamily: "lemonada", color:"#445A14"}}
-                            accessibilityLabel={`${category.nome}, ${category.checked ? "selecionado" : "Não selecionado"}`}
-                            role="checkbox"
+                            containerStyle={{ borderWidth: 0, justifyContent: "center", backgroundColor: "transparent" }}
+                            textStyle={{ fontFamily: "lemonada", color: "#445A14" }}
 
                             onPress={() => setCategory(category.id)}
                             key={index}
@@ -144,3 +146,4 @@ export default function CheckBoxCategory({filter, categoriasEdit}) {
         </View>
     );
 }
+
