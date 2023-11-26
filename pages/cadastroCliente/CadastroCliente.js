@@ -125,7 +125,7 @@ function CadastroCliente({ navigation }) {
               onChangeText={setNome}
               accessibilityLabel="Nome completo:"
             />
-            <TelaErro erro={erro} type={"nome"} />
+            <TelaErro erro={erro} type={"nome"} width={"80%"} />
           </View>
 
           <View style={styles.inputsPar}>
@@ -136,7 +136,7 @@ function CadastroCliente({ navigation }) {
               onChangeText={setEmail}
               accessibilityLabel="E-mail:"
             />
-            <TelaErro erro={erro} type={"email"} />
+            <TelaErro erro={erro} type={"email"} width={"80%"} />
           </View>
 
           <View style={styles.inputsPar}>
@@ -148,7 +148,7 @@ function CadastroCliente({ navigation }) {
               accessibilityLabel="Senha:"
               secureTextEntry
             />
-            <TelaErro erro={erro} type={"senha"} />
+            <TelaErro erro={erro} type={"senha"} width={"80%"} />
           </View>
 
           <View style={styles.inputsPar}>
