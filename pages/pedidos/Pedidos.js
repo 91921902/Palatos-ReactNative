@@ -51,12 +51,20 @@ export default function Pedidos({ navigation, route }) {
         } catch (error) {
           console.log(error)
         }
-        await api.get('users/carrinhoReserva/getAll/' + idRest, {
-          headers: {
-            Authorization: token
-          }
-        })
-          .then(response => setPedido(response.data.carrinho));
+
+        try {
+
+          await api.get('users/carrinhoReserva/getAll/' + idRest, {
+            headers: {
+              Authorization: token
+            }
+          })
+            .then(response => setPedido(response.data.carrinho));
+          console.log(pedido)
+        } catch (error) {
+          console.log(error)
+        }
+        
 
         somarValorTotal()
 
