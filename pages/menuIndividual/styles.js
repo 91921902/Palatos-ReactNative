@@ -85,7 +85,8 @@ inpObs:{
     marginTop:3,
     fontFamily:'lemonada',
     fontSize: 12,
-
+    textAlignVertical: "top",
+    padding: 10
 
 },
 numero:{

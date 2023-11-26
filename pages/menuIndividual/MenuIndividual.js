@@ -196,6 +196,9 @@ export default function MenuIndividual({navigation, route}) {
                         value={observacoes}
                         onChangeText={setObservacoes}
                         cursorColor={"black"}
+                        multiline={true}
+                        numberOfLines={5}
+                        maxLength={186}
                     />
 
                     <Text style={styles.excluirAlgo}></Text>
