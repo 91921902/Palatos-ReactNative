@@ -7,6 +7,7 @@ import A11y from "../providers/A11y.js"
 import { useFormTools } from "../providers/FormRestContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "../providers/api.js";
+import Pedido from "./Pedido.js";
 
 function formataTempo(numeroEmSegundos) {
     let horas = numeroEmSegundos / 3600
@@ -76,11 +77,11 @@ function Comanda({ obj }) {
                         style={[
                             styles.infos,
                             !obj.is_reserva && { fontSize: 20, marginTop: -8 },
-                            obj.is_reserva && obj.chegou && { fontSize: 20, marginTop: -8 },
-                            obj.is_reserva && !obj.chegou && { color: "red", paddingLeft: 0, paddingTop: 3 }
+                            obj.is_reserva && obj.numeroMesa && { fontSize: 20, marginTop: -8 },
+                            obj.is_reserva && !obj.numeroMesa && { color: "red", paddingLeft: 0, paddingTop: 3 }
                         ]}
                     >
-                        {obj.is_reserva && !obj.numeroMesa? `Não chegou` : `Mesa #${obj.numeroMesa}`}</Text>
+                        {obj.is_reserva && !obj.numeroMesa ? `Não chegou` : `Mesa #${obj.numeroMesa}`}</Text>
                 </View>
 
                 <View style={{ width: "100%", height: 2, backgroundColor: "#B7A187", marginBottom: 5, marginTop: 5 }} />
@@ -88,21 +89,14 @@ function Comanda({ obj }) {
                 <View style={{ width: "100%" }}>
                     <Text style={styles.textInfo}>Pedido: </Text>
                     {obj.ProdutoComandas.map((objProduto) => (
-                        <View key={objProduto.id}>
-                            <Text>{objProduto.nome_produto}</Text>
-                            <Text>
-                                {objProduto.observacoes != "" ? (
-                                    objProduto.observacoes
-                                ) : (
-                                    "Nenhuma observação disponível"
-                                )}
-                            </Text>
-                        </View>
+
+                        <Pedido key={objProduto.id} objProduto={objProduto}/>
+
                     ))}
                     {/* <Text style={styles.infos}>{obj.nomePrato}</Text> */}
                 </View>
 
-                <View style={{ width: "100%", height: 2, backgroundColor: "#B7A187", marginBottom: 5, marginTop: 5 }} />
+                
 
                 <View style={{ width: "100%" }}>
                     {/* <Text style={styles.textInfo}>{obj.observacoes ? `Observações:` : `Nenhuma observação disponível`}</Text> */}
@@ -157,7 +151,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontFamily: "kavoon",
         color: "#445A14",
-        paddingLeft: 15
+        textAlign: "center"
     },
     infos: {
         fontSize: 13,
