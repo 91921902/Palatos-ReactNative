@@ -283,46 +283,6 @@ function NovoCadastro({ navigation }) {
 
     }
 
-    function validateField(field, type) {
-        if (field == "") {
-            return "Este campo é obrigatório!"
-        }
-        switch (type) {
-            case "nome":
-                if (field.length < 5) {
-                    return "O nome deve ter no mínimo 5 caracteres!"
-                }
-                break;
-            case "endereco":
-                if (field.length < 5) {
-                    return "Endereço inválido!"
-                }
-                break;
-            case "celular":
-                if (field.length != 11) {
-                    return "Digite apenas os 11 números do celular."
-                }
-                break;
-            case "descricao":
-                if (field.length < 10 || field.length > 186) {
-                    return "A descrição deve estar entre 10 e 186 caracteres!"
-                }
-                break;
-            case "cep":
-                if (field.length != 8) {
-                    return "Digite apenas os 8 números do CEP."
-                }
-                break;
-            case "rua":
-                if (field.length < 3) {
-                    return "A rua deve ter no mínimo 3 caracteres!"
-                }
-                break;
-            default:
-                break;
-        }
-        return ""
-    }
 
     function checkErrors() {
 
