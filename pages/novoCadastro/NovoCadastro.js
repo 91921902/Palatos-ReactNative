@@ -284,9 +284,14 @@ function NovoCadastro({ navigation }) {
     }
 
     function validateField(field, type) {
-        if (field == "") {
+        if (field == "" && typeof field == "string") {
             return "Este campo é obrigatório!"
         }
+
+        if (typeof field == "string") {
+             field = field.trim()
+        }
+
         switch (type) {
             case "nome":
                 if (field.length < 5) {
@@ -299,8 +304,8 @@ function NovoCadastro({ navigation }) {
                 }
                 break;
             case "celular":
-                if (field.length != 11) {
-                    return "Digite apenas os 11 números do celular."
+                if (field.length < 10) {
+                    return `${field.length}`
                 }
                 break;
             case "descricao":
@@ -318,6 +323,19 @@ function NovoCadastro({ navigation }) {
                     return "A rua deve ter no mínimo 3 caracteres!"
                 }
                 break;
+            case "categoria":
+                if (field.length < 1) {
+               
+                    return "Selecione uma categoria." 
+                }
+            case "tolerancia":
+                const {btn, tempo} = field
+                if (btn && tempo.length == 0) {
+                    return "Este campo é obrigatório!"
+                }
+
+
+                break
             default:
                 break;
         }
@@ -333,6 +351,8 @@ function NovoCadastro({ navigation }) {
             { type: "descricao", message: validateField(descricao, "descricao") },
             { type: "cep", message: validateField(cep, "cep") },
             { type: "rua", message: validateField(rua, "rua") },
+            { type: "categoria", message: validateField(categorias, "categoria")},
+            { type: "tolerancia", message: validateField({btn: btnReservation, tempo: tempoTolerancia}, "tolerancia")}
         ]
         setErro(objErros)
         return objErros.some(obj => obj.message != "")
@@ -401,7 +421,6 @@ function NovoCadastro({ navigation }) {
                             numberOfLines={5}
                             maxLength={186}
                             cursorColor={"#445A14"}
-                            accessibilityRole="textbox"
                             accessibilityLabel="Descrição do restaurante:"
                         />
                         <Text style={{ paddingLeft: 10, fontFamily: "lemonada", color: "#445A14", fontSize: 11 }}>Max 186</Text>
@@ -413,7 +432,7 @@ function NovoCadastro({ navigation }) {
 
 
                         <CheckBoxCategory filter={filtroCategoria} categoriasEdit={categoriasEdit} />
-
+                        <TelaErro type={"nome"} width={"80%"} erro={erro} />
 
                     </View>
                     <View style={styles.boxReserva}>
@@ -466,6 +485,7 @@ function NovoCadastro({ navigation }) {
                                         cursorColor={"#445A14"}
                                         accessibilityLabel="Escolha o tempo de tolerância:"
                                     />
+                                    <TelaErro type={"cep"} width={"80%"} erro={erro} />
                                 </View>
                             ) : (
                                 <View />
