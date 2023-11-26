@@ -13,7 +13,7 @@ export default function BotaoDeslogar({navigation}) {
 
     return(
         <Pressable style={styles.botaoDeslogar} onPress={deslogar}>
-            <Image source={require('../assets/casa.png')} style={styles.imagem}/>
+            <Image source={require('../assets/icons/sair.png')} style={styles.imagem}/>
         </Pressable>
     );
 }
@@ -24,14 +24,15 @@ const styles = StyleSheet.create({
         height: 50,
         position: "absolute",
         top: 40,
-        right: 30,
+        right: 20,
         borderRadius: 5000,
         zIndex: 20,
         alignItems: "center",
         justifyContent: "center"
     },
+    
     imagem:{
-        width:50,
-        height:50,
+        width:40,
+        height:40,
     }
 })

@@ -21,8 +21,6 @@ function ItemMenu({id, index, isEdit}) {
     const [file, setFile] = useState("")
     const [tipo, setTipo] = useState("Categoria")
 
-    const [erro, setErro] = useState("")
-
     const [botaoCategorias, setBotaoCategorias] = useState({
         graus: "180",
         translate: -9,
@@ -224,76 +222,6 @@ function ItemMenu({id, index, isEdit}) {
         })
 
     }
-
-    function validateField(field, type) {
-        if (field == "" && typeof field == "string") {
-            return "Este campo é obrigatório!"
-        }
-
-        if (typeof field == "string") {
-             field = field.trim()
-        }
-
-        switch (type) {
-            case "nome":
-                if (field.length < 5) {
-                    return "O nome deve ter no mínimo 5 caracteres!"
-                }
-                break;
-            case "endereco":
-                if (field.length < 5) {
-                    return "Endereço inválido!"
-                }
-                break;
-            case "celular":
-                if (field.length < 10) {
-                    return `${field.length}`
-                }
-                break;
-            case "descricao":
-                if (field.length < 10 || field.length > 186) {
-                    return "A descrição deve estar entre 10 e 186 caracteres!"
-                }
-                break;
-            case "cep":
-                if (field.length != 8) {
-                    return "Digite apenas os 8 números do CEP."
-                }
-                break;
-            case "rua":
-                if (field.length < 3) {
-                    return "A rua deve ter no mínimo 3 caracteres!"
-                }
-                break;
-            case "categoria":
-                if (field.length < 1) {
-               
-                    return "Selecione uma categoria." 
-                }
-            case "tolerancia":
-                const {btn, tempo} = field
-                if (btn && tempo.length == 0) {
-                    return "Este campo é obrigatório!"
-                }
-
-
-                break
-            default:
-                break;
-        }
-        return ""
-    }
-
-    function checkErrors() {
-
-        let objErros = [
-            { type: "nome", message: validateField(nome, "nome") },
-           
-        ]
-        setErro(objErros)
-        return objErros.some(obj => obj.message != "")
-    }
-
 
     return(
         <>

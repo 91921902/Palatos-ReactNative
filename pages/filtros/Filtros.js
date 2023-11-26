@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { FlatList, Pressable, ScrollView, Text, TextInput, View, Animated, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { FlatList, Pressable, ScrollView, Text, TextInput, View, Animated, TouchableWithoutFeedback, AccessibilityInfo  } from "react-native";
 import { styles } from "./styles"
 import BotaoVoltar from "../../components/BotaoVoltar.js"
 import * as Font from 'expo-font';
@@ -17,6 +17,7 @@ function Filtros({navigation, route}) {
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [typeFilterText, setTypeFilterText] = useState("Produtos Vendidos:");
     const [products, setProducts] = useState([])
+    const [leitorDeTela, setLeitorDeTela] = useState(false)
 
     const [leitorDeTelaAtivo, setLeitorDeTelaAtivo] = useState(false)
 
@@ -67,7 +68,23 @@ function Filtros({navigation, route}) {
 
         setListProducts(products)
         setProducts(products)
-        
+
+        const checkScreenReader = async () => {
+            const isEnabled = await AccessibilityInfo.isScreenReaderEnabled();
+            setLeitorDeTela(isEnabled);
+        };
+    
+        checkScreenReader()
+    
+        const accessibilityEventListener = AccessibilityInfo.addEventListener(
+            'screenReaderChanged',
+            checkScreenReader
+        );
+    
+        return () => {
+        // Remove o listener ao desmontar o componente
+        accessibilityEventListener.remove();
+        };
        
     }, [])
 
@@ -85,12 +102,22 @@ function Filtros({navigation, route}) {
         } else if (typeFilter == "data") {
 
             const productsDate = []
+            let data
 
-            const data = new Date(date).toLocaleDateString('pt-BR', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-              });
+            if (!leitorDeTela) {
+
+                data = new Date(date).toLocaleDateString('pt-BR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                });
+            } else {
+                const day = dateString.substring(0, 2);
+                const month = dateString.substring(2, 4);
+                const year = dateString.substring(4, 8);
+
+                data = `${day}/${month}/${year}`
+            }
 
             for (let obj of products) {
                 if (obj.data_compra == data) {
@@ -194,12 +221,29 @@ function Filtros({navigation, route}) {
            </View>
            {
             typeFilter == "data" ? (
-                <View style={styles.boxInptData}>
+
+                leitorDeTela ? (
+
+                    <View>
+                        <TextInput 
+                            style={[styles.dateInput, {paddingLeft: 10, textAlign: "center", fontFamily: "lemonada", color:"#445A14"}]}
+                            cursorColor={"#445A14"}
+                            maxLength={8}
+                            accessibilityLabel="Insira a data da compra para filtrar"
+                            placeholder="DD/MM/YYYY"
+                            placeholderTextColor={"#445A14"}
+                            keyboardType="numeric"
+                        />
+                    </View>
+
+                ) : (
+
+                    <View style={styles.boxInptData}>
                
-                    <Pressable onPress={showDatepicker} style={styles.dateInput}>
-                        <Text style={styles.textDate}>{date.toLocaleDateString()}</Text>
-                    </Pressable>
-                        
+                        <Pressable onPress={showDatepicker} style={styles.dateInput}>
+                            <Text style={styles.textDate}>{date.toLocaleDateString()}</Text>
+                        </Pressable>
+                            
                         {showDatePicker && (
                             <DateTimePicker
                                 value={date}
@@ -208,7 +252,9 @@ function Filtros({navigation, route}) {
                                 onChange={onDateChange}
                             />
                         )}
-                </View>
+                    </View>
+                )
+                
             ) : (
                 <View />
             )
