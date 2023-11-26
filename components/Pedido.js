@@ -13,7 +13,7 @@ function Pedido({objProduto}) {
                 <Text style={styles.textNomeProduto}>{nome_produto}</Text>
             </View>
 
-            <View style={styles.boxObservacao}>
+            <View>
                 <Text style={[styles.textHeader, {fontSize: 16}]}>Observação</Text>
 
                 <Text style={styles.textObservacao}>

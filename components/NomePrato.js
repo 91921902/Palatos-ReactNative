@@ -1,15 +1,28 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React from "react";
 import { View, StyleSheet, Text, Pressable } from "react-native";
 import { Image } from "react-native";
 
 export default function NomePrato({produto,navigation, idRest}) {
 
-    function entrarPrato(){
+    async function entrarPrato(){
+
+        const token = await AsyncStorage.getItem("token")
+
+        if (token) {
+
+            navigation.navigate("MenuIndividual",{
+                id:produto.codigo,
+                idRest: idRest
+            })
+
+        } else {
+
+            navigation.navigate("PagInicial")
+
+        }
         
-        navigation.navigate("MenuIndividual",{
-            id:produto.codigo,
-            idRest: idRest
-        })
+        
     }
 
     return(
