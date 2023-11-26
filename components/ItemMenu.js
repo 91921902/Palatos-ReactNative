@@ -7,6 +7,7 @@ import { View, Text, TextInput, StyleSheet, Pressable, Image, Platform } from "r
 import * as ImagePicker from 'expo-image-picker';
 import { useFormTools } from "../providers/FormRestContext";
 import ImageTools from "../providers/ImageTools";
+import TelaErro from "./TelaErro";
 
 const imageTools = new ImageTools()
 
@@ -222,7 +223,6 @@ function ItemMenu({id, index, isEdit}) {
 
     }
 
-
     return(
         <>
             <View style={styles.item}>
@@ -340,6 +340,7 @@ function ItemMenu({id, index, isEdit}) {
                     </Pressable>
                 </View>
             </View>
+            <TelaErro type={`id_${id}`} width={"80%"} erro={erro} />
         </>
     );
 }

@@ -21,10 +21,15 @@ const imageTools = new ImageTools()
 
 async function createRestaurant(formData, file, navigation, menu, quantMesas) {   
 
+    const isValid = validateMenu(menu)
+
+    if (!isValid.valid) {
+
+        return
+    }
+
     let token = await AsyncStorage.getItem("token")
     //let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEwLCJpZFJlc3RhdXJhbnRlIjoxMCwiaWF0IjoxNjk5OTkyNDgyLCJleHAiOjIzMDQ3OTI0ODJ9.Tgy9ZMee8Y1cYInLQfM7AOts9ftcHWftwpv5x46Hcvc"
-
-    console.log(token)
 
     if (file) {
 
@@ -160,6 +165,40 @@ async function createMenu(token, navigation, restaurante, menu, quantMesas) {
 
 }
 
+function validateMenu(menu) {
+
+    const isValid = {valid: true, erro: null}
+
+    for (let produtoValidate of menu) {
+
+        for (let prop in produtoValidate) {
+
+            if (produtoValidate[prop] == "" && prop != "file") {
+
+                isValid.valid = false
+                isValid.erro = 'vazio'
+                
+            }
+
+            if (prop == 'preco') {
+
+                const valor = produtoValidate[prop]
+                const ultimoNumero = valor[valor.length - 1]
+
+                if (ultimoNumero == ".") {
+                    produtoValidate[prop] = valor.slice(0, ultimoNumero)
+                }
+
+            }
+
+        }
+
+    }
+
+    return isValid
+
+}
+
 function NovoMenu({navigation, route}) {
 
     const [fontLoaded, setFontLoaded] = useState(false);
@@ -258,39 +297,14 @@ function NovoMenu({navigation, route}) {
 
     async function editarMenu() {
 
-        const isValid = {valid: true, erro: null}
-
-        for (let produtoValidate of menu) {
-
-            for (let prop in produtoValidate) {
-
-                if (produtoValidate[prop] == "" && prop != "file") {
-
-                    isValid.valid = false
-                    isValid.erro = 'vazio'
-                    
-                }
-
-                if (prop == 'preco') {
-
-                    const valor = produtoValidate[prop]
-                    const ultimoNumero = valor[valor.length - 1]
-
-                    if (ultimoNumero == ".") {
-                        produtoValidate[prop] = valor.slice(0, ultimoNumero)
-                    }
-
-                }
-
-            }
-
-        }
+        const isValid = validateMenu(menu)
 
         if (!isValid.valid) {
 
-
+            alert("Preencha todos os campos")
             return
         }
+        
         //const token = await AsyncStorage.getItem('token')
         const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzLCJpZFJlc3RhdXJhbnRlIjo5LCJpYXQiOjE3MDA4NDgwNjQsImV4cCI6MjMwNTY0ODA2NH0.nlkKW2D9YK43Ucn__peWj5hHHxtaDRfMqYT7fKKrDI0"
         await AsyncStorage.setItem('token', token)
@@ -334,7 +348,7 @@ function NovoMenu({navigation, route}) {
 
         }
 
-        //navigation.navigate("PainelADM")
+        navigation.navigate("PainelADM")
     
     }
 
