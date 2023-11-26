@@ -90,9 +90,6 @@ function Filtros({navigation, route}) {
 
     useEffect(() => {
 
-
-        
-
         if (typeFilter == "maisVendidos") {
 
             const oldOrder = [...products]

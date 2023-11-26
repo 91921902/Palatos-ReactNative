@@ -20,8 +20,6 @@ export default function CadastroFavoritos({ navigation }) {
     const [favoritos, setFavoritos] = useState([]);
     const [reservas, setReservas] = useState([]);
 
-    
-
     useEffect(() => {
         async function loadFonts() {
             await Font.loadAsync({
