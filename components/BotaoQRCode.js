@@ -4,7 +4,7 @@ import { Pressable, StyleSheet, source, Image } from "react-native";
 export default function BotaoQRCode({onPress}) {
 
     return(
-        <Pressable style={styles.botaoQr} onPress={onPress}>
+        <Pressable style={styles.botaoQr} role="button" onPress={onPress} accessibilityLabel="Escanear QR Code">
             <Image source={require('../assets/iconqr.png')} style={styles.imagem}/>
         </Pressable>
     );
