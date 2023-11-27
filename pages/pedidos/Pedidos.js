@@ -10,6 +10,7 @@ import api from '../../providers/api';
 import decode from 'jwt-decode'
 import BotaoVoltar from '../../components/BotaoVoltar';
 import { useFormTools } from '../../providers/FormRestContext';
+import BuscaRestaurante from '../buscaRestaurante/BuscaRestaurante';
 
 export default function Pedidos({ navigation, route }) {
 
@@ -17,15 +18,15 @@ export default function Pedidos({ navigation, route }) {
   const [pedido, setPedido] = useState([]);
   const [valorTotal, setValorTotal] = useState(0);
   const [isReservation, setIsReservation] = useState(false);
-  const {setNewCarrinho} = useFormTools()
-  
+  const { setNewCarrinho, carrinho } = useFormTools()
+  const [needRender, setNeedRender] = useState(false)
 
 
   const { idRest } = route.params;
 
   async function buscarCarrinho() {
 
-    const cliente = JSON.parse(await AsyncStorage.getItem('cliente')) //MEGA IMPORTANTE
+    let cliente = JSON.parse(await AsyncStorage.getItem('cliente'))
 
     if (cliente) {
       const { idMesa, idRestaurante } = cliente
@@ -53,7 +54,7 @@ export default function Pedidos({ navigation, route }) {
           }
         })
           .then(response => setPedido(response.data.carrinho));
-      
+
       } catch (error) {
         console.log(error)
       }
@@ -80,19 +81,9 @@ export default function Pedidos({ navigation, route }) {
     loadFonts();
 
 
-
-
     buscarCarrinho();
-
+    somarValorTotal()
   }, []);
-
-  useEffect(() => {
-
-
-    buscarCarrinho()
-
-
-  }, [ pedido])
 
   if (!fontLoaded) {
     return null;
@@ -100,7 +91,7 @@ export default function Pedidos({ navigation, route }) {
 
   async function criarComanda() {
 
-    const cliente = JSON.parse(await AsyncStorage.getItem("cliente"))
+    let cliente = JSON.parse(await AsyncStorage.getItem("cliente"))
     const resposta = await api.post("restaurante/comandas/createComanda", { idMesa: cliente.idMesa })
       .then(response => response.data)
 
@@ -122,8 +113,10 @@ export default function Pedidos({ navigation, route }) {
   }
 
   async function deleteProduct(id) {
+    somarValorTotal()
+    setPedido([...pedido].filter(item => item.id !== id))
 
-    const cliente = await AsyncStorage.getItem("cliente")
+    let cliente = await AsyncStorage.getItem("cliente")
 
     if (cliente) {
 
@@ -131,9 +124,7 @@ export default function Pedidos({ navigation, route }) {
 
       const { idMesa } = cliente
 
-      const result = await api.post("/users/carrinhoMesa/deleteItem/" + idMesa, {
-        idProduto: id
-      })
+      const result = await api.delete(`/users/carrinhoMesa/deleteItem/${idMesa}/${id}`)
 
       if (result.data.status != 'success') {
         console.log("erro ao deletar o item do carrinho")
@@ -152,7 +143,7 @@ export default function Pedidos({ navigation, route }) {
           }
         })
 
-    
+
 
       } catch (error) {
         console.log(error)
@@ -162,7 +153,7 @@ export default function Pedidos({ navigation, route }) {
   }
 
   function reservar() {
-    
+
     if (pedido.length == 0) {
       alert("O carrinho esta vazio")
       return
@@ -192,7 +183,14 @@ export default function Pedidos({ navigation, route }) {
           {
             pedido.map(produto => {
               return (
-                <PedidoCliente produto={produto} key={produto.id} onPress={() => deleteProduct(produto.id)} />
+                <PedidoCliente produto={produto} key={produto.id} onPress={async () => {
+                  try {
+                    await deleteProduct(produto.id)
+                    
+                  } catch (error) {
+                    console.log(error)
+                  }
+                }} />
               )
             })
           }

@@ -12,6 +12,7 @@ import BotaoCarrinho from '../../components/CarrinhoIcon';
 import decode from 'jwt-decode'
 
 
+
 export default function MenuIndividual({navigation, route}) {
     const [fontLoaded, setFontLoaded] = useState(false);
     const [observacoes, setObservacoes] = useState('');
@@ -23,6 +24,7 @@ export default function MenuIndividual({navigation, route}) {
     const [foto, setFoto]=useState("");
     const [isCarrinho, setIsCarrinho]= useState(false);
 
+
     const {idRest} = route.params;
     
 
@@ -30,7 +32,7 @@ export default function MenuIndividual({navigation, route}) {
 
         if(isCarrinho){
 
-            const cliente = await AsyncStorage.getItem("cliente")
+            let cliente = await AsyncStorage.getItem("cliente")
 
             if (cliente) {
                 
@@ -39,9 +41,7 @@ export default function MenuIndividual({navigation, route}) {
 
                 const { idMesa } = cliente
 
-                const result = await api.post("/users/carrinhoMesa/deleteItem/"+ idMesa, {
-                    idProduto:idProduto
-                })
+                const result = await api.delete(`/users/carrinhoMesa/deleteItem/${idMesa}/${idProduto}`)
     
                 if(result.data.status!='success'){
                     console.log("erro ao remover item do carrinho")
@@ -71,7 +71,7 @@ export default function MenuIndividual({navigation, route}) {
 
         } else{
 
-            const cliente = await AsyncStorage.getItem("cliente")
+            let cliente = await AsyncStorage.getItem("cliente")
             const idProduto=route.params.id
 
             if (cliente) {
@@ -166,7 +166,7 @@ export default function MenuIndividual({navigation, route}) {
                 console.log(error)
             }
             
-            const cliente = await AsyncStorage.getItem("cliente")
+            let cliente = await AsyncStorage.getItem("cliente")
             
 
             try {   
@@ -174,7 +174,7 @@ export default function MenuIndividual({navigation, route}) {
                 let carrinho
 
                 if (cliente) {
-
+                    cliente = JSON.parse(cliente)
                     const {idMesa} = cliente
 
                     carrinho = await api.get('/users/carrinhoMesa/getAll/' + idMesa)

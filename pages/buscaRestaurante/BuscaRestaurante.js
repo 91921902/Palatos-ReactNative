@@ -123,7 +123,7 @@ function BuscaRestaurante({ navigation }) {
         onRequestClose={() => setModalVisible(false)}
       >
         <View style={styles.modal}>
-          <Scanner />
+          <Scanner navigation={navigation}/>
           <Pressable style={styles.botaoCancelar} onPress={() => setModalVisible(false)} role="button">
             <Text style={{fontFamily: "lemonada"}}>Cancelar</Text>
           </Pressable>
