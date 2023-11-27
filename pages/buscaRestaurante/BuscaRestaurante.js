@@ -108,7 +108,7 @@ function BuscaRestaurante({ navigation }) {
     }
 
   }
-
+ 
 
   return (
     <View style={styles.containerBuscaRestaurante}>

@@ -13,120 +13,35 @@ import { useFormTools } from '../../providers/FormRestContext';
 import TelaErro from '../../components/TelaErro.js'
 import { AccessibilityInfo } from 'react-native';
 
-/* export default function DescricaoReserva({navigation}) {
-    //precisa do idRestaurante, userId(para pegar o carrinho), idMesa(boa parte disso vai estar o asyncStorage)
-    const [fontLoaded, setFontLoaded] = useState(false);
-    const [tolerancia, setTolerancia]= useState(0);
-    const [date,setDate]=useState(new Date());
-    const [showDatePicker, setShowDatePicker] = useState(false);
-    const [horario, setHorario] = useState('');
-    const {carrinho, setNewCarrinho} = useFormTools()
+function validarHora(hora) {
+  const partes = hora.split(':');
 
-    useEffect(() => {
-        async function loadFonts() {
-        await Font.loadAsync({
-            'kavoon': fontKavoon,
-            'lemonada': fontLemonada,
-        });
-        setFontLoaded(true);
-        }
+  if (partes.length === 2) {
+    let horas = parseInt(partes[0], 10);
+    let minutos = parseInt(partes[1], 10);
 
-        loadFonts();
+    if (!isNaN(horas) && !isNaN(minutos) && horas >= 0 && horas <= 23 && minutos >= 0 && minutos <= 59) {
 
-       
-    }, []);
-
-    const showDatepicker = () => {
-      setShowDatePicker(true);
-    };
-
-    const onDateChange = (event, selectedDate) => {
-      setShowDatePicker(false);
-      if (selectedDate) {
-          setDate(selectedDate);
+      if (horas < 10) {
+        horas = '0' + horas;
       }
-    };
 
-    if (!fontLoaded) {
-        return null; 
+
+      if (minutos < 10) {
+        minutos = '0' + minutos;
+      }
+
+      return horas + ':' + minutos
+
+    } else {
+
+      alert('Formato de hora inválido.');
     }
-    
-    const mudarHorario = (text) => {
-      // Remove qualquer caracter não numérico
-      const numericText = text.replace(/\D/g, '');
+  } else {
 
-
-          if (numericText.length <= 2) {
-            setHorario(numericText);
-          } else {
-            setHorario(`${numericText.slice(0, 2)}:${numericText.slice(2, 4)}`);
-          }
-        };
-
-    async function criarRerserva(){
-
-      function validarHora(hora) {
-        const partes = hora.split(':'); 
-      
-        if (partes.length === 2) {
-          let horas = parseInt(partes[0], 10);
-          let minutos = parseInt(partes[1], 10);
-      
-          if (!isNaN(horas) && !isNaN(minutos) && horas >= 0 && horas <= 23 && minutos >= 0 && minutos <= 59) {
-           
-            if (horas < 10) {
-              horas = '0' + horas;
-            }
-      
-            
-            if (minutos < 10) {
-              minutos = '0' + minutos;
-            }
-
-            return horas + ':' + minutos
-  
-          } else {
-            
-            alert('Formato de hora inválido.');
-          }
-        } else {
-          
-          alert('Formato de hora inválido.');
-        }
-      }
-
-      const horaFormatada = validarHora(horario)
-
-      let data = new Date(date).toLocaleDateString('en-US', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        
-      }).replace(/\//g, '-');
-
-      const data_entrada=`${data} ${horaFormatada}:00+00`
-
-      const token = await AsyncStorage.getItem('token')
-
-      const req = {
-        pedido: carrinho,
-        dataEntrada: data_entrada
-      }
-
-      const reserva= await api.post('restaurante/reserva/add',req,{
-        headers:{
-          Authorization:token
-        }
-      }).then(response => response.data)
-
-      if(reserva.status=='success'){
-
-          setNewCarrinho([])
-          navigation.navigate('BuscaRestaurante')
-          
-      } */
-
-
+    alert('Formato de hora inválido.');
+  }
+}
 
 function DescricaoReserva({ navigation }) {
 
@@ -138,7 +53,7 @@ function DescricaoReserva({ navigation }) {
   const [dataLeitorDeTelas, setDataLeitorDeTelas] = useState('');
   const [erro, setErro] = useState([])
   const [leitorDeTela, setLeitorDeTela] = useState(false)
-
+  const { carrinho, setNewCarrinho } = useFormTools()
 
   useEffect(() => {
     async function loadFonts() {
@@ -150,7 +65,6 @@ function DescricaoReserva({ navigation }) {
     }
 
     loadFonts();
-
 
     const checkScreenReader = async () => {
       const isEnabled = await AccessibilityInfo.isScreenReaderEnabled();
@@ -168,7 +82,6 @@ function DescricaoReserva({ navigation }) {
       // Remove o listener ao desmontar o componente
       accessibilityEventListener.remove();
     };
-
 
 
   }, []);
@@ -230,25 +143,41 @@ function DescricaoReserva({ navigation }) {
     setErro(erros)
 
     if (erros.some(obj => obj.message != "")) return
-    const partes = date.split('/');
-    const dataFormatada = partes[2] + '/' + partes[1] + '/' + partes[0];
 
-    const data_entrada = `${dataFormatada}T${horario}:00:00Z`
+    const horaFormatada = validarHora(horario)
+    let data = new Date(date).toLocaleDateString('en-US', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+
+    }).replace(/\//g, '-');
+
+    const data_entrada = `${data} ${horaFormatada}:00+00`
 
     const token = await AsyncStorage.getItem('token')
 
-    const reserva = await api.post('restaurante/comanda/createComanda/reserva', { data_entrada }, {
+    if (carrinho.length == 0) {
+      alert("carrinho vazio")
+      return
+    }
+
+    const req = {
+      pedido: carrinho,
+      dataEntrada: data_entrada
+    }
+
+    const reserva = await api.post('restaurante/reserva/add', req, {
       headers: {
         Authorization: token
       }
     }).then(response => response.data)
 
     if (reserva.status == 'success') {
-      alert('Reserva finalizada ')
-      navigation.navigate('buscaRestaurante')
+
+      setNewCarrinho([])
+      navigation.navigate('BuscaRestaurante')
+
     }
-
-
 
   }
 

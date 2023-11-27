@@ -104,8 +104,13 @@ export default function Pedidos({ navigation, route }) {
       .then(response => response.data)
 
     if (resposta.status == 'success') {
+
+      await AsyncStorage.removeItem("cliente")
+      setNewCarrinho([])
       alert("Pedido enviado!")
+
       navigation.navigate("BuscaRestaurante")
+
     } else {
       alert("Tivemos um problema com seu pedido")
     }
@@ -166,6 +171,7 @@ export default function Pedidos({ navigation, route }) {
       alert("O carrinho esta vazio")
       return
     }
+    setNewCarrinho(pedido)
 
     navigation.navigate("DescricaoReserva")
 
