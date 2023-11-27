@@ -340,7 +340,6 @@ function ItemMenu({id, index, isEdit}) {
                     </Pressable>
                 </View>
             </View>
-            <TelaErro type={`id_${id}`} width={"80%"} erro={erro} />
         </>
     );
 }

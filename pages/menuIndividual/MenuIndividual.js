@@ -235,10 +235,7 @@ export default function MenuIndividual({navigation, route}) {
         <ScrollView contentContainerStyle={styles.scroll}>
 
             <View style={styles.container}>
-                <BotaoVoltar onPress={() => {() => {
-                    setNewModalVisible(false)
-                    navigation.goBack()
-                }}}/>
+                <BotaoVoltar onPress={navigation.goBack}/>
                 <BotaoCarrinho onPress={() => {navigation.navigate("Pedidos", {idRest})}}/>
 
                 <View style={styles.caixaFoto}>

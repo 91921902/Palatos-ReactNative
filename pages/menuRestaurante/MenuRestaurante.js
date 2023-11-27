@@ -9,12 +9,14 @@ import MiniLogo from "../../components/MiniLogo"//temporario carrinho
 import NomePrato from "../../components/NomePrato";
 import BotaoCarrinho from '../../components/CarrinhoIcon';
 import api from "../../providers/api";
+import { useFormTools } from "../../providers/FormRestContext";
 
 function MenuRestaurante({navigation, route}) {
     const [fontLoaded, setFontLoaded] = useState(false);
     const [menu, setMenu]=useState([]);
     const [menuData, setMenuData] = useState([])
     const [mark, setMark] = useState("")
+    const {setNewModalVisible} = useFormTools()
 
     const {idRestaurante} = route.params;
 
@@ -42,6 +44,8 @@ function MenuRestaurante({navigation, route}) {
         buscarMenu()
 
         loadFonts();
+
+        setNewModalVisible(false)
     }, []);
 
     if (!fontLoaded) {
