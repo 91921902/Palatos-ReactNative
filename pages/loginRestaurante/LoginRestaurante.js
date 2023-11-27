@@ -52,6 +52,14 @@ export default function LoginRestaurante({ navigation }) {
 
     try {
       resposta = await api.post("restaurante/login", usuario);
+
+      if (resposta.data.status === "success") {
+        const token = resposta.data.token;
+        await AsyncStorage.setItem("token", token);
+        navigation.navigate("PainelADM");
+
+      }
+      
     } catch (error) {
 
       if (error.request.status == 401) {
@@ -66,12 +74,7 @@ export default function LoginRestaurante({ navigation }) {
 
     }
 
-    if (resposta.data.status === "success") {
-      const token = resposta.data.token;
-      await AsyncStorage.setItem("token", token);
-      navigation.navigate("PainelADM");
-
-    }
+    
 
   }
 

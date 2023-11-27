@@ -10,6 +10,7 @@ import api from "../../providers/api"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BotaoCarrinho from '../../components/CarrinhoIcon';
 import decode from 'jwt-decode'
+import { useFormTools } from '../../providers/FormRestContext';
 
 
 
@@ -23,7 +24,7 @@ export default function MenuIndividual({navigation, route}) {
     const [preco, setPreco]=useState(0);
     const [foto, setFoto]=useState("");
     const [isCarrinho, setIsCarrinho]= useState(false);
-
+    const {setNewModalVisible} = useFormTools()
 
     const {idRest} = route.params;
     
@@ -234,7 +235,10 @@ export default function MenuIndividual({navigation, route}) {
         <ScrollView contentContainerStyle={styles.scroll}>
 
             <View style={styles.container}>
-                <BotaoVoltar onPress={() => {navigation.goBack()}}/>
+                <BotaoVoltar onPress={() => {() => {
+                    setNewModalVisible(false)
+                    navigation.goBack()
+                }}}/>
                 <BotaoCarrinho onPress={() => {navigation.navigate("Pedidos", {idRest})}}/>
 
                 <View style={styles.caixaFoto}>

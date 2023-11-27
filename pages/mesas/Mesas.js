@@ -7,6 +7,8 @@ import { styles } from "./styles"
 import BotaoVoltar from "../../components/BotaoVoltar.js"
 import ItemMesa from "../../components/ItemMesa.js"
 import { useFormTools} from "../../providers/FormRestContext.js"
+import decode from "jwt-decode"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 
 
@@ -40,9 +42,17 @@ function Mesas({ navigation }) {
         loadFonts();
         
         async function carregaMesas() {
-            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzLCJpZFJlc3RhdXJhbnRlIjo5LCJpYXQiOjE3MDA2MjM2MTMsImV4cCI6MjMwNTQyMzYxM30.U8MdfPqaAEwpkvwyut-U10cyB-eyVmYroC_twysSMu4"
+            const token = await AsyncStorage.getItem("token")
+            let idRestaurante
             try {
-                const response = await api.get("restaurante/mesa/9", {
+                const decoded = decode(token)
+                idRestaurante = decoded.idRestaurante
+              } catch (error) {
+                alert("erro")
+              }
+
+            try {
+                const response = await api.get("restaurante/mesa/"+idRestaurante, {
                     headers: {
                         Authorization: token
                     }
@@ -64,6 +74,7 @@ function Mesas({ navigation }) {
         navigation.goBack()
     }
 
+    console.log(mesas)
 
     return (
         <View style={styles.containerMesas}>

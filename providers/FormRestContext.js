@@ -23,6 +23,11 @@ export const FormProvider = ({ children }) => {
     const [categorias, setCategorias] = useState([])
     const [mesas, setMesas] = useState([])
     const [carrinho, setCarrinho] = useState([])
+    const [modalVisible, setModalVisible] = useState(false)
+    
+    function setNewModalVisible(value) {
+        setModalVisible(value)
+    }
 
     function setNewCarrinho(newCarrinho) {
         setCarrinho(newCarrinho)
@@ -165,7 +170,7 @@ export const FormProvider = ({ children }) => {
     }
 
     return (
-        <FormRestContext.Provider value={{ menu, menuTools, categorias, setNewCategorias, userTools, comandas, comandaTools, mesas, mesaTools, carrinho, setNewCarrinho}}>
+        <FormRestContext.Provider value={{ menu, menuTools, categorias, setNewCategorias, userTools, comandas, comandaTools, mesas, mesaTools, carrinho, setNewCarrinho, setNewModalVisible, modalVisible}}>
         {children}
         </FormRestContext.Provider>
     );
