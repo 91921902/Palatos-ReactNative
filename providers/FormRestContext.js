@@ -22,6 +22,11 @@ export const FormProvider = ({ children }) => {
 
     const [categorias, setCategorias] = useState([])
     const [mesas, setMesas] = useState([])
+    const [carrinho, setCarrinho] = useState([])
+
+    function setNewCarrinho(newCarrinho) {
+        setCarrinho(newCarrinho)
+    }
 
     const comandaTools = {
         setAllComandas: (listaComandas) => {
@@ -160,7 +165,7 @@ export const FormProvider = ({ children }) => {
     }
 
     return (
-        <FormRestContext.Provider value={{ menu, menuTools, categorias, setNewCategorias, userTools, comandas, comandaTools, mesas, mesaTools}}>
+        <FormRestContext.Provider value={{ menu, menuTools, categorias, setNewCategorias, userTools, comandas, comandaTools, mesas, mesaTools, carrinho, setNewCarrinho}}>
         {children}
         </FormRestContext.Provider>
     );

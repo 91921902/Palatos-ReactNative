@@ -8,6 +8,8 @@ import PedidoCliente from '../../components/PedidoCliente';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import api from '../../providers/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import BotaoVoltar from "../../components/BotaoVoltar"
+import { useFormTools } from '../../providers/FormRestContext';
 
 export default function DescricaoReserva({navigation}) {
     //precisa do idRestaurante, userId(para pegar o carrinho), idMesa(boa parte disso vai estar o asyncStorage)
@@ -16,6 +18,7 @@ export default function DescricaoReserva({navigation}) {
     const [date,setDate]=useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [horario, setHorario] = useState('');
+    const {carrinho, setNewCarrinho} = useFormTools()
 
     useEffect(() => {
         async function loadFonts() {
@@ -27,9 +30,6 @@ export default function DescricaoReserva({navigation}) {
         }
 
         loadFonts();
-
-
-         //formato yyyy/mm/ddT19:00:00:00Z
 
        
     }, []);
@@ -63,24 +63,65 @@ export default function DescricaoReserva({navigation}) {
 
     async function criarRerserva(){
 
-      //validação do horario aqui (do 0 a 24 horas e dos minutos é de 0 a 59)
+      function validarHora(hora) {
+        const partes = hora.split(':'); 
+      
+        if (partes.length === 2) {
+          let horas = parseInt(partes[0], 10);
+          let minutos = parseInt(partes[1], 10);
+      
+          if (!isNaN(horas) && !isNaN(minutos) && horas >= 0 && horas <= 23 && minutos >= 0 && minutos <= 59) {
+           
+            if (horas < 10) {
+              horas = '0' + horas;
+            }
+      
+            
+            if (minutos < 10) {
+              minutos = '0' + minutos;
+            }
 
-      const partes = date.split('/');
-      const dataFormatada = partes[2] + '/' + partes[1] + '/' + partes[0];
+            return horas + ':' + minutos
+  
+          } else {
+            
+            alert('Formato de hora inválido.');
+          }
+        } else {
+          
+          alert('Formato de hora inválido.');
+        }
+      }
 
-      const data_entrada=`${dataFormatada}T${horario}:00:00Z`
+      const horaFormatada = validarHora(horario)
+
+      let data = new Date(date).toLocaleDateString('en-US', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        
+      }).replace(/\//g, '-');
+
+      const data_entrada=`${data} ${horaFormatada}:00+00`
 
       const token = await AsyncStorage.getItem('token')
 
-      const reserva= await api.post('restaurante/comanda/createComanda/reserva',{data_entrada},{
+      const req = {
+        pedido: carrinho,
+        dataEntrada: data_entrada
+      }
+
+      const reserva= await api.post('restaurante/reserva/add',req,{
         headers:{
           Authorization:token
         }
       }).then(response => response.data)
 
       if(reserva.status=='success'){
-          alert('Reserva finalizada ')
-          navigation.navigate('buscaRestaurante')
+
+          setNewCarrinho([])
+          navigation.navigate('BuscaRestaurante')
+          
       }
       
 
@@ -92,6 +133,8 @@ export default function DescricaoReserva({navigation}) {
 
   return (
     <View style={styles.container}>
+
+      <BotaoVoltar onPress={navigation.goBack}/>
 
       <View style={styles.paiLogoRegras}>
         <Image
@@ -147,6 +190,7 @@ export default function DescricaoReserva({navigation}) {
                      onChangeText={(text) => mudarHorario(text)}
                      keyboardType="numeric"
                      maxLength={5}
+                     cursorColor={"#445A14"}
                    />
 
                 </View>

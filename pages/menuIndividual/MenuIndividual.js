@@ -199,7 +199,7 @@ export default function MenuIndividual({navigation, route}) {
                     return carrinho.filter(produto => produto.id == idDesejado);
                 }
                 const idProduto =route.params.id
-                console.log(idProduto)
+                
                 if (carrinho.length == 0) {
 
                     setIsCarrinho(false)
@@ -207,8 +207,8 @@ export default function MenuIndividual({navigation, route}) {
                 } else {
 
                     const recebeItemOuNao= filtrarPorId(carrinho,idProduto)
-
-                    if(recebeItemOuNao){
+                
+                    if(recebeItemOuNao.length != 0){
                         setIsCarrinho(true)
                     }
                 }
