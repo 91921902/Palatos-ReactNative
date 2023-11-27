@@ -10,8 +10,10 @@ import api from '../../providers/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BotaoVoltar from "../../components/BotaoVoltar"
 import { useFormTools } from '../../providers/FormRestContext';
+import TelaErro from '../../components/TelaErro.js'
+import { AccessibilityInfo } from 'react-native';
 
-export default function DescricaoReserva({navigation}) {
+/* export default function DescricaoReserva({navigation}) {
     //precisa do idRestaurante, userId(para pegar o carrinho), idMesa(boa parte disso vai estar o asyncStorage)
     const [fontLoaded, setFontLoaded] = useState(false);
     const [tolerancia, setTolerancia]= useState(0);
@@ -122,13 +124,12 @@ export default function DescricaoReserva({navigation}) {
           setNewCarrinho([])
           navigation.navigate('BuscaRestaurante')
           
-      }
-      
-import TelaErro from '../../components/TelaErro.js'
-import { AccessibilityInfo } from 'react-native';
+      } */
 
-export default function DescricaoReserva({ navigation }) {
-  //precisa do idRestaurante, userId(para pegar o carrinho), idMesa(boa parte disso vai estar o asyncStorage)
+
+
+function DescricaoReserva({ navigation }) {
+
   const [fontLoaded, setFontLoaded] = useState(false);
   const [tolerancia, setTolerancia] = useState(0);
   const [date, setDate] = useState(new Date());
@@ -216,7 +217,7 @@ export default function DescricaoReserva({ navigation }) {
         date.setFullYear(dataLeitorDeTelas.slice(4, 8))
       }
     }
-    
+
     date.setHours(23, 59, 59, 59)
 
     let msgErro = (date < new Date() ? "Data inválida" : "")
@@ -251,13 +252,10 @@ export default function DescricaoReserva({ navigation }) {
 
   }
 
-
-
-
   return (
     <View style={styles.container}>
 
-      <BotaoVoltar onPress={navigation.goBack}/>
+      <BotaoVoltar onPress={navigation.goBack} />
 
       <View style={styles.paiLogoRegras}>
         <Image
@@ -279,52 +277,6 @@ export default function DescricaoReserva({ navigation }) {
         <Text style={styles.textoRegras}>-Cumpra o horário de chegada para não perder sua reserva
           (tolerância de: {tolerancia} min)</Text>
 
-          <Text style={styles.textoRegras}>-Pagamento obrigatório de 50% do valor, sem devolução!</Text>
-
-          <Text style={styles.textoRegras}></Text>
-       </View>
-
-          <View style={styles.viewData}>
-            <Text style={styles.dataEhora}>Escolha o horário e data de chegada</Text>
-          </View>
-
-          <View style={styles.dataEhorario}>
-              <View style={styles.dataView}>
-                  <Text style={styles.dataTitulo}>Data</Text>
-                    <Pressable onPress={showDatepicker} style={styles.inptData}>
-                        <Text  style={styles.textDate}>{date.toLocaleDateString()}</Text>
-                    </Pressable>
-                        
-                    {showDatePicker && (
-                        <DateTimePicker
-                            value={date}
-                            mode="date"
-                            display="default"
-                            onChange={onDateChange}
-                        />
-                    )}
-              </View>
-
-              <View style={styles.horarioView}>
-                  <Text style={styles.horarioTitulo}>Horário</Text>
-                  <TextInput 
-                    style={styles.inptHora}
-                     value={horario}
-                     onChangeText={(text) => mudarHorario(text)}
-                     keyboardType="numeric"
-                     maxLength={5}
-                     cursorColor={"#445A14"}
-                   />
-
-                </View>
-          </View>
-
-
-        <View style={styles.viewBtnConfirmar}>
-          <Pressable style={styles.btnConfirmar} onPress={criarRerserva}>
-            <Text style={styles.confirmar}>Confirmar</Text>
-          </Pressable>
-        </View>
         <Text style={styles.textoRegras}>-Pagamento obrigatório de 50% do valor, sem devolução!</Text>
 
         <Text style={styles.textoRegras}></Text>
@@ -340,34 +292,15 @@ export default function DescricaoReserva({ navigation }) {
           <Pressable onPress={showDatepicker} style={styles.inptData}>
             <Text style={styles.textDate}>{date.toLocaleDateString()}</Text>
           </Pressable>
-          {
-            showDatePicker && (
-              leitorDeTela ? (
-                <View>
-                  <TextInput
-                    style={[styles.dateInput, { paddingLeft: 10, textAlign: "center", fontFamily: "lemonada", color: "#445A14" }]}
-                    cursorColor={"#445A14"}
-                    maxLength={8}
-                    accessibilityLabel="Insira a data da compra para filtrar"
-                    placeholder="DD/MM/YYYY"
-                    placeholderTextColor={"#445A14"}
-                    keyboardType="numeric"
-                    value={dataLeitorDeTelas}
-                    onChangeText={setDataLeitorDeTelas}
-                  />
-                </View>
-              ) : (
-                <DateTimePicker
-                  value={date}
-                  mode="date"
-                  display="default"
-                  onChange={onDateChange}
-                />
-              )
-            )
-          }
 
-          <TelaErro erro={erro} type={"date"} width={"80%"} />
+          {showDatePicker && (
+            <DateTimePicker
+              value={date}
+              mode="date"
+              display="default"
+              onChange={onDateChange}
+            />
+          )}
         </View>
 
         <View style={styles.horarioView}>
@@ -378,13 +311,12 @@ export default function DescricaoReserva({ navigation }) {
             onChangeText={(text) => mudarHorario(text)}
             keyboardType="numeric"
             maxLength={5}
-            accessibilityLabel='Horário:'
+            cursorColor={"#445A14"}
           />
-          <TelaErro erro={erro} type={"horario"} width={"80%"} />
 
         </View>
-      </View>
 
+      </View>
 
       <View style={styles.viewBtnConfirmar}>
         <Pressable style={styles.btnConfirmar} onPress={criarReserva} role='button'>
@@ -397,3 +329,4 @@ export default function DescricaoReserva({ navigation }) {
   );
 }
 
+export default DescricaoReserva

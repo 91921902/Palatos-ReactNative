@@ -21,14 +21,14 @@ import { FormProvider } from './providers/FormRestContext.js';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginRestaurante from "./pages/loginRestaurante/LoginRestaurante.js";
-/* import DescricaoReserva from "./pages/descricaoReserva/DescricaoReserva.js"
- */
+import DescricaoReserva from "./pages/descricaoReserva/DescricaoReserva.js"
+ 
 const Stack = createStackNavigator();
 
 const MyNavigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='BuscaRestaurante' screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName='DescricaoReserva' screenOptions={{ headerShown: false }}>
         <Stack.Screen name="planosEPacotes" component={PlanosEPacotes} />
         <Stack.Screen name="NovoCadastro" component={NovoCadastro} />
         <Stack.Screen name="NovoMenu" component={NovoMenu} />
@@ -43,7 +43,7 @@ const MyNavigator = () => {
         <Stack.Screen name="MenuIndividual" component={MenuIndividual} />
         <Stack.Screen name="CadastroFavoritos" component={CadastroFavoritos} />
         <Stack.Screen name="Pedidos" component={Pedidos} />
-       {/*  <Stack.Screen name="DescricaoReserva" component={DescricaoReserva} /> */}
+        <Stack.Screen name="DescricaoReserva" component={DescricaoReserva} />
         <Stack.Screen name="CadastroCliente" component={cadastroCliente} />
         <Stack.Screen name="PagInicial" component={pagInicial} />
         <Stack.Screen name="BuscaRestaurante" component={buscaRestaurante} />
