@@ -23,6 +23,16 @@ export default function Pedidos({ navigation, route }) {
 
 
   const { idRest } = route.params;
+  //await AsyncStorage.setItem("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEzLCJpYXQiOjE3MDEwMzQ3MTksImV4cCI6MjMwNTgzNDcxOX0.IPS0TEfx5BQiVaMWiolApvOa7-5EB7kcyHx2FHSAu_c")
+
+  function somarValorTotal(pedidos) {
+    let valor = 0
+    for (let produto of [...pedidos]) {
+      valor += Number(produto.preco)
+    }
+    setValorTotal(valor.toFixed(2))
+  }
+
 
   async function buscarCarrinho() {
 
@@ -32,7 +42,7 @@ export default function Pedidos({ navigation, route }) {
       const { idMesa, idRestaurante } = cliente
       await api.get("users/carrinhoMesa/getAll/" + idMesa).then(response => {
         setPedido(response.data.carrinho)
-        somarValorTotal()
+        somarValorTotal(pedido)
       });
 
 
@@ -58,7 +68,7 @@ export default function Pedidos({ navigation, route }) {
         })
           .then(response => {
             setPedido(response.data.carrinho)
-            somarValorTotal()
+            somarValorTotal(response.data.carrinho)
           });
 
       } catch (error) {
@@ -117,13 +127,6 @@ export default function Pedidos({ navigation, route }) {
 
   }
 
-  function somarValorTotal() {
-    let valor = 0
-    for (let produto of [...pedido]) {
-      valor += Number(produto.preco)
-    }
-    setValorTotal(valor)
-  }
 
   async function deleteProduct(id) {
     somarValorTotal()
