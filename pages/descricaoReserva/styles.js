@@ -5,6 +5,7 @@ export const styles = StyleSheet.create({
       flex: 1,
       justifyContent: 'flex-start',
       alignItems: 'center',
+      backgroundColor: "white"
     },
 
     logoRegras:{
@@ -50,7 +51,6 @@ export const styles = StyleSheet.create({
 
     textoRegras:{
         color: '#445A14',
-        textAlign: 'column',
         fontFamily: 'lemonada',
         fontSize: 12,
     },
@@ -74,14 +74,14 @@ export const styles = StyleSheet.create({
     textDate: {
         width:'100%',
         textAlign:"center",
-        fontSize: 18,
+        fontSize: 16,
         fontFamily: "lemonada",
         color: "#445A14",
         paddingTop:2
     },
     horarioTitulo:{
         color: '#445A14', 
-        fontFamily: 'Lemonada',
+        fontFamily: 'lemonada',
         fontSize: 14,   
     },
     inptData:{
@@ -138,7 +138,7 @@ export const styles = StyleSheet.create({
     confirmar:{
         color: '#445A14',
         textAlign: 'center',
-        fontFamily:'Kavoon',
+        fontFamily:'kavoon',
         fontSize: 14, 
         paddingTop:10,
     },

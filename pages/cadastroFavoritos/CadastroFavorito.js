@@ -20,8 +20,6 @@ export default function CadastroFavoritos({ navigation }) {
     const [favoritos, setFavoritos] = useState([]);
     const [reservas, setReservas] = useState([]);
 
-    
-
     useEffect(() => {
         async function loadFonts() {
             await Font.loadAsync({
@@ -70,27 +68,20 @@ export default function CadastroFavoritos({ navigation }) {
 
         for (let reserva of usuario.reservas) {
 
-            let hora, data
+        
 
-            const dataFormat = new Date(reserva.data_entrada)
-
-            data = dataFormat.toLocaleString('pt-BR', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-            });
-
-            hora = dataFormat.toLocaleString('pt-BR', {
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false 
-            });
-
-            const dataHora = `${data} | ${hora}`
-
+            const data = new Date(reserva.data_entrada);
+            const dia = ('0' + data.getUTCDate()).slice(-2);
+            const mes = ('0' + (data.getUTCMonth() + 1)).slice(-2);
+            const ano = data.getUTCFullYear();
+            const horas = ('0' + data.getUTCHours()).slice(-2);
+            const minutos = ('0' + data.getUTCMinutes()).slice(-2);
+        
+            const dataFormatada = `${dia}/${mes}/${ano} | ${horas}:${minutos}`
+          
             reservasData.push({
                 cod: reserva.cod,
-                data_entrada: dataHora
+                data_entrada: dataFormatada
             })
         }
 

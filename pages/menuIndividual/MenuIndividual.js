@@ -9,6 +9,7 @@ import BotaoVoltar from '../../components/BotaoVoltar';
 import api from "../../providers/api"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import BotaoCarrinho from '../../components/CarrinhoIcon';
+import decode from 'jwt-decode'
 
 
 
@@ -23,38 +24,104 @@ export default function MenuIndividual({navigation, route}) {
     const [foto, setFoto]=useState("");
     const [isCarrinho, setIsCarrinho]= useState(false);
 
+
     const {idRest} = route.params;
     
 
     async function enviarParaCarrinhoOuNao(){
 
         if(isCarrinho){
-            const {idProduto}=route.params
-            const idMesa= await AsyncStorage.getItem("mesa")
-            const result = await api.post("/users/carrinhoMesa/deleteItem/"+ idMesa, {
-                idProduto:idProduto
-            })
 
-            if(result.data.status!='success'){
-                console.log("erro ao remover item do carrinho")
+            let cliente = await AsyncStorage.getItem("cliente")
+
+            if (cliente) {
+                
+                const idProduto=route.params.id
+                cliente = JSON.parse(cliente)
+
+                const { idMesa } = cliente
+
+                const result = await api.delete(`/users/carrinhoMesa/deleteItem/${idMesa}/${idProduto}`)
+    
+                if(result.data.status!='success'){
+                    console.log("erro ao remover item do carrinho")
+                } else {
+                    setIsCarrinho(false)
+                }
+                
+            } else {
+
+                const idProduto=route.params.id
+                const token = await AsyncStorage.getItem("token")
+
+                try {
+                    
+                    await api.delete("users/carrinhoReserva/deleteItem/"+idProduto, {
+                        headers: {
+                            Authorization: token
+                        }
+                    })
+
+                    setIsCarrinho(false)
+
+                } catch (error) {
+                    alert("erro em deletar o item")   
+                }
             }
 
         } else{
 
-            const idMesa= await AsyncStorage.getItem("mesa")
-            const {idProduto}=route.params
+            let cliente = await AsyncStorage.getItem("cliente")
+            const idProduto=route.params.id
 
-            const req={
-                observacoes:observacoes,
-                quantidade:quantidade,
-                idProduto,
-                idMesa:Number(idMesa)
-            }
+            if (cliente) {
 
-            const result= await api.post("/users/carrinhoMesa/addItem",req)
+                cliente = JSON.parse(cliente)
+                const {idMesa} = cliente
 
-            if(result.data.status=="success"){
-                setIsCarrinho(true)
+                const req={
+                    observacoes:observacoes,
+                    quantidade:quantidade,
+                    idProduto,
+                    idMesa:Number(idMesa)
+                }
+    
+                const result= await api.post("/users/carrinhoMesa/addItem",req)
+    
+                if(result.data.status=="success"){
+
+                    setIsCarrinho(true)
+
+                }
+
+            } else {
+
+                const idProduto=route.params.id
+                const token = await AsyncStorage.getItem("token")
+
+                const req={
+                    observacoes:observacoes,
+                    quantidade:quantidade,
+                    idProduto,
+                }
+
+                try {
+                    
+                    const response = await api.post("users/carrinhoReserva/addItem", req, {
+                        headers: {
+                            Authorization: token
+                        }
+                    }).then(response => response.data)
+
+                    if (response.status == 'success') {
+
+                        setIsCarrinho(true)
+
+                    }
+
+                } catch (error) {
+                    alert("Erro ao adicionar ao carrinho")
+                }
             }
         }
     };
@@ -99,23 +166,29 @@ export default function MenuIndividual({navigation, route}) {
                 console.log(error)
             }
             
-            const idMesa= await AsyncStorage.getItem("mesa")
+            let cliente = await AsyncStorage.getItem("cliente")
             
 
             try {   
                 
                 let carrinho
 
-                if (idMesa) {
+                if (cliente) {
+                    cliente = JSON.parse(cliente)
+                    const {idMesa} = cliente
 
                     carrinho = await api.get('/users/carrinhoMesa/getAll/' + idMesa)
                     .then(result => result.data.carrinho)
 
                 } else {
 
-                    
-
-                    carrinho = await api.get('/users/carrinhoReserva/getAll/' + idRest)
+                    const token = await AsyncStorage.getItem("token")
+              
+                    carrinho = await api.get('/users/carrinhoReserva/getAll/' + idRest, {
+                        headers: {
+                            Authorization: token
+                        }
+                    })
                     .then(result => result.data.carrinho)
 
                 }
@@ -125,18 +198,23 @@ export default function MenuIndividual({navigation, route}) {
                 function filtrarPorId(carrinho, idDesejado) {
                     return carrinho.filter(produto => produto.id == idDesejado);
                 }
-                const {idProduto}=route.params
-                const recebeItemOuNao= filtrarPorId(carrinho,idProduto)
+                const idProduto =route.params.id
+                
+                if (carrinho.length == 0) {
 
-                if(recebeItemOuNao){
-                    setIsCarrinho(true)
+                    setIsCarrinho(false)
+
+                } else {
+
+                    const recebeItemOuNao= filtrarPorId(carrinho,idProduto)
+                
+                    if(recebeItemOuNao.length != 0){
+                        setIsCarrinho(true)
+                    }
                 }
-
             } catch (error) {
 
-                if (idMesa) {
-                    console.log(error)
-                }
+                console.log(error)
                 
             }
                 
