@@ -230,6 +230,7 @@ function DescricaoReserva({ navigation }) {
               onChange={onDateChange}
             />
           )}
+          <TelaErro erro={erro} type={"date"} width={"80%"} />
         </View>
 
         <View style={styles.horarioView}>
@@ -240,8 +241,10 @@ function DescricaoReserva({ navigation }) {
             onChangeText={(text) => mudarHorario(text)}
             keyboardType="numeric"
             maxLength={5}
+            accessibilityLabel='Horário:'
             cursorColor={"#445A14"}
           />
+          <TelaErro erro={erro} type={"horario"} width={"80%"} />
 
         </View>
 

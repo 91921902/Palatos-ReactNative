@@ -28,7 +28,7 @@ const Stack = createStackNavigator();
 const MyNavigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='BuscaRestaurante' screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName='DescricaoReserva' screenOptions={{ headerShown: false }}>
         <Stack.Screen name="planosEPacotes" component={PlanosEPacotes} />
         <Stack.Screen name="NovoCadastro" component={NovoCadastro} />
         <Stack.Screen name="NovoMenu" component={NovoMenu} />
