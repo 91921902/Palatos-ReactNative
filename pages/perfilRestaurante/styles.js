@@ -60,7 +60,7 @@ export const styles = StyleSheet.create({
     },
     textoScrollView:{
         color: "#445A14",
-        textAlign: "justify",
+        textAlign: "auto",
         fontFamily: "lemonada",
         fontSize: 16,
         fontStyle: "normal",

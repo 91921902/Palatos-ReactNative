@@ -85,7 +85,7 @@ function BuscaRestaurante({ navigation }) {
     }
 
   }, [filtro])
-
+  
   if (!fontLoaded) {
     return null;
   }
