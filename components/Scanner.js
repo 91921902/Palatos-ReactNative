@@ -25,7 +25,6 @@ export default function Scanner({navigation}) {
     if (type == 256) {
 
         const parseData = JSON.parse(data)
-
         const {idRestaurante} = parseData
 
         async function saveClient() {

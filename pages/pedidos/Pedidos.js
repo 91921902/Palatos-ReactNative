@@ -30,7 +30,10 @@ export default function Pedidos({ navigation, route }) {
 
     if (cliente) {
       const { idMesa, idRestaurante } = cliente
-      await api.get("users/carrinhoMesa/getAll/" + idMesa).then(response => setPedido(response.data.carrinho));
+      await api.get("users/carrinhoMesa/getAll/" + idMesa).then(response => {
+        setPedido(response.data.carrinho)
+        somarValorTotal()
+      });
 
 
     } else {
@@ -53,7 +56,10 @@ export default function Pedidos({ navigation, route }) {
             Authorization: token
           }
         })
-          .then(response => setPedido(response.data.carrinho));
+          .then(response => {
+            setPedido(response.data.carrinho)
+            somarValorTotal()
+          });
 
       } catch (error) {
         console.log(error)
@@ -82,7 +88,7 @@ export default function Pedidos({ navigation, route }) {
 
 
     buscarCarrinho();
-    somarValorTotal()
+
   }, []);
 
   if (!fontLoaded) {
@@ -91,8 +97,10 @@ export default function Pedidos({ navigation, route }) {
 
   async function criarComanda() {
 
-    let cliente = JSON.parse(await AsyncStorage.getItem("cliente"))
-    const resposta = await api.post("restaurante/comandas/createComanda", { idMesa: cliente.idMesa })
+    let cliente = await AsyncStorage.getItem("cliente")
+    const {idMesa} = JSON.parse(cliente)
+
+    const resposta = await api.post("restaurante/comandas/createComanda", { idMesa: idMesa })
       .then(response => response.data)
 
     if (resposta.status == 'success') {
@@ -106,7 +114,7 @@ export default function Pedidos({ navigation, route }) {
 
   function somarValorTotal() {
     let valor = 0
-    for (let produto of pedido) {
+    for (let produto of [...pedido]) {
       valor += Number(produto.preco)
     }
     setValorTotal(valor)

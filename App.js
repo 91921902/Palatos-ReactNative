@@ -21,8 +21,8 @@ import { FormProvider } from './providers/FormRestContext.js';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginRestaurante from "./pages/loginRestaurante/LoginRestaurante.js";
-import DescricaoReserva from "./pages/descricaoReserva/DescricaoReserva.js"
-
+/* import DescricaoReserva from "./pages/descricaoReserva/DescricaoReserva.js"
+ */
 const Stack = createStackNavigator();
 
 const MyNavigator = () => {
@@ -43,7 +43,7 @@ const MyNavigator = () => {
         <Stack.Screen name="MenuIndividual" component={MenuIndividual} />
         <Stack.Screen name="CadastroFavoritos" component={CadastroFavoritos} />
         <Stack.Screen name="Pedidos" component={Pedidos} />
-        <Stack.Screen name="DescricaoReserva" component={DescricaoReserva} />
+       {/*  <Stack.Screen name="DescricaoReserva" component={DescricaoReserva} /> */}
         <Stack.Screen name="CadastroCliente" component={cadastroCliente} />
         <Stack.Screen name="PagInicial" component={pagInicial} />
         <Stack.Screen name="BuscaRestaurante" component={buscaRestaurante} />
