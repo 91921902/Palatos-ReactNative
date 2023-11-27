@@ -125,6 +125,7 @@ export default function DescricaoReserva({navigation}) {
       }
       
 import TelaErro from '../../components/TelaErro.js'
+import { AccessibilityInfo } from 'react-native';
 
 export default function DescricaoReserva({ navigation }) {
   //precisa do idRestaurante, userId(para pegar o carrinho), idMesa(boa parte disso vai estar o asyncStorage)
@@ -133,7 +134,9 @@ export default function DescricaoReserva({ navigation }) {
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [horario, setHorario] = useState('');
+  const [dataLeitorDeTelas, setDataLeitorDeTelas] = useState('');
   const [erro, setErro] = useState([])
+  const [leitorDeTela, setLeitorDeTela] = useState(false)
 
 
   useEffect(() => {
@@ -148,7 +151,23 @@ export default function DescricaoReserva({ navigation }) {
     loadFonts();
 
 
-    //formato yyyy/mm/ddT19:00:00:00Z
+    const checkScreenReader = async () => {
+      const isEnabled = await AccessibilityInfo.isScreenReaderEnabled();
+      setLeitorDeTela(isEnabled);
+    };
+
+    checkScreenReader()
+
+    const accessibilityEventListener = AccessibilityInfo.addEventListener(
+      'screenReaderChanged',
+      checkScreenReader
+    );
+
+    return () => {
+      // Remove o listener ao desmontar o componente
+      accessibilityEventListener.remove();
+    };
+
 
 
   }, []);
@@ -189,6 +208,15 @@ export default function DescricaoReserva({ navigation }) {
 
   async function criarReserva() {
 
+    if (leitorDeTela) {
+
+      if (dataLeitorDeTelas.length == 8) {
+        date.setDate(dataLeitorDeTelas.slice(0, 2))
+        date.setMonth(dataLeitorDeTelas.slice(2, 4) - 1)
+        date.setFullYear(dataLeitorDeTelas.slice(4, 8))
+      }
+    }
+    
     date.setHours(23, 59, 59, 59)
 
     let msgErro = (date < new Date() ? "Data inválida" : "")
@@ -200,7 +228,7 @@ export default function DescricaoReserva({ navigation }) {
 
     setErro(erros)
 
-    if(erros.some(obj => obj.message != "")) return
+    if (erros.some(obj => obj.message != "")) return
     const partes = date.split('/');
     const dataFormatada = partes[2] + '/' + partes[1] + '/' + partes[0];
 
@@ -312,15 +340,33 @@ export default function DescricaoReserva({ navigation }) {
           <Pressable onPress={showDatepicker} style={styles.inptData}>
             <Text style={styles.textDate}>{date.toLocaleDateString()}</Text>
           </Pressable>
+          {
+            showDatePicker && (
+              leitorDeTela ? (
+                <View>
+                  <TextInput
+                    style={[styles.dateInput, { paddingLeft: 10, textAlign: "center", fontFamily: "lemonada", color: "#445A14" }]}
+                    cursorColor={"#445A14"}
+                    maxLength={8}
+                    accessibilityLabel="Insira a data da compra para filtrar"
+                    placeholder="DD/MM/YYYY"
+                    placeholderTextColor={"#445A14"}
+                    keyboardType="numeric"
+                    value={dataLeitorDeTelas}
+                    onChangeText={setDataLeitorDeTelas}
+                  />
+                </View>
+              ) : (
+                <DateTimePicker
+                  value={date}
+                  mode="date"
+                  display="default"
+                  onChange={onDateChange}
+                />
+              )
+            )
+          }
 
-          {showDatePicker && (
-            <DateTimePicker
-              value={date}
-              mode="date"
-              display="default"
-              onChange={onDateChange}
-            />
-          )}
           <TelaErro erro={erro} type={"date"} width={"80%"} />
         </View>
 
@@ -332,6 +378,7 @@ export default function DescricaoReserva({ navigation }) {
             onChangeText={(text) => mudarHorario(text)}
             keyboardType="numeric"
             maxLength={5}
+            accessibilityLabel='Horário:'
           />
           <TelaErro erro={erro} type={"horario"} width={"80%"} />
 
