@@ -17,7 +17,6 @@ function CadastroCliente({ navigation }) {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmarSenha, setConfirmarSenha] = useState('');
-  const [dadosCadastrados, setDadosCadastrados] = useState([]);
   const [erro, setErro] = useState([]);
 
 
@@ -59,7 +58,7 @@ function CadastroCliente({ navigation }) {
         if (field.length < 5) {
           return "O nome deve ter no mínimo 5 caracteres!"
         }
-        if (!field.contains(" ")) {
+        if (!field.includes(" ")) {
           return "Informe o nome completo."
         }
         break;
@@ -68,14 +67,14 @@ function CadastroCliente({ navigation }) {
           return "E-mail inválido!"
         }
         break
-        case "senha":
-          if(!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,}$/.test(field)) {
-            return "Senha muito fraca."
-          }
-          if (field != field2) {
-            return "As senhas são diferentes."
-          }
-          break
+      case "senha":
+        if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,}$/.test(field)) {
+          return "Senha muito fraca."
+        }
+        if (field != field2) {
+          return "As senhas são diferentes."
+        }
+        break
       default:
         break;
     }
@@ -94,7 +93,6 @@ function CadastroCliente({ navigation }) {
 
     const usuario = await api.post('users/newUser', dadosCadastro)
       .then(resposta => resposta.data)
-
     if (usuario.token) {
       await AsyncStorage.setItem("token", usuario.token)
       navigation.navigate('BuscaRestaurante')
@@ -138,6 +136,7 @@ function CadastroCliente({ navigation }) {
               value={email}
               onChangeText={setEmail}
               accessibilityLabel="E-mail:"
+              keyboardType="email-address"
             />
             <TelaErro erro={erro} type={"email"} width={"80%"} />
           </View>
@@ -148,7 +147,7 @@ function CadastroCliente({ navigation }) {
               style={styles.inputs}
               value={senha}
               onChangeText={setSenha}
-              accessibilityLabel="Senha:"
+              accessibilityLabel={"Senha:"}
               secureTextEntry
             />
             <TelaErro erro={erro} type={"senha"} width={"80%"} />
@@ -161,7 +160,7 @@ function CadastroCliente({ navigation }) {
               cursorColor={"#445A14"}
               value={confirmarSenha}
               onChangeText={setConfirmarSenha}
-              accessibilityLabel="Confirmar Senha:"
+              accessibilityLabel={"Confirmar Senha:"}
               secureTextEntry
             />
           </View>
