@@ -8,8 +8,9 @@ export default function NomePrato({produto,navigation, idRest}) {
     async function entrarPrato(){
 
         const token = await AsyncStorage.getItem("token")
+        const cliente = AsyncStorage.getItem("cliente")
 
-        if (token) {
+        if (token || cliente) {
 
             navigation.navigate("MenuIndividual",{
                 id:produto.codigo,
