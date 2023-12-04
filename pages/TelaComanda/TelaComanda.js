@@ -1,5 +1,5 @@
 import React from "react"
-import api from "../../api/axios"
+import api from "../../providers/api.js"
 import { useEffect } from "react"
 import { Image, View, Text, ScrollView, Pressable } from "react-native"
 import { useState } from "react"

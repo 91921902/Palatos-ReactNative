@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Pressable, TextInput, Image, StyleSheet } from "react-native";
-import api from "../api/axios";
+import api from "../providers/api.js";
 import * as Font from 'expo-font';
 import fontLemonada from "../assets/fonts/lemonada.ttf"
 import fontKavoon from "../assets/fonts/kavoon.ttf"

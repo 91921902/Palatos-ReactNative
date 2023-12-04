@@ -165,6 +165,18 @@ export default function CadastroFavoritos({ navigation }) {
                     </ScrollView>
                 </View>
 
+            <Text style={{
+                    marginTop: 20,
+                    width: "100%",
+                    fontFamily:'lemonada',
+                    fontSize:14,
+                    color:'#445A14',
+                    paddingLeft: 30
+                }}
+                
+                onPress={() => navigation.navigate("LoginRestaurante")}
+            
+            >Cadastrar um Restaurante...</Text>
 
             </View>
         </ScrollView>

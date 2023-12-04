@@ -149,9 +149,12 @@ function BuscaRestaurante({ navigation }) {
 
       <ScrollView>
         <View style={styles.componente}>
-          {restaurantes.map(restaurante => (
-            <ItemRestaurante key={restaurante.id} rest={restaurante} favoritos={favoritos} navigation={navigation} />
-          ))}
+          {restaurantes.map(restaurante => {
+           
+            return(
+              <ItemRestaurante key={restaurante.id} rest={restaurante} favoritos={favoritos} navigation={navigation} />
+            )
+          })}
         </View>
       </ScrollView>
     </View>

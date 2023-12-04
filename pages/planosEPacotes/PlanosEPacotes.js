@@ -1,5 +1,4 @@
 import React from "react"
-import api from "../../api/axios"
 import { useEffect } from "react"
 import { Image, View, Text, Pressable } from "react-native"
 import { useState } from "react"
