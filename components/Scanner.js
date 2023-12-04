@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFormTools } from '../providers/FormRestContext';
 
 export default function Scanner({navigation}) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const {setNewModalVisible} = useFormTools()
 
   
     const getBarCodeScannerPermissions = async () => {
@@ -32,6 +34,7 @@ export default function Scanner({navigation}) {
         }
 
         saveClient()
+        setNewModalVisible(false)
 
         navigation.navigate("MenuRestaurante", {
             idRestaurante

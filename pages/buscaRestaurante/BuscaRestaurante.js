@@ -21,10 +21,10 @@ function BuscaRestaurante({ navigation }) {
   const [restaurantesCarregados, setRestaurantesCarregados] = useState([])
   const [favoritos, setFavoritos] = useState([])
   const [filtro, setFiltro] = useState("")
-  const { userTools } = useFormTools()
+  const { userTools, modalVisible, setNewModalVisible } = useFormTools()
 
-  const [modalVisible, setModalVisible] = useState(false)
- 
+  
+  
 
   useEffect(() => {
     async function loadFonts() {
@@ -109,22 +109,21 @@ function BuscaRestaurante({ navigation }) {
 
   }
  
-
   return (
     <View style={styles.containerBuscaRestaurante}>
 
       <MeuPerfil onPress={myProfile}/>
-      <BotaoQRCode onPress={() => setModalVisible(true)}/>
+      <BotaoQRCode onPress={() => setNewModalVisible(true)}/>
 
       <Modal
         visible={modalVisible}
         transparent={true}
         animationType="fade"
-        onRequestClose={() => setModalVisible(false)}
+        onRequestClose={() => setNewModalVisible(false)}
       >
         <View style={styles.modal}>
           <Scanner navigation={navigation}/>
-          <Pressable style={styles.botaoCancelar} onPress={() => setModalVisible(false)} role="button">
+          <Pressable style={styles.botaoCancelar} onPress={() => setNewModalVisible(false)} role="button">
             <Text style={{fontFamily: "lemonada"}}>Cancelar</Text>
           </Pressable>
         </View>
